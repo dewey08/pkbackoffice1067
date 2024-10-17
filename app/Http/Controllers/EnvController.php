@@ -249,7 +249,7 @@ class EnvController extends Controller
         ]);
     }
 
-    public function env_water_add (Request $request)
+    public function env_water_add (Request $request) //เพิ่ม รายการ Parameter
     {
         $startdate = $request->startdate;
         $enddate = $request->enddate;
@@ -269,7 +269,7 @@ class EnvController extends Controller
         ]);
     }
 
-    public function env_water_save (Request $request)
+    public function env_water_save (Request $request) //บันทึกข้อมูลการตรวจน้ำ
     {   
         $startdate = $request->startdate;
         $enddate = $request->enddate;
@@ -564,8 +564,10 @@ class EnvController extends Controller
     {
         $startdate     = $request->startdate;
         $enddate       = $request->enddate;
+
         $data_insert   = $request->data_insert;
         $data['users'] = User::get();
+
         $dabudget_year = DB::table('budget_year')->where('active', '=', true)->first();
         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
         $date = date('Y-m-d');
@@ -601,181 +603,182 @@ class EnvController extends Controller
         ]);
     }
 
-    // public function env_water_add_pond1_save (Request $request)
-    // {   
-    //     $startdate = $request->startdate;
-    //     $enddate = $request->enddate;
+    public function env_water_add_pond1_save (Request $request)
+    {   
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
         
-    //     $iduser = $request->water_user1;
-    //     $data['users'] = User::get();
-    //     $data['leave_month'] = DB::table('leave_month')->get();
-    //     $data['users_group'] = DB::table('users_group')->get();
-    //     $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
+        $iduser = $request->water_user1;
 
-    //     $acc_debtors = DB::select('
-    //         SELECT count(*) as I from users u
-    //         left join p4p_workload l on l.p4p_workload_user=u.id
-    //         group by u.dep_subsubtrueid;
-    //     ');      
+        $data['users'] = User::get();
+        $data['leave_month'] = DB::table('leave_month')->get();
+        $data['users_group'] = DB::table('users_group')->get();
+        $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
+
+        $acc_debtors = DB::select('
+            SELECT count(*) as I from users u
+            left join p4p_workload l on l.p4p_workload_user=u.id
+            group by u.dep_subsubtrueid;
+        ');      
         
-    //     $idpon =  $request->env_pond;
-    //     $namepond = Env_pond::where('pond_id','=', $idpon)->first();
-       
-    //     $add = new Env_water();
-    //     $add->water_date            = $request->input('water_date');
-    //     $add->water_user            = $request->input('water_user');
-    //     $add->pond_id               = $namepond->pond_id;
-    //     $add->water_location        = $namepond->pond_name; 
-    //     $add->water_group_excample  = $request->input('water_group_excample');
-    //     $add->water_comment         = $request->input('water_comment');
-       
-    //     $add->save();        
+        $idpond =  $request->Env_pond;
+        $namepond = Env_pond::where('pond_id','=', $idpond)->first();      
 
-    //     $waterid =  Env_water::max('water_id');        
+        $add = new Env_water();
+        $add->water_date                = $request->input('water_date');
+        $add->water_user                = $request->input('water_user');
+        $add->pond_id                   = $namepond->pond_id;
+        $add->water_location            = $namepond->pond_name;       
+        $add->water_group_excample      = $request->input('water_group_excample');
+        $add->water_comment             = $request->input('water_comment');       
+        $add->save();
 
-    //     if($request->water_parameter_id != '' || $request->water_parameter_id != null){
+        
+        $waterid =  Env_water::max('water_id');        
 
-    //         $water_parameter_id                             = $request->water_parameter_id;
-    //         $water_parameter_unit                           = $request->water_parameter_unit;
-    //         $use_analysis_results                           = $request->use_analysis_results;
-    //         $water_parameter_normal                         = $request->water_parameter_normal;
-    //         $water_qty                                      = $request->water_qty;
-    //         $water_parameter_short_name                     = $request->water_parameter_short_name;                             
+        if($request->water_parameter_id != '' || $request->water_parameter_id != null){
 
-    //         $number =count($water_parameter_id);
-    //         $count = 0;
-    //             for($count = 0; $count< $number; $count++)
-    //             {
-    //                 $idwater = Env_water_parameter::where('water_parameter_id','=',$water_parameter_id[$count])->first();
+            $water_parameter_id                             = $request->water_parameter_id;
+            $water_parameter_unit                           = $request->water_parameter_unit;
+            $use_analysis_results                           = $request->use_analysis_results;
+            $water_parameter_normal                         = $request->water_parameter_normal;
+            $water_qty                                      = $request->water_qty;
+            $water_parameter_short_name                     = $request->water_parameter_short_name;                             
+
+            $number =count($water_parameter_id);
+            $count = 0;
+                for($count = 0; $count< $number; $count++)
+                {
+                    $idwater = Env_water_parameter::where('water_parameter_id','=',$water_parameter_id[$count])->first();
                     
-    //                 $add_sub = new Env_water_sub();
-    //                 $add_sub->water_id                              = $waterid;
-    //                 $add_sub->water_list_idd                        = $idwater->water_parameter_id;
-    //                 $add_sub->water_list_detail                     = $idwater->water_parameter_name;
-    //                 $add_sub->water_list_unit                       = $water_parameter_unit[$count]; 
-    //                 $add_sub->water_qty                             = $water_qty[$count];
-    //                 $add_sub->water_results                         = $idwater->water_parameter_icon.''.$idwater->water_parameter_normal;
-    //                 $add_sub->use_analysis_results                  = $idwater->water_parameter_icon_end.''.$idwater->water_parameter_normal_end;
+                    $add_sub = new Env_water_sub();
+                    $add_sub->water_id                              = $waterid;
+                    $add_sub->water_list_idd                        = $idwater->water_parameter_id;
+                    $add_sub->water_list_detail                     = $idwater->water_parameter_name;
+                    $add_sub->water_list_unit                       = $water_parameter_unit[$count]; 
+                    $add_sub->water_qty                             = $water_qty[$count];
+                    $add_sub->water_results                         = $idwater->water_parameter_icon.''.$idwater->water_parameter_normal;
+                    $add_sub->use_analysis_results                  = $idwater->water_parameter_icon_end.''.$idwater->water_parameter_normal_end;
 
-    //                 $qty = $water_qty[$count];
+                    $qty = $water_qty[$count];
                     
-    //                 if ($idwater->water_parameter_id == '1' && $qty <= '20' ) {
-    //                     $status = 'ปกติ';                    
-    //                 }elseif($idwater->water_parameter_id == '2' && $qty <= '120' ) {
-    //                     $status = 'ปกติ';                         
-    //                 }elseif($idwater->water_parameter_id == '3' && $qty <= '500' ) {
-    //                     $status = 'ปกติ'; 
-    //                 }elseif($idwater->water_parameter_id == '4' && $qty <= '30' ) {
-    //                     $status = 'ปกติ'; 
-    //                 }elseif($idwater->water_parameter_id == '5' && $qty <= '0.5' ) {
-    //                     $status = 'ปกติ'; 
-    //                 }elseif($idwater->water_parameter_id == '6' && $qty <= '35' ) {
-    //                     $status = 'ปกติ'; 
-    //                 }elseif($idwater->water_parameter_id == '7' && $qty >= '4.9' && $idwater->water_parameter_id == '7' && $qty <= '9') {
-    //                     $status = 'ปกติ';                     
-    //                 }elseif($idwater->water_parameter_id == '8' && $qty <= '1.0' ) {
-    //                     $status = 'ปกติ'; 
-    //                 }elseif($idwater->water_parameter_id == '9' && $qty <= '20' ) {
-    //                     $status = 'ปกติ'; 
-    //                 }elseif($idwater->water_parameter_id == '10' && $qty <= '5000' ) {
-    //                     $status = 'ปกติ'; 
-    //                 }elseif($idwater->water_parameter_id == '11' && $qty <= '1000' ) {
-    //                     $status = 'ปกติ'; 
-    //                 }elseif($idwater->water_parameter_id == '12' && $qty <= '1' ) {
-    //                     $status = 'ปกติ'; 
-    //                 }elseif($idwater->water_parameter_id == '13' && $qty <= '1000' ) {
-    //                     $status = 'ปกติ'; 
-    //                 }elseif($idwater->water_parameter_id == '14' && $qty >= '2' ) {
-    //                     $status = 'ปกติ'; 
-    //                 }elseif($idwater->water_parameter_id == '15' && $qty >= '400' ) {
-    //                     $status = 'ปกติ'; 
-    //                 }elseif($idwater->water_parameter_id == '16' && $qty >= '0.5' && $idwater->water_parameter_id == '16' && $qty <= '1') {
-    //                     $status = 'ปกติ'; 
-    //                 } else {
-    //                     $status = 'ผิดปกติ';
-    //                 }
+                    if ($idwater->water_parameter_id == '1' && $qty <= '20' ) {
+                        $status = 'ปกติ';                    
+                    }elseif($idwater->water_parameter_id == '2' && $qty <= '120' ) {
+                        $status = 'ปกติ';                         
+                    }elseif($idwater->water_parameter_id == '3' && $qty <= '500' ) {
+                        $status = 'ปกติ'; 
+                    }elseif($idwater->water_parameter_id == '4' && $qty <= '30' ) {
+                        $status = 'ปกติ'; 
+                    }elseif($idwater->water_parameter_id == '5' && $qty <= '0.5' ) {
+                        $status = 'ปกติ'; 
+                    }elseif($idwater->water_parameter_id == '6' && $qty <= '35' ) {
+                        $status = 'ปกติ'; 
+                    }elseif($idwater->water_parameter_id == '7' && $qty >= '4.9' && $idwater->water_parameter_id == '7' && $qty <= '9') {
+                        $status = 'ปกติ';                     
+                    }elseif($idwater->water_parameter_id == '8' && $qty <= '1.0' ) {
+                        $status = 'ปกติ'; 
+                    }elseif($idwater->water_parameter_id == '9' && $qty <= '20' ) {
+                        $status = 'ปกติ'; 
+                    }elseif($idwater->water_parameter_id == '10' && $qty <= '5000' ) {
+                        $status = 'ปกติ'; 
+                    }elseif($idwater->water_parameter_id == '11' && $qty <= '1000' ) {
+                        $status = 'ปกติ'; 
+                    }elseif($idwater->water_parameter_id == '12' && $qty <= '1' ) {
+                        $status = 'ปกติ'; 
+                    }elseif($idwater->water_parameter_id == '13' && $qty <= '1000' ) {
+                        $status = 'ปกติ'; 
+                    }elseif($idwater->water_parameter_id == '14' && $qty >= '2' ) {
+                        $status = 'ปกติ'; 
+                    }elseif($idwater->water_parameter_id == '15' && $qty >= '400' ) {
+                        $status = 'ปกติ'; 
+                    }elseif($idwater->water_parameter_id == '16' && $qty >= '0.5' && $idwater->water_parameter_id == '16' && $qty <= '1') {
+                        $status = 'ปกติ'; 
+                    } else {
+                        $status = 'ผิดปกติ';
+                    }
                     
 
-    //                 $add_sub->status                         = $status;
-    //                 $add_sub->water_parameter_short_name     = $water_parameter_short_name[$count];
-    //                 $add_sub->save();        
-    //             }
-    //     } 
+                    $add_sub->status                         = $status;
+                    $add_sub->water_parameter_short_name     = $water_parameter_short_name[$count];
+                    $add_sub->save();        
+                }
+        } 
 
-    //     // $idsub = Env_water_parameter::max('water_parameter_id');
-    //     $data_loob = Env_water_sub::where('water_id','=',$waterid)->get();
-    //     // $name = User::where('id','=',$iduser)->first();
-    //     $data_users = User::where('id','=',$request->water_user)->first();
-    //     $name = $data_users->fname.' '.$data_users->lname;
+        // $idsub = Env_water_parameter::max('water_parameter_id');
+        $data_loob = Env_water_sub::where('water_id','=',$waterid)->get();
+        // $name = User::where('id','=',$iduser)->first();
+        $data_users = User::where('id','=',$request->water_user)->first();
+        $name = $data_users->fname.' '.$data_users->lname;
 
-    //     $mMessage = array();
-    //     foreach ($data_loob as $key => $value) { 
+        $mMessage = array();
+        foreach ($data_loob as $key => $value) { 
 
-    //            $mMessage[] = [
-    //                 'water_parameter_short_name'    => $value->water_parameter_short_name,
-    //                 'water_qty'                     => $value->water_qty, 
-    //                 'status'                        => $value->status,           
-    //             ];   
-    //         }   
+               $mMessage[] = [
+                    'water_parameter_short_name'    => $value->water_parameter_short_name,
+                    'water_qty'                     => $value->water_qty, 
+                    'status'                        => $value->status,           
+                ];   
+            }   
        
-    //         $linetoken = "q2PXmPgx0iC5IZXjtkeZUFiNwtmEkSGjRp1PsxFUaYe"; //ใส่ token line ENV แล้ว    
-    //         //$linetoken = "DVWB9QFYmafdjEl9rvwB0qdPgCdsD59NHoWV7WhqbN4"; //ใส่ token line ENV แล้ว       
+            $linetoken = "q2PXmPgx0iC5IZXjtkeZUFiNwtmEkSGjRp1PsxFUaYe"; //ใส่ token line ENV แล้ว    
+            //$linetoken = "DVWB9QFYmafdjEl9rvwB0qdPgCdsD59NHoWV7WhqbN4"; //ใส่ token line ENV แล้ว       
            
-    //         // $smessage = [];
-    //         $header = "ข้อมูลตรวจน้ำ";
-    //         $message =  $header. 
-    //                 "\n"."วันที่บันทึก : "      . $request->input('water_date'). 
-    //                "\n"."ผู้บันทึก  : "        . $name . 
-    //                "\n"."สถานที่เก็บตัวอย่าง : " . $namepond->pond_name; 
+            // $smessage = [];
+            $header = "ข้อมูลตรวจน้ำ";
+            $message =  $header. 
+                    "\n"."วันที่บันทึก : "      . $request->input('water_date'). 
+                   "\n"."ผู้บันทึก  : "        . $name . 
+                   "\n"."สถานที่เก็บตัวอย่าง : " . $namepond->pond_name; 
  
-    //         foreach ($mMessage as $key => $smes) {
-    //             $na_mesage           = $smes['water_parameter_short_name'];
-    //             $qt_mesage           = $smes['water_qty'];
-    //             $status_mesage       = $smes['status'];
+            foreach ($mMessage as $key => $smes) {
+                $na_mesage           = $smes['water_parameter_short_name'];
+                $qt_mesage           = $smes['water_qty'];
+                $status_mesage       = $smes['status'];
 
-    //             $message.="\n"."รายการพารามิเตอร์  : " . $na_mesage .
-    //                       "\n"."ผลการวิเคราะห์ : " . $qt_mesage . 
-    //                       "\n"."สถานะ : "       . $status_mesage;  
-    //         } 
+                $message.="\n"."รายการพารามิเตอร์  : " . $na_mesage .
+                          "\n"."ผลการวิเคราะห์ : " . $qt_mesage . 
+                          "\n"."สถานะ : "       . $status_mesage;  
+            } 
               
 
-    //             if($linetoken == null){
-    //                 $send_line ='';
-    //             }else{
-    //                 $send_line = $linetoken;
-    //             }  
-    //             if($send_line !== '' && $send_line !== null){ 
+                if($linetoken == null){
+                    $send_line ='';
+                }else{
+                    $send_line = $linetoken;
+                }  
+                if($send_line !== '' && $send_line !== null){ 
 
-    //                 // function notify_message($smessage,$linetoken)
-    //                 // {
-    //                     $chOne = curl_init();
-    //                     curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
-    //                     curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
-    //                     curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
-    //                     curl_setopt( $chOne, CURLOPT_POST, 1);
-    //                     // curl_setopt( $chOne, CURLOPT_POSTFIELDS, $message);
-    //                     curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$message");
-    //                     curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
-    //                     $headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$linetoken.'', );
-    //                     curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
-    //                     curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
-    //                     $result = curl_exec($chOne);
-    //                     if (curl_error($chOne)) {echo 'error:' . curl_error($chOne);} else { $result_ = json_decode($result, true);
-    //                         echo "status : " . $result_['status'];
-    //                         echo "message : " . $result_['message'];}
-    //                     curl_close($chOne);
-    //                 // } 
-    //                 // foreach ($mMessage as $linetoken) {
-    //                 //     notify_message($linetoken,$smessage);
-    //                 // } 
+                    // function notify_message($smessage,$linetoken)
+                    // {
+                        $chOne = curl_init();
+                        curl_setopt( $chOne, CURLOPT_URL, "https://notify-api.line.me/api/notify");
+                        curl_setopt( $chOne, CURLOPT_SSL_VERIFYHOST, 0);
+                        curl_setopt( $chOne, CURLOPT_SSL_VERIFYPEER, 0);
+                        curl_setopt( $chOne, CURLOPT_POST, 1);
+                        // curl_setopt( $chOne, CURLOPT_POSTFIELDS, $message);
+                        curl_setopt( $chOne, CURLOPT_POSTFIELDS, "message=$message");
+                        curl_setopt( $chOne, CURLOPT_FOLLOWLOCATION, 1);
+                        $headers = array( 'Content-type: application/x-www-form-urlencoded', 'Authorization: Bearer '.$linetoken.'', );
+                        curl_setopt($chOne, CURLOPT_HTTPHEADER, $headers);
+                        curl_setopt( $chOne, CURLOPT_RETURNTRANSFER, 1);
+                        $result = curl_exec($chOne);
+                        if (curl_error($chOne)) {echo 'error:' . curl_error($chOne);} else { $result_ = json_decode($result, true);
+                            echo "status : " . $result_['status'];
+                            echo "message : " . $result_['message'];}
+                        curl_close($chOne);
+                    // } 
+                    // foreach ($mMessage as $linetoken) {
+                    //     notify_message($linetoken,$smessage);
+                    // } 
 
-    //             }              
+                }              
                     
-    //     // } 
-    //     return redirect()->route('env.env_water');
+        // } 
+        return redirect()->route('env.env_water_add_pond1');
         
         
-    // }
+    }
 
     public function env_water_add_pond2 (Request $request,$id) //บ่อคลองวนเวียน
     { 
@@ -1184,7 +1187,7 @@ class EnvController extends Controller
 
     public function env_trash_save (Request $request)
     {
-        // dd($request->trash_bill_on);
+        
         date_default_timezone_set("Asia/Bangkok");
         $datenow = date('Y-m-d H:i:s');
         $iduser = Auth::user()->id;
@@ -1211,7 +1214,7 @@ class EnvController extends Controller
                 $trashparameter_id         = $request->trash_parameter_id;
                 $trash_sub_qty              = $request->trash_sub_qty;
                 $trash_sub_unit             = $request->trash_sub_unit;
-                // $trash_parameter_unit       = $request->trash_parameter_unit;
+                
                             
                 $number =count($trashparameter_id);
                 $count = 0;
@@ -1226,14 +1229,14 @@ class EnvController extends Controller
                         $add_sub->trash_sub_unit          = $idtrash->trash_parameter_unit; 
 
                         $add_sub->trash_sub_qty           = $trash_sub_qty[$count];
-                        // $add_sub->trash_sub_unit          = $trash_parameter_unit[$count];                 
+                                      
                                                 
                         $add_sub->save(); 
                     }
                 }
                 
                 $data_loob = Env_trash_sub::where('trash_id','=',$trash_id)->get();
-                // $name = User::where('id','=',$iduser)->first();
+                
                 $data_users = User::where('id','=',$request->trash_user)->first();
                 $name = $data_users->fname.' '.$data_users->lname;
 
@@ -1506,76 +1509,76 @@ class EnvController extends Controller
 
 
 // ************************* Report  *************************
-public function env_water_rep (Request $request)
-{ 
-    $startdate        = $request->startdate;
-    $enddate          = $request->enddate;
-    $data['pond_id']  = $request->pond_id;
+    public function env_water_rep (Request $request)
+    { 
+        $startdate        = $request->startdate;
+        $enddate          = $request->enddate;
+        $data['pond_id']  = $request->pond_id;
 
-    $iduser = Auth::user()->id; 
-    $date = date('Y-m-d');
-    $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 5 เดือน
-    if ($startdate == '') {
-        
-            $datashow = DB::connection('mysql')->select('
-                SELECT 
-                    DAY(e.water_date) as days
-                    ,e.water_date
-                    ,es.water_parameter_short_name
-                    ,es.water_qty
-                    FROM env_water e
-                    LEFT OUTER JOIN env_water_sub es ON es.water_id = e.water_id
-                    LEFT OUTER JOIN env_water_parameter ep ON ep.water_parameter_id = es. water_list_idd
-                WHERE e.water_date BETWEEN "'.$date.'"  AND "'.$date.'"  
-                GROUP BY days 
-           '); 
-       
-        $data['qtyph'] =  '';
-        $data['qtysv'] =  '';
-
-    } else {
-        if ($data['pond_id'] != '') {
-            $datashow = DB::connection('mysql')->select('
-                SELECT 
-                    DAY(e.water_date) as days
-                    ,e.water_date
-                    ,es.water_parameter_short_name
-                    ,es.water_qty
-                    FROM env_water e
-                    LEFT OUTER JOIN env_water_sub es ON es.water_id = e.water_id
-                    LEFT OUTER JOIN env_water_parameter ep ON ep.water_parameter_id = es. water_list_idd
-                WHERE e.water_date BETWEEN "'.$startdate.'"  AND "'.$enddate.'" AND e.pond_id = "'.$data['pond_id'].'"
-              
+        $iduser = Auth::user()->id; 
+        $date = date('Y-m-d');
+        $newDate = date('Y-m-d', strtotime($date . ' -3 months')); //ย้อนหลัง 5 เดือน
+        if ($startdate == '') {
+            
+                $datashow = DB::connection('mysql')->select('
+                    SELECT 
+                        DAY(e.water_date) as days
+                        ,e.water_date
+                        ,es.water_parameter_short_name
+                        ,es.water_qty
+                        FROM env_water e
+                        LEFT OUTER JOIN env_water_sub es ON es.water_id = e.water_id
+                        LEFT OUTER JOIN env_water_parameter ep ON ep.water_parameter_id = es. water_list_idd
+                    WHERE e.water_date BETWEEN "'.$date.'"  AND "'.$date.'"  
+                    GROUP BY days 
             '); 
-            // GROUP BY days 
+        
+            $data['qtyph'] =  '';
+            $data['qtysv'] =  '';
+
         } else {
-            $datashow = DB::connection('mysql')->select('
-                SELECT 
-                    DAY(e.water_date) as days
-                    ,e.water_date
-                    ,es.water_parameter_short_name
-                    ,es.water_qty
-                    FROM env_water e
-                    LEFT OUTER JOIN env_water_sub es ON es.water_id = e.water_id
-                    LEFT OUTER JOIN env_water_parameter ep ON ep.water_parameter_id = es. water_list_idd
-                WHERE e.water_date BETWEEN "'.$startdate.'"  AND "'.$enddate.'"
-               
-            '); 
+            if ($data['pond_id'] != '') {
+                $datashow = DB::connection('mysql')->select('
+                    SELECT 
+                        DAY(e.water_date) as days
+                        ,e.water_date
+                        ,es.water_parameter_short_name
+                        ,es.water_qty
+                        FROM env_water e
+                        LEFT OUTER JOIN env_water_sub es ON es.water_id = e.water_id
+                        LEFT OUTER JOIN env_water_parameter ep ON ep.water_parameter_id = es. water_list_idd
+                    WHERE e.water_date BETWEEN "'.$startdate.'"  AND "'.$enddate.'" AND e.pond_id = "'.$data['pond_id'].'"
+                
+                '); 
+                // GROUP BY days 
+            } else {
+                $datashow = DB::connection('mysql')->select('
+                    SELECT 
+                        DAY(e.water_date) as days
+                        ,e.water_date
+                        ,es.water_parameter_short_name
+                        ,es.water_qty
+                        FROM env_water e
+                        LEFT OUTER JOIN env_water_sub es ON es.water_id = e.water_id
+                        LEFT OUTER JOIN env_water_parameter ep ON ep.water_parameter_id = es. water_list_idd
+                    WHERE e.water_date BETWEEN "'.$startdate.'"  AND "'.$enddate.'"
+                
+                '); 
+            }
+            // GROUP BY days 
+            
         }
-        // GROUP BY days 
         
-    }
-    
-    $data['env_pond']  = DB::table('env_pond')->get(); 
+        $data['env_pond']  = DB::table('env_pond')->get(); 
+            
         
-     
-    return view('env.env_water_rep',$data,[
-        'startdate'     => $startdate,
-        'enddate'       => $enddate, 
-        'datashow'      => $datashow,                      
+        return view('env.env_water_rep',$data,[
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
+            'datashow'      => $datashow,                      
 
-    ]);
-}
+        ]);
+    }
 
 //**************************************************************ตั้งค่า   แจ้งเตือน Line*********************************************
 

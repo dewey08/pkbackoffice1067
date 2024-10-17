@@ -287,6 +287,10 @@ class StaticController extends Controller
     $comcountenv =  User::where('id','=',$iduser)->where('permiss_env','=','on')->count();   
     return $comcountenv;
   }
+
+
+
+
   public static function permiss_setting($iduser)
   {
     $envcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_ENV')->count();   

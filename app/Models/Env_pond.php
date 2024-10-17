@@ -14,9 +14,10 @@ class Env_pond extends Authenticatable
 
     protected $table = 'env_pond';
     protected $primaryKey = 'pond_id';
-    // public $timestamps = false;  
+      
     protected $fillable = [
-        'pond_name'
+        'pond_name',
+        
         // 'trash_set_unit'
               
     ];

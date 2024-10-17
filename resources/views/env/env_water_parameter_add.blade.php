@@ -72,7 +72,7 @@ $count_service = StaticController::count_service();
                         </div>
 
                         <div class="card-body shadow-lg">
-                            <form class="custom-validation" action="{{ route('env.env_water_parameter_save') }}" method="POST" enctype="multipart/form-data">
+                    <form class="custom-validation" action="{{ route('env.env_water_parameter_save') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="store_id" id="store_id" value=" {{ Auth::user()->store_id }}">
                             <div class="row">
@@ -128,8 +128,7 @@ $count_service = StaticController::count_service();
                                                             <option value="{{ $icon->env_water_icon_name }}"> {{ $icon->env_water_icon_name }}  </option>                                             
                                                         @endforeach
                                                     </select>
-                                                    {{-- <input id="water_parameter_icon" type="text"
-                                                        class="form-control form-control-sm" name="water_parameter_icon"> --}}
+                                                    
                                                 </div>
                                             </div>
                                             <div class="col-md-1 text-end">
@@ -143,16 +142,7 @@ $count_service = StaticController::count_service();
                                             </div>                                            
                                         </div>
                                         
-                                        <div class="row mt-3">
-                                            {{-- <div class="col-md-2 text-end">
-                                                <label for="land_tonnage_no">ค่ามาตรฐาน :</label>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <input id="water_parameter_normal" type="text"
-                                                        class="form-control form-control-sm" name="water_parameter_normal">
-                                                </div>
-                                            </div> --}}
+                                        <div class="row mt-3">                                            
                                             <div class="col-md-2 text-end">
                                                 <label for="land_explore_page">วิธีที่ใช้วิเคราะห์ :</label>
                                             </div>
@@ -185,7 +175,7 @@ $count_service = StaticController::count_service();
                                 </div>    
                             </div>
                         </div>
-                        </form>
+                    </form>
 
                     
                 </div>

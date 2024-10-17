@@ -234,7 +234,7 @@ $permiss_lgo = StaticController::permiss_lgo($iduser);
 $permiss_prb = StaticController::permiss_prb($iduser);
 $permiss_ti = StaticController::permiss_ti($iduser);
 $permiss_rep_money = StaticController::permiss_rep_money($iduser);
-$countpermiss_env = StaticController::countpermiss_env($iduser); 
+$permiss_setting_env = StaticController::permiss_setting_env($iduser); 
 ?>
  {{-- <body data-sidebar="white" data-keep-enlarged="true" class="vertical-collpsed"> --}}
 <body data-topbar="dark">
@@ -485,7 +485,7 @@ $countpermiss_env = StaticController::countpermiss_env($iduser);
 
                        
 
-                        @if ($countpermiss_env !=0)
+                        @if ($permiss_setting_env !=0)
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <i class="fa-solid fa-file-pen text-danger"></i>
@@ -498,19 +498,7 @@ $countpermiss_env = StaticController::countpermiss_env($iduser);
                             </ul>
                         </li>
                         @endif
-                        {{-- <li>
-                            <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                    <i class="fa-solid fa-sack-dollar text-success"></i>
-                                <span>การเงิน</span>
-                            </a>
-                            <ul class="sub-menu" aria-expanded="true"> 
-                                <li><a href="{{ url('audit_approve_code') }}">   
-                                        <span>ไม่ลง APPROVE CODE</span> 
-                                    </a>  
-                                </li>  
-                                
-                            </ul> 
-                        </li> --}}
+                       
                     </ul>
                 </div>
                 <!-- Sidebar -->
