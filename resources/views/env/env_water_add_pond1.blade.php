@@ -83,6 +83,8 @@ $datenow = date('Y-m-d');
     <form action="{{ route('env_water_add_pond1_save')}}" method="POST" >
         @csrf
 
+        <input id="pond_id" type="hidden" class="form-control form-control-sm" name="pond_id" value="{{$idpond}}">
+
             <div class="row">
                 
                 <div class="col-md-1 text-end"></div>
@@ -149,11 +151,11 @@ $datenow = date('Y-m-d');
                                     <tr height="20">                                             
                                         <td style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 13px;"> {{ $number++}} </td>                                           
                                         <td>
-                                            <input type="hidden" value="{{ $items->pond_id }}" name="pond_id[]" id="pond_id[]" class="form-control input-sm fo13" >
+                                            <input type="hidden" value="{{ $items->pond_id }}" name="water_parameter_id[]" id="water_parameter_id[]" class="form-control input-sm fo13" >
                                             <input value="{{ $items->water_parameter_name }}" name="" id="" class="form-control input-sm fo13" readonly>
                                         </td> 
                                         <td>
-                                            <input type="hidden" value="{{ $items->pond_name }}" name="pond_name[]" id="pond_name[]" class="form-control input-sm fo13" >
+                                            {{-- <input type="hidden" value="{{ $items->water_parameter_short_name }}" name="water_parameter_short_name[]" id="water_parameter_short_name[]" class="form-control input-sm fo13" > --}}
                                             <input style="text-align: center" name="water_qty[]" id="water_qty[]" class="form-control input-sm fo13" type="text" required></td> 
                                         <td>
                                             <input style="text-align: center" value="{{ $items->water_parameter_unit }}" name="water_parameter_unit[]" id="water_parameter_unit[]" class="form-control input-sm fo13" readonly > 
