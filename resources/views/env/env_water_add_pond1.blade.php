@@ -114,9 +114,7 @@ $datenow = date('Y-m-d');
                             @endforeach
                         </select>
                     </div>
-                </div>
-
-                    
+                </div>                    
                                                                             
                     <div class="col-md-1 text-end">
                         <label for="water_comment">หมายเหตุ :</label>
@@ -129,9 +127,8 @@ $datenow = date('Y-m-d');
 
                     <div class="col"></div>
 
-            </div>   
-
-
+            </div>
+            
             <div class="row mt-3">
                 <div class="col-md-12">            
                 
