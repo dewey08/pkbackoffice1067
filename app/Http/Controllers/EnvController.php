@@ -635,18 +635,21 @@ class EnvController extends Controller
         $add->save();
 
         
-        $waterid =  Env_water::max('water_id');  
+        $waterid =  Env_water::max('water_id');
+        $water_parameter_id = $request->water_parameter_id;
+        $namepara = Env_water_parameter::where('water_parameter_id','=', $water_parameter_id)->first();
+         
         if($request->water_parameter_id != '' || $request->water_parameter_id != null){
 
             $water_parameter_id                             = $request->water_parameter_id;
+            // dd($water_parameter_id);
             $water_parameter_unit                           = $request->water_parameter_unit;
-            // $use_analysis_results                           = $request->use_analysis_results;
-            // $water_parameter_normal                         = $request->water_parameter_normal;
             $water_qty                                      = $request->water_qty;
-            $water_parameter_short_name                     = $request->water_parameter_short_name;                             
+            $water_parameter_short_name                     = $namepara->water_parameter_short_name;
+            // dd($water_parameter_short_name);                             
 
             $number =count($water_parameter_id);
-            $count = 0;
+            // $count = 0;
                 for($count = 0; $count< $number; $count++)
                 {
                     $idwater = Env_water_parameter::where('water_parameter_id','=',$water_parameter_id[$count])->first();
@@ -655,10 +658,12 @@ class EnvController extends Controller
                     $add_sub->water_id                              = $waterid;
                     $add_sub->water_list_idd                        = $idwater->water_parameter_id;
                     $add_sub->water_list_detail                     = $idwater->water_parameter_name;
+                    $add_sub->water_parameter_short_name            = $idwater->water_parameter_short_name;
                     $add_sub->water_list_unit                       = $water_parameter_unit[$count]; 
                     $add_sub->water_qty                             = $water_qty[$count];
                     $add_sub->water_results                         = $idwater->water_parameter_icon.''.$idwater->water_parameter_normal;
                     $add_sub->use_analysis_results                  = $idwater->water_parameter_icon_end.''.$idwater->water_parameter_normal_end;
+                    
 
                     $qty = $water_qty[$count];
                     
@@ -700,7 +705,7 @@ class EnvController extends Controller
                     
 
                     $add_sub->status                         = $status;
-                    // $add_sub->water_parameter_short_name     = $water_parameter_short_name[$count];
+                   
                     $add_sub->save();        
                 }
         } 

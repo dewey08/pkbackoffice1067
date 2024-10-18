@@ -151,7 +151,7 @@ $datenow = date('Y-m-d');
                                     <tr height="20">                                             
                                         <td style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 13px;"> {{ $number++}} </td>                                           
                                         <td>
-                                            <input type="hidden" value="{{ $items->pond_id }}" name="water_parameter_id[]" id="water_parameter_id[]" class="form-control input-sm fo13" >
+                                            <input type="hidden" value="{{ $items->water_parameter_id }}" name="water_parameter_id[]" id="water_parameter_id[]" class="form-control input-sm fo13" >
                                             <input value="{{ $items->water_parameter_name }}" name="" id="" class="form-control input-sm fo13" readonly>
                                         </td> 
                                         <td>
