@@ -80,105 +80,116 @@ $datenow = date('Y-m-d');
         </div>
     </div>
 
-    <div class="row">
-        <div class="col"></div>
 
-        <div class="col-md-1 ">
-            <label for="water_date">วันที่บันทึก :</label>
-        </div>
-        <div class="col-md-2" >
-            <div class="form-group">
-                <input id="water_date" type="date"
-                class="form-control form-control-sm" name="water_date" value="{{$datenow}}">
-            </div>
-        </div>
+    <form action="{{ route('env_water_add_pond3_save')}}" method="POST" >
+        @csrf
 
-        <div class="col-md-1 text-end">
-            <label for="water_user">ผู้บันทึก :</label>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                    <select id="water_user1" name="water_user"
-                    class="form-control form-control-sm" style="width: 100%">
-                    <option value="">--เลือก--</option>
-                    @foreach ($users as $ue) 
-                        @if ($iduser == $ue->id )
-                        <option value="{{ $ue->id }}" selected> {{ $ue->fname }}  {{ $ue->lname }} </option>  
-                        @else
-                        <option value="{{ $ue->id }}"> {{ $ue->fname }}  {{ $ue->lname }} </option>  
-                        @endif                                     
-                    @endforeach
-                </select>
-            </div>
-        </div>
+        <input id="pond_id" type="hidden" class="form-control form-control-sm" name="pond_id" value="{{$idpond}}">
 
-                                                   
-            <div class="col-md-1 text-end">
-                <label for="water_comment">หมายเหตุ :</label>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <input id="water_comment" type="text"
-                    class="form-control form-control-sm" name="water_comment">
+            <div class="row">
+                
+                <div class="col-md-1 text-end"></div>
+
+                <div class="col-md-1 ">
+                    <label for="water_date">วันที่บันทึก :</label>
                 </div>
-            </div>                                           
-            <div class="col"></div>
+                <div class="col-md-2" >
+                    <div class="form-group">
+                        <input id="water_date" type="date" class="form-control form-control-sm" name="water_date" value="{{$datenow}}">
+                    </div>
+                </div>
 
-    </div>   
+                <div class="col-md-1 text-end">
+                    <label for="water_user">ผู้บันทึก :</label>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                            <select id="water_user1" name="water_user" class="form-control form-control-sm" style="width: 100%">
+                            <option value="">--เลือก--</option>
+                            @foreach ($users as $ue) 
+                                @if ($iduser == $ue->id )
+                                <option value="{{ $ue->id }}" selected> {{ $ue->fname }}  {{ $ue->lname }} </option>  
+                                @else
+                                <option value="{{ $ue->id }}"> {{ $ue->fname }}  {{ $ue->lname }} </option>  
+                                @endif                                     
+                            @endforeach
+                        </select>
+                    </div>
+                </div>                    
+                                                                            
+                    <div class="col-md-1 text-end">
+                        <label for="water_comment">หมายเหตุ :</label>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input id="water_comment" type="text" class="form-control form-control-sm" name="water_comment">
+                        </div>
+                    </div>  
 
-    <div class="row mt-3">        
-        
-        <div class="col-md-12">            
-        
-                <table id="example" class="table table-bordered" border="1px">
-                    <thead>
-                        <tr >
-                            <th width="3%">ลำดับ</td>
-                            <th width="15%">รายการพารามิเตอร์</th>     
-                            <th width="10%">ผลการวิเคราะห์</th>
-                            <th width="7%">หน่วย</th>   
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $number = 1; ?>
-                        @foreach($env_pond_sub as $items) 
-                            <tr height="20">                                             
-                                <td style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 13px;"> {{ $number++}} </td>                                           
-                                <td>
-                                    <input type="hidden" value="{{ $items->pond_id }}" name="pond_id[]" id="pond_id[]" class="form-control input-sm fo13" >
-                                    <input value="{{ $items->water_parameter_name }}" name="" id="" class="form-control input-sm fo13" readonly>
-                                </td> 
-                                <td><input style="text-align: center" name="water_qty[]" id="water_qty[]" class="form-control input-sm fo13" type="text" required></td> 
-                                <td>
-                                    <input style="text-align: center" value="{{ $items->water_parameter_unit }}" name="water_parameter_unit[]" id="water_parameter_unit[]" class="form-control input-sm fo13" readonly > 
-                                </td> 
-                            </tr>
+                    <div class="col"></div>
+
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-12">            
+                
+                        <table id="example" class="table table-bordered" border="1px">
+                            <thead>
+                                <tr >
+                                    <th width="1%" >ลำดับ</td>
+                                    <th width="15%">รายการพารามิเตอร์</th>     
+                                    <th width="10%">ผลการวิเคราะห์</th>
+                                    <th width="7%">หน่วย</th>   
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <?php $number = 1; ?>
+                                @foreach($env_pond_sub as $items) 
+                                    <tr height="20">                                             
+                                        <td style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 13px;"> {{ $number++}} </td>                                           
+                                        <td>
+                                            <input type="hidden" value="{{ $items->water_parameter_id }}" name="water_parameter_id[]" id="water_parameter_id[]" class="form-control input-sm fo13" >
+                                            <input value="{{ $items->water_parameter_name }}" name="" id="" class="form-control input-sm fo13" readonly>
+                                        </td> 
+                                        <td>
+                                            {{-- <input type="hidden" value="{{ $items->water_parameter_short_name }}" name="water_parameter_short_name[]" id="water_parameter_short_name[]" class="form-control input-sm fo13" > --}}
+                                            <input style="text-align: center" name="water_qty[]" id="water_qty[]" class="form-control input-sm fo13" type="text" required></td> 
+                                        <td>
+                                            <input style="text-align: center" value="{{ $items->water_parameter_unit }}" name="water_parameter_unit[]" id="water_parameter_unit[]" class="form-control input-sm fo13" readonly > 
+                                        </td> 
+                                    </tr>                        
+                                @endforeach 
+                            </tbody>
+
+                        </table>
                         
-                        @endforeach 
-                    </tbody>
-                </table> 
-        </div>
-        
-    </div>
-    
-    <div class="row mt-3"> 
-        
-        <div class="col-md-12 text-end">
-            <div class="form-group">
+                </div>                
+            </div>
 
-                <button type="submit" class="btn btn-primary btn-sm">
-                    <i class="fa-solid fa-floppy-disk me-2"></i>
-                    บันทึกข้อมูล
-                </button>
+            <div class="row mt-3"> 
+            
+                <div class="col-md-12 text-end">
+                    <div class="form-group">
+        
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="fa-solid fa-floppy-disk me-2"></i>
+                            บันทึกข้อมูล
+                        </button>
+        
+                        <a href="{{ url('env_water') }}" class="btn btn-danger btn-sm">
+                            <i class="fa-solid fa-xmark me-2"></i>
+                            ยกเลิก
+                        </a>
+                    </div>    
+                </div>        
+            
+            </div>
 
-                <a href="{{ url('env_water') }}" class="btn btn-danger btn-sm">
-                    <i class="fa-solid fa-xmark me-2"></i>
-                    ยกเลิก
-                </a>
-            </div>    
-        </div>        
-       
-    </div>
+
+    </form>
+
+
 </div>
 
 @endsection
