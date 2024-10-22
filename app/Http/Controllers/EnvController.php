@@ -219,17 +219,41 @@ class EnvController extends Controller
 
     public function env_water (Request $request)
     {
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -2 months')); //ย้อนหลัง 2 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $iduser = Auth::user()->id; 
         // dd( $datestart);
         if ($startdate == '') {
-                $datashow = DB::connection('mysql')->select('
-                    SELECT DISTINCT(w.water_id),w.water_date,w.water_location,water_group_excample,w.water_comment,CONCAT(u.fname," ",u.lname) as water_user
-                    from env_water w
-                    LEFT JOIN env_water_sub ws on ws.water_id = w.water_id
+                // $data['datashow_1'] = DB::connection('mysql')->select('
+                //     SELECT * 
+                //     FROM env_water_sub 
+                //     WHERE pond_id ="1"  
+                // ');
+                $data['datashow_1'] = DB::connection('mysql')->select('
+                    SELECT w.water_date , w.water_location , CONCAT(u.fname," ",u.lname) as water_user ,w.water_comment
+                    FROM env_water w
                     LEFT JOIN users u on u.id = w.water_user 
-                    ORDER BY w.water_id DESC limit 10
+                    WHERE pond_id ="1" 
+                    ORDER BY water_date DESC 
+                ');
+                $data['datashow_2'] = DB::connection('mysql')->select('
+                    SELECT w.water_date , w.water_location , CONCAT(u.fname," ",u.lname) as water_user ,w.water_comment
+                    FROM env_water w
+                    LEFT JOIN users u on u.id = w.water_user 
+                    WHERE pond_id ="2" 
+                    ORDER BY water_date DESC  
+                ');
+                $data['datashow_3'] = DB::connection('mysql')->select('
+                    SELECT w.water_date , w.water_location , CONCAT(u.fname," ",u.lname) as water_user ,w.water_comment
+                    FROM env_water w
+                    LEFT JOIN users u on u.id = w.water_user 
+                    WHERE pond_id ="3" 
+                    ORDER BY water_date DESC  
                 ');
         } else {
             $datashow = DB::connection('mysql')->select('
@@ -238,14 +262,15 @@ class EnvController extends Controller
                 LEFT JOIN env_water_sub ws on ws.water_id = w.water_id
                 LEFT JOIN users u on u.id = w.water_user 
                 WHERE w.water_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                GROUP BY w.pond_id
                 ORDER BY w.water_id DESC  
             ');
         }   
          
-        return view('env.env_water',[
+        return view('env.env_water',$data,[
             'startdate' => $startdate,
             'enddate'   => $enddate, 
-            'datashow'  => $datashow, 
+            // 'datashow'  => $datashow, 
         ]);
     }
 
