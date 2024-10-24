@@ -22,7 +22,7 @@
         use App\Http\Controllers\StaticController;
         use App\Http\Controllers\WhController;
         use App\Models\Products_request_sub;
-        $ref_ponumber = WhController::ref_ponumber();
+        $ref_nonumber = WhController::ref_nonumber();
     ?>
 
     <style>
@@ -87,24 +87,24 @@
                 </div>
             </div>
         </div>
-    
+    <form action="{{ URL('wh_recieve') }}" method="GET">
+        @csrf
         <div class="row">  
             <div class="col-md-6"> 
                 <h4 style="color:rgb(238, 33, 111)">รายละเอียดการตรวจรับ</h4> 
             </div>
-            <div class="col"></div>   
+            <div class="col"></div>  
+            {{-- <div class="col-md-1 text-end">เลขที่บิล</div> --}}
+            <div class="col-md-2 text-center">
+                <input type="text" class="form-control input_new text-center" id="lorecieve_not_no" name="recieve_no" placeholder="เลขที่บิล">
+            </div> 
             <div class="col-md-2 text-end"> 
-                    <a href="javascript:void(0);" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new mb-3" data-bs-toggle="modal" data-bs-target="#Recieve">
+                    <a href="javascript:void(0);" class="ladda-button me-2 btn-pill btn btn-primary input_new mb-3" data-bs-toggle="modal" data-bs-target="#Recieve">
                         <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เปิดบิล  
-                    </a>
-                    {{-- <div id="headingTwo" class="b-radius-0">   
-                        <button type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne2" aria-expanded="false" aria-controls="collapseTwo" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary mb-3" style="background-color: rgb(176, 205, 243);border-radius: 3em 3em 3em 3em;color:white"> 
-                            <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i>  ตรวจรับ
-                        </button>  
-                    </div>  --}}
+                    </a> 
             </div>
         </div>
-
+    </form>
         
  
         <div data-parent="#accordion" id="collapseOne2" class="collapse">
@@ -238,7 +238,7 @@
                                                     <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 13px;">รับเข้าคลัง</th> 
                                                     <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 13px;" width="10%">ยอดรวม</th> 
                                                     <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="10%">ผู้รับ</th>  
-                                                    <th class="text-center" width="5%">จัดการ</th> 
+                                                    <th class="text-center" width="5%" style="background-color: rgb(194, 253, 233)">จัดการ</th> 
                                                 </tr> 
                                             </thead>
                                             <tbody>
@@ -397,7 +397,7 @@
                             <div class="col-md-2 text-end">เลขที่บิล</div>
                             <div class="col-md-4">
                                 <div class="form-group text-center">
-                                    <input type="text" class="form-control form-control-sm" id="recieve_no" name="recieve_no" >
+                                    <input type="text" class="form-control form-control-sm" id="recieve_no" name="recieve_no" value="{{$ref_nonumber}}">
                                 </div>
                             </div>
                             <div class="col-md-2 text-end">วันที่รับเข้าคลัง</div>
@@ -442,7 +442,7 @@
                     <div class="modal-footer">
                         <div class="col-md-12 text-end">
                             <div class="form-group">
-                                <button type="button" id="InsertData" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" >
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" id="SaveData">
                                      <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
                                     บันทึก
                                 </button>
@@ -464,35 +464,29 @@
  
     <script>
          $(document).ready(function() {
+            $('#example').DataTable();
+            $('#example2').DataTable();
+            
+            $('#p4p_work_month').select2({
+                placeholder: "--เลือก--",
+                allowClear: true
+            });
+            $('#datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+
             $('select').select2();
-            // $('select').select2({
-            //     width: '100%'
-            // });
-
-            // $("#edit_vendor_id").select2({
-            //     dropdownParent: $("#myModal")
-            // });
-
-            // $('#vendor_id').select2({
-            //     placeholder: "--เลือก--",
-            //     allowClear: true
-            // });
-            // $('#stock_list_id').select2({
-            //     placeholder: "--เลือก--",
-            //     allowClear: true
-            // });
+             
             $('#vendor_id').select2({
                     dropdownParent: $('#Recieve')
             });
             $('#stock_list_id').select2({
                     dropdownParent: $('#Recieve')
             });
-            // $('#edit_vendor_id').select2({
-            //         dropdownParent: $('#Recieve')
-            // });
-            // $('#edit_stock_list_id').select2({
-            //         dropdownParent: $('#Recieve')
-            // });
+            
             
             $.ajaxSetup({
                 headers: {
@@ -500,7 +494,7 @@
                 }
             });
 
-            $('#InsertData').click(function() {
+            $('#SaveData').click(function() {
                 var recieve_no    = $('#recieve_no').val(); 
                 var recieve_date  = $('#datepicker').val(); 
                 var recieve_time  = $('#recieve_time').val(); 
@@ -615,34 +609,7 @@
                 })
             });
         });
-        $(document).ready(function() {
-            $('#example').DataTable();
-            $('#example2').DataTable();
-            
-            $('#p4p_work_month').select2({
-                placeholder: "--เลือก--",
-                allowClear: true
-            });
-            $('#datepicker').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-            $('#datepicker2').datepicker({
-                format: 'yyyy-mm-dd'
-            });
-
-            // $(".collapse.show").each(function(){
-            // $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
-
-            // Toggle plus minus icon on show hide of collapse element
-            // $(".collapse").on('show.bs.collapse', function(){
-            //     $(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
-            // }).on('hide.bs.collapse', function(){
-            //     $(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
-            // });
-            // });
         
-  
-        });
     </script>
   
 

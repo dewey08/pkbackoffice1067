@@ -95,21 +95,18 @@
                         <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> 
                         ตรวจรับ
                     </a>  --}}
-                    <button type="button" id="UpdateData" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="บันทึกรายการทั้งหมดเข้าคลัง">
+                    <button type="button" id="UpdateData" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" >
                         <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
                        บันทึก
                    </button>
                    <a href="{{url('wh_recieve')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new"> <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>ยกเลิก</a>
-                   <button type="button" style="background-color: #0a4ba0" class="ladda-button me-2 btn-pill btn btn-sm input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="คู่มือการใช้งาน">
-                    <i class="fa-regular fa-file-video text-white me-2 ms-2"></i> 
-             </button>
                 </div>
             </div> 
            
         {{-- <form action="{{ route('wh.wh_recieve_addsub_save') }}" method="POST" id="addpost"> --}}
         <form action="{{ route('wh.wh_recieve_addsub_save') }}" method="POST">
             @csrf
-            <div class="row mt-2">
+            <div class="row mt-3">
                 <div class="col-md-12">                
                     <div class="card card_audit_4c">   
                         <div class="card-body">                              
@@ -134,18 +131,18 @@
                                 <div class="col-md-1 text-start">
                                     <input type="text" class="form-control form-control-sm" id="qty" name="qty" placeholder="จำนวน">
                                 </div>
-                                <div class="col-md-2 text-start">
+                                <div class="col-md-1 text-start">
                                     <input type="text" class="form-control form-control-sm" id="one_price" name="one_price" placeholder="ราคา">
                                 </div>
                                 <div class="col-md-1 text-end">LOT</div>
                                 <div class="col-md-2 text-start">
                                     <input type="text" class="form-control form-control-sm" id="lot_no" name="lot_no" placeholder="LOT" value="{{$lot_no}}">
                                 </div>   
-                                <div class="col-md-1 text-start">
-                                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มรายการวัสดุลงใน List">
+                                <div class="col-md-2 text-start">
+                                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" >
                                           <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
                                    </button>
-                                   <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_recieve_destroy')}}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="ลบรายการที่เลือก">
+                                   <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_recieve_destroy')}}">
                                         <i class="fa-solid fa-trash-can text-white ms-2"></i> 
                                     </button>
                                 </div> 
@@ -155,11 +152,10 @@
                             <input type="hidden" id="data_year" name="data_year" value="{{$data_year}}">                             
                     
                         </form>
-                        <hr>
-                        <div class="row">
+                        <div class="row mt-2">
                             <div class="col-md-1 text-end">รายการวัสดุ</div>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control form-control-sm" id="PROS_NAME" name="PROS_NAME" placeholder="ถ้าไม่มีชื่อรายการวัสดุเพิ่มที่นี่" style="background-color: #d8f9fc"> 
+                            <div class="col-md-4">
+                                <input type="text" class="form-control form-control-sm" id="PROS_NAME" name="PROS_NAME" placeholder="ถ้าไม่มีชื่อรายการวัสดุเพิ่มที่นี่" style="background-color: #bbf6fa"> 
                             </div>
                             <div class="col-md-1 text-end">หน่วยนับ</div>
                             <div class="col-md-1">
@@ -169,14 +165,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-1">
-                                <input type="text" class="form-control form-control-sm" id="UNIT_NAME" name="UNIT_NAME" placeholder="ถ้าไม่มีหน่วยนับ" style="background-color: #d8f9fc"> 
-                            </div>
-                            <div class="col-md-1 text-start">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-info input_new" onclick="add_product();" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มหน่วยนับ">
-                                      <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
-                               </button> 
-                            </div> 
                             <div class="col-md-1 text-end">ประเภท</div>
                             <div class="col-md-2">
                                 <select name="pro_type" id="pro_type"  class="custom-select custom-select-sm" style="width: 100%">
@@ -186,7 +174,7 @@
                                 </select>
                             </div>
                             <div class="col-md-1 text-start">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-info input_new" onclick="add_product();" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มรายการวัสดุ">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-info input_new" onclick="add_product();">
                                       <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
                                </button> 
                             </div> 

@@ -6,6 +6,49 @@
         function TypeAdmin() {
             window.location.href = '{{ route('index') }}';
         }
+        function wh_pay_approve(wh_request_id) {
+            // alert(bookrep_id);
+            Swal.fire({
+                title: 'ต้องการตัดจ่ายใช่ไหม?',
+                text: "ข้อมูลนี้จะถูกตัดจ่ายไปให้คลังย่อย !!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'ใช่, ตัดจ่ายเดี๋ยวนี้ !',
+                cancelButtonText: 'ไม่, ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ url('wh_pay_approve') }}" + '/' + wh_request_id,
+                        success: function(response) {
+                            Swal.fire({
+                                title: 'ตัดจ่ายเรียบร้อย!',
+                                text: "You Pay success",
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#06D177',
+                                // cancelButtonColor: '#d33',
+                                confirmButtonText: 'เรียบร้อย'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $("#sid" + wh_request_id).remove();
+                                    window.location.reload();
+                                    // window.location = "/book/bookmake_index"; //   
+
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
     </script>
     <?php
     if (Auth::check()) {
@@ -90,7 +133,7 @@
     
         <div class="row">  
             <div class="col-md-6"> 
-                <h4 style="color:rgb(3, 167, 145)">รายละเอียดการเบิกจ่าย</h4> 
+                <h5 style="color:rgb(3, 167, 145)">รายละเอียดการเบิกจ่าย</h5> 
             </div>
             <div class="col"></div>   
             <div class="col-md-2 text-end"> 
@@ -103,7 +146,7 @@
 
         
  
-        <div data-parent="#accordion" id="collapseOne2" class="collapse">
+        {{-- <div data-parent="#accordion" id="collapseOne2" class="collapse">
             <div class="card-body">
                 <div class="row">
                     <div class="col-xl-12">
@@ -146,7 +189,7 @@
                                             <!-- Tab panes -->
                                             <div class="tab-content p-3 text-muted">
                                                 <div class="tab-pane active" id="detail" role="tabpanel">
-                                                    {{-- <p class="mb-0">
+                                                    <p class="mb-0">
                                                         <div class="row">
                                                             <div class="col-md-2 text-end">เลขที่บิล</div>
                                                             <div class="col-md-4">
@@ -193,7 +236,7 @@
                                                         <input type="hidden" id="bg_yearnow" name="bg_yearnow" value="{{$bg_yearnow}}">
                                                        
                                                         </div> 
-                                                    </p> --}}
+                                                    </p>
                                                 </div>
                                                 <div class="tab-pane" id="trimart" role="tabpanel">
                                                     <p class="mb-0">
@@ -209,9 +252,9 @@
                     </div>   
                 </div>
             </div>
-        </div> 
+        </div>  --}}
        
-                <div class="row">
+                <div class="row mt-2">
                     <div class="col-md-12">     
                         <div class="card card_audit_4c">
         
@@ -233,7 +276,9 @@
                                                     <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 13px;">คลังใหญ่</th> 
                                                     <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 13px;">คลังย่อย</th> 
                                                     <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 13px;" width="10%">ยอดรวม</th> 
-                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="10%">ผู้เบิก-จ่าย</th>  
+                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="8%">ผู้เบิก</th>  
+                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="8%">ผู้จ่าย</th>  
+                                                    <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="8%">ผู้รับเข้าคลังย่อย</th> 
                                                     <th class="text-center" width="5%">จัดการ</th> 
                                                 </tr> 
                                             </thead>
@@ -241,41 +286,57 @@
                                                 <?php $i = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0; ?>
                                                 @foreach ($wh_request as $item)
                                                 <?php $i++ ?>
-                                                <tr >
+                                                <tr id="sid{{ $item->wh_request_id }}" style="font-size:12px;">
                                                     <td class="text-center" width="5%">{{$i}}</td>
                                                     <td class="text-center" width="5%">
                                                         @if ($item->active == 'REQUEST')
                                                             <span class="bg-warning badge" style="font-size:12px">เปิดบิล</span> 
                                                         @elseif ($item->active == 'APPREQUEST')
-                                                            <span class="bg-info badge" style="font-size:12px">รายการครบ</span> 
+                                                            <span class="badge" style="font-size:12px;background-color: #0dd6d6">รายการครบ</span> 
                                                         @elseif ($item->active == 'APPROVE')
-                                                            <span class="bg-success badge" style="font-size:12px">เห็นชอบ</span> 
+                                                            <span class="bg-info badge" style="font-size:12px">เห็นชอบ</span> 
                                                         @elseif ($item->active == 'ALLOCATE')
                                                             <span class="bg-secondary badge" style="font-size:12px">กำลังดำเนิน</span> 
                                                         @elseif ($item->active == 'CONFIRM')
-                                                            <span class="bg-success badge" style="font-size:12px">จ่ายพัสดุเรียบร้อย</span> 
+                                                            <span class="badge" style="font-size:12px;background-color: #ff568e">จ่ายพัสดุเรียบร้อย</span> 
+                                                        @elseif ($item->active == 'CONFIRMSEND')
+                                                            <span class="badge" style="font-size:12px;background-color: #ae58ff">รอรับเข้าคลังย่อย</span> 
+                                                        @elseif ($item->active == 'REPEXPORT')
+                                                            <span class="bg-success badge" style="font-size:12px">ยืนยันรับเข้าคลัง</span> 
                                                         @else
                                                             <span class="bg-primary badge" style="font-size:12px">รับเข้าคลัง</span> 
                                                         @endif                                                            
                                                     </td>
                                                     {{-- <td class="text-center" width="5%">{{$item->year}}</td> --}}
-                                                    <td class="text-center" width="8%">{{$item->request_no}}</td>
-                                                    <td class="text-center" width="10%">{{$item->request_date}}</td>     
-                                                    {{-- <td class="text-center" width="7%">{{$item->request_time}}</td>                                                     --}}
+                                                    <td class="text-center" width="7%">{{$item->request_no}}</td>
+                                                    <td class="text-center" width="8%">{{$item->request_date}}</td>     
+                                                    {{-- <td class="text-center" width="7%">{{$item->request_time}}</td> --}}
                                                                                                         
                                                     <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->stock_list_name}}</td>
                                                     <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->DEPARTMENT_SUB_SUB_NAME}}</td>  
                                                     
                                                     <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->total_price, 2)}}</td>   
-                                                    <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->ptname}}</td> 
-                                                    <td class="text-center" width="5%">                                                       
+                                                    <td class="text-start" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname}}</td> 
+                                                    <td class="text-start" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname_send}}</td> 
+                                                    <td class="text-start" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname_rep}}</td> 
+                                                    <td class="text-center" width="7%">                                                       
                                                         {{-- @if ($item->active == 'PREPARE') --}}
                                                             {{-- <a href="{{url('wh_pay_edit/'.$item->wh_request_id)}}">
                                                                 <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
                                                             </a> --}}
-                                                            <a href="{{url('wh_pay_addsub/'.$item->wh_request_id)}}">
-                                                                <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
-                                                            </a>                                                           
+                                                            <a href="{{url('wh_pay_addsub/'.$item->wh_request_id)}}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="1-จัดสรรรายการวัสดุ">
+                                                                <i class="fa-solid fa-cart-plus" style="color: #0db8ec;font-size:20px"></i>
+                                                            </a>     
+                                                            {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_recieve_destroy')}}"> --}}
+                                                                {{-- <i class="fa-solid fa-clipboard-check ms-2" style="color: #016381;font-size:20px"></i>  --}}
+                                                            {{-- </button> --}}
+                                                            @if ($item->active == 'CONFIRM')
+                                                            <a href="javascript:void(0)" onclick="wh_pay_approve({{ $item->wh_request_id }})"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                data-bs-custom-class="custom-tooltip" title="2-ยืนยันการจ่าย"><i class="fa-solid fa-clipboard-check ms-2" style="color: #e41258;font-size:20px"></i> 
+                                                            </a>
+                                                            @endif
+                                                                                                      
                                                         {{-- @else
                                                             <i class="fa-solid fa-check" style="color: #06b992;font-size:20px"></i>
                                                         @endif --}}

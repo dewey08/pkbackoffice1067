@@ -886,6 +886,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'wh_recieve_destroy', [App\Http\Controllers\WhController::class, 'wh_recieve_destroy'])->name('wh.wh_recieve_destroy'); //
   Route::match(['get', 'post'], 'wh_recieve_updatestock', [App\Http\Controllers\WhController::class, 'wh_recieve_updatestock'])->name('wh.wh_recieve_updatestock'); //
   Route::match(['get', 'post'], 'wh_recieve_edittable', [App\Http\Controllers\WhController::class, 'wh_recieve_edittable'])->name('wh.wh_recieve_edittable'); //
+  Route::match(['get', 'post'], 'add_product', [App\Http\Controllers\WhController::class, 'add_product'])->name('wh.add_product'); //
 
   Route::match(['get', 'post'], 'wh_pay', [App\Http\Controllers\WhController::class, 'wh_pay'])->name('wh.wh_pay'); //
   Route::match(['get', 'post'], 'wh_pay_add', [App\Http\Controllers\WhController::class, 'wh_pay_add'])->name('wh.wh_pay_add'); //
@@ -897,7 +898,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'wh_pay_destroy', [App\Http\Controllers\WhController::class, 'wh_pay_destroy'])->name('wh.wh_pay_destroy'); //
   Route::match(['get', 'post'], 'wh_pay_updatestock', [App\Http\Controllers\WhController::class, 'wh_pay_updatestock'])->name('wh.wh_pay_updatestock'); //
   Route::match(['get', 'post'], 'wh_pay_edittable', [App\Http\Controllers\WhController::class, 'wh_pay_edittable'])->name('wh.wh_pay_edittable'); //
-
+  Route::match(['get', 'post'], 'wh_pay_approve/{id}', [App\Http\Controllers\WhController::class, 'wh_pay_approve'])->name('wh.wh_pay_approve'); //
 
   Route::match(['get', 'post'], 'wh_sub_main', [App\Http\Controllers\WhUserController::class, 'wh_sub_main'])->name('wh.wh_sub_main'); //
   Route::match(['get', 'post'], 'wh_sub_main_rp', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_rp'])->name('wh.wh_sub_main_rp'); //
@@ -911,6 +912,8 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'wh_request_destroy', [App\Http\Controllers\WhUserController::class, 'wh_request_destroy'])->name('wh.wh_request_destroy'); //
   Route::match(['get', 'post'], 'wh_request_updatestock', [App\Http\Controllers\WhUserController::class, 'wh_request_updatestock'])->name('wh.wh_request_updatestock'); //
   Route::match(['get', 'post'], 'wh_request_edittable', [App\Http\Controllers\WhUserController::class, 'wh_request_edittable'])->name('wh.wh_request_edittable'); //
+  Route::match(['get', 'post'], 'wh_approve_stock/{id}', [App\Http\Controllers\WhUserController::class, 'wh_approve_stock'])->name('wh.wh_approve_stock'); //
+
   
 
   // ******************** ตั้งค่า  กลุ่มงาน ***********************
@@ -3025,6 +3028,7 @@ Route::match(['get','post'],'env_water_update',[App\Http\Controllers\EnvControll
 Route::match(['get','post'],'env_water_delete/{id}',[App\Http\Controllers\EnvController::class, 'env_water_delete'])->name('env.env_water_delete');//ลบข้อมูล
 Route::match(['get','post'],'env_water_datetime',[App\Http\Controllers\EnvController::class, 'env_water_datetime'])->name('env.env_water_datetime');//ค้นตามช่วงวันที่
 Route::match(['get','post'],'env_water_add_pond',[App\Http\Controllers\EnvController::class, 'env_water_add_pond'])->name('env.env_water_add_pond');//เมนูเลือกบ่อบำบัดน้ำเสีย
+Route::match(['get','post'],'env_water_edittable',[App\Http\Controllers\EnvController::class, 'env_water_edittable'])->name('env.env_water_edittable');//แก้ไขข้อมูล
 
 Route::match(['get','post'],'env_water_add_pond1/{id}',[App\Http\Controllers\EnvController::class, 'env_water_add_pond1'])->name('env.env_water_add_pond1');//บ่อปรับเสถียร
 Route::match(['get','post'],'env_water_add_pond1_save',[App\Http\Controllers\EnvController::class, 'env_water_add_pond1_save'])->name('env_water_add_pond1_save');//บันทึกบ่อปรับเสถียร

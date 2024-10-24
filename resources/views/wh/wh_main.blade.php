@@ -159,7 +159,7 @@
                                                     @endif --}}
                                                     <td class="text-center" style="color:rgb(3, 93, 145)">{{$item->stock_rep-$item->stock_pay}} </td>
                                                     {{-- <td class="text-end" width="10%" style="color:rgb(4, 115, 180)">{{number_format($item->sum_one_price, 2)}}</td>  --}}
-                                                    <td class="text-end" width="10%" style="color:rgb(4, 115, 180)">{{number_format($item->sum_stock_price, 2)}}</td> 
+                                                    <td class="text-end" width="10%" style="color:rgb(4, 115, 180)">{{number_format($item->sum_stock_price-$item->sum_stock_pricepay, 2)}}</td> 
                                                     
 
                                                     {{-- @if ($item->stock_rep-$item->stock_pay == '0')

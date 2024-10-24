@@ -241,6 +241,12 @@ class EnvController extends Controller
                     WHERE pond_id ="1" 
                     ORDER BY water_date DESC 
                 ');
+                // $data['datashow_1'] = DB::connection('mysql')->select('
+                //     SELECT w.*
+                //     FROM env_water_sub w 
+                //     WHERE pond_id ="1" 
+                //     ORDER BY water_id DESC 
+                // ');
                 $data['datashow_2'] = DB::connection('mysql')->select('
                     SELECT w.water_date , w.water_location , CONCAT(u.fname," ",u.lname) as water_user ,w.water_comment
                     FROM env_water w
@@ -470,35 +476,112 @@ class EnvController extends Controller
         
     }
 
-    public function env_water_edit (Request $request,$id)
-    {
-        $datestart = $request->startdate;
-        $dateend = $request->enddate;
-        $iduser = Auth::user()->id;
-        $data['users'] = User::get();
+    // public function env_water_edit (Request $request,$id)
+    // {
+    //     // $datestart = $request->startdate;
+    //     // $dateend = $request->enddate;
+    //     // $iduser = Auth::user()->id;
+    //     // $data['users'] = User::get();
 
-        $data['env_pond'] = DB::table('env_pond')->get();
+    //     // $data['env_pond'] = DB::table('env_pond')->get();
 
-        $data['leave_month'] = DB::table('leave_month')->get();
-        $data['users_group'] = DB::table('users_group')->get();
-        $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
+    //     // $data['leave_month'] = DB::table('leave_month')->get();
+    //     // $data['users_group'] = DB::table('users_group')->get();
+    //     // $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
  
-        $water = DB::table('env_water')
-        ->leftJoin('env_pond','env_pond.pond_id','=','env_water.pond_id')
-        ->where('water_id','=',$id)->first();
-        // pond_id
-        $data['env_water_sub']  = DB::table('env_water_sub')->where('water_id','=',$id)->get();
+    //     // $water = DB::table('env_water')
+    //     // ->leftJoin('env_pond','env_pond.pond_id','=','env_water.pond_id')
+    //     // ->where('water_id','=',$id)->first();
+    //     // // pond_id
+    //     // $data['env_water_sub']  = DB::table('env_water_sub')->where('water_id','=',$id)->get();
   
-        $data['water_parameter']  = DB::table('env_water_parameter')->get();
+    //     // $data['water_parameter']  = DB::table('env_water_parameter')->get();
        
-        $data['products_vendor'] = Products_vendor::get();
+    //     // $data['products_vendor'] = Products_vendor::get();
 
-        return view('env.env_water_edit', $data,[
-            'startdate'        => $datestart,
-            'enddate'          => $dateend, 
-            'water'            => $water,
-            'data'             => $data,  
-        ]);
+    //     // return view('env.env_water_edit', $data,[
+    //     //     'startdate'        => $datestart,
+    //     //     'enddate'          => $dateend, 
+    //     //     'water'            => $water,
+    //     //     'data'             => $data,  
+    //     // ]);
+
+    //     $startdate  = $request->datepicker;
+    //     $enddate    = $request->datepicker2;
+      
+    //     $data['department']         = Department::get();
+    //     $data['department_sub']     = Departmentsub::get();
+    //     $data['department_sub_sub'] = Departmentsubsub::get();
+    //     $data['position']           = Position::get();
+    //     $data['status']             = Status::get(); 
+    //     $yy1                        = date('Y') + 543;
+    //     $yy2                        = date('Y') + 542;
+    //     $yy3                        = date('Y') + 541;
+    //     // $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+    //     // $bg_yearnow    = $bgs_year->leave_year_id;
+    //     $data['air_supplies']       = Air_supplies::where('active','=','Y')->get();        
+        
+    //     $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
+    //     $data_edit             = DB::table('wh_recieve')->where('wh_recieve_id','=',$id)->first();
+    //     // $data['stock_name']    = $data_main->stock_list_name;
+
+    //     return view('wh.wh_recieve_edit', $data,[
+    //         'startdate'  => $startdate,
+    //         'enddate'    => $enddate,
+    //         'data_edit'  => $data_edit,
+    //     ]);
+    // }
+    public function env_water_edittable(Request $request)
+    {
+        if ($request->ajax()) {
+            if ($request->action == 'Edit') {
+                if ($request->water_list_idd == '1' && $request->water_qty <= '20' ) {
+                    $status = 'ปกติ';                    
+                }elseif($request->water_list_idd == '2' && $request->water_qty <= '120' ) {
+                    $status = 'ปกติ';                         
+                }elseif($request->water_list_idd == '3' && $request->water_qty <= '500' ) {
+                    $status = 'ปกติ'; 
+                }elseif($request->water_list_idd == '4' && $request->water_qty <= '30' ) {
+                    $status = 'ปกติ'; 
+                }elseif($request->water_list_idd == '5' && $request->water_qty <= '0.5' ) {
+                    $status = 'ปกติ'; 
+                }elseif($request->water_list_idd == '6' && $request->water_qty <= '35' ) {
+                    $status = 'ปกติ'; 
+                }elseif($request->water_list_idd == '7' && $request->water_qty >= '4.9' && $request->water_list_idd == '7' && $request->water_qty <= '9') {
+                    $status = 'ปกติ';                     
+                }elseif($request->water_list_idd == '8' && $request->water_qty <= '1.0' ) {
+                    $status = 'ปกติ'; 
+                }elseif($request->water_list_idd == '9' && $request->water_qty <= '20' ) {
+                    $status = 'ปกติ'; 
+                }elseif($request->water_list_idd == '10' && $request->water_qty <= '5000' ) {
+                    $status = 'ปกติ'; 
+                }elseif($request->water_list_idd == '11' && $request->water_qty <= '1000' ) {
+                    $status = 'ปกติ'; 
+                }elseif($request->water_list_idd == '12' && $request->water_qty <= '1' ) {
+                    $status = 'ปกติ'; 
+                }elseif($request->water_list_idd == '13' && $request->water_qty <= '1000' ) {
+                    $status = 'ปกติ'; 
+                }elseif($request->water_list_idd == '14' && $request->water_qty >= '2' ) {
+                    $status = 'ปกติ'; 
+                }elseif($request->water_list_idd == '15' && $request->water_qty >= '400' ) {
+                    $status = 'ปกติ'; 
+                }elseif($request->water_list_idd == '16' && $request->water_qty >= '0.5' && $request->water_list_idd == '16' && $request->water_qty <= '1') {
+                    $status = 'ปกติ'; 
+                } else {
+                    $status = 'ผิดปกติ';
+                }
+                $data  = array(  
+                    'water_qty'        => $request->water_qty,  
+                    'status'           => $status,
+                    // 'one_price'     => $request->one_price,
+                    // 'total_price'   => $request->qty * $request->one_price,
+                );
+                DB::connection('mysql')->table('env_water_sub')->where('water_sub_id', $request->water_sub_id)->update($data);
+            }  
+            return response()->json([
+                'status'     => '200'
+            ]);
+        }
     }
 
     public function env_water_update  (Request $request)

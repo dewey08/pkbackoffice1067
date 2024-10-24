@@ -86,7 +86,7 @@
         {{-- <div class="container">  --}}
     
             <div class="row"> 
-                <div class="col-md-9"> 
+                <div class="col-md-8"> 
                     <h5 style="color:rgb(236, 105, 18)">เพิ่มรายการพัสดุ || เลขที่บิล {{ $data_edit->recieve_no }} || บริษัท {{ $supplies_name }} || เลขประจำตัวผู้เสียภาษี {{ $supplies_tax }}</h5> 
                 </div>
                 <div class="col"></div>   
@@ -95,28 +95,28 @@
                         <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> 
                         ตรวจรับ
                     </a>  --}}
-                    <button type="button" id="UpdateData" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="บันทึกรายการทั้งหมดเข้าคลัง">
+                    <button type="button" id="UpdateData" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" >
                         <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
                        บันทึก
                    </button>
                    <a href="{{url('wh_recieve')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new"> <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>ยกเลิก</a>
-                   <button type="button" style="background-color: #0a4ba0" class="ladda-button me-2 btn-pill btn btn-sm input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="คู่มือการใช้งาน">
-                    <i class="fa-regular fa-file-video text-white me-2 ms-2"></i> 
-             </button>
                 </div>
             </div> 
+
            
-        {{-- <form action="{{ route('wh.wh_recieve_addsub_save') }}" method="POST" id="addpost"> --}}
+        
         <form action="{{ route('wh.wh_recieve_addsub_save') }}" method="POST">
             @csrf
-            <div class="row mt-2">
+            <div class="row mt-3">
                 <div class="col-md-12">                
                     <div class="card card_audit_4c">   
-                        <div class="card-body">                              
+                        <div class="card-body"> 
+                             
                             <div class="row mt-2">
                                 <div class="col-md-1 text-end">รายการวัสดุ</div>
-                                <div class="col-md-4">
-                                    <select name="pro_id" id="pro_id"  class="custom-select custom-select-sm show_pro" style="width: 100%">                                           
+                                <div class="col-md-5">
+                                    <select name="pro_id" id="pro_id"  class="custom-select custom-select-sm" style="width: 100%">
+                                            <option value="">--เลือก--</option>
                                             @foreach ($wh_product as $item_sup) 
                                                 <?php 
                                                     $count_proid = DB::select('SELECT COUNT(pro_id) Cpro_id FROM wh_recieve_sub WHERE pro_id = "'.$item_sup->pro_id.'" AND wh_recieve_id = "'.$data_edit->wh_recieve_id.'"');
@@ -134,69 +134,35 @@
                                 <div class="col-md-1 text-start">
                                     <input type="text" class="form-control form-control-sm" id="qty" name="qty" placeholder="จำนวน">
                                 </div>
-                                <div class="col-md-2 text-start">
+                                <div class="col-md-1 text-start">
                                     <input type="text" class="form-control form-control-sm" id="one_price" name="one_price" placeholder="ราคา">
                                 </div>
-                                <div class="col-md-1 text-end">LOT</div>
                                 <div class="col-md-2 text-start">
                                     <input type="text" class="form-control form-control-sm" id="lot_no" name="lot_no" placeholder="LOT" value="{{$lot_no}}">
                                 </div>   
-                                <div class="col-md-1 text-start">
-                                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มรายการวัสดุลงใน List">
+                                <div class="col-md-2 text-start">
+                                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" >
                                           <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
                                    </button>
-                                   <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_recieve_destroy')}}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="ลบรายการที่เลือก">
+                                   <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_recieve_destroy')}}">
                                         <i class="fa-solid fa-trash-can text-white ms-2"></i> 
                                     </button>
-                                </div> 
+                                </div>
                             </div> 
+
                             <input type="hidden" id="wh_recieve_id" name="wh_recieve_id" value="{{$wh_recieve_id}}"> 
                             <input type="hidden" id="stock_list_id" name="stock_list_id" value="{{$stock_list_id}}"> 
-                            <input type="hidden" id="data_year" name="data_year" value="{{$data_year}}">                             
-                    
-                        </form>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-1 text-end">รายการวัสดุ</div>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control form-control-sm" id="PROS_NAME" name="PROS_NAME" placeholder="ถ้าไม่มีชื่อรายการวัสดุเพิ่มที่นี่" style="background-color: #d8f9fc"> 
-                            </div>
-                            <div class="col-md-1 text-end">หน่วยนับ</div>
-                            <div class="col-md-1">
-                                <select name="wh_unit_id" id="wh_unit_id"  class="custom-select custom-select-sm" style="width: 100%">
-                                    @foreach ($wh_unit as $uni)
-                                        <option value="{{ $uni->wh_unit_id }}">{{ $uni->wh_unit_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-1">
-                                <input type="text" class="form-control form-control-sm" id="UNIT_NAME" name="UNIT_NAME" placeholder="ถ้าไม่มีหน่วยนับ" style="background-color: #d8f9fc"> 
-                            </div>
-                            <div class="col-md-1 text-start">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-info input_new" onclick="add_product();" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มหน่วยนับ">
-                                      <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
-                               </button> 
-                            </div> 
-                            <div class="col-md-1 text-end">ประเภท</div>
-                            <div class="col-md-2">
-                                <select name="pro_type" id="pro_type"  class="custom-select custom-select-sm" style="width: 100%">
-                                    @foreach ($product_category as $type)
-                                        <option value="{{ $type->category_id }}">{{ $type->category_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-1 text-start">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-info input_new" onclick="add_product();" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มรายการวัสดุ">
-                                      <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
-                               </button> 
-                            </div> 
-                        </div> 
+                            <input type="hidden" id="data_year" name="data_year" value="{{$data_year}}"> 
+                            
+                    </form>
                     <hr>
                             <div class="row mt-3">
                                 <div class="col-md-12">   
                                     <div class="row"> 
-                                        <div class="col-xl-12"> 
-                                            <table id="Tabledit" class="table table-bordered border-primary table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">
+                                        <div class="col-xl-12">
+                                            {{-- <table id="scroll-vertical-datatable" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">  --}}
+                                            {{-- <table class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">   --}}
+                                                <table id="Tabledit" class="table table-bordered border-primary table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">
                                                 <thead> 
                                                     <tr>
                                                         <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 12px;">ลำดับ</th> 
@@ -206,7 +172,12 @@
                                                         <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 12px;">LOT</th> 
                                                         <th class="text-center" style="background-color: rgb(187, 250, 221);font-size: 12px;">จำนวน</th> 
                                                         <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 12px;" width="10%">ราคา</th> 
-                                                        <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 12px;" width="10%">ราคารวม</th>                                                       
+                                                        <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 12px;" width="10%">ราคารวม</th>  
+                                                        {{-- <th class="text-center" width="5%"> 
+                                                            <button type="button" class="btn btn-danger btn-sm Destroystamp" data-url="{{url('wh_recieve_destroy')}}">
+                                                                <i class="fa-solid fa-trash-can text-white"></i> 
+                                                            </button>
+                                                        </th>  --}}
                                                         <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
                                                     </tr> 
                                                 </thead>
@@ -229,7 +200,8 @@
                                                             $total1 = $total1 + $item->qty;
                                                             $total2 = $total2 + $item->one_price;
                                                             $total3 = $total3 + $item->total_price; 
-                                                    ?>                                                        
+                                                    ?>
+                                                        
                                                     @endforeach                                                
                                                 </tbody>
                                                 <tr style="font-size:20px">
@@ -247,7 +219,14 @@
                                 </div>
                             </div>
 
-                        </div> 
+
+                        </div>
+                   
+
+                    
+
+
+
                     </div>
                 </div>
             </div>
@@ -266,25 +245,6 @@
  
     <script>
         var Linechart;
-        function add_product() {
-            var pros_name     = document.getElementById("PROS_NAME").value;
-            var stock_list_id = document.getElementById("stock_list_id").value;
-            var data_year     = document.getElementById("data_year").value; 
-            var pro_type      = document.getElementById("pro_type").value; 
-            var wh_unit_id       = document.getElementById("wh_unit_id").value; 
-            var _token        = $('input[name="_token"]').val();
-                $.ajax({
-                    url: "{{url('add_product')}}",
-                    method: "GET",
-                    data: {
-                        pros_name: pros_name,stock_list_id:stock_list_id,data_year:data_year,pro_type:pro_type,wh_unit_id:wh_unit_id,
-                        _token: _token
-                    },
-                    success: function (result) {
-                        $('.show_pro').html(result);
-                    }
-                })
-        }
         $(document).ready(function() {
             $('select').select2();
             $('#example').DataTable();
@@ -311,18 +271,6 @@
             }); 
             $("#spinner-div").hide(); //Request is complete so hide spinner
             
-            // $('#addpost').on('submit',function (event) {
-            //     event.preventDefault(); 
-            //     jQuery.ajax({
-            //         url: "{{ route('wh.wh_recieve_addsub_save') }}",
-            //         data:jQuery('#addpost').serialize(),
-            //         type: "POST",
-            //         success: function(data) {
-            //             jQuery('#addpost')[0].reset(); 
-            //             window.location.reload();
-            //         }
-            //     });   
-            // })
             $('.Destroystamp').on('click', function(e) {
                 // alert('oo');
                 var allValls = [];
@@ -466,7 +414,8 @@
             });
 
             $('#Tabledit').Tabledit({
-                url:'{{route("wh.wh_recieve_edittable")}}',                
+                url:'{{route("wh.wh_recieve_edittable")}}',
+                
                 dataType:"json", 
                 removeButton: false,
                 columns:{

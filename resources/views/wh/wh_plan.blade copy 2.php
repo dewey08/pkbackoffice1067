@@ -94,13 +94,13 @@
                             <li class="nav-item">
                                 <a href="#tab-minimal-1" data-bs-toggle="tab" class="nav-link active minimal-tab-btn-1">
                                     <div class="widget-number">
-                                        {{-- <span>$ 2000</span> --}}
+                                        <span>$ 2000</span>
                                     </div>
                                     <div class="tab-subheading">
-                                        {{-- <span class="pe-2 opactiy-6">
+                                        <span class="pe-2 opactiy-6">
                                             <i class="fa fa-comment-dots"></i>
                                         </span>
-                                        ข้อมูลรายวัน --}}
+                                        ข้อมูลรายวัน
                                     </div>
                                 </a>
                             </li>
@@ -113,26 +113,26 @@
                                         <span>$ {{ number_format($data_total, 2) }}</span>
                                     </div> --}}
                                     <div class="widget-number text-danger">
-                                        <span>แผนปฎิบัติการจัดซื้อวัสดุทั่วไป</span>
+                                        <span>$ 3,000</span>
                                     </div>
                                     <div class="tab-subheading">
                                         <span class="pe-2 opactiy-6">
                                             <i class="fa-solid fa-file-invoice-dollar"></i>
                                         </span>
-                                        หน่วยงาน  กลุ่มงานพัสดุ โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัด ชัยภูมิ ประจำปีงบประมาณ 2568
+                                        ข้อมูลรายเดือน
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="#tab-minimal-3" data-bs-toggle="tab" class="nav-link minimal-tab-btn-3">
                                     <div class="widget-number text-danger">
-                                        {{-- <span>$6,784.0</span> --}}
+                                        <span>$6,784.0</span>
                                     </div>
                                     <div class="tab-subheading">
-                                        {{-- <span class="pe-2 opactiy-6">
+                                        <span class="pe-2 opactiy-6">
                                             <i class="fa fa-bullhorn"></i>
                                         </span>
-                                        ข้อมูลรายปี --}}
+                                        ข้อมูลรายปี
                                     </div>
                                 </a>
                             </li>
@@ -144,13 +144,13 @@
                                 <form action="{{ URL('wh_plan') }}" method="GET">
                                     @csrf
 
-                                {{-- <div class="row"> 
+                                <div class="row"> 
                                     <div class="col-md-6"> 
                                         <h5 class="card-title" style="color:green">แผนปฎิบัติการจัดซื้อวัสดุทั่วไป</h5>
                                         <p class="card-title-desc">หน่วยงาน  กลุ่มงานพัสดุ โรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัด ชัยภูมิ ประจำปีงบประมาณ 2568</p>
                                     </div>
                                     <div class="col"></div>
-                                    <div class="col-md-1 text-end mt-2">วันที่</div>
+                                    {{-- <div class="col-md-1 text-end mt-2">วันที่</div>
                                     <div class="col-md-4 text-end">
                                         <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                                             <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -163,8 +163,8 @@
                                                 </button>
                                                
                                         </div> 
-                                    </div>
-                                </div> --}}
+                                    </div> --}}
+                                </div>
 
                                 </form>
                                 <div class="row"> 
