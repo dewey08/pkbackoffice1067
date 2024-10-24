@@ -1,6 +1,61 @@
 @extends('layouts.envnew')
 @section('title', 'PK-OFFICER || ENV')
 @section('content')
+<script>
+    function TypeAdmin() {
+        window.location.href = '{{ route('index') }}';
+    }
+    function water_sub_destroy(water_sub_id) {
+        Swal.fire({
+            title: 'ต้องการลบใช่ไหม?',
+            text: "ข้อมูลนี้จะถูกลบไปเลย !!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'ใช่, ลบเดี๋ยวนี้ !',
+            cancelButtonText: 'ไม่, ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ url('water_sub_destroy') }}" + '/' + water_sub_id,
+                    type: 'DELETE',
+                    data: {
+                        _token: $("input[name=_token]").val()
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            title: 'ลบข้อมูล!',
+                            text: "You Delet data success",
+                            icon: 'success',
+                            showCancelButton: false,
+                            confirmButtonColor: '#06D177',
+                            // cancelButtonColor: '#d33',
+                            confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#sid" + water_sub_id).remove();
+                                window.location.reload();
+                                // window.location = "{{ url('cctv_list') }}";
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    }
+</script>
+<?php
+if (Auth::check()) {
+    $type = Auth::user()->type;
+    $iduser = Auth::user()->id;
+} else {
+    echo "<body onload=\"TypeAdmin()\"></body>";
+    exit();
+}
+$url = Request::url();
+$pos = strrpos($url, '/') + 1;
+?>
 <style>
     #button{
            display:block;
@@ -43,14 +98,14 @@
            }
 </style>
 <?php
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\SuppliesController;
-use App\Http\Controllers\StaticController;
+    use Illuminate\Support\Facades\DB;
+    use App\Http\Controllers\SuppliesController;
+    use App\Http\Controllers\StaticController;
 
 
-$refnumber = SuppliesController::refnumber();
-$count_product = StaticController::count_product();
-$count_service = StaticController::count_service();
+    $refnumber = SuppliesController::refnumber();
+    $count_product = StaticController::count_product();
+    $count_service = StaticController::count_service();
 ?>
 
 @section('content')
@@ -173,9 +228,8 @@ $count_service = StaticController::count_service();
                                                         <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="3%">ลำดับ</td>
                                                         <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="25%">รายการพารามิเตอร์</th>
                                                         <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="10%">ผลการวิเคราะห์</th>
-                                                        <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="7%">หน่วย</th>                                                         
-                                                        {{-- <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="20%">วิธี่ที่ใช้วิเคราะห์</th>  --}}
-                                                        {{-- <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="15%">ค่ามาตรฐาน</th>                                                         --}}
+                                                        <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="7%">หน่วย</th> 
+                                                        <th class="text-center" style="background-color: rgb(228, 255, 240);font-size: 13px;">delete</th>                                                        --}}
                                                     </tr>
                                                 </thead>
                                                 <tbody class="tbody">
@@ -189,9 +243,11 @@ $count_service = StaticController::count_service();
                                                         </td>
                                                         <td><input value="{{ $items2->water_qty }}"  name="water_qty[]" id="water_qty[]" class="form-control input-sm fo13" ></td> 
                                                         <td><input value="{{ $items2->water_list_unit }}"  name="water_list_unit[]" id="water_list_unit[]" class="form-control input-sm fo13" readonly ></td>
-                                                         
-                                                        {{-- <td><input value="{{ $items2->use_analysis_results }}" name="use_analysis_results[]" id="use_analysis_results[]" class="form-control input-sm fo13" readonly></td> --}}
-                                                        {{-- <td><input value="{{ $items2->water_results }}" name="water_results[]" id="water_results[]" class="form-control input-sm fo13" readonly></td>    --}}
+                                                        <td class="text-center" width="3%"">
+                                                            <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="water_sub_destroy({{ $items2->water_sub_id }})"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
+                                                            <i class="fa-solid fa-trash-can text-danger ms-2"></i>
+                                                         </td>
                                                     </tr>
                                                     @endforeach 
                                                 </tbody>

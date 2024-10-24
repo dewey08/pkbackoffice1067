@@ -3030,6 +3030,8 @@ Route::match(['get','post'],'env_water_datetime',[App\Http\Controllers\EnvContro
 Route::match(['get','post'],'env_water_add_pond',[App\Http\Controllers\EnvController::class, 'env_water_add_pond'])->name('env.env_water_add_pond');//เมนูเลือกบ่อบำบัดน้ำเสีย
 Route::match(['get','post'],'env_water_edittable',[App\Http\Controllers\EnvController::class, 'env_water_edittable'])->name('env.env_water_edittable');//แก้ไขข้อมูล
 
+Route::delete('water_sub_destroy/{id}', [App\Http\Controllers\EnvController::class, 'water_sub_destroy'])->name('env.water_sub_destroy'); //
+
 Route::match(['get','post'],'env_water_add_pond1/{id}',[App\Http\Controllers\EnvController::class, 'env_water_add_pond1'])->name('env.env_water_add_pond1');//บ่อปรับเสถียร
 Route::match(['get','post'],'env_water_add_pond1_save',[App\Http\Controllers\EnvController::class, 'env_water_add_pond1_save'])->name('env_water_add_pond1_save');//บันทึกบ่อปรับเสถียร
 

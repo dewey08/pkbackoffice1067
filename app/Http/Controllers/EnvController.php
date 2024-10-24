@@ -235,11 +235,11 @@ class EnvController extends Controller
                 //     WHERE pond_id ="1"  
                 // ');
                 $data['datashow_1'] = DB::connection('mysql')->select('
-                    SELECT w.water_date , w.water_location , CONCAT(u.fname," ",u.lname) as water_user ,w.water_comment
+                    SELECT w.water_id , w.water_date , w.water_location , CONCAT(u.fname," ",u.lname) as water_user ,w.water_comment
                     FROM env_water w
                     LEFT JOIN users u on u.id = w.water_user 
-                    WHERE pond_id ="1" 
-                    ORDER BY water_date DESC 
+                    WHERE pond_id ="1"                     
+                    ORDER BY water_date DESC                   
                 ');
                 // $data['datashow_1'] = DB::connection('mysql')->select('
                 //     SELECT w.*
@@ -248,14 +248,14 @@ class EnvController extends Controller
                 //     ORDER BY water_id DESC 
                 // ');
                 $data['datashow_2'] = DB::connection('mysql')->select('
-                    SELECT w.water_date , w.water_location , CONCAT(u.fname," ",u.lname) as water_user ,w.water_comment
+                    SELECT w.water_id , w.water_date , w.water_location , CONCAT(u.fname," ",u.lname) as water_user ,w.water_comment
                     FROM env_water w
                     LEFT JOIN users u on u.id = w.water_user 
                     WHERE pond_id ="2" 
                     ORDER BY water_date DESC  
                 ');
                 $data['datashow_3'] = DB::connection('mysql')->select('
-                    SELECT w.water_date , w.water_location , CONCAT(u.fname," ",u.lname) as water_user ,w.water_comment
+                    SELECT w.water_id , w.water_date , w.water_location , CONCAT(u.fname," ",u.lname) as water_user ,w.water_comment
                     FROM env_water w
                     LEFT JOIN users u on u.id = w.water_user 
                     WHERE pond_id ="3" 
@@ -476,62 +476,62 @@ class EnvController extends Controller
         
     }
 
-    // public function env_water_edit (Request $request,$id)
-    // {
-    //     // $datestart = $request->startdate;
-    //     // $dateend = $request->enddate;
-    //     // $iduser = Auth::user()->id;
-    //     // $data['users'] = User::get();
+    public function env_water_edit (Request $request,$id)
+    {
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+        $iduser = Auth::user()->id;
+        $data['users'] = User::get();
 
-    //     // $data['env_pond'] = DB::table('env_pond')->get();
+        $data['env_pond'] = DB::table('env_pond')->get();
 
-    //     // $data['leave_month'] = DB::table('leave_month')->get();
-    //     // $data['users_group'] = DB::table('users_group')->get();
-    //     // $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
+        $data['leave_month'] = DB::table('leave_month')->get();
+        $data['users_group'] = DB::table('users_group')->get();
+        $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
  
-    //     // $water = DB::table('env_water')
-    //     // ->leftJoin('env_pond','env_pond.pond_id','=','env_water.pond_id')
-    //     // ->where('water_id','=',$id)->first();
-    //     // // pond_id
-    //     // $data['env_water_sub']  = DB::table('env_water_sub')->where('water_id','=',$id)->get();
+        $water = DB::table('env_water')
+        ->leftJoin('env_pond','env_pond.pond_id','=','env_water.pond_id')
+        ->where('water_id','=',$id)->first();
+        // pond_id
+        $data['env_water_sub']  = DB::table('env_water_sub')->where('water_id','=',$id)->get();
   
-    //     // $data['water_parameter']  = DB::table('env_water_parameter')->get();
+        $data['water_parameter']  = DB::table('env_water_parameter')->get();
        
-    //     // $data['products_vendor'] = Products_vendor::get();
+        $data['products_vendor'] = Products_vendor::get();
 
-    //     // return view('env.env_water_edit', $data,[
-    //     //     'startdate'        => $datestart,
-    //     //     'enddate'          => $dateend, 
-    //     //     'water'            => $water,
-    //     //     'data'             => $data,  
-    //     // ]);
+        return view('env.env_water_edit', $data,[
+            'startdate'        => $datestart,
+            'enddate'          => $dateend, 
+            'water'            => $water,
+            'data'             => $data,  
+        ]);
 
-    //     $startdate  = $request->datepicker;
-    //     $enddate    = $request->datepicker2;
+        // $startdate  = $request->datepicker;
+        // $enddate    = $request->datepicker2;
       
-    //     $data['department']         = Department::get();
-    //     $data['department_sub']     = Departmentsub::get();
-    //     $data['department_sub_sub'] = Departmentsubsub::get();
-    //     $data['position']           = Position::get();
-    //     $data['status']             = Status::get(); 
-    //     $yy1                        = date('Y') + 543;
-    //     $yy2                        = date('Y') + 542;
-    //     $yy3                        = date('Y') + 541;
-    //     // $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
-    //     // $bg_yearnow    = $bgs_year->leave_year_id;
-    //     $data['air_supplies']       = Air_supplies::where('active','=','Y')->get();        
+        // $data['department']         = Department::get();
+        // $data['department_sub']     = Departmentsub::get();
+        // $data['department_sub_sub'] = Departmentsubsub::get();
+        // $data['position']           = Position::get();
+        // $data['status']             = Status::get(); 
+        // $yy1                        = date('Y') + 543;
+        // $yy2                        = date('Y') + 542;
+        // $yy3                        = date('Y') + 541;
+        // // $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        // // $bg_yearnow    = $bgs_year->leave_year_id;
+        // $data['air_supplies']       = Air_supplies::where('active','=','Y')->get();        
         
-    //     $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
-    //     $data_edit             = DB::table('wh_recieve')->where('wh_recieve_id','=',$id)->first();
-    //     // $data['stock_name']    = $data_main->stock_list_name;
+        // $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
+        // $data_edit             = DB::table('wh_recieve')->where('wh_recieve_id','=',$id)->first();
+        // // $data['stock_name']    = $data_main->stock_list_name;
 
-    //     return view('wh.wh_recieve_edit', $data,[
-    //         'startdate'  => $startdate,
-    //         'enddate'    => $enddate,
-    //         'data_edit'  => $data_edit,
-    //     ]);
-    // }
-    public function env_water_edittable(Request $request)
+        // return view('wh.wh_recieve_edit', $data,[
+        //     'startdate'  => $startdate,
+        //     'enddate'    => $enddate,
+        //     'data_edit'  => $data_edit,
+        // ]);
+    }
+    public function env_water_edittable(Request $request,$id)
     {
         if ($request->ajax()) {
             if ($request->action == 'Edit') {
@@ -582,6 +582,16 @@ class EnvController extends Controller
                 'status'     => '200'
             ]);
         }
+    }
+    public function water_sub_destroy (Request $request,$id)
+    {
+      
+       Env_water_sub::where('water_sub_id','=',$id)->delete();
+
+        // return redirect()->back();
+        return response()->json([
+            'status'     => '200'
+        ]);
     }
 
     public function env_water_update  (Request $request)
@@ -1483,7 +1493,6 @@ class EnvController extends Controller
             'status'     => '200',
         ]);
     }
-
     
     public function env_parameter_save(Request $request)
     {  
