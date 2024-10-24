@@ -102,7 +102,7 @@
                     <div class="col-md-2"> 
                             <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center" style="width: 100%">
                                 @foreach ($dabudget_year as $item_y)
-                                    @if ($y == $item_y->leave_year_id )
+                                    @if ($bg_yearnow == $item_y->leave_year_id )
                                         <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
                                     @else
                                         <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_name}}</option>
@@ -265,14 +265,14 @@
                                     </tbody>
                                     <tr style="background-color: #f3fca1">
                                         <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
-                                        <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                        <td class="text-end" style="background-color: #033a6d"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                        <td class="text-end" style="background-color: #fc5089"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
-                                        <td class="text-end" style="background-color: #149966" ><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td> 
+                                        <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #000000">{{ number_format($total1, 2) }}</label></td>
+                                        <td class="text-end" style="background-color: #033a6d"><label for="" style="color: #000000">{{ number_format($total2, 2) }}</label></td>
+                                        <td class="text-end" style="background-color: #fc5089"><label for="" style="color: #000000">{{ number_format($total3, 2) }}</label></td>
+                                        <td class="text-end" style="background-color: #149966" ><label for="" style="color: #000000">{{ number_format($total4, 2) }}</label></td> 
                                         {{-- <td class="text-end" style="background-color: #2e41e9" ><label for="" style="color: #FFFFFF">{{ number_format($total7, 2) }}</label></td>  --}}
                                         {{-- <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td> --}}
                                         {{-- <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total6, 2) }}</label></td>  --}}
-                                        <td class="text-end" style="background-color: #f89625"><label for="" style="color: #FFFFFF">0.00</label></td> 
+                                        <td class="text-end" style="background-color: #f89625"><label for="" style="color: #000000">0.00</label></td> 
                                      
                                     </tr>  
                                 </table>

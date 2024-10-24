@@ -148,6 +148,8 @@
                                             $number++;
                                             $y = $item->year;
                                                 $ynew = $y + 543;
+                                                // $bgs_year    = DB::table('budget_year')->where('years_now','Y')->first();
+                                                // $ynew        = $bgs_year->leave_year_id;
                                             // ลูกหนี้ทั้งหมด
                                             $datas = DB::select('
                                                 SELECT count(DISTINCT vn) as Can
@@ -284,8 +286,10 @@
                                     @foreach ($datashow as $item)
                                         <?php
                                             $number++;
-                                            $y = $item->year;
+                                               $y = $item->year;
                                                 $ynew = $y + 543;
+                                                // $bgs_year    = DB::table('budget_year')->where('years_now','Y')->first();
+                                                // $ynew        = $bgs_year->leave_year_id;
                                             // ลูกหนี้ทั้งหมด
                                             $datas = DB::select('
                                                 SELECT count(DISTINCT vn) as Can

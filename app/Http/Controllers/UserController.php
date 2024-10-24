@@ -24,7 +24,7 @@ use Auth;
 
 class UserController extends Controller
 {   
-public function user_index(Request $request)
+public function user_main(Request $request)
 {   
     // $data['q'] = $request->query('q');
     // $query = User::select('users.*')

@@ -643,7 +643,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
             @if ($countpesmiss_money != 0)  
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('account_info') }}" target="_blank">
-                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(252, 177, 210)">
+                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(255, 83, 120)">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
@@ -669,7 +669,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
             @else
             <div class="col-xl-3 col-md-3">
                 {{-- <a href="{{ url('account_info') }}" target="_blank"> --}}
-                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(252, 177, 210)">
+                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(255, 83, 120)">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
@@ -682,8 +682,9 @@ $per_nurse                = StaticController::per_nurse($iduser);
                                             <div class="avatar"> 
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                      
-                                                            <img src="{{ asset('images/finace.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                  
+                                                      <img src="{{ asset('images/finace.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                            {{-- <img src="{{ asset('images/account.png') }}" height="40px" width="40px" class="rounded-circle me-3">  --}}
                                                     </button> 
                                             </div>
                                         </div>
@@ -699,7 +700,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
             @if ($permiss_account != 0)  
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('account_monitor_main') }}" target="_blank">
-                    <div class="main-card mb-2 card shadow-lg rounded-pill" style="background-color: pink">
+                    <div class="main-card mb-2 card shadow-lg rounded-pill" style="background-color: rgb(247, 32, 103)">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
@@ -712,8 +713,8 @@ $per_nurse                = StaticController::per_nurse($iduser);
                                             <div class="avatar"> 
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                       
-                                                            <img src="{{ asset('images/accountnew.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/account.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                            {{-- <img src="{{ asset('images/accountnew.png') }}" height="40px" width="40px" class="rounded-circle me-3">  --}}
                                                     </button> 
                                             </div>
                                         </div>
@@ -727,7 +728,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
             @else
             <div class="col-xl-3 col-md-3">
                 {{-- <a href="{{ url('account_pk_dash') }}" target="_blank"> --}}
-                    <div class="main-card mb-2 card shadow-lg rounded-pill" style="background-color: pink">
+                    <div class="main-card mb-2 card shadow-lg rounded-pill" style="background-color: rgb(247, 32, 103)">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
@@ -740,8 +741,8 @@ $per_nurse                = StaticController::per_nurse($iduser);
                                             <div class="avatar"> 
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                       
-                                                            <img src="{{ asset('images/accountnew.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/account.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                            {{-- <img src="{{ asset('images/accountnew.png') }}" height="40px" width="40px" class="rounded-circle me-3">  --}}
                                                     </button> 
                                             </div>
                                         </div>
@@ -754,11 +755,11 @@ $per_nurse                = StaticController::per_nurse($iduser);
             </div>
             @endif
     
-            {{-- @if ($countpermiss_p4p != 0)  
+            @if ($countpermiss_p4p != 0)  
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('p4p') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill"
-                        style="background-color: rgba(235, 104, 247, 0.781)">
+                        style="background-color: rgba(248, 17, 144, 0.781)">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
@@ -767,7 +768,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
                                                 
-                                                    <h5 class="text-start">P4P</h5>
+                                                    <h5 class="text-start">P 4 P</h5>
                                               
                                             </div>
                                             <div class="avatar ms-2">
@@ -792,7 +793,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
             <div class="col-xl-3 col-md-3">
           
                     <div class="main-card mb-3 card shadow-lg rounded-pill"
-                        style="background-color: rgba(235, 104, 247, 0.781)">
+                        style="background-color: rgba(248, 17, 144, 0.781)">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
@@ -817,7 +818,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
                     </div>
             
             </div>
-            @endif --}}
+            @endif
      
             @if ($countpermiss_env != 0)  
             <div class="col-xl-3 col-md-3">

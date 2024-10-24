@@ -160,8 +160,7 @@ class ApiSpschController extends Controller
     public function account_401_api()
     { 
         $iduser = Auth::user()->id;
-    //  $username        = '6508634296688';
-    //  $password        = 'd12345';        
+       
     //  $response_a = Http::withHeaders([ 
     //      'User-Agent:<platform>/<version> <10978>',
     //      'Accept' => 'application/json',

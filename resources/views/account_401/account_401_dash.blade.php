@@ -102,7 +102,7 @@
                     <div class="col-md-2"> 
                             <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center card_audit_4c" style="width: 100%;font-size:13px">
                                 @foreach ($dabudget_year as $item_y)
-                                    @if ($y == $item_y->leave_year_id )
+                                    @if ($bg_yearnow == $item_y->leave_year_id )
                                         <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
                                     @else
                                         <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_name}}</option>
@@ -124,7 +124,7 @@
                     </div>
                     @endif
                     <div class="col-md-1 text-start">  
-                        <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
+                        <button type="submit" class="ladda-button btn-pill btn btn-primary input_new" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                             <span class="ladda-spinner"></span>
                         </button>   
@@ -148,6 +148,8 @@
                                             <th class="text-center" style="background-color: rgb(219, 247, 232)">ลำดับ</th> 
                                             <th class="text-center" style="background-color: rgb(219, 247, 232)">เดือน</th> 
                                             <th class="text-center" style="background-color: rgb(219, 247, 232)">income</th> 
+                                            <th class="text-center" style="background-color: rgb(219, 247, 232)">Claim</th> 
+                                            <th class="text-center" style="background-color: rgb(219, 247, 232)">Rep</th> 
                                             <th class="text-center" style="background-color: rgb(135, 190, 253)">ลูกหนี้ที่ต้องตั้ง</th>  
                                             <th class="text-center" style="background-color: rgb(135, 190, 253)">ตั้งลูกหนี้</th> 
                                             <th class="text-center" style="background-color: rgb(135, 190, 253)">Stm</th>
@@ -175,6 +177,26 @@
                                                 foreach ($datas as $key => $value) {
                                                     $count_N = $value->Can;
                                                     $sum_N = $value->sumdebit;
+                                                }
+                                                $dataclaimsum_ = DB::select(
+                                                    'SELECT sum(income) as total_incom,count(DISTINCT vn) as CCvit
+                                                    FROM acc_debtor
+                                                    WHERE month(vstdate) = "'.$item->months.'"
+                                                    AND year(vstdate) = "'.$item->year.'"
+                                                    AND active_claim = "Y"
+                                                ');   
+                                                foreach ($dataclaimsum_ as $key => $vc) {
+                                                    $total_claim = $vc->total_incom;
+                                                }
+                                                $dataclaimrepsum_ = DB::select(
+                                                    'SELECT sum(rep_pay) as total_reppay,count(DISTINCT vn) as CCvit
+                                                    FROM acc_debtor
+                                                    WHERE month(vstdate) = "'.$item->months.'"
+                                                    AND year(vstdate) = "'.$item->year.'"
+                                                    AND active_claim = "Y"
+                                                ');   
+                                                foreach ($dataclaimrepsum_ as $key => $vcrep) {
+                                                    $total_claim_rep = $vcrep->total_reppay;
                                                 }
                                                 // ตั้งลูกหนี้ OPD 401
                                                 $datasum_ = DB::select(
@@ -223,7 +245,14 @@
                                                     <td class="p-2"> 
                                                         {{$item->MONTH_NAME}} {{$ynew}}
                                                     </td>    
-                                                    <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($item->income, 2) }}</td>                                      
+                                                    <td class="text-end" style="color:rgb(73, 147, 231)" width="10%"> {{ number_format($item->income, 2) }}</td>  
+                                                    <td class="text-end" style="color:rgb(6, 82, 170);background-color: rgb(203, 227, 255)" width="10%">
+                                                        <a href="{{url('account_401_claim_detail/'.$item->months.'/'.$item->year)}}" target="_blank" style="color:rgb(4, 170, 134);"> {{ number_format($total_claim, 2) }}</a>
+                                                    </td> 
+                                                    <td class="text-end" style="color:rgb(6, 82, 170);background-color: rgb(203, 227, 255)" width="10%">
+                                                        <a style="color:rgb(4, 170, 134);"> {{ number_format($total_claim_rep, 2) }}</a>
+                                                    </td>   
+                                                                                      
                                                     <td class="text-end" style="color:rgb(6, 82, 170);background-color: rgb(203, 227, 255)" width="10%">
                                                         <a href="{{url('account_401_pull')}}" target="_blank" style="color:rgb(5, 58, 173);"> {{ number_format($sum_N, 2) }}</a>
                                                     </td>                                                    
@@ -240,25 +269,29 @@
                                                 </tr>
                                             <?php
                                                     $total1 = $total1 + $item->income; 
-                                                    $total2 = $total2 + $sum_N;
+                                                    $total2 = $total2 + $total_claim;
+                                                    $total3 = $total3 + $sum_N;
+                                                    $total7 = $total7 + $total_claim_rep;
                                                    
-                                                    $total3 = $total3 + $total_sumY; 
-                                                    $total4 = $total4 + $sum_stm_money; 
-                                                    $total5 = $total5 + $sum_yokpai; 
+                                                    $total4 = $total4 + $total_sumY; 
+                                                    $total5 = $total5 + $sum_stm_money; 
+                                                    $total6 = $total6 + $sum_yokpai; 
                                             ?> 
                                         @endforeach
     
                                     </tbody>
                                     <tr style="background-color: #f3fca1">
                                         <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
-                                        <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                        <td class="text-end" style="background-color: #033a6d"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                        <td class="text-end" style="background-color: #fc5089"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
-                                        <td class="text-end" style="background-color: #149966" ><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td> 
-                                        {{-- <td class="text-end" style="background-color: #2e41e9" ><label for="" style="color: #FFFFFF">{{ number_format($total7, 2) }}</label></td>  --}}
+                                        <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: rgb(252, 76, 105)">{{ number_format($total1, 2) }}</label></td>
+                                        <td class="text-end" style="background-color: #47A4FA"><label for="" style="color: rgb(3, 151, 107)">{{ number_format($total2, 2) }}</label></td>
+                                        <td class="text-end" style="background-color: #033a6d"><label for="" style="color: rgb(3, 151, 107)">{{ number_format($total3, 2) }}</label></td>
+                                           <td class="text-end" style="background-color: #2e41e9" ><label for="" style="color: #0962b6">{{ number_format($total7, 2) }}</label></td> 
+                                        <td class="text-end" style="background-color: #fc5089"><label for="" style="color: rgb(252, 76, 105)">{{ number_format($total4, 2) }}</label></td>
+                                        <td class="text-end" style="background-color: #149966" ><label for="" style="color: rgb(252, 76, 105)">{{ number_format($total5, 2) }}</label></td> 
+                                     
                                         {{-- <td class="text-end" style="background-color: #c5224b"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td> --}}
                                         {{-- <td class="text-end" style="background-color: #0ea080"><label for="" style="color: #FFFFFF">{{ number_format($total6, 2) }}</label></td>  --}}
-                                        <td class="text-end" style="background-color: #f89625"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td> 
+                                        <td class="text-end" style="background-color: #f89625"><label for="" style="color: rgb(252, 76, 105)">{{ number_format($total6, 2) }}</label></td> 
                                      
                                     </tr>  
                                 </table>

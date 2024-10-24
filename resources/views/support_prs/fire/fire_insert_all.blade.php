@@ -97,7 +97,7 @@
                                                         <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
                                                     </td> 
                                                 @else --}}
-                                                    <td class="text-center" width="5%"><input type="checkbox" class="sub_chk prscheckbox" data-id="{{$item->fire_report_id}}"> </td> 
+                                                    <td class="text-center" width="5%"><input type="checkbox" class="sub_chk prscheckbox" data-id="{{$item->fire_id}}"> </td> 
                                                 {{-- @endif --}}
                                                 <td class="text-center" width="20%">{{ $item->fire_num }}</td>   
                                                 <td class="p-2" >{{ $item->fire_name }}</td> 

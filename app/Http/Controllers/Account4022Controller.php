@@ -174,12 +174,17 @@ class Account4022Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-         
+        $bgs_year              = DB::table('budget_year')->where('years_now','Y')->first();
+        $data['bg_yearnow']    = $bgs_year->leave_year_id;
+
         if ($budget_year == '') {
             $yearnew     = date('Y');
             $year_old    = date('Y')-1; 
-            $startdate   = (''.$year_old.'-10-01');
-            $enddate     = (''.$yearnew.'-09-30'); 
+            // $startdate   = (''.$year_old.'-10-01');
+            // $enddate     = (''.$yearnew.'-09-30'); 
+            $bg           = DB::table('budget_year')->where('years_now','Y')->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end;
             // dd($startdate);
             $datashow = DB::select('
                     SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
@@ -214,7 +219,7 @@ class Account4022Controller extends Controller
             ');
         }
         // dd($startdate);
-        return view('account_4022.account_pkti4022_dash',[
+        return view('account_4022.account_pkti4022_dash',$data,[
             'startdate'         =>  $startdate,
             'enddate'           =>  $enddate, 
             'leave_month_year'  =>  $leave_month_year, 
@@ -315,14 +320,14 @@ class Account4022Controller extends Controller
                     'debit'              => $value->debit, 
                     'debit_total'        => $value->fokliad, 
                 ]);  
-                Acc_1102050101_4022::where('an', $value->an)->update([   
-                    'income'             => $value->income,
-                    'uc_money'           => $value->uc_money,
-                    'discount_money'     => $value->discount_money, 
-                    'rcpt_money'         => $value->rcpt_money,
-                    'debit'              => $value->debit, 
-                    'debit_total'        => $value->fokliad                   
-                ]);  
+                // Acc_1102050101_4022::where('an', $value->an)->update([   
+                //     'income'             => $value->income,
+                //     'uc_money'           => $value->uc_money,
+                //     'discount_money'     => $value->discount_money, 
+                //     'rcpt_money'         => $value->rcpt_money,
+                //     'debit'              => $value->debit, 
+                //     'debit_total'        => $value->fokliad                   
+                // ]);  
             } else {
                 Acc_debtor::insert([
                     'hn'                 => $value->hn,

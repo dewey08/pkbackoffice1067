@@ -17,6 +17,9 @@ return new class extends Migration
                 $table->bigIncrements('fire_chang_id'); 
                 $table->text('fire_id')->nullable();//  
                 $table->text('fire_num')->nullable();// 
+                $table->text('fire_size')->nullable();// 
+                $table->text('fire_backup')->nullable();// 
+                $table->text('fire_color')->nullable();// 
                 $table->date('fire_chang_date')->nullable();//   
                 $table->text('userid')->nullable();//   
                 $table->longText('fire_chang_comment')->nullable();// 

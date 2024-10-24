@@ -89,17 +89,51 @@
                 </div>
             </div>
         </div>
-       
+
+        <form action="{{ URL('audit_approve_code') }}" method="GET">
+            @csrf
             <div class="row">
                 <div class="col-md-3">
                     <h4 class="card-title" style="color:rgb(250, 128, 124)">Detail Pre-Audit OFC</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล Pre-Audit OFC</p>
                 </div>
                 <div class="col"></div> 
+                @if ($budget_year =='')
+                <div class="col-md-2"> 
+                        <select name="budget_year" id="budget_year" class="form-control input_border text-center" style="width: 100%">
+                            @foreach ($dabudget_year as $item_y)
+                                @if ($bg_yearnow == $item_y->leave_year_id )
+                                    <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
+                                @else
+                                    <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_name}}</option>
+                                @endif                                   
+                            @endforeach
+                        </select>
+                </div>
+                @else
+                <div class="col-md-2"> 
+                        <select name="budget_year" id="budget_year" class="form-control input_border text-center" style="width: 100%">
+                            @foreach ($dabudget_year as $item_y)
+                                @if ($budget_year == $item_y->leave_year_id )
+                                    <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
+                                @else
+                                    <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_name}}</option>
+                                @endif                                   
+                            @endforeach
+                        </select>
+                </div>
+                @endif
+                <div class="col-md-1 text-start">  
+                    <button type="submit" class="ladda-button btn-pill btn btn-primary input_border" data-style="expand-left">
+                        <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                        <span class="ladda-spinner"></span>
+                    </button>   
+                </div>  
             </div>
-
+        </form>
             <div class="row">
-                <div class="col-xl-6">
+                <div class="col"></div>
+                <div class="col-xl-10">
                     <div class="card card_audit_4">
                         <div class="card-body">
                             <div class="row">
@@ -107,27 +141,7 @@
                                     <h4 class="card-title" style="color:rgb(241, 137, 155)"">APPROVE OFC</h4>
                                 </div>
                                 <div class="col"></div>
-                                {{-- <div class="col-md-9 text-end">
-                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                                        data-date-autoclose="true" data-provide="datepicker"
-                                        data-date-container='#datepicker1'>
-                                        <input type="text" class="form-control card_audit_4" name="startdate"
-                                            id="datepicker" placeholder="Start Date" data-date-container='#datepicker1'
-                                            data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                            data-date-language="th-th" value="{{ $startdate }}" required />
-                                        <input type="text" class="form-control card_audit_4" name="enddate"
-                                            placeholder="End Date" id="datepicker2" data-date-container='#datepicker1'
-                                            data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                            data-date-language="th-th" value="{{ $enddate }}" />
-
-                                        <button type="button"
-                                            class="ladda-button me-2 btn-pill btn btn-primary cardacc Process_A"
-                                            data-url="{{ url('pre_audit_process_a') }}">
-                                            <i class="fa-solid fa-sack-dolla"></i>
-                                            ประมวลผลใหม่
-                                        </button>
-                                    </div>
-                                </div> --}}
+                                
                             </div>
                             <div class="row mt-2">
                                 <div class="col-md-12"> 
@@ -147,19 +161,25 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php $jj = 1; ?>
+                                                <?php $jj = 1;$total1 = 0; $total2 = 0; $total3 = 0; $total4 = 0; $total5 = 0;$total6 = 0;$total7 = 0; ?>
                                                 @foreach ($fdh_ofc as $item)
-                                                <?php 
-                                                     
-                                                    $no_app = DB::connection('mysql')->select(
-                                                        'SELECT count(DISTINCT vn) as countvn_no,sum(debit) as sum_total_no  
-                                                            FROM d_fdh WHERE month(vstdate) = "'.$item->months.'" AND year(vstdate) = "'.$item->years.'" 
-                                                            AND projectcode ="OFC" AND (an IS NULL OR an ="") AND debit > 0  
-                                                            AND (authen IS NULL OR authen ="") AND hn <>"" 
+                                                <?php  
+                                                    $no_app = DB::connection('mysql10')->select(
+                                                        'SELECT COUNT(DISTINCT v.vn) as cvn,SUM(v.income) as total_amount, group_concat(distinct k.amount) as edc
+                                                        FROM vn_stat v
+                                                        LEFT JOIN rcpt_debt rd ON rd.vn = v.vn
+                                                        LEFT OUTER JOIN ktb_edc_transaction k on k.vn = v.vn 
+                                                        WHERE month(v.vstdate) = "'.$item->months.'" AND year(v.vstdate) = "'.$item->years.'"  
+                                                        AND v.pttype IN("O1","O2","O3","O4","O5") 
+                                                        AND rd.sss_approval_code IS NULL
+                                                        AND k.approval_code IS NULL 
+                                                        AND rd.finance_number IS NULL
+                                                        AND v.income > 0 
                                                     ');  
+                                                    // AND (rd.sss_approval_code IS NULL OR rd.sss_approval_code ="")  
                                                     foreach ($no_app as $key => $value) {
-                                                        $sum_total_no_ = $value->sum_total_no;
-                                                        $countvn_      = $value->countvn_no;
+                                                        $sum_total_no = $value->total_amount;
+                                                        $countvn      = $value->cvn;
                                                     }
                                                 ?>
                                                     <tr>
@@ -193,30 +213,47 @@
                                                         <td class="text-center text-primary" width="15%">
                                                             {{ $item->countvn }}                                                             
                                                         </td>
-                                                        <td class="text-center" width="15%" style="color:rgb(23, 121, 233)">{{ number_format($item->sum_total, 2) }}</td> 
-                                                        @foreach ($no_app as $item_sub)
-                                                                @if ($item_sub->sum_total_no > 0)
+                                                        <td class="text-center" width="15%" style="color:#033a6d">{{ number_format($item->tt, 2) }}</td> 
+                                                        {{-- <td class="text-center" width="15%" style="color:#033a6d">{{ number_format($item->sum_total, 2) }}</td>  --}}
+                                               
+                                                                @if ($sum_total_no > 0)
                                                                     <td class="text-center" width="20%" style="color:rgb(252, 73, 42)">
-                                                                        <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{ url('audit_approve_detail/' . $item->months . '/' . $item->years) }}" >
-                                                                            {{ number_format($item_sub->sum_total_no, 2) }}
-                                                                        </a> 
+                                                                        {{-- <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{ url('audit_approve_detail/' . $item->months . '/' . $item->years) }}" >
+                                                                            {{ number_format($sum_total_no, 2) }}
+                                                                        </a>  --}}
+                                                                        <a href="{{ url('audit_approve_detail/' . $item->months . '/' . $item->years) }}" class="ladda-button me-2 btn-pill btn btn-sm input_border text-white" style="background-color: rgb(236, 11, 97);font-size: 12px;" target="_blank"> {{ number_format($sum_total_no, 2) }}</a>
                                                                     </td> 
-                                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $item_sub->countvn_no}}</td> 
+                                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $countvn}}</td> 
                                                                 @else
                                                                     <td class="text-center" width="20%">
                                                                         <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-success">
                                                                             ซู๊ดดดดยอดอิหลี
                                                                         </a> 
                                                                     </td> 
-                                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $item_sub->countvn_no}}</td> 
-                                                                @endif
-                                                                
-                                                        @endforeach
+                                                                    <td class="text-center" width="15%" style="color:rgb(221, 31, 6)">{{ $countvn}}</td> 
+                                                                @endif 
                                                         
                                                     </tr>
+
+                                                    <?php
+                                                            $total1 = $total1 + $item->countvn; 
+                                                            $total2 = $total2 + $item->sum_total; 
+                                                            $total4 = $total4 + $countvn; 
+                                                            $total3 = $total3 + $sum_total_no; 
+                                                    ?> 
+                                                    
                                                 @endforeach
 
                                             </tbody>
+                                            <tr style="background-color: #f3fca1">
+                                                <td colspan="3" class="text-end" style="background-color: #fca1a1"></td>
+                                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                                <td class="text-center" style="background-color: #033a6d"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                                <td class="text-center" style="background-color: #fc5089"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
+                                                <td class="text-center" style="background-color: #d10404" ><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>  
+                                                {{-- <td class="text-end" style="background-color: #f89625"><label for="" style="color: #FFFFFF">0.00</label></td>  --}}
+                                             
+                                            </tr>  
                                         </table>
                                     </div>
                                 </div>
@@ -225,7 +262,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-6">
+                {{-- <div class="col-xl-6">
                     <div class="card card_audit_4">
                         <div class="card-body">
                             <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Approve วันนี้</h4>  
@@ -236,7 +273,7 @@
                                                 <th class="text-center">ลำดับ</th> 
                                                 <th class="text-center">HN</th> 
                                                 <th class="text-center">CID</th> 
-                                                {{-- <th class="text-center">วันที่รับบริการ</th> --}}
+                                                <th class="text-center">วันที่รับบริการ</th>
                                                 <th class="text-center">ชื่อ - สกุล</th>
                                                 <th class="text-center">ลูกหนี้</th> 
                                                 <th class="text-center">approval_code</th>   
@@ -248,7 +285,7 @@
                                                 <tr > <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
                                                     <td class="text-center" style="width: 5%">{{ $item_n->hn }}</td>
                                                     <td class="text-center" style="width: 7%">{{ $item_n->cid }}</td> 
-                                                    {{-- <td class="text-center" style="width: 5%">{{ $item_n->vstdate }}</td> --}}
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->vstdate }}</td>
                                                     <td class="p-2" style="width: 15%">{{ $item_n->ptname }}</td> 
                                                     <td class="text-center" style="width: 5%">{{ $item_n->debit }}</td> 
                                                     <td class="text-center" style="width: 5%">{{ $item_n->sss_approval_code }}</td>   
@@ -260,51 +297,10 @@
                                 </div>
                         </div>
                     </div>
-                </div> 
+                </div>  --}}
+                <div class="col"></div>
             </div>
-            {{-- <div class="row">
-                <div class="col-xl-12">
-                    <div class="card card_audit_4">
-                        <div class="card-body">
-                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Approve ทั้งหมด</h4>  
-                                <div class="table-responsive">                           
-                                    <table id="example3" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">ลำดับ</th> 
-                                                <th class="text-center">HN</th> 
-                                                <th class="text-center">CID</th>
-                                                <th class="text-center">ERROR</th>
-                                                <th class="text-center">วันที่รับบริการ</th>
-                                                <th class="text-center">ชื่อ - สกุล</th>
-                                                <th class="text-center">ลูกหนี้</th> 
-                                                <th class="text-center">EDC</th>  
-                                                <th class="text-center">cc</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php $jj = 1; ?>
-                                            @foreach ($fdh_ofc_all as $item_n) 
-                                                <tr > <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->hn }}</td>
-                                                    <td class="text-center" style="width: 7%">{{ $item_n->cid }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->error_c }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->vstdate }}</td>
-                                                    <td class="p-2" style="width: 10%">{{ $item_n->ptname }}</td> 
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->debit }}</td> 
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->edc }}</td>  
-                                                    <td class="p-2">{{ $item_n->cc }}</td>
-                                                </tr>
-                                            @endforeach
-                
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                        </div>
-                    </div>
-                </div> 
-            </div> --}}
+           
     </div>
 
 

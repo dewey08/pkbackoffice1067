@@ -86,29 +86,32 @@
         {{-- <div class="container">  --}}
     
             <div class="row"> 
-                <div class="col-md-9"> 
+                <div class="col-md-7"> 
                     <h5 style="color:rgb(236, 105, 18)">เพิ่มรายการพัสดุ || เลขที่บิล {{ $data_edit->recieve_no }} || บริษัท {{ $supplies_name }} || เลขประจำตัวผู้เสียภาษี {{ $supplies_tax }}</h5> 
                 </div>
                 <div class="col"></div>   
-                <div class="col-md-2 text-end">
-                    {{-- <a href="{{url('wh_recieve_add')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" target="_blank">
-                        <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> 
-                        ตรวจรับ
-                    </a>  --}}
+                <div class="col-md-4 text-end">
+                
                     <button type="button" id="UpdateData" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="บันทึกรายการทั้งหมดเข้าคลัง">
                         <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
                        บันทึก
                    </button>
                    <a href="{{url('wh_recieve')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new"> <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>ยกเลิก</a>
                    <button type="button" style="background-color: #0a4ba0" class="ladda-button me-2 btn-pill btn btn-sm input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="คู่มือการใช้งาน">
-                    <i class="fa-regular fa-file-video text-white me-2 ms-2"></i> 
-             </button>
+                        <i class="fa-regular fa-file-video text-white me-2 ms-2"></i> 
+                </button>
                 </div>
             </div> 
-           
+            {{-- <div class="row">
+                <div class="col-md-1 text-end">รายการวัสดุ</div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control form-control-sm" id="scannerInput" name="scannerInput" placeholder="SCAN BARCODE" style="background-color: #d8f9fc" autofocus> 
+                </div>
+                <div class="col-md-1 text-end" id="data_code"></div>
+            </div> --}}
         {{-- <form action="{{ route('wh.wh_recieve_addsub_save') }}" method="POST" id="addpost"> --}}
-        <form action="{{ route('wh.wh_recieve_addsub_save') }}" method="POST">
-            @csrf
+        {{-- <form action="{{ route('wh.wh_recieve_addsub_save') }}" method="POST"> --}}
+            {{-- @csrf --}}
             <div class="row mt-2">
                 <div class="col-md-12">                
                     <div class="card card_audit_4c">   
@@ -116,8 +119,10 @@
                             <div class="row mt-2">
                                 <div class="col-md-1 text-end">รายการวัสดุ</div>
                                 <div class="col-md-4">
-                                    <select name="pro_id" id="pro_id"  class="custom-select custom-select-sm show_pro" style="width: 100%">                                           
+                                    <select name="pro_id" id="pro_id"  class="custom-select custom-select-sm show_pro" style="width: 100%"> 
+                                        <option value="">--เลือก--</option>                                          
                                             @foreach ($wh_product as $item_sup) 
+                                         
                                                 <?php 
                                                     $count_proid = DB::select('SELECT COUNT(pro_id) Cpro_id FROM wh_recieve_sub WHERE pro_id = "'.$item_sup->pro_id.'" AND wh_recieve_id = "'.$data_edit->wh_recieve_id.'"');
                                                     foreach ($count_proid as $key => $value) {
@@ -132,17 +137,21 @@
                                     </select>
                                 </div> 
                                 <div class="col-md-1 text-start">
-                                    <input type="text" class="form-control form-control-sm" id="qty" name="qty" placeholder="จำนวน">
+                                    <input type="text" class="form-control-sm input_border" id="qty" name="qty" placeholder="จำนวน" style="width: 100%">
                                 </div>
                                 <div class="col-md-2 text-start">
-                                    <input type="text" class="form-control form-control-sm" id="one_price" name="one_price" placeholder="ราคา">
+                                    <input type="text" class="form-control-sm input_border" id="one_price" name="one_price" placeholder="ราคา" style="width: 100%">
                                 </div>
                                 <div class="col-md-1 text-end">LOT</div>
                                 <div class="col-md-2 text-start">
-                                    <input type="text" class="form-control form-control-sm" id="lot_no" name="lot_no" placeholder="LOT" value="{{$lot_no}}">
+                                    <input type="text" class="form-control-sm input_border" id="lot_no" name="lot_no" placeholder="LOT" style="width: 100%">
+                                    {{-- <input type="text" class="form-control-sm input_border" id="lot_no" name="lot_no" placeholder="LOT" value="{{$lot_no}}" style="width: 100%"> --}}
                                 </div>   
                                 <div class="col-md-1 text-start">
-                                    <button type="submit" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มรายการวัสดุลงใน List">
+                                    {{-- <button type="submit" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มรายการวัสดุลงใน List">
+                                        <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
+                                    </button> --}}
+                                    <button type="button" id="Addproduct" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มรายการวัสดุลงใน List">
                                           <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
                                    </button>
                                    <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_recieve_destroy')}}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="ลบรายการที่เลือก">
@@ -152,9 +161,9 @@
                             </div> 
                             <input type="hidden" id="wh_recieve_id" name="wh_recieve_id" value="{{$wh_recieve_id}}"> 
                             <input type="hidden" id="stock_list_id" name="stock_list_id" value="{{$stock_list_id}}"> 
-                            <input type="hidden" id="data_year" name="data_year" value="{{$data_year}}">                             
+                            <input type="hidden" id="data_year" name="data_year" value="{{$data_year}}">                            
                     
-                        </form>
+                        {{-- </form> --}}
                         <hr>
                         <div class="row">
                             <div class="col-md-1 text-end">รายการวัสดุ</div>
@@ -163,7 +172,7 @@
                             </div>
                             <div class="col-md-1 text-end">หน่วยนับ</div>
                             <div class="col-md-1">
-                                <select name="wh_unit_id" id="wh_unit_id"  class="custom-select custom-select-sm" style="width: 100%">
+                                <select name="wh_unit_id" id="wh_unit_id"  class="custom-select custom-select-sm show_unit" style="width: 100%">
                                     @foreach ($wh_unit as $uni)
                                         <option value="{{ $uni->wh_unit_id }}">{{ $uni->wh_unit_name }}</option>
                                     @endforeach
@@ -173,7 +182,7 @@
                                 <input type="text" class="form-control form-control-sm" id="UNIT_NAME" name="UNIT_NAME" placeholder="ถ้าไม่มีหน่วยนับ" style="background-color: #d8f9fc"> 
                             </div>
                             <div class="col-md-1 text-start">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-info input_new" onclick="add_product();" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มหน่วยนับ">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-info input_new" onclick="addwh_unit();" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มหน่วยนับ">
                                       <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
                                </button> 
                             </div> 
@@ -181,7 +190,7 @@
                             <div class="col-md-2">
                                 <select name="pro_type" id="pro_type"  class="custom-select custom-select-sm" style="width: 100%">
                                     @foreach ($product_category as $type)
-                                        <option value="{{ $type->category_id }}">{{ $type->category_name }}</option>
+                                        <option value="{{ $type->wh_type_id }}">{{ $type->wh_type_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -192,11 +201,35 @@
                             </div> 
                         </div> 
                     <hr>
+
+                    <div class="row">
+                        <div class="col-md-1 text-end">รายการวัสดุ</div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control form-control-sm" id="scannerInput" name="scannerInput" placeholder="SCAN BARCODE" style="background-color: #d8f9fc;width: 100%" autofocus> 
+                        </div>
+                        <div class="col-md-1 text-end" id="data_code"></div>
+                        <div class="col"></div>
+                        <div class="col-md-1 text-end mt-2">Total</div>
+                        <div class="col-md-1">
+                            {{-- <button type="button" class="ladda-button btn-pill btn btn-white card_audit_4c"> --}}
+                                <input type="text" class="form-control form-control-sm text-end input_new" id="gettotal_show" name="gettotal_show" style="background-color: #cafdec;color:rgb(238, 15, 89);font-size:15px;width: 100%">
+                                {{-- <div id="gettotal_show" style="color:rgb(238, 15, 89);font-size:19px"></div>  --}}
+                                {{-- ราคา {{number_format($total_price, 2)}} <i class="fa-solid fa-baht-sign me-2 ms-2" style="color:rgb(238, 15, 89);font-size:19px"></i> --}}
+                             {{-- </button> --}}
+                        </div>
+                    </div>
+
                             <div class="row mt-3">
                                 <div class="col-md-12">   
                                     <div class="row"> 
                                         <div class="col-xl-12"> 
-                                            <table id="Tabledit" class="table table-bordered border-primary table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">
+
+                                            {{-- <div style='overflow:scroll; height:500px;'>
+                                                <div id="getdata_show"></div> 
+                                            </div> --}}
+                                            <div id="getdata_show"></div> 
+                                             
+                                            {{-- <table id="Tabledit" class="table table-bordered border-primary table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">                                               
                                                 <thead> 
                                                     <tr>
                                                         <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 12px;">ลำดับ</th> 
@@ -238,9 +271,8 @@
                                                     <td class="text-end" style="background-color: #ffffff" ><label for="" style="color: #0c4da1">{{ number_format($total2, 2) }}</label></td>
                                                     <td class="text-end" style="background-color: #ffffff"><label for="" style="color: #0c4da1">{{ number_format($total3, 2) }}</label> </td>  
                                                     <td class="text-end" style="background-color: #fca1a1"></td>
-                                                </tr> 
-                                                
-                                            </table>
+                                                </tr>                                                 
+                                            </table> --}}
     
                                         </div>
                                     </div>
@@ -263,7 +295,31 @@
  
 @endsection
 @section('footer')
- 
+    <script>
+        // $(document).ready(function() {
+                // load_data_table();
+                // function load_data_table() { 
+                //         var wh_recieve_id = document.getElementById("wh_recieve_id").value; 
+                //         // alert(wh_recieve_id);
+                //         var _token=$('input[name="_token"]').val();
+                //         $.ajax({
+                //                 url:"{{route('wh.load_data_table')}}",
+                //                 method:"GET",
+                //                 data:{wh_recieve_id:wh_recieve_id,_token:_token},
+                //                 success:function(result){
+                //                     $('#getdata_show').html(result);
+                //                     // $('#getdata_show').append(result);
+                //                 }
+                //         });                     
+                // }         
+        //  });
+        //  setInterval(function(){
+        //     // $('#getdata_show').load().fadeIn("slow");
+        //     load_data_table();
+        // }, 1000);
+       
+  
+    </script>
     <script>
         var Linechart;
         function add_product() {
@@ -284,6 +340,22 @@
                         $('.show_pro').html(result);
                     }
                 })
+        }
+        function addwh_unit() {
+            var unitnew = document.getElementById("UNIT_NAME").value;
+            // alert(unitnew);
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: "{{url('addwh_unitt')}}",
+                method: "GET",
+                data: {
+                    unitnew: unitnew,
+                    _token: _token
+                },
+                success: function (result) {
+                    $('.show_unit').html(result);
+                }
+            })
         }
         $(document).ready(function() {
             $('select').select2();
@@ -310,7 +382,123 @@
                     }  
             }); 
             $("#spinner-div").hide(); //Request is complete so hide spinner
-            
+           
+            load_data_table();
+            load_data_lot_no();
+            load_data_sum();
+
+            function load_data_table() { 
+                    var wh_recieve_id = document.getElementById("wh_recieve_id").value; 
+                    // alert(wh_recieve_id);
+                    var _token=$('input[name="_token"]').val();
+                    $.ajax({
+                            url:"{{route('wh.load_data_table')}}",
+                            method:"GET",
+                            data:{wh_recieve_id:wh_recieve_id,_token:_token},
+                            success:function(result){
+                                $('#getdata_show').html(result);
+                                // $('#getdata_show').append(result);
+                                // $('#qty')[0].reset();
+                                // $('#one_price')[0].reset();
+                                // $('#qty').val("");
+                                // $('#one_price').val("");
+                            }
+                    });                     
+            }   
+            function load_data_lot_no() { 
+                    var wh_recieve_id = document.getElementById("wh_recieve_id").value; 
+                    // alert(wh_recieve_id);
+                    var _token=$('input[name="_token"]').val();
+                    $.ajax({
+                            url:"{{route('wh.load_data_lot_no')}}",
+                            method:"GET",
+                            data:{wh_recieve_id:wh_recieve_id,_token:_token},
+                            success:function(result){
+                                $('#lot_no').val(result.lot_no) 
+                            }
+                    });                     
+            }   
+            function load_data_sum() { 
+                    var wh_recieve_id = document.getElementById("wh_recieve_id").value; 
+                    // alert(wh_recieve_id);
+                    var _token=$('input[name="_token"]').val();
+                    $.ajax({
+                            url:"{{route('wh.load_data_sum')}}",
+                            method:"GET",
+                            data:{wh_recieve_id:wh_recieve_id,_token:_token},
+                            success:function(result){
+                                $('#gettotal_show').val(result.total) 
+                            }
+                    });                     
+            }       
+           
+            $('#Addproduct').click(function() {
+                var pro_id           = $('#pro_id').val(); 
+                var qty              = $('#qty').val(); 
+                var one_price        = $('#one_price').val(); 
+                var lot_no           = $('#lot_no').val(); 
+                var stock_list_id    = $('#stock_list_id').val(); 
+                var wh_recieve_id    = $('#wh_recieve_id').val();  
+                // var wh_recieve_id    = $('#wh_recieve_id').val(); 
+                var data_year        = $('#data_year').val();  
+
+                // Swal.fire({ position: "top-end",
+                //     title: 'ต้องการบันทึกข้อมูลใช่ไหม ?',
+                //     text: "You Warn Save Data!",
+                //     icon: 'warning',
+                //     showCancelButton: true,
+                //     confirmButtonColor: '#3085d6',
+                //     cancelButtonColor: '#d33',
+                //     confirmButtonText: 'Yes, Save it!'
+                //     }).then((result) => {
+                //         if (result.isConfirmed) {
+                //             $("#overlay").fadeIn(300);　
+                //             $("#spinner").show(); //Load button clicked show spinner                             
+                        $.ajax({
+                            url: "{{ route('wh.wh_recieve_addsub_save') }}",
+                            type: "POST",
+                            dataType: 'json',
+                            data: {pro_id,qty,one_price,lot_no,wh_recieve_id,stock_list_id,data_year},
+                            success: function(data) {
+                                load_data_table();
+                                load_data_lot_no();
+                                load_data_sum();
+                                $('#qty').val("");
+                                $('#one_price').val("");
+                                $('#pro_id').val("");
+                                if (data.status == 200) { 
+                                    // load_data_table();
+                                    // window.location.reload();
+                                    // Swal.fire({ position: "top-end",
+                                    //     title: 'บันทึกข้อมูลสำเร็จ',
+                                    //     text: "You Save data success",
+                                    //     icon: 'success',
+                                    //     showCancelButton: false,
+                                    //     confirmButtonColor: '#06D177',
+                                    //     confirmButtonText: 'เรียบร้อย'
+                                    // }).then((result) => {
+                                    //     if (result
+                                    //         .isConfirmed) {
+                                    //         console.log(
+                                    //             data);
+                                    //         // window.location.reload();
+                                    //         window.location="{{url('wh_recieve')}}"; 
+                                    //         $('#spinner').hide();//Request is complete so hide spinner
+                                    //             setTimeout(function(){
+                                    //                 $("#overlay").fadeOut(300);
+                                    //             },500);
+                                    //     }
+                                    // })
+                                } else {
+                                    
+                                }
+                            },
+                        });
+                            
+                    // }
+                // })
+            });
+           
             // $('#addpost').on('submit',function (event) {
             //     event.preventDefault(); 
             //     jQuery.ajax({
@@ -357,8 +545,8 @@
                                 if (check == true) {
                                     var join_selected_values = allValls.join(",");
                                     // alert(join_selected_values);
-                                    $("#overlay").fadeIn(300);　
-                                    $("#spinner").show(); //Load button clicked show spinner 
+                                    // $("#overlay").fadeIn(300);　
+                                    // $("#spinner").show(); //Load button clicked show spinner 
 
                                     $.ajax({
                                         url:$(this).data('url'),
@@ -371,25 +559,31 @@
                                                     $(".sub_chk:checked").each(function () {
                                                         $(this).parents("tr").remove();
                                                     });
-                                                    Swal.fire({ position: "top-end",
-                                                        title: 'ลบข้อมูลสำเร็จ',
-                                                        text: "You Delete data success",
-                                                        icon: 'success',
-                                                        showCancelButton: false,
-                                                        confirmButtonColor: '#06D177',
-                                                        confirmButtonText: 'เรียบร้อย'
-                                                    }).then((result) => {
-                                                        if (result
-                                                            .isConfirmed) {
-                                                            console.log(
-                                                                data);
-                                                            window.location.reload();
-                                                            $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                        }
-                                                    })
+                                                    load_data_table();
+                                                    load_data_lot_no();
+                                                    load_data_sum();
+                                                    $('#qty').val("");
+                                                    $('#one_price').val("");
+                                                    $('#pro_id').val("");
+                                                    // Swal.fire({ position: "top-end",
+                                                    //     title: 'ลบข้อมูลสำเร็จ',
+                                                    //     text: "You Delete data success",
+                                                    //     icon: 'success',
+                                                    //     showCancelButton: false,
+                                                    //     confirmButtonColor: '#06D177',
+                                                    //     confirmButtonText: 'เรียบร้อย'
+                                                    // }).then((result) => {
+                                                    //     if (result
+                                                    //         .isConfirmed) {
+                                                    //         console.log(
+                                                    //             data);
+                                                    //         window.location.reload();
+                                                    //         $('#spinner').hide();//Request is complete so hide spinner
+                                                    //     setTimeout(function(){
+                                                    //         $("#overlay").fadeOut(300);
+                                                    //     },500);
+                                                    //     }
+                                                    // })
                                                 } else {
                                                     
                                                 }
@@ -465,43 +659,161 @@
                 })
             });
 
-            $('#Tabledit').Tabledit({
-                url:'{{route("wh.wh_recieve_edittable")}}',                
-                dataType:"json", 
-                removeButton: false,
-                columns:{
-                    identifier:[1,'wh_recieve_sub_id'], 
-                    editable: [[4, 'lot_no'], [5, 'qty'], [6, 'one_price']]
-                }, 
-                deleteButton: false,
-                saveButton: false,
-                autoFocus: false,
-                buttons: {
-                    edit: {
-                        class:'btn btn-sm btn-default', 
-                        html: '<i class="fa-regular fa-pen-to-square text-danger"></i>',
-                        action: 'Edit'
-                    }
-                }, 
-                onSuccess:function(data)
-                {
-                   if (data.status == 200) {
-                        Swal.fire({
-                            position: "top-end",
-                            icon: "success",
-                            title: "Your Edit Success",
-                            showConfirmButton: false,
-                            timer: 1500
-                            });
-                            window.location.reload();
-                   } else { 
-                   } 
-                }
+            // $('#Tabledit').Tabledit({
+            //     url:'{{route("wh.wh_recieve_edittable")}}',                
+            //     dataType:"json", 
+            //     removeButton: false,
+            //     columns:{
+            //         identifier:[1,'wh_recieve_sub_id'], 
+            //         editable: [[4, 'lot_no'], [5, 'qty'], [6, 'one_price']]
+            //     }, 
+            //     deleteButton: false,
+            //     saveButton: false,
+            //     autoFocus: false,
+            //     buttons: {
+            //         edit: {
+            //             class:'btn btn-sm btn-default', 
+            //             html: '<i class="fa-regular fa-pen-to-square text-danger"></i>',
+            //             action: 'Edit'
+            //         }
+            //     }, 
+            //     onSuccess:function(data)
+            //     {
+            //        if (data.status == 200) {
+            //             Swal.fire({
+            //                 position: "top-end",
+            //                 icon: "success",
+            //                 title: "Your Edit Success",
+            //                 showConfirmButton: false,
+            //                 timer: 1500
+            //                 });
+            //                 window.location.reload();
+            //        } else { 
+            //        } 
+            //     }
 
-            });
+            // });
   
         });
     </script>
   
 
 @endsection
+
+
+{{-- // var keybuffer = [];
+// function press(event) {
+// if (event.which === 13) {
+//     return send();
+// }
+// var number = event.which - 48;
+// if (number < 0 || number > 9) {
+//     return;
+// }
+// keybuffer.push(number);
+// }
+// $(document).on("keypress", press);
+// function send() {
+// socket.emit('scan', keybuffer.join(""));
+// keybuffer.length = 0;
+// }
+// window.onload = function() {
+//     var input = document.getElementById("scannerInput").focus();
+// }
+// $(document).scannerDetection({	   
+//     //https://github.com/kabachello/jQuery-Scanner-Detection     
+//     timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+//     avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
+//     preventDefault: true,        
+//     endChar: [13],
+//         onComplete: function(barcode, qty){
+//     validScan = true;           
+    
+//         $('#scannerInput').val (barcode);
+    
+//     } // main callback function	,
+//     ,
+//     onError: function(string, qty) {        
+//         // $('#userInput').val ($('#userInput').val()  + string);    
+//     } 
+// });
+
+// on_scanner() // init function
+// function on_scanner() {
+//     let is_event = false; // for check just one event declaration
+//     let input = document.getElementById("scanner");
+//     input.addEventListener("focus", function () {
+//         if (!is_event) {
+//             is_event = true;
+//             input.addEventListener("keypress", function (e) {
+//                 setTimeout(function () {
+//                     if (e.keyCode == 13) {
+//                         scanner(input.value); // use value as you need
+//                         input.select();
+//                     }
+//                 }, 500)
+//             })
+//         }
+//     });
+//     document.addEventListener("keypress", function (e) {
+//         if (e.target.tagName !== "INPUT") {
+//             input.focus();
+//         }
+//     });
+// }
+// function scanner(value) {
+//     if (value == '') return;
+//     console.log(value)
+// }
+// let barcodeInput = "";
+// let reading = false;
+// document.addEventListener('keypress', e => {
+// //usually scanners throw an 'Enter' key at the end of read
+// if (e.keyCode === 13) {
+//         if(barcodeInput.length > 10) {
+//             console.log(barcodeInput);
+//             /// code ready to use                
+//             barcodeInput = "";
+//         }
+//     } else {
+//         barcodeInput += e.key; //while this is not an 'enter' it stores the every key            
+//     }
+//     //run a timeout of 200ms at the first read and clear everything
+//     if(!reading) {
+//         reading = true;
+//         setTimeout(() => {
+//             barcodeInput = "";
+//             reading = false;
+//         }, 200);  //200 works fine for me but you can adjust it
+//     }
+// });
+// $(selector).scannerDetection({    
+//     //https://github.com/kabachello/jQuery-Scanner-Detection  
+//     ignoreIfFocusOn: 'input',      
+//     timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+//     avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
+//     preventDefault: true,            
+//     endChar: [13],
+//     onComplete: function(barcode, qty){
+//     validScan = true;                        
+//         $('#scannerInput').val (barcode);    
+//     } 
+//     ,
+//     onError: function(string, qty) {
+//     res = string.split("-");
+//     var inward_id = res[0];
+//     var per_id = res[2];
+// timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+// avgTimeByChar: 40, // it's not a barcode if a character takes longer than 100ms
+// preventDefault: true,
+// endChar: [13],
+//     onComplete: function(barcode, qty){
+//     validScan = true;        
+//     $('#barcodeInput').val (barcode);  
+//     alert(barcode);          
+// } // main callback function ,
+// ,
+// onError: function(string, qty) {
+// $('#userInput').val ($('#userInput').val()  + string);            
+// }
+// }); --}}

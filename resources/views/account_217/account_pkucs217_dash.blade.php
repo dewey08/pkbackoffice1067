@@ -98,30 +98,30 @@
                     {{-- <div class="col"></div> --}}
                      
                     @if ($budget_year =='')
-                    <div class="col-md-2"> 
-                            <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center" style="width: 100%">
-                                @foreach ($dabudget_year as $item_y)
-                                    @if ($y == $item_y->leave_year_id )
-                                        <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
-                                    @else
-                                        <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_name}}</option>
-                                    @endif                                   
-                                @endforeach
-                            </select>
-                    </div>
-                    @else
-                    <div class="col-md-2"> 
-                            <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center" style="width: 100%">
-                                @foreach ($dabudget_year as $item_y)
-                                    @if ($budget_year == $item_y->leave_year_id )
-                                        <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
-                                    @else
-                                        <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_name}}</option>
-                                    @endif                                   
-                                @endforeach
-                            </select>
-                    </div>
-                    @endif
+                <div class="col-md-2"> 
+                        <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center" style="width: 100%">
+                            @foreach ($dabudget_year as $item_y)
+                                @if ($bg_yearnow == $item_y->leave_year_id )
+                                    <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
+                                @else
+                                    <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_name}}</option>
+                                @endif                                   
+                            @endforeach
+                        </select>
+                </div>
+                @else
+                <div class="col-md-2"> 
+                        <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center" style="width: 100%">
+                            @foreach ($dabudget_year as $item_y)
+                                @if ($budget_year == $item_y->leave_year_id )
+                                    <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
+                                @else
+                                    <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_name}}</option>
+                                @endif                                   
+                            @endforeach
+                        </select>
+                </div>
+                @endif
                     <div class="col-md-1 text-start">  
                         <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>

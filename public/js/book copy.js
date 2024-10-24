@@ -13,7 +13,7 @@
 //       $('#bookModal').modal('show');
 //       $.ajax({
 //         type: "GET",
-//         url: "/PK-OFFICE/public/hn/hn_bookindex_comment_edit/"+ id, // กรณีอยู่บนคลาวให้ใส่พาทให้ด้วย
+//         url: "/PK-BACKOFFice/public/hn/hn_bookindex_comment_edit/"+ id, // กรณีอยู่บนคลาวให้ใส่พาทให้ด้วย
 //         // url: "/hn/hn_bookindex_comment_edit/",  //ทำในคอมตัวเอง
 //         // url:"{{route('hn.hn_bookindex_comment_edit/')}}"+bookrep_id,
 //         // url:"{{ route('hn.hn_bookindex_comment_edit/')}}" + id,
@@ -33,7 +33,7 @@
 //     // $('#bookModal').modal('show');
 //     $.ajax({
 //       type: "GET",
-//       url: "/PK-OFFICE/public/hn/hn_bookindex_comment_edit/"+ id, // กรณีอยู่บนคลาวให้ใส่พาทให้ด้วย
+//       url: "/PK-BACKOFFice/public/hn/hn_bookindex_comment_edit/"+ id, // กรณีอยู่บนคลาวให้ใส่พาทให้ด้วย
 //       // url: "/hn/hn_bookindex_comment_edit/",  //ทำในคอมตัวเอง
 //       // url:"{{route('hn.hn_bookindex_comment_edit/')}}"+bookrep_id,
 //       // url:"{{ route('hn.hn_bookindex_comment_edit/')}}" + id,
@@ -359,7 +359,7 @@ $('#insert_commentForm').on('submit',function(e){
               // window.location="/book/bookmake_index"; //{{ asset('js/gcpdfviewer.js') }}
               link == data.link
               window.location.href = "{{ asset('book/bookmake_index') }}";
-              // window.location.href = "http://203.157.231.35/PK-OFFICE/public/book/bookmake_index";
+              // window.location.href = "http://203.157.231.35/PK-BACKOFFice/public/book/bookmake_index";
             }
           })      
         }
@@ -396,9 +396,9 @@ $('#insert_commentForm').on('submit',function(e){
                 // window.location.reload(); 
                 window.location = "/book/bookmake_index"; // กรณี add page new  
                 // window.location.href = "{{ route('bookmake_index')}}";
-                // http://dekbanbanproject.com/PK-OFFICE/public/book/bookmake_index
+                // http://dekbanbanproject.com/PK-BACKOFFice/public/book/bookmake_index
                 // "http://www.code-father.com/member.php";
-                // window.location.href = "http://dekbanbanproject.com/PK-OFFICE/public/book/bookmake_index";
+                // window.location.href = "http://dekbanbanproject.com/PK-BACKOFFice/public/book/bookmake_index";
               }
             })      
         } else {          

@@ -76,6 +76,9 @@ class P4pController extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate; 
         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $bg           = DB::table('budget_year')->where('years_now','Y')->first();
+        $startdate    = $bg->date_begin;
+        $enddate      = $bg->date_end;
 
         $data_startdate = $dabudget_year->date_begin;
         $data_enddate = $dabudget_year->date_end;
@@ -91,10 +94,19 @@ class P4pController extends Controller
         foreach ($count_wls as $key => $value) {
             $count_wl = $value->p4p_workload_id;
         }
-        $data['p4p_work'] = DB::table('p4p_work')
-        ->leftjoin('leave_month','leave_month.MONTH_ID','=','p4p_work.p4p_work_month') 
-        // ->where('p4p_work_user','=',$iduser)
-        ->get();
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+
+        // $data['p4p_work'] = DB::table('p4p_work')
+        // ->leftjoin('leave_month','leave_month.MONTH_ID','=','p4p_work.p4p_work_month') 
+        // // ->where('p4p_year','=',$bg_yearnow)
+        // ->get();
+
+        $data['p4p_work'] = DB::select(
+            'SELECT * FROM p4p_work WHERE p4p_work_year = "'.$bg_yearnow.'" GROUP BY p4p_work_month 
+        ');
+
+
         return view('p4p.p4p',$data, [
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
@@ -324,6 +336,9 @@ class P4pController extends Controller
     public static function refwork()
     {
         $year = date('Y');
+        $bgs_year                      = DB::table('budget_year')->where('years_now','Y')->first();
+        $data['bg_yearnow']            = $bgs_year->leave_year_id; 
+        $bg_yearnow                    = $bgs_year->leave_year_id;
         $maxnumber = DB::table('p4p_work')->max('p4p_work_id');
         if ($maxnumber != '' ||  $maxnumber != null) {
             $refmax = DB::table('p4p_work')->where('p4p_work_id', '=', $maxnumber)->first();
@@ -338,7 +353,7 @@ class P4pController extends Controller
         }
         $ye = date('Y') + 543;
         $y = substr($ye, -2);
-        $refwork = 'WY'.$ye . '-' . $ref;
+        $refwork = $bg_yearnow . '' . $ref;
         return $refwork;       
     }
     public static function refnumber()
@@ -429,25 +444,31 @@ class P4pController extends Controller
         // $data['y'] = date('Y')+543;
         $data['y'] = date('Y');
 
-        $m = substr(date("m"),1);  // ตัดเลข 0 หน้า 5 ออก เช่นเดือน 05 เหลือ 5
-         // $mounts = date('m');
+        // $m = substr(date("m"),1);  // ตัดเลข 0 หน้า 5 ออก เช่นเดือน 05 เหลือ 5
+         $m = date('m');
 
         //    dd($m);
-        $data['users'] = User::get();
-        $data['leave_month'] = DB::table('leave_month')->get();
-        $data_month = DB::table('leave_month')->where('MONTH_ID','=',$m)->first();
+        $data['users']                = User::get();
+        $data['leave_month']          = DB::table('leave_month')->get();
+        $data_month                   = DB::table('leave_month')->where('MONTH_ID','=',$m)->first();
 
         // dd($data_month);
         $month = $data_month->MONTH_ID;
         // dd($month);
         $data['p4p_workgroupset_unit'] = DB::table('p4p_workgroupset_unit')->get();
-        $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
-        $data['p4p_work'] = DB::table('p4p_work')
-        ->leftjoin('leave_month','leave_month.MONTH_ID','=','p4p_work.p4p_work_month') 
-        // ->where('p4p_work_user','=',$iduser)
-        ->get();
-        $data['budget_year'] = DB::table('budget_year')->get();
-        
+        $data['p4p_workgroupset']      = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
+        // $data['p4p_work']              = DB::table('p4p_work')
+        // ->leftjoin('leave_month','leave_month.MONTH_ID','=','p4p_work.p4p_work_month') 
+        // // ->where('p4p_work_user','=',$iduser)
+        // ->get();
+        $data['budget_year']           = DB::table('budget_year')->get();
+        $bgs_year                      = DB::table('budget_year')->where('years_now','Y')->first();
+        $data['bg_yearnow']            = $bgs_year->leave_year_id; 
+        $bg_yearnow                    = $bgs_year->leave_year_id;
+
+        $data['p4p_work']              = DB::select(
+            'SELECT * FROM p4p_work WHERE p4p_work_year = "'.$bg_yearnow.'" GROUP BY p4p_work_month 
+        ');
 
         return view('p4p.p4p_work', $data,[
             'start'       => $datestart,
@@ -471,7 +492,7 @@ class P4pController extends Controller
             $add = new P4p_work(); 
             $add->p4p_work_user = $request->p4p_work_user;
             $add->p4p_work_month = $m;
-            $add->p4p_work_year = $y;
+            $add->p4p_work_year = $yy;
             $add->p4p_work_code = $request->p4p_work_code; 
             $add->p4p_work_monthth = $check_data->MONTH_NAME; 
             $add->save();
@@ -490,20 +511,25 @@ class P4pController extends Controller
         $data['y'] = date('Y')+543;
         $data['users'] = User::get();
         $data['leave_month'] = DB::table('leave_month')->get();
-        $data_month = DB::table('leave_month')->where('MONTH_ID','=',$m)->first();
-        $month = $data_month->MONTH_ID;
-
+        // $data_month = DB::table('leave_month')->where('MONTH_ID','=',$m)->first();
+        // $month = $data_month->MONTH_ID;
 
         $data_show = P4p_work::where('p4p_work_id','=',$id)->first();
         // $data['p4p_work'] = P4p_work::where('p4p_work_user','=',$iduser)->get();
         $data['budget_year'] = DB::table('budget_year')->get();
-        $data['p4p_work'] = DB::table('p4p_work')
-        ->leftjoin('leave_month','leave_month.MONTH_ID','=','p4p_work.p4p_work_month') 
-        ->where('p4p_work_user','=',$iduser)
-        ->get();
+        // $data['p4p_work'] = DB::table('p4p_work')
+        // ->leftjoin('leave_month','leave_month.MONTH_ID','=','p4p_work.p4p_work_month') 
+        // ->where('p4p_work_user','=',$iduser)
+        // ->get();
+        $bgs_year                    = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow                  = $bgs_year->leave_year_id;
+        $data['p4p_work']            = DB::select(
+            'SELECT * FROM p4p_work WHERE p4p_work_year = "'.$bg_yearnow.'" GROUP BY p4p_work_month 
+        ');
+
         return view('p4p.p4p_work_edit', $data,[
             'data_show' => $data_show,
-            'month'       => $month 
+            // 'month'       => $month 
         ]);
     }
     public function p4p_work_update(Request $request)
@@ -519,7 +545,7 @@ class P4pController extends Controller
         $check_data = Leave_month::where('MONTH_ID','=',$request->p4p_work_month)->first();
         $update->p4p_work_monthth = $check_data->MONTH_NAME; 
 
-        $update->p4p_work_year = $y;
+        $update->p4p_work_year = $yy;
         $update->p4p_work_code = $request->p4p_work_code; 
         $update->save();
 
@@ -561,7 +587,7 @@ class P4pController extends Controller
         $data_p4p_work = DB::select('
             SELECT * from p4p_work group by p4p_work_year;
         ');
- 
+        $data['p4p_sum'] = DB::table('p4p_workload')->where('p4p_workload_user','=',$iduser)->sum('p4p_workload_sum');
         // $data['p4p_workset'] = DB::table('p4p_workset')
         // ->leftjoin('p4p_work_position','p4p_work_position.p4p_work_position_id','=','p4p_workset.p4p_workset_position')
         // ->leftjoin('p4p_workgroupset_unit','p4p_workgroupset_unit.p4p_workgroupset_unit_id','=','p4p_workset.p4p_workset_unit')
@@ -807,6 +833,8 @@ class P4pController extends Controller
         $p4p_workload_user = $request->p4p_workload_user;
         // dd($p4p_workload_user);
         // P4p_workload::where('p4p_work_id','=',$p4p_work_id)->delete();
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
 
         if($request->p4p_workload_1A != '' || $request->p4p_workload_1A != null){
             
@@ -935,11 +963,12 @@ class P4pController extends Controller
 
                     P4p_workload::where('p4p_work_id', $p4p_work_id)->where('p4p_workset_id', $p4p_workset_id[$count]) 
                     ->update([   
-                        'p4p_work_id' => $p4p_work_id,
+                        'p4p_work_id'       => $p4p_work_id,
                         'p4p_workload_date' => $date,
-                        'p4p_workset_code' => $data_w->p4p_workset_code,
-                        'p4p_workset_name' => $data_w->p4p_workset_name,
-                        'p4p_workset_unit' => $data_w->p4p_workset_unit,
+                        'p4p_year'          => $bg_yearnow,
+                        'p4p_workset_code'  => $data_w->p4p_workset_code,
+                        'p4p_workset_name'  => $data_w->p4p_workset_name,
+                        'p4p_workset_unit'  => $data_w->p4p_workset_unit,
                         'p4p_workset_score' => $data_w->p4p_workset_score,
 
                         'p4p_workset_id' => $p4p_workset_id[$count],

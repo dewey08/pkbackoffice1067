@@ -1427,12 +1427,16 @@ class Account202Controller extends Controller
             $months_now = date('m');
             $year_now = date('Y'); 
             //    dd($budget_year);
+            $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+            $data['bg_yearnow']    = $bgs_year->leave_year_id;
+
             if ($budget_year == '') {  
                 $yearnew = date('Y');
                 $year_old = date('Y')-1;
                 $months_old  = ('10');
-                $startdate = (''.$year_old.'-10-01');
-                $enddate = (''.$yearnew.'-09-30');
+                $bg           = DB::table('budget_year')->where('years_now','Y')->first();
+                $startdate    = $bg->date_begin;
+                $enddate      = $bg->date_end;
 
                 $datashow = DB::select(' 
                         SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
@@ -1445,9 +1449,9 @@ class Account202Controller extends Controller
                         GROUP BY months ORDER BY a.dchdate DESC
                 ');    
             } else {
-                $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
-                $startdate    = $bg->date_begin;
-                $enddate      = $bg->date_end;
+                $bgg           = DB::table('budget_year')->where('leave_year_id',$budget_year)->first();
+                $startdate    = $bgg->date_begin;
+                $enddate      = $bgg->date_end;
                 // dd($enddate);
                 $datashow = DB::select(' 
                         SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
@@ -1461,7 +1465,7 @@ class Account202Controller extends Controller
                 ');  
             }
         
-             return view('account_202.account_pkucs202_dash',[
+             return view('account_202.account_pkucs202_dash',$data,[
                  'startdate'        =>  $startdate,
                  'enddate'          =>  $enddate, 
                  'datashow'         =>  $datashow,

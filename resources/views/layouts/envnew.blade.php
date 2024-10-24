@@ -68,6 +68,7 @@
     <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <style>
     body {
@@ -85,6 +86,10 @@
         /* justify-content: center; */
         /* width: 100vw;   ให้เต็มพอดี */
         /* height: 100vh; ให้เต็มพอดี  */
+    }
+    .input_new{
+        border-radius: 2em 2em 2em 2em;
+        box-shadow: 0 0 10px rgb(252, 101, 1);
     }
 
     .Bgsidebar {
@@ -106,7 +111,7 @@
     }
     .card_audit_4{
         border-radius: 2em 2em 2em 2em;
-        box-shadow: 0 0 15px rgb(12, 179, 6);
+        box-shadow: 0 0 15px rgb(159, 241, 156);
     }
     .auditcheckbox{         
         width: 20px;
@@ -118,6 +123,7 @@
         box-shadow: 0 0 10px rgb(250, 128, 124);
         /* box-shadow: 0 0 10px teal; */
     }
+    
  
 </style>
 <style>
@@ -244,12 +250,12 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
 
         <header id="page-topbar">
             {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> --}}
-                <div class="navbar-header shadow" style="background-color: rgb(14, 194, 83)">
+                <div class="navbar-header shadow" style="background-color: rgb(141, 218, 148)">
  
                 <div class="d-flex">
                     <!-- LOGO -->
                     <div class="navbar-brand-box">
-                        <a href="{{url('pre_audit')}}" class="logo logo-dark">
+                        <a href="{{url('env_dashboard')}}" class="logo logo-dark">
                             <span class="logo-sm">
                                 <img src="assets/images/p.png" alt="logo-sm" height="22">
                             </span>
@@ -258,7 +264,7 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
                             </span>
                         </a>
 
-                        <a href="{{url('pre_audit')}}" class="logo logo-light">
+                        <a href="{{url('env_dashboard')}}" class="logo logo-light">
                             <span class="logo-sm me-2">
                                 <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40">
                             </span>
@@ -280,12 +286,12 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
                     </div>
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle" style="color: black"></i>
+                        <i class="ri-menu-2-line align-middle" style="color: rgb(0, 0, 0)"></i>
                     </button>
                     <?php
-                        $org = DB::connection('mysql')->select(                                                            '
+                        $org = DB::connection('mysql')->select('
                                 select * from orginfo
-                                where orginfo_id = 1                                                                                                                      ',
+                                where orginfo_id = 1',
                         );
                     ?>
                     <form class="app-search d-none d-lg-block">
@@ -447,14 +453,14 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
                         <li class="menu-title">Menu</li>
                         <li>
                             <a href="{{ url('env_dashboard') }}">  
-                                <i class="fa-solid fa-gauge-high text-white"></i>
+                                <i class="fa-solid fa-chart-line fa-beat fa-2xl" style="color: #74C0FC;"></i>
                                 <span>Dashboard</span>
                             </a> 
                         </li>
                         
-                        <li>
+                        <li>                            
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-pen text-danger"></i>
+                                <i class="fa-solid fa-poo fa-beat fa-2xl" style="color: #FFD43B;"></i>                          
                                 <span>ระบบบ่อบำบัดน้ำเสีย</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -464,7 +470,7 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-pen text-danger"></i>
+                                <i class="fa-solid fa-recycle fa-beat fa-2xl" style="color: #1b9d3b;"></i>
                                 <span>ระบบบริหารจัดการขยะ</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -474,24 +480,22 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-pen text-danger"></i>
+                                <i class="fa-solid fa-clipboard-list fa-beat fa-2xl" style="color: #ee4fe8;"></i>
                                 <span>รายงาน</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">                                
                                 <li><a href="{{ url('env_water_rep') }}">รายงานระบบบ่อบำบัดน้ำเสีย</a></li>
                                 <li><a href="{{ url('env_trash_rep') }}">รายงานระบบบริหารจัดการขยะ</a></li>
                             </ul>
-                        </li>
-
-                       
+                        </li>                       
 
                         @if ($permiss_setting_env !=0)
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-pen text-danger"></i>
+                                <i class="fa-solid fa-gears fa-beat fa-2xl" style="color: #f5a824;"></i>
                                 <span>ตั้งค่า</span>
                             </a>
-                            <ul class="sub-menu" aria-expanded="true">
+                            <ul class="sub-menu" aria-expanded="true">                                
                                 <li><a href="{{ url('env_water_parameter') }}">ตั้งค่า Parameter น้ำ</a></li>
                                 <li><a href="{{ url('env_water_parameter_set') }}">ตั้งค่า บ่อบำบัด</a></li>
                                 <li><a href="{{ url('env_trash_parameter') }}">ตั้งค่า ประเภทขยะ</a></li>

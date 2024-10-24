@@ -6,15 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     { 
         if (!Schema::hasTable('wh_product'))
         {
             Schema::create('wh_product', function (Blueprint $table) {
                 $table->bigIncrements('pro_id'); 
+                $table->string('barcode')->nullable();  //
                 $table->string('pro_year')->nullable(); //  
                 $table->date('recieve_date')->nullable();  //  
                 $table->string('pro_code')->nullable();  // รหัส : OUT CO1
@@ -33,9 +31,6 @@ return new class extends Migration
         }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('wh_product');

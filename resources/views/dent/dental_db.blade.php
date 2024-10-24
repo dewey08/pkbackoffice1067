@@ -123,6 +123,7 @@
                         </div>
                     </div>
                     <div class="page-title-actions"> 
+                        
                     </div>
                 </div>
             </div>
@@ -133,48 +134,30 @@
             <div class="col-xl-12">
                 <div class="card card_prs_4">
                     <div class="card-body">    
-                        <div class="row mb-3">
-                           
-                            <div class="col"></div>
-                            
+                        <div class="float-end d-none d-md-inline-block">
+                            <div class="dropdown">
+                                <a class="text-reset" href="#" data-bs-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <span class="text-muted">This Years<i class="mdi mdi-chevron-down ms-1"></i></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="#">วันนี้</a>
+                                    <a class="dropdown-item" href="#">ย้อนหลัง 1 สัปดาห์</a>
+                                    <a class="dropdown-item" href="#">ย้อนหลัง 1 เดือน</a>
+                                    <a class="dropdown-item" href="#">ย้อนหลัง 1 ปี</a>
+                                </div>
+                            </div>
                         </div>
-        
-                        <p class="mb-0">
-                            {{-- <div class="table-responsive">
-                                <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
-                               
-                                    <thead>
-                                        <tr>
-                                          
-                                            <th width="3%" class="text-center">ลำดับ</th>   
-                                            <th class="text-center" width="8%">vstdate</th>  
-                                            <th class="text-center" >hn</th> 
-                                            <th class="text-center">รายการ</th> 
-                                            <th class="text-center" >ttcode</th>  
-                                            <th class="text-center" >staff</th> 
-                                            <th class="text-center" >dtcode</th>  
-                                            <th class="text-center">dtname</th> 
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php $i = 1; ?>
-                                        @foreach ($data_show as $item) 
-                                            <tr id="tr_{{$item->hn}}">                                                  
-                                                <td class="text-center" width="3%">{{ $i++ }}</td>   
-                                                <td class="text-center" width="8%" style="font-size: 12px">{{ $item->vstdate }}</td>  
-                                                <td class="text-center" width="5%" style="font-size: 12px">{{ $item->hn }}</td>  
-                                                <td class="p-2">{{ $item->dmname }}</td>  
-                                                <td class="text-center" width="10%" style="font-size: 12px">{{ $item->ttcode }}</td>    
-                                                <td class="p-2" width="7%">{{ $item->staff }}</td>  
-                                                <td class="p-2" width="5%">{{ $item->dtcode }}</td> 
-                                                <td class="text-center" width="10%">{{ $item->dtname }}</td>  
-                                              
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div> --}}
-                        </p>
+                        
+                        <h4 class="card-title mb-4">จำนวนผู้มารับบริการคลินิกทันตกรรม ย้อนหลัง 1 ปี</h4>
+
+                        <div class="card-body py-0 px-2">
+                            <div class="chart-container-fluid">
+                                <div id="chart_div" style="width: auto; height: 500px;"></div>
+                                {{-- <canvas id="myChart" width="800" height="1200"></canvas> --}}
+                            </div>
+                        </div>
+         
                     </div>
                 </div>
             </div>
@@ -185,7 +168,51 @@
     @endsection
     @section('footer')
 
+    <script src="{{ asset('js/chart.min.js') }}"></script>
+    <script src="{{ asset('js/dist-chart.min.js') }}"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
+    <script type="text/javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawVisualization);
+
+        function drawVisualization() {
+            // Some raw data (not necessarily accurate)
+            var data = google.visualization.arrayToDataTable([
+                ['Month', 'คลินิก'],
+                ['มกราคม', <?php echo $den_01; ?>],
+                ['กุมภาพัน', <?php echo $den_02; ?>],
+                ['มีนาคม', <?php echo $den_03; ?>],
+                ['เมษายน', <?php echo $den_04; ?>],
+                ['พฤษภาคม', <?php echo $den_05; ?>],
+                ['มิถุนายน', <?php echo $den_06; ?>],
+                ['กรกฎาคม', <?php echo $den_07; ?>],
+                ['สิงหาคม', <?php echo $den_08; ?>],
+                ['กันยายน', <?php echo $den_09; ?>],
+                ['ตุลาคม', <?php echo $den_10; ?>],
+                ['พฤษจิกายน', <?php echo $den_11; ?>],
+                ['ธันวาคม', <?php echo $den_12; ?>],
+            ]);
+
+
+            var options = {
+                title: '',
+                vAxis: {
+                    title: 'จำนวน'
+                },
+                hAxis: {
+                    title: ''
+                },
+                seriesType: 'bars',
+                //   series: {5: {type: 'line'}}
+            };
+
+            var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
+
+
+    </script>
 
 <script>
     $(document).ready(function() {

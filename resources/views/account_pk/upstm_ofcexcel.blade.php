@@ -100,13 +100,12 @@
             </div> 
         </div>
 
-        <div class="row"> 
-            {{-- <div class="col"></div> --}}
+        <div class="row">  
             <div class="col-xl-12 col-md-12">
                 <div class="card cardacc">
                     <div class="grid-menu-col">
                         <form action="{{ route('acc.upstm_ofcexcel_save') }}" method="POST" enctype="multipart/form-data">
-                            {{-- id="Upstmti" --}}
+                       
                             @csrf
                             <div class="row">
 
@@ -335,7 +334,7 @@
 
 @endsection
 @section('footer')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script> --}}
     <script>
         $(document).ready(function() {
             $('#example').DataTable();
@@ -729,42 +728,7 @@
                             }
                 })
             });
-            //    $('#UpdateHN').click(function() {
-            //             var datepicker = $('#datepicker').val();
-            //             var datepicker2 = $('#datepicker2').val();
-
-            //             $.ajax({
-            //                 url: "{{ route('acc.upstm_hn') }}",
-            //                 type: "POST",
-            //                 dataType: 'json',
-            //                 data: {
-            //                     datepicker,datepicker2
-            //                 },
-            //                 success: function(data) {
-            //                     if (data.status == 200) {
-            //                         Swal.fire({
-            //                             title: 'อัพเดทข้อมูลสำเร็จ',
-            //                             text: "You Update data success",
-            //                             icon: 'success',
-            //                             showCancelButton: false,
-            //                             confirmButtonColor: '#06D177',
-            //                             confirmButtonText: 'เรียบร้อย'
-            //                         }).then((result) => {
-            //                             if (result
-            //                                 .isConfirmed) {
-            //                                 console.log(
-            //                                     data);
-            //                                 window.location.reload();
-            //                                 // window.location="{{ url('warehouse/warehouse_index') }}";
-            //                             }
-            //                         })
-            //                     } else {
-
-            //                     }
-
-            //                 },
-            //             });
-            //     });
+            
 
         });
     </script>

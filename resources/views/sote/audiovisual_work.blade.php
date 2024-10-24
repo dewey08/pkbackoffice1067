@@ -1,4 +1,5 @@
-@extends('layouts.userdashboard')
+{{-- @extends('layouts.userdashboard') --}}
+@extends('layouts.user_layout')
 @section('title', 'PK-OFFICE || Sot')
 @section('content')
     <script>
@@ -161,39 +162,48 @@
             }
         }
     </style>
-    <div class="tabs-animation">
+<div class="tabs-animation">
 
-        <div class="row text-center">
-            <div id="overlay">
-                <div class="cv-spinner">
-                    <span class="spinner"></span>
-                </div>
+    <div class="row text-center">
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
             </div>
-
+        </div> 
+    </div> 
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner"> 
+            </div>
         </div>
+    </div>
 
         <form action="{{ url('audiovisual_work') }}" method="GET">
             @csrf
-            <div class="row">
+            <div class="row mt-5">
                 <div class="col"></div>
                 <div class="col-md-1 text-end mt-2">วันที่</div>
                 <div class="col-md-4 text-end">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                         data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                            autocomplete="off" data-date-language="th-th" value="{{ $startdate }}" required />
-                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                            autocomplete="off" data-date-language="th-th" value="{{ $enddate }}" />
-
-                        <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                        <input type="text" class="form-control-sm card_prs_4" name="startdate" id="datepicker" placeholder="Start Date"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" data-date-language="th-th" value="{{ $startdate }}" required />
+                        <input type="text" class="form-control-sm card_prs_4" name="enddate" placeholder="End Date" id="datepicker2"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" data-date-language="th-th" value="{{ $enddate }}" />
+                        {{-- <button type="submit" class="btn-icon btn-shadow btn-dashed btn btn-outline-info">
                             <i class="fa-solid fa-magnifying-glass text-info me-2"></i>
                             ค้นหา
-                        </button> 
+                        </button>  --}}
+                        <button type="submit" class="ladda-button btn-pill btn btn-sm btn-info card_prs_4" data-style="expand-left">
+                            <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                            <span class="ladda-spinner"></span>
+                        </button>
+                        <a href="{{url('audiovisual_work_add')}}" class="ladda-button btn-pill btn btn-sm btn-primary card_prs_4">
+                            <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เพิ่มข้อมูล  
+                        </a> 
                     </div>
                 </div>
-                <div class="col-md-2">
+                {{-- <div class="col-md-2"> --}}
                     {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary " data-bs-toggle="modal" data-bs-target="#addicodeModal" data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่มข้อมูล">
                     
                         <i class="fa-solid fa-square-plus me-2"></i>
@@ -206,19 +216,19 @@
                      เพิ่มข้อมูล
                     </a>  --}}
 
-                    <a href="{{url('audiovisual_work_add')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary "  data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่มข้อมูล">
+                    {{-- <a href="{{url('audiovisual_work_add')}}" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary "  data-bs-toggle="tooltip" data-bs-placement="top" title="เพิ่มข้อมูล">
                     
                         <i class="fa-solid fa-square-plus me-2"></i>
                      เพิ่มข้อมูล
-                    </a> 
+                    </a>  --}}
  
-                </div>
+                {{-- </div> --}}
             </div>
         </form>
 
         <div class="row mt-2">
             <div class="col-md-12">
-                <div class="card mb-1 card_user_4"> 
+                <div class="card mb-1 card_prs_4"> 
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
                             data-bs-parent="#accordion">
                         <div class="card-body"> 
@@ -323,7 +333,7 @@
 
         <div class="row mt-2">
             <div class="col-xl-12">
-                <div class="card card_user_4 p-2">
+                <div class="card card_prs_4 p-2">
                     <div class="card-body py-0 px-2 mt-2">
                         <div class="table-responsive">
                             <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
@@ -352,40 +362,40 @@
                                          
                                             @if ($item->audiovisual_status == 'REQUEST')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge bg-info" style="font-size:12px">ร้องขอ</div>
+                                                    <div class="badge bg-info" style="font-size:10px">ร้องขอ</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'ACCEPTING')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge" style="background-color: #592DF7;font-size:12px"
+                                                    <div class="badge" style="background-color: #592DF7;font-size:10px"
                                                         style="font-size:12px">รับทราบ</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'INPROGRESS')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge" style="background: rgb(96, 221, 243);font-size:12px"
+                                                    <div class="badge" style="background: rgb(96, 221, 243);font-size:10px"
                                                          >กำลังดำเนินการ</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'VERIFY')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge" style="background: rgb(232,13,239);font-size:12px"
+                                                    <div class="badge" style="background: rgb(232,13,239);font-size:10px"
                                                          >ตรวจสอบ</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'FINISH')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge" style="background: rgb(4, 190, 144);font-size:12px"
+                                                    <div class="badge" style="background: rgb(4, 190, 144);font-size:10px"
                                                         >เสร็จสิ้น</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'CANCEL')
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge bg-danger" style="font-size:12px">แจ้งยกเลิก</div>
+                                                    <div class="badge bg-danger" style="font-size:10px">แจ้งยกเลิก</div>
                                                 </td>
                                             @elseif ($item->audiovisual_status == 'CONFIRM_CANCEL')
                                                 <td class="text-center" width="5%">
                                                     <div class="badge " style="background: rgb(141, 140, 138)"
-                                                        style="font-size:12px">ยกเลิก</div>
+                                                        style="font-size:10px">ยกเลิก</div>
                                                 </td>
                                             @else
                                                 <td class="text-center" width="5%">
-                                                    <div class="badge bg-success" style="font-size:12px">ซ่อมเสร็จ</div>
+                                                    <div class="badge bg-success" style="font-size:10px">ซ่อมเสร็จ</div>
                                                 </td>
                                             @endif
                                          

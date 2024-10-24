@@ -77,17 +77,23 @@
                display:none;
                }
     </style>
-    <div class="container-fluid">
+      <div class="tabs-animation">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
+        </div> 
         <div id="preloader">
             <div id="status">
-                <div class="spinner">
-                    
+                <div class="spinner"> 
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">
                     <div class="card-header ">
                         <div class="row">
                             <div class="col-md-4">
@@ -95,7 +101,11 @@
                             </div>
                             <div class="col"></div> 
                             <div class="col-md-2 text-end">
-                           
+                                <a href="{{ url('p4p_work') }}"
+                                class="btn btn-danger btn-sm"> 
+                                <i class="fa-regular fa-circle-left me-2"></i>
+                                ย้อนกลับ
+                            </a>
                             </div>
     
                         </div>
@@ -107,8 +117,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <input id="p4p_workset_code" type="text" class="form-control form-control-sm"
-                                        name="p4p_workset_code" value="{{$refnumberwork}}" readonly>
+                                    <input id="p4p_workset_code" type="text" class="form-control-sm input_new"
+                                        name="p4p_workset_code" value="{{$refnumberwork}}" readonly style="width: 100%">
                                 </div>
                             </div> 
                             <div class="col-md-1 text-end">
@@ -116,14 +126,14 @@
                             </div>
                             <div class="col-md-5">
                                 <div class="form-group">
-                                    <input id="p4p_workset_name" type="text" class="form-control form-control-sm"
-                                        name="p4p_workset_name">
+                                    <input id="p4p_workset_name" type="text" class="form-control-sm input_new"
+                                        name="p4p_workset_name" style="width: 100%">
                                 </div>
                             </div>
                             <input type="hidden" id="p4p_workset_user" value="{{$iduser}}">
 
                             <div class="col-md-2 text-end">
-                                <button type="button" class="btn btn-primary btn-sm" id="Savebtn">
+                                <button type="button" class="btn btn-primary btn-sm input_new" id="Savebtn">
                                     <i class="fa-solid fa-floppy-disk me-2"></i>
                                     บันทึกข้อมูล
                                 </button>
@@ -170,8 +180,8 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <input id="p4p_workset_time" type="text" class="form-control form-control-sm"
-                                        name="p4p_workset_time">
+                                    <input id="p4p_workset_time" type="text" class="form-control-sm input_new"
+                                        name="p4p_workset_time" style="width: 100%">
                                 </div>
                             </div>
                             <div class="col-md-1 text-end">
@@ -179,8 +189,8 @@
                             </div>
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <input id="p4p_workset_score" type="text" class="form-control form-control-sm"
-                                        name="p4p_workset_score">
+                                    <input id="p4p_workset_score" type="text" class="form-control-sm input_new"
+                                        name="p4p_workset_score" style="width: 100%">
                                 </div>
                             </div>
                             <div class="col-md-1 text-end">
@@ -199,12 +209,12 @@
                             </div> 
                             <div class="col-md-2"> 
                                 <div class="form-outline bga">
-                                    <input type="text" id="UNIT_INSERT" name="UNIT_INSERT" class="form-control form-control-sm shadow" style="background-color: rgb(254, 255, 177)" placeholder="ถ้าหน่วยนับไม่มี ให้เพิ่ม"/> 
+                                    <input type="text" id="UNIT_INSERT" name="UNIT_INSERT" class="form-control-sm shadow input_new" style="background-color: rgb(254, 255, 177)" placeholder="ถ้าหน่วยนับไม่มี ให้เพิ่ม"/> 
                                 </div> 
                             </div>
                             <div class="col-md-1 text-end"> 
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-info btn-sm" onclick="addunitwork();">
+                                    <button type="button" class="btn btn-info btn-sm input_new" onclick="addunitwork();">
                                         <i class="fa-solid fa-circle-plus me-2"></i>
                                         เพิ่ม
                                     </button> 
@@ -281,7 +291,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer">
+                    {{-- <div class="card-footer">
                         <div class="col-md-12 text-end">
                             <div class="form-group"> 
                                 <a href="{{ url('p4p_work') }}"
@@ -292,7 +302,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

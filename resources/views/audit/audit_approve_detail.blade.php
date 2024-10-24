@@ -162,281 +162,233 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-3">
-                <h4 class="card-title" style="color:rgb(250, 128, 124)">Detail Pre-Audit OFC</h4>
-                <p class="card-title-desc">รายละเอียดข้อมูล Pre-Audit OFC</p>
+        <form action="{{ URL('audit_approve_code') }}" method="GET">
+            @csrf
+            <div class="row">
+                <div class="col-md-3">
+                    <h4 class="card-title" style="color:rgb(250, 128, 124)">Detail Pre-Audit OFC</h4>
+                    <p class="card-title-desc">รายละเอียดข้อมูล Pre-Audit OFC</p>
+                </div>
+                <div class="col"></div> 
+                {{-- @if ($budget_year =='')
+                <div class="col-md-2"> 
+                        <select name="budget_year" id="budget_year" class="form-control input_border text-center" style="width: 100%">
+                            @foreach ($dabudget_year as $item_y)
+                                @if ($bg_yearnow == $item_y->leave_year_id )
+                                    <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
+                                @else
+                                    <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_name}}</option>
+                                @endif                                   
+                            @endforeach
+                        </select>
+                </div>
+                @else
+                <div class="col-md-2"> 
+                        <select name="budget_year" id="budget_year" class="form-control input_border text-center" style="width: 100%">
+                            @foreach ($dabudget_year as $item_y)
+                                @if ($budget_year == $item_y->leave_year_id )
+                                    <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
+                                @else
+                                    <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_name}}</option>
+                                @endif                                   
+                            @endforeach
+                        </select>
+                </div>
+                @endif --}}
+                <div class="col-md-1 text-start">  
+                    <a href="{{URL('audit_approve_code')}}" class="ladda-button btn-pill btn btn-warning input_border" data-style="expand-left">
+                        <span class="ladda-label"> <i class="fa-solid fa-arrow-left text-white me-2"></i>ย้อนกลับ</span> 
+                    </a>    
+                </div>  
             </div>
-            <div class="col"></div>
-        </div>
-
-        <div class="row">
-            <div class="col-xl-5">
-                <div class="card card_audit_4">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h4 class="card-title" style="color:rgb(241, 137, 155)"">รายการที่ไม่ลง DIAG</h4>
-                            </div>
-                            <div class="col-md-9 text-end">
-                                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                                    data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                                    <input type="text" class="form-control card_audit_4" name="startdate" id="datepicker"
-                                        placeholder="Start Date" data-date-container='#datepicker1'
-                                        data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                        data-date-language="th-th" value="{{ $startdate }}" required />
-                                    <input type="text" class="form-control card_audit_4" name="enddate"
-                                        placeholder="End Date" id="datepicker2" data-date-container='#datepicker1'
-                                        data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                        data-date-language="th-th" value="{{ $enddate }}" />
-
-                                    <button type="button"
-                                        class="ladda-button me-2 btn-pill btn btn-primary cardacc Process_A"
-                                        data-url="{{ url('pre_audit_process_a') }}">
-                                        <i class="fa-solid fa-sack-dolla"></i>
-                                        ประมวลผลใหม่
-                                    </button>
+        </form>
+            <div class="row">
+                {{-- <div class="col-xl-6">
+                    <div class="card card_audit_4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h4 class="card-title" style="color:rgb(241, 137, 155)"">APPROVE OFC</h4>
                                 </div>
+                                <div class="col"></div>
+                                
                             </div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-md-12">
-                                <div class="table-responsive">
-                                    <table id="example5" class="table table-striped table-bordered dt-responsive nowrap"
-                                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">ลำดับ</th>
-                                                <th class="text-center">Year</th>
-                                                <th class="text-center">Month</th>
-                                                <th class="text-center">Visit ทั้งหมด</th>
-                                                <th class="text-center">Debit-Approve</th>
-                                                <th class="text-center">Debit-ไม่ Approve</th>
-                                                <th class="text-center">Visit ไม่ Approve</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php $jj = 1; ?>
-                                            @foreach ($fdh_ofc as $item)
-                                                <?php
-                                                // $no_app = DB::connection('mysql')->select(
-                                                //     'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
-                                                //         ,count(DISTINCT vn) as countvn,sum(debit) as sum_total_no  
-                                                //         FROM d_fdh WHERE month(vstdate) = "' .$item->months .'" AND year(vstdate) = "' .$item->years .'" 
-                                                //         AND projectcode ="OFC" AND an IS NULL AND (an IS NULL OR an ="") AND debit > 0
-                                                //         AND (authen IS NULL OR authen ="")   
-                                                //         GROUP BY month(vstdate)
-                                                //     '
-                                                // );
-                                                // foreach ($no_app as $key => $value) {
-                                                //     $sum_total_no_ = $value->sum_total_no;
-                                                //     $countvn_      = $value->countvn;
-                                                // }
-
-                                                $no_app = DB::connection('mysql')->select(
-                                                        'SELECT count(DISTINCT vn) as countvn_no,sum(debit) as sum_total_no  
-                                                            FROM d_fdh WHERE month(vstdate) = "'.$item->months.'" AND year(vstdate) = "'.$item->years.'" 
-                                                            AND projectcode ="OFC" AND (an IS NULL OR an ="") AND debit > 0  
-                                                            AND (authen IS NULL OR authen ="") AND hn <>"" 
-                                                    ');  
-                                                    foreach ($no_app as $key => $value) {
-                                                        $sum_total_no_ = $value->sum_total_no;
-                                                        $countvn_      = $value->countvn_no;
-                                                    }
-
-                                                ?>
+                            <div class="row mt-2">
+                                <div class="col-md-12"> 
+                                    <div class="table-responsive">
+                                        <table id="example5"
+                                            class="table table-striped table-bordered dt-responsive nowrap"
+                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
                                                 <tr>
-                                                    <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
-                                                    <td class="text-center" width="10%">{{ $item->years }}</td>
-                                                    @if ($item->months == '1')
-                                                        <td class="text-center" width="15%">มกราคม</td>
-                                                    @elseif ($item->months == '2')
-                                                        <td class="text-center" width="15%">กุมภาพันธ์</td>
-                                                    @elseif ($item->months == '3')
-                                                        <td class="text-center" width="15%">มีนาคม</td>
-                                                    @elseif ($item->months == '4')
-                                                        <td class="text-center" width="15%">เมษายน</td>
-                                                    @elseif ($item->months == '5')
-                                                        <td class="text-center" width="15%">พฤษภาคม</td>
-                                                    @elseif ($item->months == '6')
-                                                        <td class="text-center" width="15%">มิถุนายน</td>
-                                                    @elseif ($item->months == '7')
-                                                        <td class="text-center" width="15%">กรกฎาคม</td>
-                                                    @elseif ($item->months == '8')
-                                                        <td class="text-center" width="15%">สิงหาคม</td>
-                                                    @elseif ($item->months == '9')
-                                                        <td class="text-center" width="15%">กันยายน</td>
-                                                    @elseif ($item->months == '10')
-                                                        <td class="text-center" width="15%">ตุลาคม</td>
-                                                    @elseif ($item->months == '11')
-                                                        <td class="text-center" width="15%">พฤษจิกายน</td>
-                                                    @else
-                                                        <td class="text-center" width="15%">ธันวาคม</td>
-                                                    @endif
-                                                    <td class="text-center text-success" width="20%">
-                                                        {{ $item->countvn }} Visit
-
-                                                    </td>
-                                                    <td class="text-center" width="20%" style="color:rgb(22, 168, 132)"> {{ number_format($item->sum_total, 2) }}</td>
-                                                    @foreach ($no_app as $item_sub)
-                                                                @if ($item_sub->sum_total_no > 0)
+                                                    <th class="text-center">ลำดับ</th>
+                                                    <th class="text-center">Year</th>
+                                                    <th class="text-center">Month</th>
+                                                    <th class="text-center">Visit ทั้งหมด</th>
+                                                    <th class="text-center">Debit-Approve</th>
+                                                    <th class="text-center">Debit-ไม่ Approve</th>
+                                                    <th class="text-center">Visit ไม่ Approve</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $jj = 1;$total1 = 0; $total2 = 0; $total3 = 0; $total4 = 0; $total5 = 0;$total6 = 0;$total7 = 0; ?>
+                                                @foreach ($fdh_ofc as $item)
+                                                <?php  
+                                                    $no_app = DB::connection('mysql10')->select(
+                                                        'SELECT COUNT(rd.vn) as cvn,SUM(rd.total_amount) as total_amount
+                                                        FROM rcpt_debt rd
+                                                        LEFT JOIN vn_stat v ON v.vn = rd.vn
+                                                        WHERE month(v.vstdate) = "'.$item->months.'" AND year(v.vstdate) = "'.$item->years.'"  
+                                                        AND rd.pttype IN("O1","O2","O3","O4","O5")AND (rd.sss_approval_code IS NULL OR rd.sss_approval_code ="")   
+                                                    ');   
+                                                    foreach ($no_app as $key => $value) {
+                                                        $sum_total_no = $value->total_amount;
+                                                        $countvn      = $value->cvn;
+                                                    }
+                                                ?>
+                                                    <tr>
+                                                        <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
+                                                        <td class="text-center" width="10%">{{ $item->years }}</td> 
+                                                        @if ($item->months == '1')
+                                                        <td class="text-center" width="15%">มกราคม</td> 
+                                                        @elseif ($item->months == '2')
+                                                            <td class="text-center" width="15%">กุมภาพันธ์</td> 
+                                                        @elseif ($item->months == '3')
+                                                            <td class="text-center" width="15%">มีนาคม</td> 
+                                                        @elseif ($item->months == '4')
+                                                            <td class="text-center" width="15%">เมษายน</td> 
+                                                        @elseif ($item->months == '5')
+                                                            <td class="text-center" width="15%">พฤษภาคม</td> 
+                                                        @elseif ($item->months == '6')
+                                                            <td class="text-center" width="15%">มิถุนายน</td> 
+                                                        @elseif ($item->months == '7')
+                                                            <td class="text-center" width="15%">กรกฎาคม</td> 
+                                                        @elseif ($item->months == '8')
+                                                            <td class="text-center" width="15%">สิงหาคม</td> 
+                                                        @elseif ($item->months == '9')
+                                                            <td class="text-center" width="15%">กันยายน</td> 
+                                                        @elseif ($item->months == '10')
+                                                            <td class="text-center" width="15%">ตุลาคม</td> 
+                                                        @elseif ($item->months == '11')
+                                                            <td class="text-center" width="15%">พฤษจิกายน</td> 
+                                                        @else
+                                                            <td class="text-center" width="15%">ธันวาคม</td> 
+                                                        @endif
+                                                        <td class="text-center text-primary" width="15%">
+                                                            {{ $item->countvn }}                                                             
+                                                        </td>
+                                                        <td class="text-center" width="15%" style="color:#033a6d">{{ number_format($item->sum_total, 2) }}</td> 
+                                               
+                                                                @if ($sum_total_no > 0)
                                                                     <td class="text-center" width="20%" style="color:rgb(252, 73, 42)">
-                                                                        <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="{{ url('audit_approve_detail/' . $item->months . '/' . $item->years) }}" >
-                                                                            {{ number_format($item_sub->sum_total_no, 2) }}
-                                                                        </a> 
+                                                                       
+                                                                        <a href="{{ url('audit_approve_detail/' . $item->months . '/' . $item->years) }}" class="ladda-button me-2 btn-pill btn btn-sm input_border text-white" style="background-color: rgb(236, 11, 97);font-size: 12px;"> {{ number_format($sum_total_no, 2) }}</a>
                                                                     </td> 
-                                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $item_sub->countvn_no}}</td> 
+                                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $countvn}}</td> 
                                                                 @else
                                                                     <td class="text-center" width="20%">
                                                                         <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-success">
                                                                             ซู๊ดดดดยอดอิหลี
                                                                         </a> 
                                                                     </td> 
-                                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $item_sub->countvn_no}}</td> 
-                                                                @endif
-                                                                
-                                                        @endforeach
-                                                    {{-- <td class="text-center" width="15%"
-                                                        style="color:rgb(252, 73, 42)">
-                                                        <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger"
-                                                            href="{{ url('audit_approve_detail/' . $item->months . '/' . $item->years) }}">
-                                                            {{ number_format($sum_total_no_, 2) }}
-                                                        </a> 
-                                                    </td>
-                                                    <td class="text-center" width="15%" style="color:rgb(168, 22, 83)">{{ $countvn_}}</td>  --}}
-                                                </tr>
-                                            @endforeach
+                                                                    <td class="text-center" width="15%" style="color:rgb(221, 31, 6)">{{ $countvn}}</td> 
+                                                                @endif 
+                                                        
+                                                    </tr>
 
-                                        </tbody>
-                                    </table>
+                                                    <?php
+                                                            $total1 = $total1 + $item->countvn; 
+                                                            $total2 = $total2 + $item->sum_total; 
+                                                            $total4 = $total4 + $countvn; 
+                                                            $total3 = $total3 + $sum_total_no; 
+                                                    ?> 
+                                                    
+                                                @endforeach
+
+                                            </tbody>
+                                            <tr style="background-color: #f3fca1">
+                                                <td colspan="3" class="text-end" style="background-color: #fca1a1"></td>
+                                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                                <td class="text-center" style="background-color: #033a6d"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                                <td class="text-center" style="background-color: #fc5089"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
+                                                <td class="text-center" style="background-color: #d10404" ><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>  
+                                                
+                                             
+                                            </tr>  
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-7">
-                <div class="card card_audit_4">
-                    <div class="card-body">
-                        <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง DIAG เดือน
-                            {{ $mm }}</h4>
-                        <div class="table-responsive">
-                            <table id="example2" class="table table-striped table-bordered dt-responsive nowrap"
-                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">ลำดับ</th>
-                                        <th class="text-center">hn</th>
-                                        <th class="text-center">vn</th>
-                                        <th class="text-center">cid</th>
-                                        <th class="text-center">pttype</th>
-                                        <th class="text-center">vstdate</th>
-                                        <th class="text-center">ptname</th>
-                                        <th class="text-center">income</th>  
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $jj = 1;
-                                    $total1 = 0;
-                                    $total2 = 0;
-                                    $total3 = 0;
-                                    $total4 = 0;
-                                    ?>
-                                    @foreach ($fdh_ofc_momth as $item_m)
-                                        <?php ?>
-                                        <tr id="sid{{$item_m->d_fdh_id}}">
-                                            <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
-                                            <td class="text-center" width="5%">
-                                                <a class="btn-icon btn-sm btn-shadow btn-dashed btn btn-outline-danger" href="javascript:void(0)" onclick="approve_destroy({{ $item_m->d_fdh_id }})"
-                                                    data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
-                                                    <i class="fa-solid fa-trash-can me-2"></i>
-                                                    <label for="" style="color: rgb(255, 2, 2);font-size:13px"> {{ $item_m->hn }} </label>
-                                                </a>
-                                               
-                                            </td>
-                                            <td class="text-center" width="5%">{{ $item_m->vn }} </td>
-                                            <td class="text-center" width="10%">{{ $item_m->cid }} </td>
-                                            <td class="text-center" width="7%">{{ $item_m->pttype }} </td>
-                                            <td class="text-center" width="10%">{{ $item_m->vstdate }} </td>
-                                            <td class="p-2" >{{ $item_m->ptname }} </td>
-                                            <td class="text-center" width="10%" style="color: #47A4FA">{{ $item_m->debit }} </td> 
-                                        </tr>
-                                        <?php
-                                            $total1 = $total1 + $item_m->debit;
-                                            $total2 = $total2 + $item_m->edc;
-                                            $total3 = $total3 + $item_m->AppKTB; 
-                                    ?>
-                                    @endforeach
-
-                                </tbody>
-                                <tr style="background-color: #f3fca1">
-                                    <td colspan="6" class="text-end" style="background-color: #fca1a1"></td>
-                                    <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                    {{-- <td colspan="1" class="text-end" style="background-color: #fca1a1"></td> --}}
-                                    {{-- <td class="text-center" style="background-color: #FCA533"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td> --}}
-                                    {{-- <td class="text-center" style="background-color: #44E952"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> --}}
-                                  
-                                </tr>
-                            </table>
+ 
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        {{-- <div class="row">
+                </div> --}}
                 <div class="col-xl-12">
                     <div class="card card_audit_4">
                         <div class="card-body">
-                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Approve ทั้งหมด</h4>  
-                                <div class="table-responsive">                           
+                            <h4 class="card-title ms-2" style="color:rgb(241, 137, 155)">รายการที่ไม่ลง Approve วันนี้</h4>  
+                                <div class="table-responsive">    
                                     <table id="example3" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">ลำดับ</th> 
+                                                <th class="text-center">VN</th> 
                                                 <th class="text-center">HN</th> 
                                                 <th class="text-center">CID</th>
                                                 <th class="text-center">PDX</th>
                                                 <th class="text-center">วันที่รับบริการ</th>
                                                 <th class="text-center">ชื่อ - สกุล</th>
-                                                <th class="text-center">ลูกหนี้</th>
-                                                <th class="text-center">ชำระเงินเอง</th>
-                                                <th class="text-center">ใบเสร็จ</th> 
+                                                <th class="text-center">pttype</th> 
+                                                <th class="text-center">income</th>
+                                                <th class="text-center">ส่วนลด</th>
+                                                <th class="text-center">ชำระเงิน</th>
+                                                {{-- <th class="text-center">ใบเสร็จ</th>  --}}
+                                                <th class="text-center">finance_number</th> 
                                                 <th class="text-center">ปิดลูกหนี้</th>
-                                                <th class="text-center">EDC</th> 
-                                                <th class="text-center">Ap HOSxP</th>
-                                                <th class="text-center">Ap KTB</th> 
-                                                <th class="text-center">cc</th>
+
+                                                <th class="text-center">Approve_HOSxP</th>
+                                              
+ 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $jj = 1; ?>
-                                            @foreach ($fdh_ofc_m as $item_n) 
+                                            <?php $jj = 1;$total1 = 0; $total2 = 0; $total3 = 0; $total4 = 0; $total5 = 0;$total6 = 0;$total7 = 0; ?>
+                                            @foreach ($ofc_month as $item_n) 
                                                 <tr > <td class="text-center" style="width: 5%">{{ $jj++ }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->vn }}</td>
                                                     <td class="text-center" style="width: 5%">{{ $item_n->hn }}</td>
                                                     <td class="text-center" style="width: 7%">{{ $item_n->cid }}</td>
                                                     <td class="text-center" style="width: 5%">{{ $item_n->pdx }}</td>
                                                     <td class="text-center" style="width: 5%">{{ $item_n->vstdate }}</td>
                                                     <td class="p-2" style="width: 10%">{{ $item_n->ptname }}</td> 
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->debit }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->paid_money }}</td> 
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->rcpno }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->pttype }}</td> 
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->income }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->discount_money }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->rcpt_money }}</td> 
+                                                    {{-- <td class="text-center" style="width: 5%">{{ $item_n->rcpno }}</td> --}}
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->finance_number }}</td> 
                                                     <td class="text-center" style="width: 5%">{{ $item_n->rramont }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->edc }}</td> 
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->authen }}</td>
-                                                    <td class="text-center" style="width: 5%">{{ $item_n->AppKTB }}</td> 
-                                                    <td class="p-2">{{ $item_n->cc }}</td>
+                                                    <td class="text-center" style="width: 5%">{{ $item_n->Apphos }}</td> 
                                                 </tr>
+                                                <?php
+                                                            $total1 = $total1 + $item_n->income;  
+                                                    ?> 
                                             @endforeach
                 
                                         </tbody>
+                                        <tr style="background-color: #f3fca1">
+                                            <td colspan="8" class="text-end" style="background-color: #fca1a1"></td>
+                                            <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td> 
+                                            <td colspan="6" class="text-end" style="background-color: #fca1a1"></td> 
+                                         
+                                        </tr>  
                                     </table>
                                 </div>
-
                         </div>
                     </div>
                 </div> 
-            </div> --}}
+            </div>
+           
     </div>
 
 

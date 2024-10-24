@@ -162,9 +162,7 @@ class Fdh_IpdController extends Controller
                                 'hospmain'       => $value->hospmain, 
                                 'debit_drug'     => $value->debit_drug, 
                             ]);
-                        }
-                        
-                       
+                        }      
                     } else { 
                         if ($value->spclty == '26') { 
                             D_fdh::insert([
@@ -198,18 +196,12 @@ class Fdh_IpdController extends Controller
                                 'debit'        => $value->debit,
                                 // 'active_status'  => $value->active_status
                             ]);
-                        }
-                       
-                    }                      
- 
+                        }                       
+                    }   
                 } 
-
-
-                
-                $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'" AND active ="N" AND projectcode ="IPD_NORED" AND debit > "1" ORDER BY an ASC');  
-
+                $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"  AND projectcode ="IPD_NORED" AND debit > "1" ORDER BY an ASC');  
+                // AND active ="N"
         }   
-            
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from fdh_opd WHERE d_anaconda_id ="IPD_NORED"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from fdh_orf WHERE d_anaconda_id ="IPD_NORED"'); 
             $data['data_oop'] = DB::connection('mysql')->select('SELECT * from fdh_oop WHERE d_anaconda_id ="IPD_NORED"');
@@ -771,7 +763,7 @@ class Fdh_IpdController extends Controller
             //D_dru OK
             $data_dru_ = DB::connection('mysql2')->select(
                 'SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRICE
+                ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRIC
                 ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
                 ,oo.presc_reason DRUGREMARK ,"" PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
                 ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,"" PROVIDER,v.vstdate
@@ -787,7 +779,7 @@ class Fdh_IpdController extends Controller
                 UNION all
 
                 SELECT pt.hcode HCODE ,v.hn HN ,v.an AN ,v1.spclty CLINIC ,pt.cid PERSON_ID ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
-                ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRICE
+                ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRIC
                 ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
                 ,oo.presc_reason DRUGREMARK ,"" PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
                 ,"" TOTAL,"" as SIGCODE,"" as SIGTEXT,""  PROVIDER,v.vstdate
@@ -813,7 +805,7 @@ class Fdh_IpdController extends Controller
                     'DID'            => $va_14->DID,
                     'DIDNAME'        => $va_14->DIDNAME, 
                     'AMOUNT'         => $va_14->AMOUNT,
-                    'DRUGPRICE'      => $va_14->DRUGPRICE,
+                    'DRUGPRIC'       => $va_14->DRUGPRIC,
                     'DRUGCOST'       => $va_14->DRUGCOST,
                     'DIDSTD'         => $va_14->DIDSTD,
                     'UNIT'           => $va_14->UNIT,
@@ -1389,7 +1381,7 @@ class Fdh_IpdController extends Controller
                 //D_dru OK
                 $data_dru_ = DB::connection('mysql2')->select(
                     'SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRICE
+                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRIC
                     ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
                     ,oo.presc_reason DRUGREMARK ,"" PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
                     ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,"" PROVIDER,v.vstdate
@@ -1405,7 +1397,7 @@ class Fdh_IpdController extends Controller
                     UNION all
 
                     SELECT pt.hcode HCODE ,v.hn HN ,v.an AN ,v1.spclty CLINIC ,pt.cid PERSON_ID ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
-                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRICE
+                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRIC
                     ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
                     ,oo.presc_reason DRUGREMARK ,"" PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
                     ,"" TOTAL,"" as SIGCODE,"" as SIGTEXT,""  PROVIDER,v.vstdate
@@ -1431,7 +1423,7 @@ class Fdh_IpdController extends Controller
                         'DID'            => $va_14->DID,
                         'DIDNAME'        => $va_14->DIDNAME, 
                         'AMOUNT'         => $va_14->AMOUNT,
-                        'DRUGPRICE'      => $va_14->DRUGPRICE,
+                        'DRUGPRIC'      => $va_14->DRUGPRIC,
                         'DRUGCOST'       => $va_14->DRUGCOST,
                         'DIDSTD'         => $va_14->DIDSTD,
                         'UNIT'           => $va_14->UNIT,
@@ -2009,7 +2001,7 @@ class Fdh_IpdController extends Controller
                 //D_dru OK
                 $data_dru_ = DB::connection('mysql2')->select(
                     'SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRICE
+                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRIC
                     ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
                     ,oo.presc_reason DRUGREMARK ,"" PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
                     ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,"" PROVIDER,v.vstdate
@@ -2025,7 +2017,7 @@ class Fdh_IpdController extends Controller
                     UNION all
 
                     SELECT pt.hcode HCODE ,v.hn HN ,v.an AN ,v1.spclty CLINIC ,pt.cid PERSON_ID ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
-                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRICE
+                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRIC
                     ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
                     ,oo.presc_reason DRUGREMARK ,"" PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
                     ,"" TOTAL,"" as SIGCODE,"" as SIGTEXT,""  PROVIDER,v.vstdate
@@ -2051,7 +2043,7 @@ class Fdh_IpdController extends Controller
                         'DID'            => $va_14->DID,
                         'DIDNAME'        => $va_14->DIDNAME, 
                         'AMOUNT'         => $va_14->AMOUNT,
-                        'DRUGPRICE'      => $va_14->DRUGPRICE,
+                        'DRUGPRIC'      => $va_14->DRUGPRIC,
                         'DRUGCOST'       => $va_14->DRUGCOST,
                         'DIDSTD'         => $va_14->DIDSTD,
                         'UNIT'           => $va_14->UNIT,
@@ -2629,7 +2621,7 @@ class Fdh_IpdController extends Controller
                 //D_dru OK
                 $data_dru_ = DB::connection('mysql2')->select(
                     'SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRICE
+                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRIC
                     ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
                     ,oo.presc_reason DRUGREMARK ,"" PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
                     ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,"" PROVIDER,v.vstdate
@@ -2645,7 +2637,7 @@ class Fdh_IpdController extends Controller
                     UNION all
 
                     SELECT pt.hcode HCODE ,v.hn HN ,v.an AN ,v1.spclty CLINIC ,pt.cid PERSON_ID ,DATE_FORMAT((v.vstdate),"%Y%m%d") DATE_SERV
-                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRICE
+                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT ,round(v.unitprice,2) DRUGPRIC
                     ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
                     ,oo.presc_reason DRUGREMARK ,"" PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
                     ,"" TOTAL,"" as SIGCODE,"" as SIGTEXT,""  PROVIDER,v.vstdate
@@ -2671,7 +2663,7 @@ class Fdh_IpdController extends Controller
                         'DID'            => $va_14->DID,
                         'DIDNAME'        => $va_14->DIDNAME, 
                         'AMOUNT'         => $va_14->AMOUNT,
-                        'DRUGPRICE'      => $va_14->DRUGPRICE,
+                        'DRUGPRIC'      => $va_14->DRUGPRIC,
                         'DRUGCOST'       => $va_14->DRUGCOST,
                         'DIDSTD'         => $va_14->DIDSTD,
                         'UNIT'           => $va_14->UNIT,
@@ -3169,7 +3161,7 @@ class Fdh_IpdController extends Controller
         $objFopen_dru = fopen($file_d_dru, 'w');
         // $objFopen_dru_utf = fopen($file_d_dru, 'w');
         // $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER|SP_ITEM';
-        $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRICE|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
+        $opd_head_dru = 'HCODE|HN|AN|CLINIC|PERSON_ID|DATE_SERV|DID|DIDNAME|AMOUNT|DRUGPRIC|DRUGCOST|DIDSTD|UNIT|UNIT_PACK|SEQ|DRUGREMARK|PA_NO|TOTCOPAY|USE_STATUS|TOTAL|SIGCODE|SIGTEXT|PROVIDER';
         fwrite($objFopen_dru, $opd_head_dru);
         // fwrite($objFopen_dru_utf, $opd_head_dru);
         $dru = DB::connection('mysql')->select('SELECT * from fdh_dru where d_anaconda_id = "IPD_NORED"');
@@ -3183,7 +3175,7 @@ class Fdh_IpdController extends Controller
             $g7 = $value16->DID;
             $g8 = $value16->DIDNAME;
             $g9 = $value16->AMOUNT;
-            $g10 = $value16->DRUGPRICE;
+            $g10 = $value16->DRUGPRIC;
             $g11 = $value16->DRUGCOST;
             $g12 = $value16->DIDSTD;
             $g13 = $value16->UNIT;

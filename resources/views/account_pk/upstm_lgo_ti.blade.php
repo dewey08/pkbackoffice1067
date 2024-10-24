@@ -88,8 +88,7 @@
                     <div class="cv-spinner">
                         <span class="spinner"></span>
                     </div>
-                </div>
-        
+                </div> 
             </div>
 
         <div class="row">

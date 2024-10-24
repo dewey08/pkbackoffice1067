@@ -1,4 +1,4 @@
-@extends('layouts.accountnew')
+@extends('layouts.account_new')
 @section('title', 'PK-OFFICE || ACCOUNT')
 @section('content')
     <style>
@@ -93,8 +93,8 @@
             z-index: 2051 !important;
         }
         #request{
-                    width: 40px;
-                    height: 40px;
+                    width: 20px;
+                    height: 20px;
                     background-color: rgb(248, 209, 163);
                     border-radius: 100%;
                     margin: 0% auto;
@@ -107,8 +107,8 @@
             /* #acceptssj{ */
                 /* อยู่ระหว่างดำเนินการ */
             #accept{
-                    width: 40px;
-                    height: 40px;
+                    width: 20px;
+                    height: 20px;
                     background-color: rgb(248, 200, 234);
                     border-radius: 100%;
                     margin: 0% auto;
@@ -121,8 +121,8 @@
             /* #acceptpo{ */
                 /* ดำเนินการ */
             #verify{
-                    width: 40px;
-                    height: 40px;
+                    width: 20px;
+                    height: 20px;
                     background-color: rgb(209, 200, 248);
                     border-radius: 100%;
                     margin: 0% auto;
@@ -133,8 +133,8 @@
                     animation: pulse 3s infinite ease-in-out;
             }
             #finish{
-                    width: 40px;
-                    height: 40px;
+                    width: 20px;
+                    height: 20px;
                     background-color: rgb(194, 250, 241);
                     border-radius: 100%;
                     margin: 0% auto;
@@ -145,8 +145,8 @@
                     animation: pulse 3s infinite ease-in-out;
             }
             #success{
-                    width: 40px;
-                    height: 40px;
+                    width: 20px;
+                    height: 20px;
                     background-color: rgb(138, 247, 174);
                     border-radius: 100%;
                     margin: 0% auto;
@@ -241,7 +241,7 @@
                             </div> --}}
                         </div>
                         <div class="col-md-1 text-start">
-                            <button type="submit" class="ladda-button me-2 btn-pill btn btn-primary inputmedsalt" data-style="expand-left" id="Pulldata">
+                            <button type="submit" class="ladda-button me-2 btn-pill btn btn-sm btn-primary inputmedsalt" data-style="expand-left" id="Pulldata">
                                 <span class="ladda-label"><i class="pe-7s-search btn-icon-wrapper me-2"></i>ค้นหา</span>
                                 <span class="ladda-spinner"></span>
                             </button> 
@@ -253,24 +253,24 @@
        
         <div class="row">
             <div class="col-xl-12">
-                <div class="card cardfinan">
+                <div class="card cardfinan" style="background-color: rgb(250, 230, 242)">
                     <div class="card-body"> 
 
                         <div class="row mb-3"> 
                             <div class="col-md-7 text-start"> 
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
                                     ยังไม่ดำเนินการ
                                 </button>
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 200, 234);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary" style="background-color: rgb(248, 200, 234);border-radius: 3em 3em 3em 3em"> 
                                     อยู่ระหว่างดำเนินการ
                                 </button>
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 241);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary" style="background-color: rgb(194, 250, 241);border-radius: 3em 3em 3em 3em"> 
                                     อนุมัติ
                                 </button>
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
                                     ดำเนินการ
                                 </button>                               
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(138, 247, 174);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn-sm btn btn-outline-secondary" style="background-color: rgb(138, 247, 174);border-radius: 3em 3em 3em 3em"> 
                                     SUCCESS
                                 </button>
                             </div>
@@ -282,8 +282,9 @@
                                 </a>  --}}
                             </div>
                         </div>
-
-                        <table id="example" class="table table-striped table-bordered myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        
+                        <table id="example" class="table table-sm table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> 
+                        {{-- <table id="example" class="table table-striped table-bordered myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                             <thead>
                                 <tr style="font-size: 13px">
                                     <th width="5%" class="text-center">ลำดับ</th>

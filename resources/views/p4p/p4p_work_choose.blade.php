@@ -172,28 +172,46 @@
             display: none;
         }
     </style>
-    <div class="container-fluid">
+    {{-- <div class="container-fluid">
         <div id="preloader">
             <div id="status">
                 <div class="spinner">
 
                 </div>
             </div>
-        </div>
+        </div> --}}
+        <div class="tabs-animation">
+            <div class="row text-center">
+                <div id="overlay">
+                    <div class="cv-spinner">
+                        <span class="spinner"></span>
+                    </div>
+                </div> 
+            </div> 
+            <div id="preloader">
+                <div id="status">
+                    <div class="spinner"> 
+                    </div>
+                </div>
+            </div>
         <div class="row">
 
-            <form method="post" action="{{ route('p4.p4p_work_load_update') }}" id="Workload_update"
-                enctype="multipart/form-data">
+            <form method="post" action="{{ route('p4.p4p_work_load_update') }}" id="Workload_update" enctype="multipart/form-data">
                 @csrf
 
                 <div class="col-md-12">
-                    <div class="card">
+                    <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">
+                        
                         <div class="card-header ">
                             <div class="row">
                                 <div class="col-md-3">
                                     <h5>บันทึกรายการภาระงาน P4P </h5>
                                 </div>
                                 <div class="col"></div>
+                                <div class="col-md-2 text-center">
+                                    <h2 style="color:#fd1274">{{$p4p_sum}} คะแนน</h2>
+                                  
+                                </div>
                                 <div class="col-md-2 text-end">
                                     <a href="{{ url('work_export_excel2/' . $p4p_work_id) }}"
                                         class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" target="_blank">
@@ -548,12 +566,12 @@
                             </div>
 
                         </div>
-                        <div class="card-footer">
+                        {{-- <div class="card-footer">
                             <div class="col-md-12 text-end">
                                 <div class="form-group">
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
@@ -685,6 +703,44 @@
                 allowClear: true
             });
 
+            $('#Workload_update').on('submit',function(e){
+                  e.preventDefault();
+              
+                  var form = this;
+                    //   alert('OJJJJOL');
+                  $.ajax({
+                    url:$(form).attr('action'),
+                    method:$(form).attr('method'),
+                    data:new FormData(form),
+                    processData:false,
+                    dataType:'json',
+                    contentType:false,
+                    beforeSend:function(){
+                      $(form).find('span.error-text').text('');
+                    },
+                    success:function(data){
+                      if (data.status == 0 ) {
+                        
+                      } else {          
+                        Swal.fire({
+                          title: 'บันทึกข้อมูลสำเร็จ',
+                          text: "You Insert data success",
+                          icon: 'success',
+                          showCancelButton: false,
+                          confirmButtonColor: '#06D177',
+                          // cancelButtonColor: '#d33',
+                          confirmButtonText: 'เรียบร้อย'
+                        }).then((result) => {
+                          if (result.isConfirmed) {         
+                            // window.location="{{url('p4p_work')}}";
+                            window.location.reload();
+                          }
+                        })      
+                      }
+                    }
+                  });
+            });
+
 
             $('#SaveScorebtn').click(function() {
                 var p4p_workload_date = $('#p4p_workload_date').val();
@@ -726,6 +782,7 @@
                     },
                 });
             });
+
             $('#Saveonebtn').click(function() {
                 var p4p_workset_id = $('#p4p_workset_id').val();
                 var p4p_work_id = $('#p4p_work_id').val();
@@ -833,6 +890,7 @@
                     },
                 });
             });
+
             $('#SaveCopy').click(function() {
                 // var yearcopy = $('#p4p_work_year').val(); 
                 var p4p_work_id2 = $('#p4p_work_id2').val();

@@ -1,6 +1,17 @@
 @extends('layouts.envnew')
 @section('title', 'PK-OFFICER || ENV')
 @section('content')
+<?php
+if (Auth::check()) {
+    $type = Auth::user()->type;
+    $iduser = Auth::user()->id;
+} else {
+    echo "<body onload=\"TypeAdmin()\"></body>";
+    exit();
+}
+$url = Request::url();
+$pos = strrpos($url, '/') + 1;
+?>
 <style>
     #button {
         display: block;
@@ -134,14 +145,14 @@ $count_service = StaticController::count_service();
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                {{-- <input id="trash_user" type="date"
-                                                    class="form-control form-control-sm" name="trash_user"> --}}
-                                                <select id="water_user2" name="trash_user"
-                                                    class="form-control form-control-sm" style="width: 100%">
+                                                <select id="water_user2" name="trash_user" class="form-control form-control-sm" style="width: 100%">
                                                     <option value="">--เลือก--</option>
                                                     @foreach ($users as $ue)
-                                                    <option value="{{ $ue->id }}"> {{ $ue->fname }} {{ $ue->lname }}
-                                                    </option>
+                                                        @if ($iduser == $ue->id)
+                                                        <option value="{{ $ue->id }}" selected> {{ $ue->fname }} {{ $ue->lname }}</option>
+                                                        @else
+                                                        <option value="{{ $ue->id }}"> {{ $ue->fname }} {{ $ue->lname }}</option>
+                                                        @endif
                                                     @endforeach
                                                 </select>
                                             </div>

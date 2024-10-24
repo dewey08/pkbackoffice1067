@@ -432,7 +432,7 @@ var options444 = {
             stops: [0, 100]
         }
     },
-    series: [55],
+    series: [75],
     stroke: {
         lineCap: 'round'
     },

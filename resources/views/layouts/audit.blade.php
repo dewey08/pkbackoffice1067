@@ -99,22 +99,30 @@
         font-size:13px;
         height: 13px;
     }
+
+    .input_border{
+        border-radius: 2em 2em 2em 2em;
+        box-shadow: 0 0 25px rgb(255, 115, 111);
+        border:solid 1px #f80d6f;
+    }
     .card_audit_2b{
         border-radius: 0em 0em 3em 3em;
-        box-shadow: 0 0 10px rgb(250, 128, 124);
+        box-shadow: 0 0 15px rgb(255, 115, 111);
+        border:solid 1px #f80d6f;
     }
     .card_audit_4{
         border-radius: 2em 2em 2em 2em;
-        box-shadow: 0 0 15px rgb(250, 128, 124);
+        box-shadow: 0 0 30px rgb(255, 115, 111);
+        border:solid 1px #f80d6f;
     }
     .auditcheckbox{         
         width: 20px;
         height: 20px;       
         /* border-radius: 2em 2em 2em 2em; */
-        border: 10px solid rgb(250, 128, 124);
+        box-shadow: 0 0 10px rgb(255, 115, 111);
         /* color: teal; */
         /* border-color: teal; */
-        box-shadow: 0 0 10px rgb(250, 128, 124);
+        box-shadow: 0 0 10px rgb(255, 115, 111);
         /* box-shadow: 0 0 10px teal; */
     }
  .dcheckbox_{         
@@ -259,24 +267,25 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                     <div class="navbar-brand-box">
                         <a href="{{url('pre_audit')}}" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="assets/images/p.png" alt="logo-sm" height="22">
+                                {{-- <img src="assets/images/p.png" alt="logo-sm" height="22"> --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110">
                             </span>
                             <span class="logo-lg">
-                                <img src="assets/images/logo-dark.png" alt="logo-dark" height="20">
+                                {{-- <img src="assets/images/logo-dark.png" alt="logo-dark" height="20"> --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110">
                             </span>
                         </a>
 
                         <a href="{{url('pre_audit')}}" class="logo logo-light">
                             <span class="logo-sm me-2">
-                                <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40">
+                                {{-- <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40"> --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('images/pp.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                {{-- <img src="{{ asset('images/pp.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
                                 <img src="{{ asset('images/kk.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/officer5.png') }}" class="" alt="logo-sm-light" height="30">
-                                {{-- <h4 style="color:rgb(41, 41, 41)" class="mt-4 loadingIcon">PK-OFFICE</h4> --}}
-                                {{-- <div class = "loadingIcon"></div> --}}
-                                {{-- <i class="fa-solid fa-p fa-w-16 fa-spin fa-2x text-info"></i> --}}
+                                <img src="{{ asset('images/officer5.png') }}" class="" alt="logo-sm-light" height="30"> --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110">
                             </span>
                             {{-- <div class="header-btn-lg"> 
                                 <a href="{{url("user/home")}}" id="TooltipDemo" class="btn-open-options btn hamburger hamburger--elastic open-right-drawer text-danger" target="_blank">
@@ -287,7 +296,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                         </a>
                     </div>
 
-                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect mt-3" id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: black"></i>
                     </button>
                     <?php
@@ -296,9 +305,9 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 where orginfo_id = 1                                                                                                                      ',
                         );
                     ?>
-                    <form class="app-search d-none d-lg-block">
+                    <form class="app-search d-none d-lg-block mt-3 ms-3">
                         <div class="position-relative"> 
-                            <h3 style="color:rgb(255, 255, 255)" class="mt-2 noto-sans-thai-looped-light">PRE-AUDIT</h3> 
+                            <h3 style="color:rgb(255, 255, 255)" class="mt-2 noto-sans-thai-looped-light">P R E - A U D I T</h3> 
                         </div>
                     </form>
                 </div>
@@ -478,7 +487,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
                                 <li><a href="{{ url('audit_pdx_walkin') }}"> <span>ไม่ลง PDX WALKIN</span></a> </li> 
                                 <li><a href="{{ url('authen_excel') }}"> <span>Excel => hos</span></a> </li>   
                                 {{-- <li><a href="{{ url('authen_update') }}"> <span>สปสช => hos</span></a> </li>   --}}
-                                <li><a href="{{ url('diag_z017') }}"> <span>Diag Z017</span></a> </li> 
+                                <li><a href="{{ url('diag_z017') }}"> <span>Diag</span></a> </li> 
                             </ul> 
                         </li>
                         <li>

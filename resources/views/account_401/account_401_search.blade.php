@@ -74,14 +74,14 @@
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                            <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date"
+                                            <input type="text" class="form-control-sm cardacc" name="startdate" id="datepicker" placeholder="Start Date"
                                                 data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                                 data-date-language="th-th" value="{{ $startdate }}" required/>
-                                            <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2"
+                                            <input type="text" class="form-control-sm cardacc" name="enddate" placeholder="End Date" id="datepicker2"
                                                 data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                                 data-date-language="th-th" value="{{ $enddate }}" required/>
                                                
-                                            <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
+                                            <button type="submit" class="ladda-button btn-pill btn btn-sm btn-primary cardacc" data-style="expand-left">
                                                 <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                                                 <span class="ladda-spinner"></span>
                                             </button> 
@@ -97,7 +97,7 @@
         
         <div class="row ">
             <div class="col-md-12">
-                <div class="card card_audit_4c">
+                <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">
                     {{-- <div class="card-header"> 
                        รายละเอียดตั้งลูกหนี้ผัง 1102050101.202
                         <div class="btn-actions-pane-right">                           

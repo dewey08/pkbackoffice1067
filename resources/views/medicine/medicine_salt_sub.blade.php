@@ -1,4 +1,4 @@
-@extends('layouts.medicine')
+@extends('layouts.medicine_new')
 @section('title', 'PK-OFFICE || แพทย์แผนไทย')
 
      <?php
@@ -65,15 +65,7 @@
                .is-hide{
                display:none;
                }
-               .inputmedsalt{
-                    border-radius: 4em 4em 4em 4em;
-                    box-shadow: 0 0 10px rgb(189, 187, 187);
-                }
-                .cardmedsalt{
-                    border-radius: 4em 4em 4em 4em;
-                    box-shadow: 0 0 10px rgb(122, 121, 121);
-                    /* box-shadow: 0 0 10px rgb(232, 187, 243); */
-                }
+                
     </style>
      <div class="tabs-animation">
         <div class="row text-center">
@@ -102,11 +94,11 @@
                      
         <div class="row">          
             <div class="col-md-12">
-                <div class="card cardshadow">
+                <div class="card cardmedsalt" style="background-color: rgba(221, 240, 235, 0.74)">
                      
                     <div class="card-body">
-                       
-                        <table id="example" class="table table-striped table-bordered" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <table id="example" class="table table-sm table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        {{-- <table id="example" class="table table-striped table-bordered" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                 <thead>                                           
                                     <tr>
                                         <th width="5%" class="text-center">ลำดับ</th>

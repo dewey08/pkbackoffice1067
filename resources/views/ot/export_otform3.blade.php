@@ -62,7 +62,7 @@
                <center>
                 <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ลงชื่อ……………………………………………….ผู้ควบคุม</label><br>
                 <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> ( นางเยี่ยมรัตน์  จักรโนวรรณ )</label><br> 
-                <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> หัวหน้ากลุ่มงานประกันสุขภาพ</label><br>
+                <label for="" style="font-family: 'Kanit', sans-serif;font-size:15px;"> หัวหน้ากลุ่มงานสุขภาพดิจิทัล</label><br>
                </center>
             </td>
             <td></td>

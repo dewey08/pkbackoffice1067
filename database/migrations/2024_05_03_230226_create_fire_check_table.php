@@ -15,8 +15,11 @@ return new class extends Migration
         {
             Schema::create('fire_check', function (Blueprint $table) {
                 $table->bigIncrements('fire_check_id'); 
+                $table->string('fire_id')->nullable(); 
                 $table->string('fire_num')->nullable();  //เลขครุภัณฑ์ รหัส : OUT CO1
                 $table->string('fire_name')->nullable(); 
+                $table->string('fire_size')->nullable(); 
+                $table->string('fire_backup')->nullable(); 
                 $table->string('fire_check_color')->nullable(); // 
                 $table->string('fire_check_location')->nullable(); // 
                 $table->date('check_date')->nullable();  //  

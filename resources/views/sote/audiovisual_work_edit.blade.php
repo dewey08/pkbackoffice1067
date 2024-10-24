@@ -1,4 +1,5 @@
-@extends('layouts.userdashboard')
+{{-- @extends('layouts.userdashboard') --}}
+@extends('layouts.user_layout')
 @section('title', 'PK-OFFICE || Sot')
 @section('content')
     <script>
@@ -94,10 +95,10 @@ $refnumber = SoteController::refnumber();
 
         <form action="{{ route('user.audiovisual_work_update') }}" method="POST">
             @csrf          
-                <div class="row mt-2">
+                <div class="row mt-5">
                     <div class="col"></div>
                     <div class="col-md-8">
-                        <div class="card card_user_4 p-2">
+                        <div class="card card_prs_4 p-2">
                             <div class="card-header">  
                                 <h5 class="modal-title me-3" id="editModalLabel">แก้ไขรายละเอียดการขอใช้บริการ</h5>  
                                 <div class="btn-actions-pane-right">   
@@ -109,7 +110,7 @@ $refnumber = SoteController::refnumber();
                                     <div class="col-md-6">
                                         <label for="ptname" class="form-label">ชื่อ-นามสกุล</label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm">  
-                                            <select class="form-control" id="ptname" name="ptname" style="width: 100%">
+                                            <select class="form-control card_prs_4" id="ptname" name="ptname" style="width: 100%">
                                                 @foreach ($users as $item)
                                                 @if ($dataedit->ptname == $item->id)
                                                 <option value="{{$item->id}}" selected>{{$item->fname}} {{$item->lname}}</option>
@@ -125,7 +126,7 @@ $refnumber = SoteController::refnumber();
                                         <label for="tel" class="form-label"> เบอร์โทร</label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm">  
                                         
-                                                <input type="text" class="form-control" id="tel" name="tel" value="{{ $dataedit->tel}}">   
+                                                <input type="text" class="form-control-sm input_border" id="tel" name="tel" value="{{ $dataedit->tel}}">   
                                             
                                         </div>
                                     </div> 
@@ -133,7 +134,7 @@ $refnumber = SoteController::refnumber();
                                         <label for="work_order_date" class="form-label" >วันที่สั่งงาน </label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm"> 
                                             <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                            <input type="text" class="form-control" name="work_order_date" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
+                                            <input type="text" class="form-control-sm card_prs_4" name="work_order_date" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
                                             data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $dataedit->work_order_date}}"/>
                                         </div> 
                                         </div>
@@ -142,7 +143,7 @@ $refnumber = SoteController::refnumber();
                                         <label for="job_request_date" class="form-label" >วันที่ขอรับงาน </label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm"> 
                                             <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                            <input type="text" class="form-control" name="job_request_date" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' autocomplete="off"
+                                            <input type="text" class="form-control-sm card_prs_4" name="job_request_date" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' autocomplete="off"
                                             data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $dataedit->job_request_date}}"/> 
                                         </div>
                                         </div>
@@ -183,7 +184,7 @@ $refnumber = SoteController::refnumber();
                                     <div class="col-md-2">
                                         <label for="lineid" class="form-label" >ไอดีไลน์</label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm"> 
-                                            <input type="text" class="form-control" id="lineid" name="lineid" value="{{$dataedit->lineid}}">  
+                                            <input type="text" class="form-control-sm input_border" id="lineid" name="lineid" value="{{$dataedit->lineid}}" style="width: 100%">  
                                         </div>
                                     </div> 
                                 </div>  
@@ -192,14 +193,14 @@ $refnumber = SoteController::refnumber();
                                     <div class="col-md-10">
                                         <label for="audiovisual_name" class="form-label" >ชื่อชิ้นงาน </label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm"> 
-                                            <input type="text" class="form-control" id="audiovisual_name" name="audiovisual_name" value="{{$dataedit->audiovisual_name}}">  
+                                            <input type="text" class="form-control-sm input_border" id="audiovisual_name" name="audiovisual_name" value="{{$dataedit->audiovisual_name}}" style="width: 100%">  
                                         </div>
                                     </div>  
                                     
                                     <div class="col-md-2">
                                         <label for="audiovisual_qty" class="form-label" >จำนวนชิ้นงาน</label>
                                         <div class="input-group input-group-sm"> 
-                                            <input type="text" class="form-control" id="audiovisual_qty" name="audiovisual_qty" value="{{$dataedit->audiovisual_qty}}">  
+                                            <input type="text" class="form-control-sm input_border" id="audiovisual_qty" name="audiovisual_qty" value="{{$dataedit->audiovisual_qty}}" style="width: 100%">  
                                         </div>
                                     </div>  
                                 </div> 
@@ -207,7 +208,7 @@ $refnumber = SoteController::refnumber();
                                     <div class="col-md-12">
                                         <label for="audiovisual_detail" class="form-label" >รายละเอียดงาน (เช่นขนาดงาน สถานที่ )</label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm"> 
-                                            <textarea id="audiovisual_detail" name="audiovisual_detail" cols="30" rows="3" class="form-control form-control-sm" >{{$dataedit->audiovisual_detail}}</textarea> 
+                                            <textarea id="audiovisual_detail" name="audiovisual_detail" cols="30" rows="3" class="form-control-sm input_border" style="width: 100%">{{$dataedit->audiovisual_detail}}</textarea> 
                                         </div>
                                     </div>  
                              
@@ -216,10 +217,17 @@ $refnumber = SoteController::refnumber();
                             <input type="hidden" id="audiovisual_id" name="audiovisual_id" value="{{$dataedit->audiovisual_id}}">
                             <div class="card-footer">
                                 <div class="btn-actions-pane-right">
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatedata">
+                                {{-- <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatedata">
                                     <i class="pe-7s-diskette btn-icon-wrapper"></i>Update changes
                                 </button>
                                 <a href="{{ url('audiovisual_work') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
+                                    <i class="fa-solid fa-xmark me-2"></i>
+                                Back
+                            </a> --}}
+                            <button type="button" class="ladda-button btn-pill btn btn-sm btn-info card_prs_4 me-2" id="Updatedata">
+                                <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>Update changes
+                            </button>
+                            <a href="{{ url('audiovisual_work') }}" class="ladda-button btn-pill btn btn-sm btn-danger card_prs_4 me-2">
                                     <i class="fa-solid fa-xmark me-2"></i>
                                 Back
                             </a>

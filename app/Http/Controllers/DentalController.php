@@ -46,7 +46,7 @@ use App\Models\Acc_stm_lgo;
 use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
 use App\Models\Acc_stm_ucs_excel;
-use App\Models\Car_service;
+use App\Models\D_claim_db_hipdata_code;
 use App\Models\Oapp;
 use PDF;
 use setasign\Fpdi\Fpdi;
@@ -70,9 +70,9 @@ use App\Imports\ImportAcc_stm_ti;
 use App\Imports\ImportAcc_stm_tiexcel_import;
 use App\Imports\ImportAcc_stm_ofcexcel_import;
 use App\Imports\ImportAcc_stm_lgoexcel_import;
-use App\Models\Acc_1102050101_217_stam;
-use App\Models\Acc_opitemrece_stm;
-
+use App\Models\Dent_appointment;
+use App\Models\Dent_appointment_type;
+use App\Models\P4p_workgroupset;
 use SplFileObject;
 use PHPExcel;
 use PHPExcel_IOFactory;
@@ -82,6 +82,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+
 
 date_default_timezone_set("Asia/Bangkok");
 
@@ -123,30 +124,14 @@ class DentalController extends Controller
         // $carservicess = Car_service::all();
         foreach ($data_nad as $item) {
 
-            // if ($carservice->car_service_status == 'request') {
-            //     $color = '#F48506';
-            // }elseif ($carservice->car_service_status == 'allocate') {
-            //     $color = '#592DF7';
-            // }elseif ($carservice->car_service_status == 'allocateall') {
-            //     $color = '#07D79E';
-            // }elseif ($carservice->car_service_status == 'cancel') {
-            //     $color = '#ff0606';
-            // }elseif ($carservice->car_service_status == 'confirmcancel') {
-            //     $color = '#ab9e9e';
-            // }elseif ($carservice->car_service_status == 'noallow') {
-            //     $color = '#E80DEF';
-            // } else {
-            //     $color = '#3CDF44';
-            // }
+            
 
             $dateend = $item->doctor_nad;
             $NewendDate = date ("Y-m-d", strtotime("1 day", strtotime($dateend)));
 
-            // $datestart=date('H:m');
-            // $timestart = $item->car_service_length_gotime;
-            // $timeend = $item->car_service_length_backtime;
+            
             $starttime = substr($item->nexttime, 0, 5);
-            // $endtime = substr($timeend, 0, 5);
+            
           
             $showtitle = $item->hn.'-'.$item->ptname.'-'.$starttime;
 
@@ -155,8 +140,7 @@ class DentalController extends Controller
                 'title'         => $showtitle,
                 'start'         => $dateend,
                 'end'           => $dateend,
-                // 'doctor'        => $item->doctor,
-                // 'color' => $color
+           
             ];
         }
 
@@ -204,10 +188,13 @@ class DentalController extends Controller
             'datanad'       =>  $datanad,
             ]);
     }
-    public function dental_assistant(Request $request)
+
+    public function dental_assistant(Request $request,$id)
     {
         $startdate     = $request->startdate;
         $enddate       = $request->enddate;
+
+        $iduser        = Auth::user()->id;
 
         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
@@ -223,7 +210,7 @@ class DentalController extends Controller
             left outer join doctor dt on dt.code = d.doctor_helper  
             left outer join dttm dm on dm.code = d.tmcode 
             where d.vstdate between "'.$startdate.'" and "'.$enddate.'"
-            and dt.code = "1299"  
+            and dt.code = "'.$id.'"  
             order by d.vstdate
         ');
         $data['doctor'] = DB::connection('mysql10')->select('
@@ -242,7 +229,7 @@ class DentalController extends Controller
         return view('dent.dental_assistant',$data,[
             'startdate'        => $startdate,
             'enddate'          => $enddate,
-            'data_show'      => $data_show, 
+            'data_show'        => $data_show, 
         ]);
     }
     public function dental_assis(Request $request,$id)
@@ -278,8 +265,7 @@ class DentalController extends Controller
                 and dt.code = "'.$id.'"  
                 order by d.vstdate
             ');
-        }
-        
+        }        
         
         $data['doctor'] = DB::connection('mysql10')->select('
             SELECT code,CONCAT(pname,fname," ",lname) dentname
@@ -301,10 +287,12 @@ class DentalController extends Controller
             'id'               => $id, 
         ]);
     }
-    public function dental_db(Request $request)
+
+    public function dental_doctor(Request $request,$id)
     {
         $startdate     = $request->startdate;
         $enddate       = $request->enddate;
+        $iduser        = Auth::user()->id;
 
         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
@@ -318,22 +306,23 @@ class DentalController extends Controller
             $data_show = DB::connection('mysql2')->select(
                 'select d.vstdate,d.hn,dm.name as dmname,d.ttcode,d.staff,dt.code as dtcode,dt.name as dtname 
                 from dtmain d  
-                left outer join doctor dt on dt.code = d.doctor_helper  
+                left outer join doctor dt on dt.code = d.doctor  
                 left outer join dttm dm on dm.code = d.tmcode 
-                where d.vstdate between "'.$newweek.'" and "'.$date.'" 
+                where d.vstdate between "'.$newweek.'" and "'.$date.'"
+                and dt.code = "'.$id.'"  
                 order by d.vstdate
             ');
         } else {
             $data_show = DB::connection('mysql2')->select(
                 'select d.vstdate,d.hn,dm.name as dmname,d.ttcode,d.staff,dt.code as dtcode,dt.name as dtname 
                 from dtmain d  
-                left outer join doctor dt on dt.code = d.doctor_helper  
+                left outer join doctor dt on dt.code = d.doctor  
                 left outer join dttm dm on dm.code = d.tmcode 
-                where d.vstdate between "'.$startdate.'" and "'.$enddate.'" 
+                where d.vstdate between "'.$startdate.'" and "'.$enddate.'"
+                and dt.code = "'.$id.'"  
                 order by d.vstdate
             ');
-        }
-        
+        }        
         
         $data['doctor'] = DB::connection('mysql10')->select('
             SELECT code,CONCAT(pname,fname," ",lname) dentname
@@ -348,12 +337,506 @@ class DentalController extends Controller
             AND active = "Y"
         ');
 
+        return view('dent.dental_doctor',$data,[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
+            'data_show'        => $data_show, 
+            'id'               => $id, 
+        ]);
+    }
+
+    public function dental_db(Request $request)
+    {
+        // $startdate     = $request->startdate;
+        // $enddate       = $request->enddate;
+
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี    
+        $bgs_year                   = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow                 = $bgs_year->leave_year_id;  
+        $startdate                  = $bgs_year->date_begin;   
+        $enddate                    = $bgs_year->date_end;   
+        
+        $data_show = DB::connection('mysql2')->select(
+            'select d.vstdate,d.hn,dm.name as dmname,d.ttcode,d.staff,dt.code as dtcode,dt.name as dtname 
+            from dtmain d  
+            left outer join doctor dt on dt.code = d.doctor_helper  
+            left outer join dttm dm on dm.code = d.tmcode 
+            where d.vstdate between "'.$newweek.'" and "'.$date.'" 
+            order by d.vstdate
+        ');
+        
+        $data['doctor'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "2"
+            AND active = "Y"
+        ');
+        $data['helper'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "6" 
+            AND active = "Y"
+        ');
+      
+
+        $count_visit = DB::connection('mysql2')->select(
+            'SELECT MONTH(d.vstdate) as months, COUNT(DISTINCT d.hn) as chn
+            FROM dtmain d
+            LEFT JOIN vn_stat v ON v.vn = d.vn 
+            WHERE d.vstdate between "'.$newyear.'" and "'.$date.'" 
+            
+            AND v.pt_subtype <> "2"
+            GROUP BY MONTH(d.vstdate)
+            ORDER BY months;
+           
+            
+        '); 
+        //    WHERE YEAR(d.vstdate) = YEAR(CURDATE())
+        foreach ($count_visit as $key => $value) {
+          
+            if ($value->months == 1) { 
+                $data['den_01'] = $value->chn; 
+            }elseif ($value->months == 2) {
+                $data['den_02'] = $value->chn;
+            }elseif ($value->months == 3) {
+                $data['den_03'] = $value->chn;
+            }elseif ($value->months == 4) {
+                $data['den_04'] = $value->chn;
+            }elseif ($value->months == 5) {
+                $data['den_05'] = $value->chn;
+            }elseif ($value->months == 6) {
+                $data['den_06'] = $value->chn;
+            }elseif ($value->months == 7) {
+                $data['den_07'] = $value->chn;
+            }elseif ($value->months == 8) {
+                $data['den_08'] = $value->chn;
+            }elseif ($value->months == 9) {
+                $data['den_09'] = $value->chn;
+            }elseif ($value->months == 10) {
+                $data['den_10'] = $value->chn;
+            }elseif ($value->months == 11) {
+                $data['den_11'] = $value->chn;
+            } else {
+                $data['den_12'] = $value->chn;
+            }
+           
+        }        
+
         return view('dent.dental_db',$data,[
             'startdate'        => $startdate,
             'enddate'          => $enddate,
             'data_show'        => $data_show,  
         ]);
+
+
+        
     }
+                 
+    public function dental_calendar(Request $request)
+    {
+        $startdate     = $request->startdate;
+        $enddate       = $request->enddate;
+
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี          
+        
+        $data_show = DB::connection('mysql2')->select(            
+            'select count(distinct d.hn) 
+            from dtmain d
+            left outer join vn_stat v on v.vn=d.vn
+            where d.vstdate between "'.$newweek.'" and "'.$date.'"
+            and v.pt_subtype <> "2"
+        ');
+        
+        $data['doctor'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "2"
+            AND active = "Y"
+        ');
+        $data['helper'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "6" 
+            AND active = "Y"
+        ');
+
+        // ******************** Calenda *******************************
+
+        $iddep =  Auth::user()->dep_subsubtrueid;
+        $iduser = Auth::user()->id;
+        $event = array();
+        $otservicess = DB::table('ot_one')
+        ->leftjoin('users','users.id','=','ot_one.ot_one_nameid')
+        ->leftjoin('department_sub_sub','department_sub_sub.DEPARTMENT_SUB_SUB_ID','=','users.dep_subsubtrueid')
+        ->where('users.dep_subsubtrueid','=',$iddep)
+        ->where('users.id','=',$iduser)
+        ->get();
+
+        $datashow = DB::connection('mysql15')->select(            
+            'SELECT * FROM car
+        ');
+
+        foreach ($otservicess as $item) {            
+            // $dateend = $item->car_service_length_backdate;
+            // $NewendDate = date ("Y-m-d", strtotime("1 day", strtotime($dateend)));
+            $dateend = $item->ot_one_date;
+            // $NewendDate = date ("Y-m-d", strtotime("1 day", strtotime($dateend)));
+            // $NewendDate = date("Y-m-d", strtotime($dateend) - 1);  //ลบออก 1 วัน  เพื่อโชว์ปฎิทิน
+            // $datestart=date('H:m');
+            $timestart = $item->ot_one_starttime;
+            $timeend = $item->ot_one_endtime;
+
+            $starttime = substr($timestart, 0, 5);
+            $endtime = substr($timeend, 0, 5);
+            $showtitle = $item->ot_one_fullname. ' => ' . $starttime . '-' . $endtime;
+            
+            // if ($item->ot_one_nameid == $iduser) {
+                $color = $item->color_ot;             
+
+            $event[] = [
+                'id' => $item->ot_one_id,
+                'title' => $showtitle, 
+                'start' => $dateend,
+                'end' => $dateend,
+                'color' => $color
+            ];
+        }
+
+
+
+        return view('dent.dental_calendar',$data,[
+                'events'     =>  $event,
+            // 'startdate'        => $startdate,
+            // 'enddate'          => $enddate,
+            // 'data_show'        => $data_show,  
+        ]);
+    }
+
+    public function dental_calendarsave (Request $request)
+    {
+        $datebigin = $request->start_date;
+        $dateend = $request->end_date;
+        $iduser = $request->user_id;
+        $starttime = $request->ot_one_starttime;
+        $endtime = $request->ot_one_endtime;
+
+        $checkdate = Ot_one::where('ot_one_date','=',$datebigin)->where('ot_one_nameid','=',$iduser)->count();
+
+        if ($checkdate > 0) {
+            return response()->json([
+                'status'     => '100',
+            ]);
+        } else {
+            $add = new Ot_one();
+            $add->ot_one_date = $datebigin;
+            $add->ot_one_starttime = $starttime;
+            $add->ot_one_endtime = $endtime;
+            $add->ot_one_detail = $request->input('ot_one_detail');
+
+            $start = strtotime($starttime);
+            $end = strtotime($endtime);
+            $tot = ($end - $start) / 3600; 
+            $add->ot_one_total = $tot;
+
+            
+            if ($iduser != '') {
+                $usersave = DB::table('users')->where('id', '=', $iduser)->first(); 
+                $add->ot_one_nameid = $usersave->id;
+                $add->ot_one_fullname = $usersave->pnamelong . ' '.$usersave->fname . '  ' . $usersave->lname;
+                $add->dep_subsubtrueid = $usersave->dep_subsubtrueid;
+            } else {
+                $add->ot_one_nameid = ''; 
+                $add->ot_one_fullname = '';
+                $add->dep_subsubtrueid = '';
+            }
+
+            $add->save();
+
+            return response()->json([
+                'status'     => '200',
+            ]);
+        }  
+    }
+
+    public function dental_appointment_add (Request $request)
+    {
+        $datenow = $request->start_date;
+        $dateend = $request->end_date;
+        $iduser = $request->user_id;
+        $starttime = $request->ot_one_starttime;
+        $endtime = $request->ot_one_endtime;
+
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+
+        $data_p ['patient'] = DB::connection('mysql10')->select('
+            SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient 
+            ');
+        
+        $data_p ['doctor'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id in ("2","6","16")
+            AND active = "Y" 
+            ');
+
+
+        
+
+
+
+        // Dent_appointment::insert([
+        //     'dent_hn'                 => $request->dent_hn,
+        //     'dent_tel'                => $request->dent_tel,
+        //     'dent_work'               => $request->dent_work,
+        //     'dent_date'               => $request->dent_date,
+        //     'dent_time'               => $request->dent_time,
+        //     'appointment_id'          => $request->appointment_id,
+        //     'appointment_name'        => $request->appointment_name,
+        //     'dent_doctor'             => $request->dent_doctor,
+        //     'created_at'              => $datenow
+        // ]);
+        $data_dent_appointment = DB::table('dent_appointment')->get();
+    
+        return redirect()->route('den.dental_calendar');
+
+        
+    }
+
+    public function dental_appointment_save (Request $request)
+    {
+        $datebigin = $request->start_date;
+        $dateend = $request->end_date;
+        $iduser = $request->user_id;
+        $starttime = $request->ot_one_starttime;
+        $endtime = $request->ot_one_endtime;
+
+        $checkdate = Ot_one::where('ot_one_date','=',$datebigin)->where('ot_one_nameid','=',$iduser)->count();
+
+        if ($checkdate > 0) {
+            return response()->json([
+                'status'     => '100',
+            ]);
+        } else {
+            $add = new Ot_one();
+            $add->ot_one_date = $datebigin;
+            $add->ot_one_starttime = $starttime;
+            $add->ot_one_endtime = $endtime;
+            $add->ot_one_detail = $request->input('ot_one_detail');
+
+            $start = strtotime($starttime);
+            $end = strtotime($endtime);
+            $tot = ($end - $start) / 3600; 
+            $add->ot_one_total = $tot;
+
+            
+            if ($iduser != '') {
+                $usersave = DB::table('users')->where('id', '=', $iduser)->first(); 
+                $add->ot_one_nameid = $usersave->id;
+                $add->ot_one_fullname = $usersave->pnamelong . ' '.$usersave->fname . '  ' . $usersave->lname;
+                $add->dep_subsubtrueid = $usersave->dep_subsubtrueid;
+            } else {
+                $add->ot_one_nameid = ''; 
+                $add->ot_one_fullname = '';
+                $add->dep_subsubtrueid = '';
+            }
+
+            $add->save();
+
+            return response()->json([
+                'status'     => '200',
+            ]);
+        }  
+    }
+
+    public function dental_setting_type (Request $request)
+    {
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+        $iduser = Auth::user()->id;
+        $data['users'] = User::get();
+        $data['leave_month'] = DB::table('leave_month')->get();
+        $data['users_group'] = DB::table('users_group')->get();
+        $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี   
+ 
+        $dent_appointment_type = DB::table('dent_appointment_type')->get();  
+        
+        $data_show = DB::connection('mysql2')->select(            
+            'select count(distinct d.hn) 
+            from dtmain d
+            left outer join vn_stat v on v.vn=d.vn
+            where d.vstdate between "'.$newweek.'" and "'.$date.'"
+            and v.pt_subtype <> "2"
+        ');
+        
+        $data['doctor'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "2"
+            AND active = "Y"
+        ');
+        $data['helper'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "6" 
+            AND active = "Y"
+        ');
+
+        return view('dent.dental_setting_type', $data,[
+            'startdate'              => $datestart,
+            'enddate'                => $dateend,
+            'dent_appointment_type'  => $dent_appointment_type, 
+        ]);
+    }
+
+    public function dental_setting_type_add (Request $request)
+    {
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+        $iduser = Auth::user()->id;
+        $data['users'] = User::get();
+        $data['leave_month'] = DB::table('leave_month')->get();
+        $data['users_group'] = DB::table('users_group')->get();
+        $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี   
+ 
+        $dent_appointment_type = DB::table('dent_appointment_type')->get();  
+        
+        $data_show = DB::connection('mysql2')->select(            
+            'select count(distinct d.hn) 
+            from dtmain d
+            left outer join vn_stat v on v.vn=d.vn
+            where d.vstdate between "'.$newweek.'" and "'.$date.'"
+            and v.pt_subtype <> "2"
+        ');
+        
+        $data['doctor'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "2"
+            AND active = "Y"
+        ');
+        $data['helper'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "6" 
+            AND active = "Y"
+        ');
+
+        return view('dent.dental_setting_type_add', $data,[
+            'startdate'              => $datestart,
+            'enddate'                => $dateend,
+            'dent_appointment_type'  => $dent_appointment_type, 
+        ]);
+    }
+
+    public function dental_setting_type_save (Request $request)
+    {  
+        $datenow = date('Y-m-d H:m:s');
+
+        Dent_appointment_type::insert([
+            // 'trash_parameter_id'                    => $request->trash_parameter_id,
+            'appointment_name'                   => $request->appointment_name,
+            // 'trash_parameter_unit'                   => $request->trash_parameter_unit,
+            'created_at'                         => $datenow
+        ]);
+        $data_parameter_list = DB::table('dent_appointment_type')->get();
+    
+        return redirect()->route('den.dental_setting_type');
+
+    }
+
+    public function dental_setting_type_update (Request $request)
+    { 
+        $datenow = date('Y-m-d H:m:s');
+        $id = $request->appointment_id;
+        
+        Dent_appointment_type::where('appointment_id','=',$id)
+        ->update([
+            'appointment_name'                           => $request->appointment_name,
+            // 'trash_parameter_unit'                       => $request->trash_parameter_unit,
+            'updated_at'                                 => $datenow
+        ]);
+
+        $data_parameter_list = DB::table('dent_appointment_type')->get();
+        // return redirect()->back();
+        return redirect()->route('dent.dental_setting_type');
+        
+    }
+
+    public function dental_setting_type_edit (Request $request,$id)
+    {
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+        $iduser = Auth::user()->id;
+        $data['users'] = User::get();
+        $data['leave_month'] = DB::table('leave_month')->get();
+        $data['users_group'] = DB::table('users_group')->get();
+        $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
+        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี  
+ 
+        $data_edit = DB::table('dent_appointment_type')->where('appointment_id','=',$id)->first();
+
+        return view('den.dental_setting_type_edit', $data,[
+            'startdate'        => $datestart,
+            'enddate'          => $dateend, 
+            'data_edit'        => $data_edit, 
+        ]);
+    }
+
+    public function dental_setting_type_delete (Request $request,$id)
+    {
+       $del = Dent_appointment_type::find($id);  
+       $del->delete(); 
+
+        return redirect()->back();
+    }
+
+    function dental_switchactive(Request $request)
+    {  
+        $id = $request->idfunc; 
+        $active = Dent_appointment_type::find($id);
+        $active->status = $request->onoff;
+        $active->save();
+    }
+
+    
 
 
 

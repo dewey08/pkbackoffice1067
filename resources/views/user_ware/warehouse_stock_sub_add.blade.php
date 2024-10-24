@@ -316,9 +316,9 @@
 
                         </div>
                     </div>
-    </body>
-    </div>
-    </div>
+                        </body>
+                </div>
+        </div>
     </div>
 @endsection
 @section('footer')

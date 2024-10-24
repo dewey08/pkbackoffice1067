@@ -88,15 +88,15 @@
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-4 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control-sm cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control-sm cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
-                        <button type="submit" class="ladda-button btn-pill btn btn-info cardacc" data-style="expand-left">
+                        <button type="submit" class="ladda-button btn-pill btn btn-sm btn-info cardacc" data-style="expand-left">
                             <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                             <span class="ladda-spinner"></span>
                         </button>
-                        <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
+                        <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary cardacc" data-style="expand-left" id="Pulldata">
                             <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
                             <span class="ladda-spinner"></span>
                         </button> 
@@ -106,36 +106,36 @@
 </form>
         <div class="row">
             <div class="col-xl-12">
-                <div class="card card_audit_4c">
+                <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">
                     <div class="card-body">    
                         <div class="row mb-2">
                             <div class="col-md-6 text-start"> 
                               @if ($activeclaim == 'Y')
                                 <button class="ladda-button me-2 btn-pill btn btn-info btn-sm cardacc" onclick="check()">Check</button>
                                 <input type="checkbox" id="myCheck" class="dcheckbox_ me-2" checked> 
-                                <button class="ladda-button me-2 btn-pill btn btn-danger btn-sm cardacc" onclick="uncheck()">Uncheck</button>
+                                <button class="ladda-button me-2 btn-pill btn btn-danger btn-sm input_new" onclick="uncheck()">Uncheck</button>
                               @else
-                                <button class="ladda-button me-2 btn-pill btn btn-info btn-sm cardacc" onclick="check()">Check</button>
+                                <button class="ladda-button me-2 btn-pill btn btn-info btn-sm input_new" onclick="check()">Check</button>
                                 <input type="checkbox" id="myCheck" class="dcheckbox_ me-2"> 
-                                <button class="ladda-button me-2 btn-pill btn btn-danger btn-sm cardacc" onclick="uncheck()">Uncheck</button>
+                                <button class="ladda-button me-2 btn-pill btn btn-danger btn-sm input_new" onclick="uncheck()">Uncheck</button>
                               @endif 
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-warning cardacc Claim" data-url="{{url('account_401_claim')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-warning input_new Claim" data-url="{{url('account_401_claim')}}">
                                     <i class="fa-solid fa-spinner me-2"></i>
                                    ประมวลผล
                                </button>
-                               <a href="{{url('account_401_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success cardacc">
+                               <a href="{{url('account_401_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new">
                                         <i class="fa-regular fa-file-zipper text-white me-2"></i> 
                                     Zip
                                 </a> 
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-success cardacc" id="Apinhso">
-                                    <i class="fa-solid fa-cloud-arrow-up me-2"></i>
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm input_new" id="Apinhso" style="background-color: rgb(241, 7, 136);color:#ffffff">
+                                    <i class="fa-solid fa-cloud-arrow-up text-white me-2"></i>
                                     API NHSO
                                 </button>
                             </div>
                            
                             <div class="col"></div>
                             <div class="col-md-5 text-end">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info btn-sm cardacc" id="Check_sit">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info btn-sm input_new" id="Check_sit">
                                     <i class="fa-solid fa-user me-2"></i>
                                     ตรวจสอบสิทธิ์ 
                                 </button>
@@ -149,11 +149,11 @@
                                     Export Txt
                                 </a>    --}}
                             
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary btn-sm cardacc Savestamp" data-url="{{url('account_401_stam')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary btn-sm input_new Savestamp" data-url="{{url('account_401_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-danger btn-sm cardacc Destroystamp" data-url="{{url('account_401_destroy_all')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-danger btn-sm input_new Destroystamp" data-url="{{url('account_401_destroy_all')}}">
                                     <i class="fa-solid fa-trash-can me-2"></i>
                                     ลบ
                                 </button> 
@@ -277,7 +277,8 @@
                                                 {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
                                                 {{-- <table id="example" class="table table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;"> --}}
                                                     {{-- <table id="example21" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;"> --}}
-                                                        <table id="scroll-vertical-datatable" class="table dt-responsive nowrap w-100">
+                                                        <table id="scroll-vertical-datatable" class="table table-sm table-striped dt-responsive nowrap w-100">
+                                                            {{-- <table id="example" class="table table-sm table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">   --}}
                                                     <thead>
                                                         <tr>
                                                           
@@ -287,19 +288,19 @@
                                                                 <span class="bg-success badge">{{ $count_no }}</span>  Approv                                                               
                                                                 <span class="bg-danger badge">{{ $count_null }}</span> 
                                                             </th> 
+                                                            <th class="text-center" style="background-color: #fad6b8">pdx</th> 
                                                             {{-- <th class="text-center">ยานอก</th> --}}
                                                             <th class="text-center">กายภาพ</th>
                                                             <th class="text-center">Dent</th>
                                                             <th class="text-center">CT</th>
-                                                            <th class="text-center" style="background-color: #fad6b8">pdx</th>  
+                                                             
                                                             {{-- <th class="text-center">icd10</th>   --}}
                                                             {{-- <th class="text-center" >vn</th> --}}
                                                             <th class="text-center" >hn</th>
                                                             <th class="text-center" >cid</th>
                                                             <th class="text-center">ptname</th>
                                                             <th class="text-center">ตั้งลูกหนี้</th>
-                                                            <th class="text-center"> 
-                                                                
+                                                            <th class="text-center">                                                                 
                                                                 <span class="bg-success badge">{{ $count_claim }}</span> เคลม
                                                                 <span class="bg-danger badge">{{ $count_noclaim }}</span>  
                                                             </th>                                                         
@@ -366,6 +367,13 @@
                                                                         <span class="bg-warning badge text-center">-</span> 
                                                                     @endif 
                                                                 </td>  
+                                                                <td class="text-start" width="5%">
+                                                                    @if ($item->pdx != NULL)
+                                                                        <span class="bg-info badge">{{ $item->pdx }}</span> 
+                                                                    @else
+                                                                        <span class="bg-warning badge">-</span> 
+                                                                    @endif 
+                                                                </td>
                                                                 {{-- <td class="text-center" width="5%">
                                                                     @if ($drugmark != NULL)
                                                                         <span class="bg-success badge">{{ $drugmark }}</span> 
@@ -394,13 +402,7 @@
                                                                         <span class="bg-danger badge text-center">-</span> 
                                                                     @endif 
                                                                 </td> 
-                                                                <td class="text-start" width="5%">
-                                                                    @if ($item->pdx != NULL)
-                                                                        <span class="bg-info badge">{{ $item->pdx }}</span> 
-                                                                    @else
-                                                                        <span class="bg-warning badge">-</span> 
-                                                                    @endif 
-                                                                </td>
+                                                               
                                                                 {{-- <td class="text-start" width="5%">{{ $item->icd10 }}</td>  --}}
                                                                 {{-- <td class="text-center" width="5%">{{ $item->vn }}</td>  --}}
                                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
@@ -1239,8 +1241,6 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
-
-
 
             $('#stamp').on('click', function(e) {
                     if($(this).is(':checked',true))  

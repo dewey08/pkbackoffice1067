@@ -194,38 +194,39 @@
                                                                 ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="15" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'") as redfifteen
                                                                 ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="20" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'") as redtwenty 
                                                                 ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_size ="10" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'") as greenten
+                                                                
                                                                 ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="10" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'")+
                                                                 (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="15" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'")+
                                                                 (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_size ="20" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'")+
                                                                 (SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_size ="10" AND fire_edit ="Narmal" AND active ="Y" AND fire_backup ="N" AND fire_year = "'.$itemreport->yearsthai.'") total_all
                                                                 
-                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Check_redten
-                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Check_redfifteen
-                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="20" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Check_redtwenty
-                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Check_greenten
+                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND fc.fire_year = "'.$itemreport->yearsthai.'") as Check_redten
+                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15" AND month(fc.check_date) = "'.$itemreport->months.'" AND fc.fire_year = "'.$itemreport->yearsthai.'") as Check_redfifteen
+                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="20" AND month(fc.check_date) = "'.$itemreport->months.'" AND fc.fire_year = "'.$itemreport->yearsthai.'") as Check_redtwenty
+                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND fc.fire_year = "'.$itemreport->yearsthai.'") as Check_greenten
 
-                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'")+
-                                                                (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'")+
-                                                                (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="20" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'")+
-                                                                (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'") as Checktotal_all_old
+                                                                ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND fc.fire_year = "'.$itemreport->yearsthai.'")+
+                                                                (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="15" AND month(fc.check_date) = "'.$itemreport->months.'" AND fc.fire_year = "'.$itemreport->yearsthai.'")+
+                                                                (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "red" AND f.fire_size ="20" AND month(fc.check_date) = "'.$itemreport->months.'" AND fc.fire_year = "'.$itemreport->yearsthai.'")+
+                                                                (SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE fc.fire_check_color = "green" AND f.fire_size ="10" AND month(fc.check_date) = "'.$itemreport->months.'" AND fc.fire_year = "'.$itemreport->yearsthai.'") as Checktotal_all_old
                                                                 ,(SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'" AND f.active = "N") as camroot
 
                                                                 ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green") as green_all
                                                                 ,(SELECT COUNT(fire_id) FROM fire_check WHERE fire_check_color = "green") as Checkgreen_all
                                                                 ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "red" AND fire_backup = "Y") as backup_red
                                                                 ,(SELECT COUNT(fire_id) FROM fire WHERE fire_color = "green" AND fire_backup = "Y") as backup_green
-                                                                ,(SELECT COUNT(DISTINCT fire_num) FROM fire_check WHERE month(check_date) = "'.$itemreport->months.'" AND year(check_date) = "'.$itemreport->years.'") as Checktotal_all
+                                                                ,(SELECT COUNT(DISTINCT fire_id) FROM fire_check WHERE month(check_date) = "'.$itemreport->months.'" AND fire_year = "'.$itemreport->yearsthai.'") as Checktotal_all
                                                             FROM fire_check f
                                                             WHERE month(f.check_date) = "'.$itemreport->months.'"
-                                                            AND year(f.check_date) = "'.$itemreport->years.'" 
-            
+                                                            AND f.fire_year = "'.$itemreport->yearsthai.'" 
+                                                            GROUP BY month(f.check_date)
                                                         ');  
                                                         // ,(SELECT COUNT(fire_id) FROM fire WHERE active = "N") as camroot   
                                                         
                                                     //    dd($counts_);
                                                         foreach ($dashboard_ as $key => $value) {
                                                             // $red_all               = $value->red_all;
-                                                            $counts_ = DB::select('SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE month(fc.check_date) = "'.$itemreport->months.'" AND year(fc.check_date) = "'.$itemreport->years.'"');                                 
+                                                            $counts_ = DB::select('SELECT COUNT(fc.fire_id) FROM fire_check fc LEFT JOIN fire f ON f.fire_id=fc.fire_id WHERE month(fc.check_date) = "'.$itemreport->months.'" AND fc.fire_year = "'.$itemreport->yearsthai.'"');                                 
                                                             // if ($counts_ < 1) {
                                                             //     $redten                = '0';
                                                             //     $redfifteen            = '0';
@@ -265,7 +266,10 @@
                                                                 WHERE month(fc.check_date) = "'.$itemreport->months.'" 
                                                                 AND year(fc.check_date) = "'.$itemreport->years.'" 
                                                         '); 
-                                                        $trut          = 100 / $itemreport->total_all_qty * ($Check_redten+$Check_redfifteen+$Check_redtwenty+$Check_greenten);
+                                                        // $trut          = 100 / $itemreport->total_all_qty * ($Check_redten+$Check_redfifteen+$Check_redtwenty+$Check_greenten);
+                                                        // $chamrootcount = 100 / $itemreport->total_all_qty * $camroot;
+
+                                                        $trut          = 100 / $itemreport->total_all_qty * $Checktotal_all;
                                                         $chamrootcount = 100 / $itemreport->total_all_qty * $camroot;
 
                                                         $count_check_ = DB::select('SELECT COUNT(fire_id) as checkfire FROM fire_report WHERE check_status = "N" AND months = "'.$itemreport->months.'" AND years = "'.$itemreport->years.'" '); 
@@ -352,7 +356,7 @@
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(219, 243, 252)">
                                                         @if ($itemreport->months == $m)
-                                                            <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill bg-primary p-2">
+                                                            <a href="{{url('support_system_check/'.$itemreport->months.'/'.$itemreport->yearsthai)}}" target="_blank" class="badge rounded-pill bg-primary p-2">
                                                                 {{$Checktotal_all}}
                                                             </a> 
                                                         @else
@@ -363,9 +367,10 @@
                                                     </td> 
 
                                                     <td class="text-center" style="background-color: rgb(253, 202, 198)">
-                                                        <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->years)}}" target="_blank" class="badge rounded-pill p-2" style="background-color: rgb(252, 123, 114)">
+                                                        <a href="{{url('support_system_nocheck/'.$itemreport->months.'/'.$itemreport->yearsthai)}}" target="_blank" class="badge rounded-pill p-2" style="background-color: rgb(252, 123, 114)">
                                                         {{-- <a href="" target="_blank" class="badge rounded-pill p-2" style="background-color: rgb(253, 80, 68)"> --}}
-                                                            {{$count_nocheck}}
+                                                            {{-- {{$count_nocheck}} --}}
+                                                            {{$itemreport->total_all_qty-$Checktotal_all}}
                                                         </a>
                                                     </td>
                                                     <td class="text-center" style="background-color: rgb(255, 255, 255)">

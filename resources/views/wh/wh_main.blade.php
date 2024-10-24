@@ -85,9 +85,9 @@
         </div>
     
         <div class="row"> 
-            <div class="col-md-6"> 
-                <h5 class="card-title" style="color:green">คลัง {{$stock_name}}</h5>
-                <p class="card-title-desc">หน่วยงาน กลุ่มงานพัสดุโรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ ประจำปีงบประมาณ 2568</p>
+            <div class="col-md-10"> 
+                <h4 style="color:rgb(247, 103, 68)">คลัง{{$stock_name}}</h4>
+                <p class="card-title-desc">หน่วยงาน กลุ่มงานพัสดุโรงพยาบาลภูเขียวเฉลิมพระเกียรติ จังหวัดชัยภูมิ ประจำปีงบประมาณ {{$bgyearnow}}</p>
             </div>
             <div class="col"></div>   
 
@@ -97,21 +97,23 @@
         <div class="row">
             <div class="col-md-12">
                 
-                <div class="card card_audit_4c">
+                <div class="card card_audit_4c" style="background-color: rgb(248, 241, 237)">
    
                             <div class="card-body">
                                
                                 <div class="row"> 
                                     <div class="col-xl-12">
-                                        <table id="scroll-vertical-datatable" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;"> 
+                                        {{-- <table id="scroll-vertical-datatable" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">  --}}
                                         {{-- <table class="table table-bordered " style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                                            <thead> 
+                                            {{-- <table id="example" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">  --}}
+                                                <table id="example" class="table table-sm table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                <thead> 
                                                 <tr style="font-size: 10px;">
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 11px;" width="5%">ลำดับ</th>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 12px;" width="10%">รายการ</th>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 11px;">ประเภท</th>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 11px;">ขนาดบรรจุ / หน่วยนับ</th>
-                                                    {{-- <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 11px;">ยอดยกมา</th>  --}}
+                                                    <th class="text-center" style="background-color: rgb(253, 154, 192);font-size: 11px;">StockCard</th> 
                                                     <th class="text-center" style="background-color: rgb(250, 242, 187);font-size: 11px;">รับเข้า</th> 
                                                     <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 11px;">จ่ายออก</th> 
                                                     <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 11px;">คงเหลือ</th> 
@@ -134,12 +136,14 @@
                                                     @else
                                                         <td class="text-center" style="color:rgb(3, 93, 145)">{{$item->stock_qty}} </td>
                                                     @endif  --}}
-                                                   
+                                                    <td class="text-center">
+                                                        <a href="{{URL('wh_stock_card/'.$item->wh_stock_id)}}" class="ladda-button me-2 btn-pill btn btn-sm input_new text-white" style="background-color: rgb(236, 11, 97);font-size: 12px;">Stock Card</a>
+                                                    </td>
                                                     <td class="text-center" style="color:rgb(3, 93, 145)">
                                                         @if ($item->stock_rep =='')
                                                             0
                                                         @else
-                                                        {{$item->stock_rep}}
+                                                            {{$item->stock_rep}}
                                                         @endif
                                                        
                                                     </td>
@@ -147,7 +151,7 @@
                                                         @if ($item->stock_pay =='')
                                                             0
                                                         @else
-                                                        {{$item->stock_pay}}
+                                                            {{$item->stock_pay}}
                                                         @endif
                                                       
                                                     </td>
@@ -182,13 +186,13 @@
                                                     $total3 = $total3 + $item->stock_pay;
                                                     $total4 = $total4 + $item->stock_rep-$item->stock_pay;
                                                     // $total5 = $total5 + $item->sum_one_price;        
-                                                    $total6 = $total6 + ($item->sum_stock_price*($item->stock_rep-$item->stock_pay));  
+                                                    $total6 = $total6 + ($item->sum_stock_price-$item->sum_stock_pricepay);  
                                                 ?>  
                                                     
                                                 @endforeach                                                
                                             </tbody>
                                             <tr style="background-color: #f3fca1">
-                                                <td colspan="4" class="text-end" style="background-color: #ff9d9d"></td>
+                                                <td colspan="5" class="text-end" style="background-color: #ff9d9d"></td>
                                                 {{-- <td class="text-center" style="background-color: #f58d73;color: #065ca3">{{number_format($total1,0)}}</td>  --}}
                                                 <td class="text-center" style="background-color: #f58d73;color: #065ca3">{{number_format($total2,0)}}</td> 
                                                 <td class="text-center" style="background-color: #f58d73;color: #065ca3">{{number_format($total3,0)}}</td> 

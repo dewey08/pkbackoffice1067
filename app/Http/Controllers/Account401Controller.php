@@ -80,7 +80,7 @@ use App\Models\Dapi_irf;
 use App\Models\Dapi_lvd;
 
 use App\Models\Acc_function;
-use App\Models\Fdh_sesion;
+
 use App\Models\D_apiofc_ins;
 use App\Models\D_apiofc_iop;
 use App\Models\D_apiofc_adp;
@@ -98,6 +98,7 @@ use App\Models\D_apiofc_oop;
 use App\Models\D_apiofc_opd;
 use App\Models\D_apiofc_orf;
 
+use App\Models\Fdh_sesion;
 use App\Models\Fdh_ins;
 use App\Models\Fdh_pat;
 use App\Models\Fdh_opd;
@@ -285,12 +286,17 @@ class Account401Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-         
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $data['bg_yearnow']    = $bgs_year->leave_year_id;
+        
         if ($budget_year == '') {
             $yearnew     = date('Y');
             $year_old    = date('Y')-1; 
-            $startdate   = (''.$year_old.'-10-01');
-            $enddate     = (''.$yearnew.'-09-30'); 
+            // $startdate   = (''.$year_old.'-10-01');
+            // $enddate     = (''.$yearnew.'-09-30'); 
+            $bg           = DB::table('budget_year')->where('years_now','Y')->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end;
             // dd($startdate);
             $datashow = DB::select('
                     SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
@@ -298,6 +304,7 @@ class Account401Controller extends Controller
                     ,sum(a.income) as income ,sum(a.paid_money) as paid_money
                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money)-sum(a.fokliad) as debit402,sum(a.fokliad) as sumfokliad
+                    
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
@@ -314,7 +321,8 @@ class Account401Controller extends Controller
             $datashow = DB::select('
                     SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
                     ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn
-                    ,count(distinct a.an) as an ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+                    ,count(distinct a.an) as an ,sum(a.income) as income 
+                    ,sum(a.paid_money) as paid_money
                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
@@ -325,7 +333,7 @@ class Account401Controller extends Controller
             ');
         }
         // dd($startdate);
-        return view('account_401.account_401_dash',[
+        return view('account_401.account_401_dash',$data,[
             'startdate'         =>  $startdate,
             'enddate'           =>  $enddate, 
             'leave_month_year'  =>  $leave_month_year, 
@@ -344,6 +352,27 @@ class Account401Controller extends Controller
         //     'date'             => $date,
         //     'trimart'          => $trimart,
         // ]);
+    }
+    public function account_401_claim_detail(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        // dd($id);
+        $data['users'] = User::get();
+
+        $data = DB::select('
+        SELECT *
+            from acc_debtor
+            WHERE month(vstdate) = "'.$months.'" AND year(vstdate) = "'.$year.'" AND active_claim = "Y"
+            GROUP BY vn
+        ');
+        // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
+        return view('account_401.account_401_claim_detail', $data, [ 
+            'data'          =>     $data,
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate
+        ]);
     }
     public function account_401_pull(Request $request)
     {
@@ -441,19 +470,18 @@ class Account401Controller extends Controller
             'status'    => '200'
         ]);
     }
-
     public function account_401_pulldata(Request $request)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         Acc_ofc_dateconfig::truncate();
-        $acc_debtor = DB::connection('mysql2')->select(' 
-            SELECT o.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+        $acc_debtor = DB::connection('mysql2')->select(
+            'SELECT o.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                 ,o.vstdate,o.vsttime
                 ,v.hospmain,"" regdate,"" dchdate,op.income as income_group  
                 ,ptt.pttype_eclaim_id,vp.pttype
-                ,e.code as acc_code
+                ,"17" as acc_code
                 ,"1102050101.401" as account_code
                 ,"เบิกจ่ายตรงกรมบัญชีกลาง" as account_name
                 ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money 
@@ -510,7 +538,7 @@ class Account401Controller extends Controller
                                 'icd10'              => $value->icd10, 
                                 'approval_code'      => $value->approval_code,
                                 'price_ofc'          => $value->price_ofc,
-                                'debit_total'        => $value->debit,
+                                'debit_total'        => $value->income,
                             ]);
                         }else{
                             Acc_debtor::insert([
@@ -532,12 +560,12 @@ class Account401Controller extends Controller
                                 'discount_money'     => $value->discount_money,
                                 'paid_money'         => $value->paid_money,
                                 'rcpt_money'         => $value->rcpt_money,
-                                'debit'              => $value->debit,
+                                'debit'              => $value->income,
                                 'debit_drug'         => $value->debit_drug,
                                 'debit_instument'    => $value->debit_instument,
                                 'debit_toa'          => $value->debit_toa,
                                 'debit_refer'        => $value->debit_refer,
-                                'debit_total'        => $value->debit,
+                                'debit_total'        => $value->income,
                                 'max_debt_amount'    => $value->max_debt_money,
                                 'pdx'                => $value->pdx,
                                 'icd10'              => $value->icd10,
@@ -640,7 +668,6 @@ class Account401Controller extends Controller
        ]);
 
     }
-
     public function account_401_stam(Request $request)
     {
         $id = $request->ids;
@@ -703,7 +730,6 @@ class Account401Controller extends Controller
             'status'    => '200'
         ]);
     }
-
     public function account_401_detail(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
@@ -828,7 +854,6 @@ class Account401Controller extends Controller
             'year'          =>     $year
         ]);
     }
-
     public function account_401_detail_date(Request $request,$startdate,$enddate)
     {
         $datenow = date('Y-m-d');
@@ -3225,7 +3250,6 @@ class Account401Controller extends Controller
             'countc'        =>     $countc
         ]);
     }
-
     function account_401_repsave (Request $request)
     { 
         // $this->validate($request, [

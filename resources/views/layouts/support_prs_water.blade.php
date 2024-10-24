@@ -290,31 +290,37 @@
                         </a> --}}
                         <a href="{{url('support_main')}}" class="logo logo-dark"> 
                             <span class="logo-sm me-2"> 
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30"> --}}
+                                {{-- <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">  --}}
+                                <img src="{{ asset('images/pk_logo_new_white.png') }}" alt="logo-sm-light" height="110">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30"> --}}
+                                {{-- <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">  --}}
+                                <img src="{{ asset('images/pk_logo_new_white.png') }}" alt="logo-sm-light" height="110">
                             </span>
                         </a>
  
                         <a href="{{url('support_main')}}" class="logo logo-light">
                             <span class="logo-sm me-2">
                                 {{-- <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40"> --}}
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30"> --}}
+                                {{-- <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> --}}
+                                <img src="{{ asset('images/pk_logo_new_white.png') }}" alt="logo-sm-light" height="110">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
                                 <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/officer_g.png') }}" class="" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/officer_g.png') }}" class="" alt="logo-sm-light" height="30"> --}}
+                                <img src="{{ asset('images/pk_logo_new_white.png') }}" alt="logo-sm-light" height="110">
                             </span>
                             
                         </a>
                         
                     </div>
-
+                    <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item mt-3" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                        <i class="ri-menu-2-line align-middle"></i>
+                    </button>
                     {{-- <button type="button" class="btn btn-sm font-size-24 d-lg-none header-item" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
                         <i class="ri-menu-2-line align-middle"></i>
                     </button> --}}
@@ -323,9 +329,9 @@
                     </button> --}}
 
                 
-                    <form class="app-search d-none d-lg-block">
+                    <form class="app-search d-none d-lg-block mt-3 ms-3">
                         <div class="position-relative">
-                            <h3 style="color:rgb(255, 255, 255)" class="mt-1 noto-sans-thai-looped-light">Drinking Water</h3> 
+                            <h3 style="color:rgb(255, 255, 255)" class="mt-1 noto-sans-thai-looped-light">D R I N K I N G - W A T E R</h3> 
                         </div>
                     </form> 
                 </div>

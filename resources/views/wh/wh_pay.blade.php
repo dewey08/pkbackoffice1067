@@ -117,169 +117,127 @@
 
 <div class="tabs-animation">
 
-        <div class="row text-center">
-            <div id="overlay">
-                <div class="cv-spinner">
-                    <span class="spinner"></span>
-                </div>
+            <div class="row text-center">
+                <div id="overlay">
+                    <div class="cv-spinner">
+                        <span class="spinner"></span>
+                    </div>
+                </div> 
             </div> 
-        </div> 
-        <div id="preloader">
-            <div id="status">
-                <div class="spinner"> 
+            <div id="preloader">
+                <div id="status">
+                    <div class="spinner"> 
+                    </div>
                 </div>
             </div>
-        </div>
-    
-        <div class="row">  
-            <div class="col-md-6"> 
-                <h5 style="color:rgb(3, 167, 145)">รายละเอียดการเบิกจ่าย</h5> 
-            </div>
-            <div class="col"></div>   
-            <div class="col-md-2 text-end"> 
-                    {{-- <a href="javascript:void(0);" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new mb-3" data-bs-toggle="modal" data-bs-target="#Recieve">
-                        <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เปิดบิล  
-                    </a> --}}
-                   
-            </div>
-        </div>
 
-        
- 
-        {{-- <div data-parent="#accordion" id="collapseOne2" class="collapse">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card cardplan">    
-                            <div class="card-body ">  
-                                <div class="row">  
-                                    <div class="col-md-12">         
-                                           
-                                            
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <h4 class="card-title">ตรวจรับทั่วไป</h4>
-                                                </div>
-                                                <div class="col"></div>
-                                                <div class="col-md-2 text-end">
-                                                    <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info me-2" id="InsertData">
-                                                        <i class="pe-7s-diskette btn-icon-wrapper text-info ms-2 me-2"></i>Save 
-                                                    </button> 
-                                                    
-                                                
-                                                </div>
-                                            </div>
-                                           
-                                            <!-- Nav tabs -->
-                                            <ul class="nav nav-tabs" role="tablist">
-                                                <li class="nav-item">
-                                                    <a class="nav-link active" data-bs-toggle="tab" href="#detail" role="tab">
-                                                        <span class="d-block d-sm-none"><i class="fas fa-detail"></i></span>
-                                                        <span class="d-none d-sm-block">รายละเอียด</span>    
-                                                    </a>
-                                                </li>
-                                               <!-- <li class="nav-item">
-                                                    <a class="nav-link" data-bs-toggle="tab" href="#trimart" role="tab">
-                                                        <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                                        <span class="d-none d-sm-block">ไตรมาส</span>    
-                                                    </a>
-                                                </li>  -->
-                                            </ul>
-    
-                                            <!-- Tab panes -->
-                                            <div class="tab-content p-3 text-muted">
-                                                <div class="tab-pane active" id="detail" role="tabpanel">
-                                                    <p class="mb-0">
-                                                        <div class="row">
-                                                            <div class="col-md-2 text-end">เลขที่บิล</div>
-                                                            <div class="col-md-4">
-                                                                <div class="form-group text-center">
-                                                                    <input type="text" class="form-control form-control-sm" id="recieve_no" name="recieve_no">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-2 text-end">วันที่รับเข้าคลัง</div>
-                                                            <div class="col-md-2">
-                                                                <div class="form-group text-center"> 
-                                                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                                                                        <input type="text" class="form-control form-control-sm cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                                                            data-date-language="th-th" value="{{ $date_now }}" required/>
-                                                                             
-                                                                    </div> 
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <div class="form-group text-center">
-                                                                    <input type="time" class="form-control form-control-sm" id="recieve_time" name="recieve_time" value="{{$mm}}">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-2">
-                                                            <div class="col-md-2 text-end">รับจากบริษัท</div>
-                                                            <div class="col-md-4">
-                                                                <select name="vendor_id" id="vendor_id"  class="custom-select custom-select-sm" style="width: 100%">
-                                                                        <option value="">--เลือก--</option>
-                                                                        @foreach ($air_supplies as $item_sup)
-                                                                            <option value="{{$item_sup->air_supplies_id}}">{{$item_sup->supplies_name}}</option>
-                                                                        @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-md-2 text-end">รับเข้าคลัง</div>
-                                                            <div class="col-md-4">
-                                                                <select name="stock_list_id" id="stock_list_id"  class="custom-select custom-select-sm" style="width: 100%">
-                                                                    <option value="">--เลือก--</option>
-                                                                    @foreach ($wh_stock_list as $item_st)
-                                                                        <option value="{{$item_st->stock_list_id}}">{{$item_st->stock_list_name}}</option>
-                                                                    @endforeach
-                                                            </select>
-                                                            </div>
-                                                        </div>                                
-                                                        <input type="hidden" id="bg_yearnow" name="bg_yearnow" value="{{$bg_yearnow}}">
-                                                       
-                                                        </div> 
-                                                    </p>
-                                                </div>
-                                                <div class="tab-pane" id="trimart" role="tabpanel">
-                                                    <p class="mb-0">
-                                                        
-                                                    </p>
-                                                </div>
-                                            
-                                            </div> 
-                                    </div>
-                                </div>
-                            </div>
-                        </div> 
-                    </div>   
+            {{-- <form action="{{ URL('wh_pay') }}" method="GET">
+                @csrf
+                <div class="row mb-2">  
+                    <div class="col-md-5">  
+                        <h3 style="color:rgb(6, 160, 165)">รายละเอียดการขอเบิกวัสดุโรงพยาบาล</h3>  
+                    </div>
+                    <div class="col"></div> 
+                    <div class="col-md-3 text-center"> 
+                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                            <input type="text" class="form-control card_audit_4c" name="startdate" id="datepicker" placeholder="วันที่" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                data-date-language="th-th" value="{{ $startdate }}" required/>
+                            <input type="text" class="form-control card_audit_4c" name="enddate" placeholder="ถึงวันที่" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                data-date-language="th-th" value="{{ $enddate }}"/>  
+                                
+                        </div>   
+                    </div> 
+                    <div class="col-md-1 text-center">  
+                            <select name="stock_list_id" id="stock_list_id" class="form-control text-center card_audit_4c" style="width: 100%;font-size:14px;color:#6409b9">
+                                @foreach ($wh_stock_list as $item) 
+                                @if ($stock_list_id == $item->stock_list_id)
+                                    <option value="{{$item->stock_list_id}}" selected>{{$item->stock_list_name}}</option> 
+                                @else
+                                    <option value="{{$item->stock_list_id}}">{{$item->stock_list_name}}</option> 
+                                @endif
+                                        
+                                @endforeach
+                            </select>
+                    </div>
+                    <div class="col-md-1 text-start">  
+                        <button type="submit" class="ladda-button btn-pill btn btn-primary card_audit_4c" data-style="expand-left">
+                            <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2 ms-2"></i>ค้นหา</span> 
+                        </button>   
+                    </div> 
+                    </div>
                 </div>
-            </div>
-        </div>  --}}
-       
-                <div class="row mt-2">
+            </form>  --}}
+ 
+                <div class="row">
                     <div class="col-md-12">     
                         <div class="card card_audit_4c">
+                            <div class="card-header">
+
+                                <form action="{{ URL('wh_pay') }}" method="GET">
+                                    @csrf
+                                    <div class="row">  
+                                        <div class="col-md-4">  
+                                            <h4 style="color:rgb(2, 120, 124)">รายละเอียดการขอเบิกวัสดุโรงพยาบาล</h4>  
+                                        </div>
+                                        <div class="col"></div> 
+                                        <div class="col-md-2 text-end">  
+                                            <select name="stock_list_id" id="stock_list_id" class="form-control-sm text-center card_audit_4c" style="width: 100%;font-size:14px;color:#6409b9">
+                                                @foreach ($wh_stock_list as $item) 
+                                                @if ($stock_listid == $item->stock_list_id)
+                                                    <option value="{{$item->stock_list_id}}" selected>{{$item->stock_list_name}}</option> 
+                                                @else
+                                                    <option value="{{$item->stock_list_id}}">{{$item->stock_list_name}}</option> 
+                                                @endif
+                                                        
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1 text-end mt-2">วันที่</div>
+                                        <div class="col-md-4 text-center"> 
+                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                                <input type="text" class="form-control-sm card_audit_4c" name="startdate" id="datepicker" placeholder="Start Date" style="font-size: 12px" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                                    data-date-language="th-th" value="{{ $startdate }}" required/>
+                                                <input type="text" class="form-control-sm card_audit_4c" name="enddate" placeholder="End Date" id="datepicker2" style="font-size: 12px" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                                    data-date-language="th-th" value="{{ $enddate }}"/>   
+                                            <button type="submit" class="ladda-button btn-pill btn btn-sm btn-primary card_audit_4c" data-style="expand-left">
+                                                <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2 ms-2"></i>ค้นหา</span> 
+                                            </button> 
+                                        </div> 
+                                    </div>  
+                                        {{-- <div class="col-md-1 text-start">  
+                                            <button type="submit" class="ladda-button btn-pill btn btn-sm btn-primary card_audit_4c" data-style="expand-left">
+                                                <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2 ms-2"></i>ค้นหา</span> 
+                                            </button>   
+                                        </div>  --}}
+                                         
+                                    </div>
+                                </form> 
+
+                            </div>
         
                             <div class="card-body">
                                 
                                 <div class="row"> 
                                     <div class="col-xl-12">
-                                        <table id="example" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">  
+                                        {{-- <table id="example" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">   --}}
                                         {{-- <table id="scroll-vertical-datatable" class="table table-sm table-striped table-bordered nowrap w-100" style="width: 100%;">   --}}
-                                            
+                                            <table id="example" class="table table-sm table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">  
                                             <thead> 
                                                 <tr>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;">ลำดับ</th>
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="5%">สถานะ</th>
                                                     {{-- <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="5%">ปีงบประมาณ</th> --}}
                                                     <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="8%">เลขที่บิล</th>
-                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="10%">วันที่เบิก-จ่าย</th>
+                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="10%">วันที่ขอเบิก</th>
+                                                    <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="10%">วันที่รับเข้าคลังย่อย</th>
                                                     {{-- <th class="text-center" style="background-color: rgb(255, 251, 228);font-size: 13px;" width="7%">เวลา</th> --}}
-                                                    <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 13px;">คลังใหญ่</th> 
-                                                    <th class="text-center" style="background-color: rgb(250, 194, 187);font-size: 13px;">คลังย่อย</th> 
+                                                    {{-- <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 13px;">คลังใหญ่</th>  --}}
+                                                    <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 13px;">คลังย่อย</th> 
                                                     <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 13px;" width="10%">ยอดรวม</th> 
                                                     <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="8%">ผู้เบิก</th>  
                                                     <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="8%">ผู้จ่าย</th>  
                                                     <th class="text-center" style="background-color: rgb(248, 201, 221);font-size: 13px;" width="8%">ผู้รับเข้าคลังย่อย</th> 
-                                                    <th class="text-center" width="5%">จัดการ</th> 
+                                                    <th class="text-center" style="background-color: rgb(166, 226, 245);font-size: 13px;" width="5%">จัดการ</th> 
                                                 </tr> 
                                             </thead>
                                             <tbody>
@@ -290,7 +248,7 @@
                                                     <td class="text-center" width="5%">{{$i}}</td>
                                                     <td class="text-center" width="5%">
                                                         @if ($item->active == 'REQUEST')
-                                                            <span class="bg-warning badge" style="font-size:12px">เปิดบิล</span> 
+                                                            <span class="bg-warning badge" style="font-size:12px">สร้างใบเบิกพัสดุ</span> 
                                                         @elseif ($item->active == 'APPREQUEST')
                                                             <span class="badge" style="font-size:12px;background-color: #0dd6d6">รายการครบ</span> 
                                                         @elseif ($item->active == 'APPROVE')
@@ -298,21 +256,22 @@
                                                         @elseif ($item->active == 'ALLOCATE')
                                                             <span class="bg-secondary badge" style="font-size:12px">กำลังดำเนิน</span> 
                                                         @elseif ($item->active == 'CONFIRM')
-                                                            <span class="badge" style="font-size:12px;background-color: #ff568e">จ่ายพัสดุเรียบร้อย</span> 
+                                                            <span class="badge" style="font-size:12px;background-color: #ff568e">รอยืนยันการจ่ายพัสดุ</span> 
                                                         @elseif ($item->active == 'CONFIRMSEND')
                                                             <span class="badge" style="font-size:12px;background-color: #ae58ff">รอรับเข้าคลังย่อย</span> 
                                                         @elseif ($item->active == 'REPEXPORT')
-                                                            <span class="bg-success badge" style="font-size:12px">ยืนยันรับเข้าคลัง</span> 
+                                                            <span class="bg-success badge" style="font-size:12px">ยืนยันรับเข้าคลังย่อย</span> 
                                                         @else
                                                             <span class="bg-primary badge" style="font-size:12px">รับเข้าคลัง</span> 
                                                         @endif                                                            
                                                     </td>
                                                     {{-- <td class="text-center" width="5%">{{$item->year}}</td> --}}
                                                     <td class="text-center" width="7%">{{$item->request_no}}</td>
-                                                    <td class="text-center" width="8%">{{$item->request_date}}</td>     
+                                                    <td class="text-center" width="8%">{{Datethai($item->request_date)}}</td>     
                                                     {{-- <td class="text-center" width="7%">{{$item->request_time}}</td> --}}
-                                                                                                        
-                                                    <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->stock_list_name}}</td>
+                                                    <td class="text-center" width="8%">{{Datethai($item->repin_date)}}</td>  
+                                                    
+                                                    {{-- <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->stock_list_name}}</td> --}}
                                                     <td class="text-start" style="color:rgb(3, 93, 145)">{{$item->DEPARTMENT_SUB_SUB_NAME}}</td>  
                                                     
                                                     <td class="text-end" style="color:rgb(4, 115, 180)" width="10%">{{number_format($item->total_price, 2)}}</td>   
@@ -372,14 +331,14 @@
                             <div class="col-md-2 text-end">เลขที่บิล</div>
                             <div class="col-md-4">
                                 <div class="form-group text-center">
-                                    <input type="text" class="form-control form-control-sm" id="recieve_no" name="recieve_no" >
+                                    <input type="text" class="form-control-sm" id="recieve_no" name="recieve_no" >
                                 </div>
                             </div>
                             <div class="col-md-2 text-end">วันที่เบิก-จ่าย</div>
                             <div class="col-md-2">
                                 <div class="form-group text-center"> 
                                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                                        <input type="text" class="form-control form-control-sm cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                        <input type="text" class="form-control-sm cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                             data-date-language="th-th" value="{{ $date_now }}" required/>
                                              
                                     </div> 
@@ -387,14 +346,14 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group text-center">
-                                    <input type="time" class="form-control form-control-sm" id="recieve_time" name="recieve_time" value="{{$mm}}">
+                                    <input type="time" class="form-control-sm" id="recieve_time" name="recieve_time" value="{{$mm}}">
                                 </div>
                             </div>
                         </div>
                         <div class="row mt-2">
                             <div class="col-md-2 text-end">รับจากบริษัท</div>
                             <div class="col-md-4">
-                                <select name="stock_list_id" id="stock_list_id"  class="custom-select custom-select-sm" style="width: 100%">
+                                <select name="stock_list_id" id="stock_list_id"  class="form-control-sm" style="width: 100%">
                                         <option value="">--เลือก--</option>
                                         @foreach ($air_supplies as $item_sup)
                                             <option value="{{$item_sup->air_supplies_id}}">{{$item_sup->supplies_name}}</option>
@@ -403,7 +362,7 @@
                             </div>
                             <div class="col-md-2 text-end">รับเข้าคลัง</div>
                             <div class="col-md-4">
-                                <select name="stock_list_id_sub" id="stock_list_id_sub"  class="custom-select custom-select-sm" style="width: 100%">
+                                <select name="stock_list_id_sub" id="stock_list_id_sub"  class="form-control-sm" style="width: 100%">
                                     <option value="">--เลือก--</option>
                                     @foreach ($wh_stock_list as $item_st)
                                         <option value="{{$item_st->stock_list_id}}">{{$item_st->stock_list_name}}</option>
@@ -439,7 +398,13 @@
  
     <script>
          $(document).ready(function() {
-            $('select').select2();
+            $('#Recieve').on('shown.bs.modal', function() {
+                $('#datepicker').datepicker({format: 'yyyy-mm-dd'});
+            });
+            // $('#datepicker2').datepicker({
+            //     format: 'yyyy-mm-dd'
+            // });
+            // $('select').select2();
             // $('select').select2({
             //     width: '100%'
             // });
@@ -459,9 +424,9 @@
             $('#vendor_id').select2({
                     dropdownParent: $('#Recieve')
             });
-            $('#stock_list_id').select2({
-                    dropdownParent: $('#Recieve')
-            });
+            // $('#stock_list_id').select2({
+            //         dropdownParent: $('#Recieve')
+            // });
             // $('#edit_vendor_id').select2({
             //         dropdownParent: $('#Recieve')
             // });

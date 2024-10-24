@@ -1,0 +1,99 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: black; 
+}
+.menu{
+    position:relative;
+    width: 400px;
+    height: 400px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+.menu li{
+    position: absolute;
+    left: 0;
+    list-style: none;
+    transform-origin: 300px;
+    transition: 0.5s;
+    transition-delay: calc(0.1s * var(--i));
+    transform: rotate(0deg) translateX(200px);
+}
+.menu.active li{
+    transform: rotate(calc(360deg / 8 * var(--i)));
+}
+.menu li a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    font-size: 3.5rem;
+    border-radius: 50%;
+    transform: rotate(calc(360deg / -8 * var(--i)));
+    color: transparent;
+    transition: 1s;
+    transition-delay: 0.5s;
+}
+.menu.active li a{
+    color: var(--clr);
+}
+.menu li a::before{
+    content: '';
+    position: absolute;
+    width: 250px;
+    height: 30px;
+    border-radius: 30px;
+    background: var(--clr);
+    transform: lotate(calc(var(--i) * 90deg)) translate(0,25px);
+    transition: height 0.5s,width 0.5s,transform 0.5s;
+    transition-delay: 0s,0s,0s; 
+}
+.menu.active li a::before{
+    width: 150px;
+    height: 150px;
+    border: 2px solid var(--clr);
+    box-sizing: border-box;
+    background: #151F28;
+    z-index:-1;
+    transform: rotate(calc(var(--i) * 90deg)) translate(0px,0px);
+    transition: height 0.5s,width 0.5s,transform 0.5s;
+    transition-delay: 1.5s,1.5s,1.5s;
+    rotate: 135deg; 
+}
+.menu.active li:hover a::before{
+    background: var(--clr);
+    color: #000;
+    box-shadow: 0 0 10px var(--clr),
+    0 0 30px var(--clr), 0 0 50px var(--clr);
+}
+.menu.active li:hover a i{
+    position: relative;
+    color: #2f363e;
+    z-index: 1000000;
+}
+.menuToggle{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    color: #87ffd1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+    z-index: 1000;
+    cursor: pointer;
+    font-size: 3.5rem;
+}
+.menu.active .menuToggle{
+    transform: rotate(315deg);
+}

@@ -1,4 +1,5 @@
-@extends('layouts.userdashboard')
+{{-- @extends('layouts.userdashboard') --}}
+@extends('layouts.user_layout')
 @section('title', 'PK-OFFICE || Sot')
 @section('content')
     <script>
@@ -95,10 +96,10 @@
 
         {{-- <form action="{{ route('user.audiovisual_work_save') }}" method="POST">
             @csrf           --}}
-                <div class="row mt-2">
+                <div class="row mt-5">
                     <div class="col"></div>
                     <div class="col-md-8">
-                        <div class="card card_user_4 p-2">
+                        <div class="card card_prs_4 p-2">
                             <div class="card-header">  
                                 <h5 class="modal-title me-3" id="editModalLabel">เพิ่มรายละเอียดการขอใช้บริการ</h5>  
                                 <div class="btn-actions-pane-right">   
@@ -127,7 +128,7 @@
                                         <label for="tel" class="form-label"> เบอร์โทร</label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm">  
                                         
-                                                <input type="text" class="form-control" id="tel" name="tel" value="{{ $tel_}}">   
+                                                <input type="text" class="form-control-sm input_border" id="tel" name="tel" value="{{ $tel_}}" style="width: 100%">   
                                             
                                         </div>
                                     </div> 
@@ -135,7 +136,7 @@
                                         <label for="work_order_date" class="form-label" >วันที่สั่งงาน </label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm"> 
                                             <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                            <input type="text" class="form-control" name="work_order_date" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
+                                            <input type="text" class="form-control-sm card_prs_4" name="work_order_date" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
                                             data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $datenow }}"/>
                                         </div> 
                                         </div>
@@ -144,7 +145,7 @@
                                         <label for="job_request_date" class="form-label" >วันที่ขอรับงาน </label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm"> 
                                             <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                            <input type="text" class="form-control" name="job_request_date" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' autocomplete="off"
+                                            <input type="text" class="form-control-sm card_prs_4" name="job_request_date" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' autocomplete="off"
                                             data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $datenow }}"/> 
                                         </div>
                                         </div>
@@ -154,7 +155,7 @@
                                     <div class="col-md-6">
                                         <label for="department" class="form-label">หน่วยงาน</label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm">  
-                                            <select class="form-control" id="department" name="department" style="width: 100%">
+                                            <select class="form-control-sm input_border" id="department" name="department" style="width: 100%">
                                                 @foreach ($department_sub_sub as $item2)
                                                 @if ($debsubsub == $item2->DEPARTMENT_SUB_SUB_ID)
                                                 <option value="{{$item2->DEPARTMENT_SUB_SUB_ID}}" selected>{{$item2->DEPARTMENT_SUB_SUB_NAME}} </option>
@@ -169,7 +170,7 @@
                                     <div class="col-md-4">
                                         <label for="audiovisual_type" class="form-label" >ชนิดของงาน</label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm">  
-                                            <select class="form-control" id="audiovisual_type" name="audiovisual_type" style="width: 100%">
+                                            <select class="form-control-sm input_border" id="audiovisual_type" name="audiovisual_type" style="width: 100%">
                                                 @foreach ($audiovisual_type as $item3)  
                                                 <option value="{{$item3->audiovisual_type_id}}"> {{$item3->audiovisual_typename}}</option> 
                                                 @endforeach
@@ -179,7 +180,7 @@
                                     <div class="col-md-2">
                                         <label for="lineid" class="form-label" >ไอดีไลน์</label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm"> 
-                                            <input type="text" class="form-control" id="lineid" name="lineid" value="{{$lineid}}">  
+                                            <input type="text" class="form-control-sm input_border" id="lineid" name="lineid" value="{{$lineid}}" style="width: 100%">  
                                         </div>
                                     </div> 
 
@@ -189,14 +190,14 @@
                                     <div class="col-md-10">
                                         <label for="audiovisual_name" class="form-label" >ชื่อชิ้นงาน </label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm"> 
-                                            <input type="text" class="form-control" id="audiovisual_name" name="audiovisual_name" >  
+                                            <input type="text" class="form-control-sm input_border" id="audiovisual_name" name="audiovisual_name" style="width: 100%">  
                                         </div>
                                     </div>  
                                     
                                     <div class="col-md-2">
                                         <label for="audiovisual_qty" class="form-label" >จำนวนชิ้นงาน</label>
                                         <div class="input-group input-group-sm"> 
-                                            <input type="text" class="form-control" id="audiovisual_qty" name="audiovisual_qty" >  
+                                            <input type="text" class="form-control-sm input_border" id="audiovisual_qty" name="audiovisual_qty" style="width: 100%" >  
                                         </div>
                                     </div>  
                                 </div> 
@@ -204,7 +205,7 @@
                                     <div class="col-md-12">
                                         <label for="audiovisual_detail" class="form-label" >รายละเอียดงาน (เช่นขนาดงาน สถานที่ )</label><label for="tel" class="form-label" style="color: red">*</label>
                                         <div class="input-group input-group-sm"> 
-                                            <textarea id="audiovisual_detail" name="audiovisual_detail" cols="30" rows="3" class="form-control form-control-sm" ></textarea> 
+                                            <textarea id="audiovisual_detail" name="audiovisual_detail" cols="30" rows="3" class="form-control-sm input_border" style="width: 100%"></textarea> 
                                         </div>
                                     </div>  
                              
@@ -212,10 +213,10 @@
                             </div>
                             <div class="card-footer">
                                 <div class="btn-actions-pane-right">
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Insertdata">
-                                    <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
+                                <button type="button" class="ladda-button btn-pill btn btn-sm btn-info card_prs_4 me-2" id="Insertdata">
+                                    <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>Save changes
                                 </button>
-                                <a href="{{ url('audiovisual_work') }}" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-danger me-2">
+                                <a href="{{ url('audiovisual_work') }}" class="ladda-button btn-pill btn btn-sm btn-danger card_prs_4 me-2">
                                         <i class="fa-solid fa-xmark me-2"></i>
                                     Back
                                 </a>

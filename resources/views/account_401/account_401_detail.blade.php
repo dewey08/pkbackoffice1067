@@ -109,7 +109,7 @@ $yb =  date('Y')+542;
 
         <div class="row">
             <div class="col-md-12">
-                <div class="card card_audit_4c">
+                <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">
                     {{-- <div class="card-header">
                     รายละเอียด 1102050101.401
                         <div class="btn-actions-pane-right">
@@ -168,9 +168,9 @@ $yb =  date('Y')+542;
                             </tbody>
                             <tr style="background-color: #f3fca1">
                                 <td colspan="7" class="text-end" style="background-color: #fca1a1"></td>
-                                <td class="text-center" style="background-color: #1d80dd"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                <td class="text-center" style="background-color: #fc5133" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                <td class="text-center" style="background-color: #11d499"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td> 
+                                <td class="text-center" style="background-color: #1d80dd"><label for="" style="color: #f12976">{{ number_format($total1, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #fc5133" ><label for="" style="color: #f12976">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #11d499"><label for="" style="color: #f12976">{{ number_format($total3, 2) }}</label> </td> 
                             </tr>  
                         </table>
                     </div>

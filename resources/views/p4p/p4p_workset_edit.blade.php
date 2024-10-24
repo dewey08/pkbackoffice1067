@@ -79,17 +79,23 @@
                display:none;
                }
     </style>
-    <div class="container-fluid">
+     <div class="tabs-animation">
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
+        </div> 
         <div id="preloader">
             <div id="status">
-                <div class="spinner">
-                    
+                <div class="spinner"> 
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">
                     <div class="card-header ">
                         <div class="row">
                             <div class="col-md-4">
@@ -97,7 +103,11 @@
                             </div>
                             <div class="col"></div> 
                             <div class="col-md-2 text-end">
-                           
+                                <a href="{{ url('p4p_work') }}"
+                                class="btn btn-danger btn-sm input_new"> 
+                                <i class="fa-regular fa-circle-left me-2"></i>
+                                ย้อนกลับ
+                            </a>
                             </div>
     
                         </div>
@@ -109,7 +119,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <input id="p4p_workset_code" type="text" class="form-control form-control-sm"
+                                    <input id="p4p_workset_code" type="text" class="form-control-sm input_new" style="width: 100%"
                                         name="p4p_workset_code" value="{{$data_show->p4p_workset_code}}" readonly>
                                 </div>
                             </div> 
@@ -118,7 +128,7 @@
                             </div>
                             <div class="col-md-5">
                                 <div class="form-group">
-                                    <input id="p4p_workset_name" type="text" class="form-control form-control-sm"
+                                    <input id="p4p_workset_name" type="text" class="form-control-sm input_new" style="width: 100%"
                                         name="p4p_workset_name" value="{{$data_show->p4p_workset_name}}">
                                 </div>
                             </div>
@@ -126,7 +136,7 @@
                             <input type="hidden" id="p4p_workset_id" value="{{$data_show->p4p_workset_id}}">
 
                             <div class="col-md-2 text-end">
-                                <button type="button" class="btn btn-primary btn-sm" id="Updatebtn">
+                                <button type="button" class="btn btn-primary btn-sm input_new" id="Updatebtn">
                                     <i class="fa-solid fa-floppy-disk me-2"></i>
                                     แก้ไขข้อมูล
                                 </button>
@@ -178,7 +188,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <input id="p4p_workset_time" type="text" class="form-control form-control-sm"
+                                    <input id="p4p_workset_time" type="text" class="form-control-sm input_new" style="width: 100%"
                                         name="p4p_workset_time" value="{{$data_show->p4p_workset_time}}">
                                 </div>
                             </div>
@@ -187,7 +197,7 @@
                             </div>
                             <div class="col-md-1">
                                 <div class="form-group">
-                                    <input id="p4p_workset_score" type="text" class="form-control form-control-sm"
+                                    <input id="p4p_workset_score" type="text" class="form-control-sm input_new" style="width: 100%"
                                         name="p4p_workset_score" value="{{$data_show->p4p_workset_score}}">
                                 </div>
                             </div>
@@ -211,12 +221,12 @@
                             </div> 
                             <div class="col-md-2"> 
                                 <div class="form-outline bga">
-                                    <input type="text" id="UNIT_INSERT" name="UNIT_INSERT" class="form-control form-control-sm shadow" style="background-color: rgb(254, 255, 177)" placeholder="ถ้าหน่วยนับไม่มี ให้เพิ่ม"/> 
+                                    <input type="text" id="UNIT_INSERT" name="UNIT_INSERT" class="form-control-sm input_new shadow" style="background-color: rgb(254, 255, 177)" placeholder="ถ้าหน่วยนับไม่มี ให้เพิ่ม"/> 
                                 </div> 
                             </div>
                             <div class="col-md-1 text-end"> 
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-info btn-sm" onclick="addunitwork();">
+                                    <button type="button" class="btn btn-info btn-sm input_new" onclick="addunitwork();">
                                         <i class="fa-solid fa-circle-plus me-2"></i>
                                         เพิ่ม
                                     </button> 
@@ -230,8 +240,9 @@
                             <div class="col-md-12">
                                 <p class="mb-0">
                                     <div class="table-responsive">
-                                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
-                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                                            <table id="scroll-vertical-datatable" class="table table-sm table-striped dt-responsive nowrap w-100">
                                             <thead>
                                                 <tr>
                                                     <th width="5%" class="text-center">ลำดับ</th>  
@@ -293,7 +304,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer">
+                    {{-- <div class="card-footer">
                         <div class="col-md-12 text-end">
                             <div class="form-group"> 
                                 <a href="{{ url('p4p_work') }}"
@@ -304,7 +315,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

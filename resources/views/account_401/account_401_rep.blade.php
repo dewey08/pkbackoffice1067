@@ -100,7 +100,7 @@
 
             <div class="col"></div>
             <div class="col-xl-8 col-md-6">
-                <div class="card card_audit_4c mb-3">
+                <div class="card card_audit_4c mb-3" style="background-color: rgb(246, 235, 247)">
                     <div class="grid-menu-col">
                         <form action="{{ route('acc.account_401_repsave') }}" method="POST" enctype="multipart/form-data">
                             {{-- id="upstmdata" --}}
@@ -155,7 +155,7 @@
         <div class="row">
  
             <div class="col-xl-12 col-md-6">
-                <div class="card p-3 card_audit_4c">
+                <div class="card p-3 card_audit_4c" style="background-color: rgb(246, 235, 247)">
                     <div class="grid-menu-col"> 
                             <table id="example" class="table table-striped table-bordered "
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;">

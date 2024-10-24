@@ -177,9 +177,12 @@ class Account307Controller extends Controller
          
         if ($budget_year == '') {
             $yearnew     = date('Y');
-            $year_old    = date('Y')-1; 
-            $startdate   = (''.$year_old.'-10-01');
-            $enddate     = (''.$yearnew.'-09-30'); 
+            // $year_old    = date('Y')-1; 
+            // $startdate   = (''.$year_old.'-10-01');
+            // $enddate     = (''.$yearnew.'-09-30'); 
+            $bg           = DB::table('budget_year')->where('years_now','Y')->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end;
             // dd($startdate);
             $datashow = DB::select('
                     SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME

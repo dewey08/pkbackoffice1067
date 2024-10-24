@@ -322,14 +322,11 @@ $count_article = StaticController::count_article();
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <select id="article_unit_id" name="article_unit_id"
-                                                class="form-select form-select-lg show_unit" style="width: 100%">
+                                            <select id="article_unit_id" name="article_unit_id" class="form-select form-select-lg show_unit" style="width: 100%">
                                                 <option value=""></option>
-                                                @foreach ($product_unit as $uni)
-                                                    <option value="{{ $uni->unit_id }}">
-                                                        {{ $uni->unit_name }}
-                                                    </option>
-                                                @endforeach
+                                                    @foreach ($product_unit as $uni)
+                                                        <option value="{{ $uni->unit_id }}">{{ $uni->unit_name }}</option>
+                                                    @endforeach
                                             </select>
                                         </div>
                                     </div>

@@ -343,21 +343,20 @@ class Account217Controller extends Controller
                 GROUP BY ip.an
                             
         ');
+       
         // HAVING debit <> "0" 
         // ,CASE 
-        //         WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "03" 
-        //         ELSE ec.code 
-        //         END as code
-
-        //         ,CASE 
-        //         WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "1102050101.217" 
-        //         ELSE ec.ar_ipd
-        //         END as account_code 
-
-        //         ,CASE 
-        //         WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "UC-IP บริการเฉพาะ (CR)" 
-        //         ELSE ec.`name` 
-        //         END as account_name
+        // WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "03" 
+        // ELSE ec.code 
+        // END as code
+        // ,CASE 
+        // WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "1102050101.217" 
+        // ELSE ec.ar_ipd
+        // END as account_code 
+        // ,CASE 
+        // WHEN (sum(if(op.income="02",sum_price,0))+sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)))>0 THEN "UC-IP บริการเฉพาะ (CR)" 
+        // ELSE ec.`name` 
+        // END as account_name
         // ,sum(if(op.icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)) as debit_refer
         // sum(if(op.icode IN (SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217" AND icode <> ""),sum_price,0)) as debit
         // AND op.icode NOT IN("3003661","3003662","3003336","3003608","3010102","3010353","3009703","3010348","3009713","3010312","3010349","3010894","1600015","1620015","3002047","3004241","3004242","3010192","3010193","3004250","3004251","3004252","3004253","3009706","1540048","3010192","3010193")
@@ -374,13 +373,12 @@ class Account217Controller extends Controller
         // sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0))+
         // sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) +
         // sum(if(op.icode IN ("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) 
-        // END as debit
-     
+        // END as debit     
         // icode IN("3002896","3002897","3002898","3002909","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918")  289 บาท
-
         // AND op.icode NOT IN("3001","3002")
         // AND op.icode NOT IN("3003661","3003662","3010272","3003663","3002896","3002897","3002898","3002910","3002911","3002912","3002913","3002914","3002915","3002916","3002917","3002918","3009702","3010348")
         // AND op.icode IN(SELECT icode from pkbackoffice.acc_setpang_type WHERE icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.217"))
+
         foreach ($acc_debtor as $key => $value) {
             if ($value->debit > '0' ) {
                 $check = Acc_debtor::where('an', $value->an)->where('account_code', '1102050101.217')->count();
@@ -659,12 +657,16 @@ class Account217Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-         
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $data['bg_yearnow']    = $bgs_year->leave_year_id;
         if ($budget_year == '') {
             $yearnew     = date('Y');
-            $year_old    = date('Y')-1; 
-            $startdate   = (''.$year_old.'-10-01');
-            $enddate     = (''.$yearnew.'-09-30'); 
+            // $year_old    = date('Y')-1; 
+            // $startdate   = (''.$year_old.'-10-01');
+            // $enddate     = (''.$yearnew.'-09-30'); 
+            $bg           = DB::table('budget_year')->where('years_now','Y')->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end;
             // dd($startdate);
             $datashow = DB::select(
                 'SELECT MONTH(a.dchdate) as months,YEAR(a.dchdate) as years
@@ -705,7 +707,7 @@ class Account217Controller extends Controller
             ');
         }
         // dd($startdate);
-        return view('account_217.account_pkucs217_dash',[
+        return view('account_217.account_pkucs217_dash',$data,[
             'startdate'         =>  $startdate,
             'enddate'           =>  $enddate, 
             'leave_month_year'  =>  $leave_month_year, 

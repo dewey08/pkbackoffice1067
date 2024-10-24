@@ -13,7 +13,48 @@
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
         <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
+     
+
+        <!-- jquery.vectormap css -->
+        <link href="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
+            rel="stylesheet" type="text/css" />
+    
+        <!-- DataTables -->
+        <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
+            type="text/css" />
+        <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet"
+            type="text/css" />
+        <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet"
+            type="text/css" />
+    
+        <!-- Responsive datatable examples -->
+        <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}"
+            rel="stylesheet" type="text/css" />
+    
+        <!-- Bootstrap Css -->
+        <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+    
+        <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
+       <!-- select2 -->
+        <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
+       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+       <link rel="stylesheet"
+       href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
+    <!-- Plugins css -->
+    <link href="{{ asset('assets/libs/dropzone/min/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
+        
+        {{-- <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
         <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
    
@@ -26,17 +67,16 @@
        <!-- Responsive datatable examples -->
        <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />  
 
-       <!-- Bootstrap Css -->
-       {{-- <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" /> --}}
+       <!-- Bootstrap Css --> 
        <link href="{{ asset('pkclaim/css/bootstrap-dark.min.css') }}" rel="stylesheet" type="text/css" />
        <!-- Icons Css -->
        <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
        <!-- App Css-->
-       {{-- <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" /> --}}
+ 
        <link href="{{ asset('pkclaim/css/app-dark.min.css') }}" rel="stylesheet" type="text/css" />
        
        <link rel="stylesheet" href="{{ asset('asset/js/plugins/select2/css/select2.min.css') }}"> 
-       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 
 
            {{-- <!-- jquery.vectormap css -->
@@ -262,7 +302,7 @@
     <div id="layout-wrapper">
         
  
-        <header id="page-topbar" style="background-color: #f876f8">
+        <header id="page-topbar" style="background-color: #fc9dfc">
             {{-- <header id="page-topbar" style="background-color: #f737f7"> --}}
             <div class="navbar-header" >
                 <div class="d-flex">
@@ -272,34 +312,38 @@
                         <a href="{{url('dental_db')}}" class="logo logo-dark"> 
                             {{-- <a href="{{url('dental_db')}}" class="logo logo-dark">  --}}
                             <span class="logo-sm me-2"> 
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30"> --}}
+                                {{-- <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">  --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110"> 
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30"> --}}
+                                {{-- <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">  --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110"> 
                             </span>
                         </a>
  
                         <a href="{{url('dental_db')}}" class="logo logo-light">
                             <span class="logo-sm me-2">
                                 {{-- <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40"> --}}
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30"> --}}
+                                {{-- <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110"> 
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
                                 <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/officer_g.png') }}" class="" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/officer_g.png') }}" class="" alt="logo-sm-light" height="30"> --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110"> 
                             </span>
                             
                         </a>
                         
                     </div>
  
-                    <form class="app-search d-none d-lg-block">
+                    <form class="app-search d-none d-lg-block mt-3">
                         <div class="position-relative">
-                            <h3 style="color:rgb(255, 255, 255)" class="mt-1 noto-sans-thai-looped-light">Dental</h3> 
+                            <h3 style="color:rgb(255, 255, 255)" class="mt-1 noto-sans-thai-looped-light">D E N T A L</h3> 
                         </div>
                     </form> 
                 </div>
@@ -362,19 +406,11 @@
                     <button type="button" class="btn btn-sm font-size-24 d-lg-none header-item" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
                         <i class="ri-menu-2-line align-middle"></i>
                     </button>
-
-                    {{-- <div class="dropdown d-inline-block">
-                        <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
-                            <i class="ri-settings-2-line"></i>
-                        </button>
-                    </div> --}}
-                    
-        
                 </div>
             </div>
         </header>
    
-        <div class="topnav" style="background-color: #ffc5ff">
+        <div class="topnav" style="background-color: #fad7fa">
             <div class="container-fluid">
                 <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
 
@@ -383,50 +419,51 @@
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('dental_db') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-chart-pie me-2"></i>Dashboard  
+                                    <i class="fa-solid fa-chart-pie fa-beat fa-xl me-2" style="color: #6e09f1;"></i>Dashboard
                                 </a> 
                             </li>
 
-                            {{-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('dental_assistant') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-user-nurse me-2"></i>ผู้ช่วยทันตแพทย์
-                                </a>
-                                
-                            </li> --}}
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
-                                    <i class="fa-solid fa-user-nurse me-2"></i><span key="t-layouts">ผู้ช่วยทันตแพทย์</span> <div class="arrow-down"></div>
-                              
+                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('dental_calendar') }}" id="topnav-more" role="button">
+                                    <i class="fa-regular fa-calendar-check fa-beat fa-xl me-2" style="color: #74C0FC;"></i>ปฏิทินการนัด
+                                </a>                                
+                            </li>                            
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
+                                    <i class="fa-solid fa-user-nurse fa-beat fa-xl me-2" style="color: #B197FC;"></i>ค่าภาระงาน <div class="arrow-down"></div>
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="topnav-layout">
-                                    @foreach ($helper as $item)
-                                        <div class="dropdown">
-                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('dental_assis/'.$item->code)}}" id="topnav-layout-verti"
-                                                role="button">
-                                                <span key="t-vertical">{{$item->dentname}}</span>  
-                                            </a> 
-                                        </div> 
-                                    @endforeach 
+
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">                                   
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form" role="button">ทันตแพทย์ <div class="arrow-down"></div></a>
+                                        <div class="dropdown-menu" aria-labelledby="topnav-form"> 
+                                            @foreach ($doctor as $item_d)
+                                            <a href="{{url('dental_doctor/'.$item_d->code)}}" class="dropdown-item">{{$item_d->dentname}}</a> 
+                                            @endforeach
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form" role="button">ผู้ช่วยทันตแพทย์<div class="arrow-down"></div></a>
+                                        <div class="dropdown-menu" aria-labelledby="topnav-form"> 
+                                            @foreach ($helper as $item)
+                                            <a href="{{url('dental_assis/'.$item->code)}}" class="dropdown-item">{{$item->dentname}}</a> 
+                                            @endforeach 
+                                        </div>
+                                    </div>
                                 </div>
                             </li>
- 
 
-                             <li class="nav-item dropdown">
+                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
-                                    <i class="fa-solid fa-user-doctor me-2"></i><span key="t-layouts">ทันตแพทย์</span> <div class="arrow-down"></div>
-                              
+                                    <i class="fa-solid fa-screwdriver-wrench fa-beat fa-xl me-2" style="color: #1f68e5;"></i><span key="t-layouts">ตั้งค่า</span> <div class="arrow-down"></div>
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="topnav-layout">
-                                    @foreach ($doctor as $item_d)
-                                        <div class="dropdown">
-                                            <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('dental_doctor/'.$item->code)}}" id="topnav-layout-verti"
-                                                role="button">
-                                                <span key="t-vertical">{{$item_d->dentname}}</span>  
-                                            </a> 
-                                        </div>
-                                    @endforeach
-                                                                       
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                    <a href="{{ url('dental_setting_type') }}" class="dropdown-item">ตั้งค่าประเภทการนัด</a> 
+                                    {{-- <a href="{{ url('account_monitor') }}" class="dropdown-item">Monitor</a>  --}}
                                 </div>
+                                
                             </li>
  
                         </ul>
@@ -437,7 +474,7 @@
         </div>
         
          <!--  Modal content for the Keypassword example -->
-         <div class="modal fade" id="Keypassword" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal fade" id="Keypassword" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog ">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -461,9 +498,7 @@
                                     <i class="fa-solid fa-floppy-disk me-1 text-info"></i>
                                     เปลี่ยน
                                 </button>
-                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i
-                                        class="fa-solid fa-xmark text-danger me-2"></i>ปิด</button>
-
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i class="fa-solid fa-xmark text-danger me-2"></i>ปิด</button>
                             </div>
                         </div>
                     </div>
@@ -479,6 +514,7 @@
                         <h5 class="modal-title" id="myExtraLargeModalLabel">เปลี่ยนรหัสผ่าน </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-4 text-end"><label for="">รหัสผ่าน New</label></div>
@@ -489,6 +525,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="modal-footer">
                         <div class="col-md-12 text-end">
                             <div class="form-group">
@@ -496,9 +533,7 @@
                                     <i class="fa-solid fa-floppy-disk me-1 text-info"></i>
                                     เปลี่ยน
                                 </button>
-                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i
-                                        class="fa-solid fa-xmark text-danger me-2"></i>ปิด</button>
-
+                                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal"><i class="fa-solid fa-xmark text-danger me-2"></i>ปิด</button>
                             </div>
                         </div>
                     </div>
@@ -517,7 +552,7 @@
             </div>
             <!-- End Page-content -->
 
-            <footer class="footer" style="background-color: #ffc5ff">
+            <footer class="footer" style="background-color: #fad7fa">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
@@ -541,56 +576,7 @@
     </div>
     <!-- END layout-wrapper -->
 
-        <!-- Right Sidebar -->
-        <div class="right-bar">
-            <div data-simplebar class="h-100">
-                <div class="rightbar-title d-flex align-items-center px-3 py-4">
-            
-                    <h5 class="m-0 me-2">Settings</h5>
-
-                    <a href="javascript:void(0);" class="right-bar-toggle ms-auto">
-                        <i class="mdi mdi-close noti-icon"></i>
-                    </a>
-                </div>
-
-                <!-- Settings -->
-                <hr class="mt-0" />
-                <h6 class="text-center mb-0">Choose Layouts</h6>
-
-                <div class="p-4">
-                    <div class="mb-2">
-                        <img src="assets/images/layouts/layout-2.jpg" class="img-fluid img-thumbnail" alt="layout-1">
-                    </div>
-                    <div class="form-check form-switch mb-3">
-                        {{-- <input class="form-check-input theme-choice" type="checkbox" id="dark-mode-switch" data-bsStyle="assets/css/bootstrap-dark.min.css" data-appStyle="assets/css/app-dark.min.css"> --}}
-                        <input class="form-check-input theme-choice" type="checkbox" id="dark-mode-switch" data-bsStyle="assets/css/bootstrap-dark.min.css" data-appStyle="assets/css/app-dark.min.css">
-                        <label class="form-check-label" for="dark-mode-switch">Dark Mode</label>
-                    </div>
-                    
-
-                    <div class="mb-2">
-                        <img src="assets/images/layouts/layout-1.jpg" class="img-fluid img-thumbnail" alt="layout-2">
-                    </div>
-                  
-
-                    <div class="form-check form-switch mb-3">
-                        <input class="form-check-input theme-choice" type="checkbox" id="light-mode-switch" checked>
-                        <label class="form-check-label" for="light-mode-switch">Light Mode</label>
-                    </div>
-                    {{-- <div class="mb-2">
-                        <img src="assets/images/layouts/layout-3.jpg" class="img-fluid img-thumbnail" alt="layout-3">
-                    </div>
-                    <div class="form-check form-switch mb-5">
-                        <input class="form-check-input theme-choice" type="checkbox" id="rtl-mode-switch" data-appStyle="assets/css/app-rtl.min.css">
-                        <label class="form-check-label" for="rtl-mode-switch">RTL Mode</label>
-                    </div> --}}
-
-            
-                </div>
-
-            </div> <!-- end slimscroll-menu-->
-        </div>
-        <!-- /Right-bar -->
+      
  
         <!-- Right bar overlay-->
         <div class="rightbar-overlay"></div>
@@ -603,15 +589,23 @@
         <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
 
         <script src="{{ asset('js/select2.min.js') }}"></script> 
+
+         <!-- Calenda -->
+        <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script>
+
         <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
         <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
         <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
         <script src="{{ asset('pkclaim/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
         <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script> 
+
         <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js"
             integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
         <!-- apexcharts -->
         <script src="{{ asset('pkclaim/libs/apexcharts/apexcharts.min.js') }}"></script>
 

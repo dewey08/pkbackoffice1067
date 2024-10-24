@@ -72,8 +72,9 @@
                                         <thead>                             
                                                 <tr style="font-size:13px"> 
                                                     <th class="text-center" width="5%">ลำดับ</th>  
-                                                    <th class="text-center" width="10%">ปี</th>  
+                                                    <th class="text-center" width="10%">ปีงบประมาณ</th>  
                                                     <th class="text-center" width="10%">เดือน</th> 
+                                                    <th class="text-center" width="10%">ปี</th>  
                                                     <th class="text-center" width="15%">จำนวน</th>    
                                                 </tr>  
                                         </thead>
@@ -83,10 +84,10 @@
                                             <?php $i++  ?> 
                                                 <tr id="sid{{ $item->air_stock_month_id }}">                                                  
                                                     <td class="text-center" style="font-size:13px;width: 5%;color: rgb(13, 134, 185)">{{$i}}</td>
-                                                    <td class="text-center" style="font-size:14px;color: rgb(2, 95, 182)" width="10%">{{$item->years_th}}</td>  
+                                                    <td class="text-center" style="font-size:14px;color: rgb(2, 95, 182)" width="10%">{{$item->bg_yearnow}}</td>  
                                                     <td class="text-center" style="font-size:14px;color: rgb(2, 95, 182)" width="10%">{{$item->month_name}}</td>  
-                                                    <td class="text-center" style="font-size:13px;color: rgb(253, 65, 81)" width="15%">{{$item->total_qty}} </td>
-                                                    
+                                                    <td class="text-center" style="font-size:14px;color: rgb(2, 95, 182)" width="10%">{{$item->years_th}}</td>  
+                                                    <td class="text-center" style="font-size:13px;color: rgb(253, 65, 81)" width="15%">{{$item->total_qty}} </td>                                                    
                                                 </tr>
                                             @endforeach
                                         </tbody>

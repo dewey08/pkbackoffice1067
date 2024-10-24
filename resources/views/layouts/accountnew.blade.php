@@ -181,7 +181,7 @@ $permiss_rep_money = StaticController::permiss_rep_money($iduser);
 
         <header id="page-topbar">
             {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> --}}
-                <div class="navbar-header shadow" style="background-color: rgba(151, 76, 126)">
+                <div class="navbar-header shadow" style="background-color: rgb(255, 83, 120)">
 
                 <div class="d-flex">
                     <!-- LOGO -->

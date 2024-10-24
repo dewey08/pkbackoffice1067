@@ -74,16 +74,6 @@ class OtController extends Controller
         $iddep =  Auth::user()->dep_subsubtrueid; 
         $iduser =  Auth::user()->id; 
         $reqsend = $request->ot_type_pk;
-
-        // $data['ot_one'] = DB::table('ot_one')
-        //     ->leftjoin('users','users.id','=','ot_one.ot_one_nameid')
-        //     ->leftjoin('users_prefix','users_prefix.prefix_code','=','users.pname')
-        //     ->leftjoin('department_sub_sub','department_sub_sub.DEPARTMENT_SUB_SUB_ID','=','ot_one.dep_subsubtrueid')
-        //     ->where('ot_one.dep_subsubtrueid','=',$iddep)
-        //     ->where('users.users_group_id','=',$reqsend)
-        //     // ->leftjoin('department_sub_sub','department_sub_sub.DEPARTMENT_SUB_SUB_ID','=','ot_one.dep_subsubtrueid')
-        //     // ->where('ot_one_date','=',)->get();
-        //     ->whereBetween('ot_one_date', [$datestart, $dateend])->get();
             
         if ($reqsend != '') {
             if ($reqsend == 2) {             
@@ -237,51 +227,7 @@ class OtController extends Controller
             
             // if ($item->ot_one_nameid == $iduser) {
                 $color = $item->color_ot;
-            // }
-            // foreach($tableuser as $item2){
-                // $ius = DB::table('users')->where('id' == $item2->id)->first();
-                // $item2->id == $ius;
-            //     // $color = $coloruser;
-            //     if ($item->ot_one_nameid == $item2->id) {
-            //         // $color = item2->color_ot;
-            //         $color = $coloruser; 
-            //     } else {
-                    // $color = '#C65705'; 
-                    // $idu = item2->color_ot;
-
-                    // dd(item2->id);
-                // }
-                
-                // dd($item->ot_one_nameid);
-                // dd($idu);
-               
-            // }
-            // $coloruser =  $item->color_ot;
-            
-            // if ($item->ot_one_nameid == 754) {
-            //     $color = '#F5770D';
-            // }elseif($item->ot_one_nameid == 753){
-            //     $color = '#C65705'; 
-            // }elseif($item->ot_one_nameid == 98){
-            //     $color = '#9DC605'; 
-            // }elseif($item->ot_one_nameid == 581){
-            //     $color = '#FD3BC5'; 
-            // }elseif($item->ot_one_nameid == 102){
-            //     $color = '#F90A2E'; 
-            // }elseif($item->ot_one_nameid == 722){
-            //     $color = '#0DF5F5'; 
-            // }elseif($item->ot_one_nameid == 102){
-            //     $color = '#FF50BF';   
-            // }elseif($item->ot_one_nameid == 658){
-            //     $color = '#0BC0A7';   
-            // }elseif($item->ot_one_nameid == 155){
-            //     $color = '#71FF4F';             
-            // } else {
-            //     $color = '#EEA509'; 
-            //     }
-            // foreach($tableuser as $item2){
-            //     $color = item2->color_ot;
-            // } 
+             
 
             $event[] = [
                 'id' => $item->ot_one_id,

@@ -1136,8 +1136,6 @@ class MoveaccountController extends Controller
             'status'    => '200'
         ]);
     }
-
-
     public function move_pang(Request $request, $id)
     {
         $data_pang = Acc_debtor::find($id);
@@ -1149,18 +1147,18 @@ class MoveaccountController extends Controller
     public function move_pang_save(Request $request)
     {
         $pangold           = $request->account_code;
-        $pang              = $request->account_code_new;
+        $pang              = $request->account_code_new;    // account_code_new
         $vn                = $request->vn;
         $an                = $request->an;
         $hn                = $request->hn;
         $cid               = $request->cid;
         $vstdate           =  $request->vstdate;
         $dchdate           =  $request->dchdate;
-        $comment           =  $request->comment;
+        $comment           =  $request->comment;            // comment
         $ptname            =  $request->ptname;
-        $pttype_new        =  $request->pttype_new;
-        $debit_total_new   =  $request->debit_total_new;
-        $date_req          =  $request->date_req;
+        $pttype_new        =  $request->pttype_new;         // pttype_new
+        $debit_total_new   =  $request->debit_total_new;    // debit_total_new
+        $date_req          =  $request->date_req;           // date_req
 
         // dd($pang);
         if ($pang == '1102050101.201') {
@@ -4923,12 +4921,35 @@ class MoveaccountController extends Controller
             } else {
                 # code...
             }
-        } else {
-            # code...
+        } else { 
         }
         return response()->json([
-            'status'                => '200',
-            // 'data_pang'             =>  $data_pang,
+            'status'                => '200', 
+        ]);
+    }
+    public function chang_dashboard(Request $request)
+    {
+        $startdate     = $request->startdate;
+        $enddate       = $request->enddate;
+        // $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+        // $startdate    = $bg->date_begin;
+        // $enddate      = $bg->date_end;
+        $pttype = DB::select('SELECT * FROM pttype'); 
+        $data['pang']          =  DB::connection('mysql')->select('SELECT * FROM acc_setpang WHERE active ="TRUE" order by pang ASC'); 
+        $data['sum_201']       = DB::table('acc_1102050101_201')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_202']       = DB::table('acc_1102050101_202')->whereBetween('dchdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_203']       = DB::table('acc_1102050101_203')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_209']       = DB::table('acc_1102050101_209')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_216']       = DB::table('acc_1102050101_216')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_2166']       = DB::table('acc_1102050101_2166')->whereBetween('vstdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sum_217']       = DB::table('acc_1102050101_217')->whereBetween('dchdate', [$startdate, $enddate])->sum('debit_total');
+        $data['sumlooknee'] = $data['sum_201']+$data['sum_202']+$data['sum_203']+$data['sum_209']+$data['sum_216']+$data['sum_2166']+$data['sum_217']+$data['sum_201'];
+
+        return view('account_chang.chang_dashboard',$data, [
+            // 'acc_debtor'       => $acc_debtor,
+            // 'hn'               => $hn,
+            // 'pang'             => $pang,
+            'pttype'           => $pttype
         ]);
     }
 }

@@ -101,7 +101,7 @@
                 <div class="col-md-2"> 
                         <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center" style="width: 100%">
                             @foreach ($dabudget_year as $item_y)
-                                @if ($y == $item_y->leave_year_id )
+                                @if ($bg_yearnow == $item_y->leave_year_id )
                                     <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
                                 @else
                                     <option value="{{$item_y->leave_year_id}}">{{$item_y->leave_year_name}}</option>

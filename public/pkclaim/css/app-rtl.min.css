@@ -268,13 +268,13 @@ body[data-layout=horizontal] .navbar-brand-box {
   width: auto;
 }
 body[data-layout=horizontal] .page-content {
-  margin-top: 70px;
+  margin-top: 10px;
   padding: calc(55px + 24px) calc(24px / 2) 60px calc(24px / 2);
 }
 
 @media (max-width: 992px) {
   body[data-layout=horizontal] .page-content {
-    margin-top: 15px;
+    margin-top: 3px;
   }
 }
 body[data-topbar=colored] #page-topbar {

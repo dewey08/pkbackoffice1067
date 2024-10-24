@@ -1,4 +1,4 @@
-@extends('layouts.accountnew')
+@extends('layouts.account_new')
 @section('title','PK-OFFICE || ACCOUNT')
 @section('content')
 <style>
@@ -295,7 +295,7 @@ $refnumber = PlanController::refnumber();
     
         <div class="row">
             <div class="col-xl-12">
-                <div class="card cardfinan">  
+                <div class="card cardfinan" style="background-color: rgb(250, 230, 242)">  
                     <input type="hidden" id="billno" name="billno" value="{{$plan_control->billno}}">
                    
                     <div class="card-body"> 
@@ -303,19 +303,19 @@ $refnumber = PlanController::refnumber();
                             <div class="col-md-8 text-start"> <h5 class="modal-title me-2" id="editModalLabel">กิจกรรม/กลยุทธ์  {{$plan_control->plan_name}} เลขที่ {{$plan_control->billno}}</h5>  </div>
                             {{-- <div class="col"></div> --}}
                             <div class="col-md-4 text-end">
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary" style="background-color: rgb(248, 209, 163);border-radius: 3em 3em 3em 3em"> 
                                     ยังไม่ดำเนินการ
                                 </button>
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(248, 200, 234);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary" style="background-color: rgb(248, 200, 234);border-radius: 3em 3em 3em 3em"> 
                                     อยู่ระหว่างดำเนินการ
                                 </button>
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(194, 250, 241);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary" style="background-color: rgb(194, 250, 241);border-radius: 3em 3em 3em 3em"> 
                                     อนุมัติ
                                 </button>
-                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-sm btn-outline-secondary" style="background-color: rgb(209, 200, 248);border-radius: 3em 3em 3em 3em"> 
                                     ดำเนินการ
                                 </button>                               
-                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-secondary" style="background-color: rgb(138, 247, 174);border-radius: 3em 3em 3em 3em"> 
+                                <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn-sm btn btn-outline-secondary" style="background-color: rgb(138, 247, 174);border-radius: 3em 3em 3em 3em"> 
                                     SUCCESS
                                 </button>
                                 {{-- <h6 class="mt-2 me-3"> เลขที่ {{$plan_control->billno}}</h6> --}}

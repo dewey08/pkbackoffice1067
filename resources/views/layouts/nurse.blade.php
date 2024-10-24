@@ -215,28 +215,32 @@
                     <div class="navbar-brand-box">
                         <a href="{{url('nurse_index')}}" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img src="assets/images/p.png" alt="logo-sm" height="22">
+                                {{-- <img src="assets/images/p.png" alt="logo-sm" height="22"> --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110">
                             </span>
                             <span class="logo-lg">
-                                <img src="assets/images/logo-dark.png" alt="logo-dark" height="20">
+                                {{-- <img src="assets/images/logo-dark.png" alt="logo-dark" height="20"> --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110">
                             </span>
                         </a>
 
                         <a href="{{url('nurse_index')}}" class="logo logo-light">
                             <span class="logo-sm me-2">
-                                <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40">
+                                {{-- <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40"> --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
                                 <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/officer5.png') }}" class="" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/officer5.png') }}" class="" alt="logo-sm-light" height="30"> --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110">
                               
                             </span>
                            
                         </a>
                     </div>
 
-                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect mt-3" id="vertical-menu-btn">
                         <i class="ri-menu-2-line align-middle" style="color: black"></i>
                     </button>
                     <?php
@@ -245,10 +249,10 @@
                                 where orginfo_id = 1                                                                                                                      ',
                         );
                     ?>
-                    <form class="app-search d-none d-lg-block">
+                    <form class="app-search d-none d-lg-block mt-3 ms-3">
                         <div class="position-relative"> 
                             {{-- <h3 style="color:rgb(48, 46, 46)" class="mt-2 noto-sans-thai-looped-light">FDH</h3>  --}}
-                            <h3 style="color:rgb(255, 255, 255)" class="mt-2 noto-sans-thai-looped-light">Manage Nurse</h3>
+                            <h3 style="color:rgb(255, 255, 255)" class="mt-2 noto-sans-thai-looped-light"> N U R S E</h3>
                         </div>
                     </form>
                 </div>

@@ -15,13 +15,15 @@ return new class extends Migration
         {
             Schema::create('wh_pay_sub', function (Blueprint $table) {
                 $table->bigIncrements('wh_pay_sub_id'); 
+                $table->string('wh_stock_dep_sub_id')->nullable();  //
                 $table->string('pay_year')->nullable();  // 
                 $table->string('stock_list_id')->nullable(); //     คลังใหญ่
-                $table->string('stock_list_id_sub')->nullable(); //  คลังย่อย
+                $table->string('stock_list_subid')->nullable(); //  คลังย่อย
                 $table->string('wh_pay_id')->nullable(); // 
                 $table->string('pro_id')->nullable();  //  
                 $table->string('pro_name')->nullable();  //   
                 $table->string('qty')->nullable();  //  
+                // $table->string('qty')->nullable();  // 
                 $table->string('unit_id')->nullable();  //  
                 $table->string('unit_name')->nullable();  // 
                 $table->decimal('one_price',total: 12, places: 2)->nullable(); //   
@@ -33,6 +35,7 @@ return new class extends Migration
                 $table->timestamps();
             });
         }
+        
     }
 
     /**

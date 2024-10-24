@@ -2434,8 +2434,7 @@ class ClaimController extends Controller
        
             return redirect()->route('claim.ssop');      
            
-    }
-    
+    }    
     
     public function ssop_zip(Request $request)
     {     

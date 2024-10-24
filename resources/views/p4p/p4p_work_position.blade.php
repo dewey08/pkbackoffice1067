@@ -76,17 +76,31 @@
                display:none;
                }
     </style>
-    <div class="container-fluid">
+    {{-- <div class="container-fluid">
         <div id="preloader">
             <div id="status">
                 <div class="spinner">
                     
                 </div>
             </div>
-        </div>
+        </div> --}}
+        <div class="tabs-animation">
+            <div class="row text-center">
+                <div id="overlay">
+                    <div class="cv-spinner">
+                        <span class="spinner"></span>
+                    </div>
+                </div> 
+            </div> 
+            <div id="preloader">
+                <div id="status">
+                    <div class="spinner"> 
+                    </div>
+                </div>
+            </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">
                     <div class="card-header ">
                         <div class="row">
                             <div class="col-md-4">
@@ -94,7 +108,11 @@
                             </div>
                             <div class="col"></div> 
                             <div class="col-md-2 text-end">
-                           
+                                <a href="{{ url('p4p_work') }}"
+                                class="btn btn-danger btn-sm input_new"> 
+                                <i class="fa-regular fa-circle-left me-2"></i>
+                                ย้อนกลับ
+                            </a>
                             </div>
     
                         </div>
@@ -106,7 +124,7 @@
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <input id="p4p_work_position_code" type="text" class="form-control form-control-sm"
+                                    <input id="p4p_work_position_code" type="text" class="form-control-sm input_new" style="width:100%"
                                         name="p4p_work_position_code" value="{{$refpositionnumber}}" readonly>
                                 </div>
                             </div> 
@@ -115,13 +133,12 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input id="p4p_work_position_name" type="text" class="form-control form-control-sm"
-                                        name="p4p_work_position_name">
+                                    <input id="p4p_work_position_name" type="text" class="form-control-sm input_new" name="p4p_work_position_name" style="width:100%">
                                 </div>
                             </div>
                             <input type="hidden" id="p4p_work_position_user" value="{{$iduser}}">
                             <div class="col-md-2">
-                                <button type="button" class="btn btn-primary btn-sm" id="Savebtn">
+                                <button type="button" class="btn btn-primary btn-sm input_new" id="Savebtn">
                                     <i class="fa-solid fa-floppy-disk me-2"></i>
                                     บันทึกข้อมูล
                                 </button>
@@ -132,8 +149,8 @@
                             <div class="col-md-12">
                                 <p class="mb-0">
                                     <div class="table-responsive">
-                                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
-                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                                            <table id="scroll-vertical-datatable" class="table table-sm table-striped dt-responsive nowrap w-100">
                                             <thead>
                                                 <tr>
                                                     <th width="5%" class="text-center">ลำดับ</th>  
@@ -197,7 +214,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer">
+                    {{-- <div class="card-footer">
                         <div class="col-md-12 text-end">
                             <div class="form-group">
                                  
@@ -209,7 +226,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

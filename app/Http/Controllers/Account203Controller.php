@@ -103,7 +103,13 @@ class Account203Controller extends Controller
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
         $end = (''.$yearnew.'-09-30');  
+       
+        // dd($data['bg_yearnow']);
         if ($startdate == '') {
+            $bg           = DB::table('budget_year')->where('years_now','Y')->first();
+            $startdate_    = $bg->date_begin;
+            $enddate_      = $bg->date_end;
+            // dd($startdate_ );
             $datashow = DB::select('
                     SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
                     ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn ,count(distinct a.an) as an
@@ -111,7 +117,7 @@ class Account203Controller extends Controller
                     ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$start.'" and "'.$end.'"
+                    WHERE a.vstdate between "'.$startdate_.'" and "'.$enddate_.'"
                     and account_code="1102050101.203"
                     group by month(a.vstdate)                     
                     order by a.vstdate desc;
@@ -321,7 +327,8 @@ class Account203Controller extends Controller
                         where v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                         and (ot.an is null OR ot.an ="") AND v.uc_money <> 0 AND p.nationality = "99"   
                         and v.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.203" AND opdipd ="OPD")
-                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )                        
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%") 
+                        AND v.pdx NOT BETWEEN "d00" AND "d489"                        
                         and (oo.code  BETWEEN "E110" and "E149" or oo.code  BETWEEN "I10" and "I150" or oo.code  BETWEEN "J440" and "J449")
                         AND om.icode NOT IN("3011265","3011266","3009819","3009820","3009182","3009152")
                         group by v.vn
@@ -375,7 +382,8 @@ class Account203Controller extends Controller
                         where v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                         and (ot.an is null OR ot.an ="") AND v.uc_money <> 0  AND p.nationality = "99"  
                         and v.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.203" AND opdipd ="OPD")
-                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%" )                        
+                        and (v.pdx not like "c%" and v.pdx not like "b24%" and v.pdx not like "n185%")   
+                        AND v.pdx NOT BETWEEN "d00" AND "d489"                     
                         AND v.pdx NOT BETWEEN "E110" AND "E149" AND v.pdx NOT BETWEEN "J440" AND "J449" AND v.pdx NOT BETWEEN "I10" AND "I159"
                         AND v.dx0 NOT BETWEEN "E110" AND "E149" AND v.dx0 NOT BETWEEN "J440" AND "J449" AND v.dx0 NOT BETWEEN "I10" AND "I159"
                         AND v.dx1 NOT BETWEEN "E110" AND "E149" AND v.dx1 NOT BETWEEN "J440" AND "J449" AND v.dx1 NOT BETWEEN "I10" AND "I159"
@@ -387,6 +395,8 @@ class Account203Controller extends Controller
                         group by v.vn
                     ) As Refer 
             ');         
+            // d00-d489
+
             // ,(SELECT SUM(sum_price) sum_price FROM opitemrece WHERE icode NOT IN("3009147","3009148","3010860","3009187","3009143","3011265","3011266") AND vn = v.vn) as pricenoct           
             foreach ($acc_debtor as $key => $value) { 
                 // if ($value->an == '') { 

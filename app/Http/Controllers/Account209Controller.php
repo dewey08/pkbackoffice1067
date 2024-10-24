@@ -160,12 +160,18 @@ class Account209Controller extends Controller
         $y = date('Y') + 543;
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี        
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี    
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $data['bg_yearnow']    = $bgs_year->leave_year_id;
+
         if ($budget_year == '') {
             $yearnew     = date('Y');
-            $year_old    = date('Y')-1; 
-            $startdate   = (''.$year_old.'-10-01');
-            $enddate     = (''.$yearnew.'-09-30'); 
+            // $year_old    = date('Y')-1; 
+            // $startdate   = (''.$year_old.'-10-01');
+            // $enddate     = (''.$yearnew.'-09-30'); 
+            $bg           = DB::table('budget_year')->where('years_now','Y')->first();
+            $startdate    = $bg->date_begin;
+            $enddate      = $bg->date_end;
             // dd($startdate);
             $datashow = DB::select(
                 'SELECT month(U1.vstdate) as months,year(U1.vstdate) as year,l.MONTH_NAME
@@ -188,7 +194,7 @@ class Account209Controller extends Controller
             ');
         }
    
-        return view('account_209.account_pkucs209_dash',[
+        return view('account_209.account_pkucs209_dash',$data,[
             'startdate'         =>  $startdate,
             'enddate'           =>  $enddate, 
             'leave_month_year'  =>  $leave_month_year, 
@@ -537,6 +543,40 @@ class Account209Controller extends Controller
             'data'          =>     $data,
             'months'        =>     $months,
             'year'          =>     $year
+        ]);
+    }
+    public function account_pkucs209_search(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $date = date('Y-m-d'); 
+        $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+        $data['users'] = User::get();
+        if ($startdate =='') {
+           $datashow = DB::select(' 
+                
+               SELECT a.*,b.pp,b.fs 
+               from acc_1102050101_209 a
+               LEFT JOIN acc_stm_ucs b ON b.hn = a.hn AND b.vstdate = a.vstdate
+               WHERE a.vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
+               GROUP BY a.vn
+           ');
+        } else {
+           $datashow = DB::select(' 
+               SELECT a.*,b.pp,b.fs 
+               from acc_1102050101_209 a
+               LEFT JOIN acc_stm_ucs b ON b.hn = a.hn AND b.vstdate = a.vstdate
+               WHERE a.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
+               GROUP BY a.vn 
+           ');
+        } 
+        return view('account_209.account_pkucs209_search', $data, [
+            'startdate'     => $startdate,
+            'enddate'       => $enddate,
+            'datashow'      => $datashow,
+            'startdate'     => $startdate,
+            'enddate'       => $enddate
         ]);
     }
     

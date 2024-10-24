@@ -502,7 +502,7 @@ Route::middleware(['type'])->group(function () {
   Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::get('admin/home', [App\Http\Controllers\HomeController::class, 'adminHome'])->name('admin.home')->middleware('type');
 Route::get('staff/home', [App\Http\Controllers\HomeController::class, 'staffHome'])->name('staff.home')->middleware('type');
-Route::get('user/home', [App\Http\Controllers\UserController::class, 'user_index'])->name('user.home')->middleware('type');
+Route::get('user/home', [App\Http\Controllers\UserController::class, 'user_main'])->name('user.home')->middleware('type');
 Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
 // Route::get('manage/home', [App\Http\Controllers\HomeController::class, 'manageHome'])->name('manage.home')->middleware('type');
 
@@ -870,24 +870,36 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'warehouse/warehouse_pay_sub/{id}', [WarehousePayController::class, 'warehouse_pay_sub'])->name('pay.warehouse_pay_sub');
   Route::get('warehouse/warehouse_plus/{id}', [WarehouseController::class, 'warehouse_plus'])->name('pay.warehouse_plus');
  
-  Route::match(['get', 'post'], 'wh_main', [App\Http\Controllers\WhController::class, 'wh_main'])->name('wh.wh_main');
+  // Route::match(['get', 'post'], 'wh_main', [App\Http\Controllers\WhController::class, 'wh_main'])->name('wh.wh_main');
+  Route::match(['get', 'post'], 'wh_main_index', [App\Http\Controllers\WhController::class, 'wh_main_index'])->name('wh.wh_main_index');
   Route::match(['get', 'post'], 'wh_dashboard', [App\Http\Controllers\WhController::class, 'wh_dashboard'])->name('wh.wh_dashboard'); //
   Route::match(['get', 'post'], 'wh_plan', [App\Http\Controllers\WhController::class, 'wh_plan'])->name('wh.wh_plan'); //
   Route::match(['get', 'post'], 'wh_main/{id}', [App\Http\Controllers\WhController::class, 'wh_main'])->name('wh.wh_main'); //
   Route::match(['get', 'post'], 'wh_sub', [App\Http\Controllers\WhController::class, 'wh_sub'])->name('wh.wh_sub'); //
+  Route::match(['get', 'post'], 'wh_sub_dep/{id}', [App\Http\Controllers\WhController::class, 'wh_sub_dep'])->name('wh.wh_sub_dep'); //
+  Route::match(['get', 'post'], 'wh_stock_card/{id}', [App\Http\Controllers\WhController::class, 'wh_stock_card'])->name('wh.wh_stock_card'); //
 
+  Route::match(['get', 'post'], 'wh_subplies', [App\Http\Controllers\WhController::class, 'wh_subplies'])->name('wh.wh_subplies'); //
+  
   Route::match(['get', 'post'], 'wh_recieve', [App\Http\Controllers\WhController::class, 'wh_recieve'])->name('wh.wh_recieve'); //
   Route::match(['get', 'post'], 'wh_recieve_add', [App\Http\Controllers\WhController::class, 'wh_recieve_add'])->name('wh.wh_recieve_add'); //
   Route::match(['get', 'post'], 'wh_recieve_save', [App\Http\Controllers\WhController::class, 'wh_recieve_save'])->name('wh.wh_recieve_save'); //
   Route::match(['get', 'post'], 'wh_recieve_edit/{id}', [App\Http\Controllers\WhController::class, 'wh_recieve_edit'])->name('wh.wh_recieve_edit'); //
   Route::match(['get', 'post'], 'wh_recieve_update', [App\Http\Controllers\WhController::class, 'wh_recieve_update'])->name('wh.wh_recieve_update'); //
   Route::match(['get', 'post'], 'wh_recieve_addsub/{id}', [App\Http\Controllers\WhController::class, 'wh_recieve_addsub'])->name('wh.wh_recieve_addsub'); //
+
+  Route::match(['get', 'post'], 'load_data_table', [App\Http\Controllers\WhController::class, 'load_data_table'])->name('wh.load_data_table'); //
+  Route::match(['get', 'post'], 'load_data_lot_no', [App\Http\Controllers\WhController::class, 'load_data_lot_no'])->name('wh.load_data_lot_no'); //
+  Route::match(['get', 'post'], 'load_data_sum', [App\Http\Controllers\WhController::class, 'load_data_sum'])->name('wh.load_data_sum'); //
+
   Route::match(['get', 'post'], 'wh_recieve_addsub_save', [App\Http\Controllers\WhController::class, 'wh_recieve_addsub_save'])->name('wh.wh_recieve_addsub_save'); //
   Route::match(['get', 'post'], 'wh_recieve_destroy', [App\Http\Controllers\WhController::class, 'wh_recieve_destroy'])->name('wh.wh_recieve_destroy'); //
   Route::match(['get', 'post'], 'wh_recieve_updatestock', [App\Http\Controllers\WhController::class, 'wh_recieve_updatestock'])->name('wh.wh_recieve_updatestock'); //
   Route::match(['get', 'post'], 'wh_recieve_edittable', [App\Http\Controllers\WhController::class, 'wh_recieve_edittable'])->name('wh.wh_recieve_edittable'); //
   Route::match(['get', 'post'], 'add_product', [App\Http\Controllers\WhController::class, 'add_product'])->name('wh.add_product'); //
-
+  Route::match(['get', 'post'], 'addwh_unitt', [App\Http\Controllers\WhController::class, 'addwh_unitt'])->name('wh.addwh_unitt'); //
+  Route::match(['get', 'post'], 'addwh_supplies', [App\Http\Controllers\WhController::class, 'addwh_supplies'])->name('wh.addwh_supplies'); //
+  
   Route::match(['get', 'post'], 'wh_pay', [App\Http\Controllers\WhController::class, 'wh_pay'])->name('wh.wh_pay'); //
   Route::match(['get', 'post'], 'wh_pay_add', [App\Http\Controllers\WhController::class, 'wh_pay_add'])->name('wh.wh_pay_add'); //
   Route::match(['get', 'post'], 'wh_pay_save', [App\Http\Controllers\WhController::class, 'wh_pay_save'])->name('wh.wh_pay_save'); //
@@ -895,13 +907,25 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'wh_pay_update', [App\Http\Controllers\WhController::class, 'wh_pay_update'])->name('wh.wh_pay_update'); //
   Route::match(['get', 'post'], 'wh_pay_addsub/{id}', [App\Http\Controllers\WhController::class, 'wh_pay_addsub'])->name('wh.wh_pay_addsub'); //
   Route::match(['get', 'post'], 'wh_pay_addsub_save', [App\Http\Controllers\WhController::class, 'wh_pay_addsub_save'])->name('wh.wh_pay_addsub_save'); //
+  Route::match(['get', 'post'], 'wh_pay_sublot_save', [App\Http\Controllers\WhController::class, 'wh_pay_sublot_save'])->name('wh.wh_pay_sublot_save'); //
   Route::match(['get', 'post'], 'wh_pay_destroy', [App\Http\Controllers\WhController::class, 'wh_pay_destroy'])->name('wh.wh_pay_destroy'); //
   Route::match(['get', 'post'], 'wh_pay_updatestock', [App\Http\Controllers\WhController::class, 'wh_pay_updatestock'])->name('wh.wh_pay_updatestock'); //
   Route::match(['get', 'post'], 'wh_pay_edittable', [App\Http\Controllers\WhController::class, 'wh_pay_edittable'])->name('wh.wh_pay_edittable'); //
   Route::match(['get', 'post'], 'wh_pay_approve/{id}', [App\Http\Controllers\WhController::class, 'wh_pay_approve'])->name('wh.wh_pay_approve'); //
+  Route::match(['get', 'post'], 'wh_pay_select_lot', [App\Http\Controllers\WhController::class, 'wh_pay_select_lot'])->name('wh.wh_pay_select_lot'); //
+  Route::match(['get', 'post'], 'wh_pay_select_lotsave', [App\Http\Controllers\WhController::class, 'wh_pay_select_lotsave'])->name('wh.wh_pay_select_lotsave'); //
+  Route::match(['get', 'post'], 'wh_pay_updatetable', [App\Http\Controllers\WhController::class, 'wh_pay_updatetable'])->name('wh.wh_pay_updatetable'); //
+  Route::match(['get', 'post'], 'wh_pay_subdestroy', [App\Http\Controllers\WhController::class, 'wh_pay_subdestroy'])->name('wh.wh_pay_subdestroy'); //
+
+  Route::match(['get', 'post'], 'wh_supplies_save', [App\Http\Controllers\WhController::class, 'wh_supplies_save'])->name('wh.wh_supplies_save'); //
+  Route::match(['get', 'post'], 'wh_supplies_destroy', [App\Http\Controllers\WhController::class, 'wh_supplies_destroy'])->name('wh.wh_supplies_destroy'); //
+  Route::match(['get', 'post'], 'wh_report_month', [App\Http\Controllers\WhController::class, 'wh_report_month'])->name('wh.wh_report_month'); //
 
   Route::match(['get', 'post'], 'wh_sub_main', [App\Http\Controllers\WhUserController::class, 'wh_sub_main'])->name('wh.wh_sub_main'); //
   Route::match(['get', 'post'], 'wh_sub_main_rp', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_rp'])->name('wh.wh_sub_main_rp'); //
+  Route::match(['get', 'post'], 'wh_sub_main_add', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_add'])->name('wh.wh_sub_main_add'); //
+  Route::match(['get', 'post'], 'wh_sub_main_rprint/{id}', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_rprint'])->name('wh.wh_sub_main_rprint'); //
+  Route::match(['get', 'post'], 'wh_sub_main_detail', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_detail'])->name('wh.wh_sub_main_detail'); //
   Route::match(['get', 'post'], 'wh_request', [App\Http\Controllers\WhUserController::class, 'wh_request'])->name('wh.wh_request'); //
   Route::match(['get', 'post'], 'wh_request_add', [App\Http\Controllers\WhUserController::class, 'wh_request_add'])->name('wh.wh_request_add'); //
   Route::match(['get', 'post'], 'wh_request_save', [App\Http\Controllers\WhUserController::class, 'wh_request_save'])->name('wh.wh_request_save'); //
@@ -913,8 +937,17 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'wh_request_updatestock', [App\Http\Controllers\WhUserController::class, 'wh_request_updatestock'])->name('wh.wh_request_updatestock'); //
   Route::match(['get', 'post'], 'wh_request_edittable', [App\Http\Controllers\WhUserController::class, 'wh_request_edittable'])->name('wh.wh_request_edittable'); //
   Route::match(['get', 'post'], 'wh_approve_stock/{id}', [App\Http\Controllers\WhUserController::class, 'wh_approve_stock'])->name('wh.wh_approve_stock'); //
+  Route::match(['get', 'post'], 'wh_sub_main_pay', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_pay'])->name('wh.wh_sub_main_pay'); //
+  Route::match(['get', 'post'], 'wh_sub_main_paysave', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_paysave'])->name('wh.wh_sub_main_paysave'); //
+  Route::match(['get', 'post'], 'wh_sub_main_payadd/{id}', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_payadd'])->name('wh.wh_sub_main_payadd'); //
+  Route::match(['get', 'post'], 'wh_sub_main_paysub_save', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_paysub_save'])->name('wh.wh_sub_main_paysub_save'); //
+  Route::match(['get', 'post'], 'wh_sub_main_payedittable', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_payedittable'])->name('wh.wh_sub_main_payedittable'); //
+  Route::match(['get', 'post'], 'wh_sub_main_paysub_update', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_paysub_update'])->name('wh.wh_sub_main_paysub_update'); //
 
-  
+  Route::match(['get', 'post'], 'load_datauser_table', [App\Http\Controllers\WhUserController::class, 'load_datauser_table'])->name('wh.load_datauser_table'); //
+  Route::match(['get', 'post'], 'load_data_usersum', [App\Http\Controllers\WhUserController::class, 'load_data_usersum'])->name('wh.load_data_usersum'); //
+
+
 
   // ******************** ตั้งค่า  กลุ่มงาน ***********************
   Route::match(['get', 'post'], 'setting/setting_index', [App\Http\Controllers\SettingController::class, 'setting_index'])->name('setting.setting_index'); //
@@ -1752,6 +1785,22 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_pkti8011_yok/{months}/{year}', [App\Http\Controllers\Account8011Controller::class, 'account_pkti8011_yok'])->name('acc.account_pkti8011_yok'); //
   Route::match(['get', 'post'], 'account_pkti8011_search', [App\Http\Controllers\Account8011Controller::class, 'account_pkti8011_search'])->name('acc.account_pkti8011_search'); //
 
+
+  Route::match(['get', 'post'], 'account_pkti8022_dash', [App\Http\Controllers\Account8022Controller::class, 'account_pkti8022_dash'])->name('acc.account_pkti8022_dash'); //
+  Route::match(['get', 'post'], 'account_pkti8022_pull', [App\Http\Controllers\Account8022Controller::class, 'account_pkti8022_pull'])->name('acc.account_pkti8022_pull'); //
+  Route::match(['get', 'post'], 'account_pkti8022_pulldata', [App\Http\Controllers\Account8022Controller::class, 'account_pkti8022_pulldata'])->name('acc.account_pkti8022_pulldata'); // 
+  Route::match(['get', 'post'], 'account_pkti8022_detail/{months}/{year}', [App\Http\Controllers\Account8022Controller::class, 'account_pkti8022_detail'])->name('acc.account_pkti8022_detail'); //
+  Route::match(['get', 'post'], 'account_pkti8022_detail_date/{startdate}/{enddate}', [App\Http\Controllers\Account8022Controller::class, 'account_pkti8022_detail_date'])->name('acc.account_pkti8022_detail_date'); //
+  Route::match(['get', 'post'], 'account_pkti8022_stm/{months}/{year}', [App\Http\Controllers\Account8022Controller::class, 'account_pkti8022_stm'])->name('acc.account_pkti8022_stm'); //
+  Route::match(['get', 'post'], 'account_pkti8022_stmnull/{months}/{year}', [App\Http\Controllers\Account8022Controller::class, 'account_pkti8022_stmnull'])->name('acc.account_pkti8022_stmnull'); //
+  Route::match(['get', 'post'], 'account_pkti8022_stam', [App\Http\Controllers\Account8022Controller::class, 'account_pkti8022_stam'])->name('acc.account_pkti8022_stam'); //
+  Route::match(['get', 'post'], 'account_pkti8022_stm_date/{startdate}/{enddate}', [App\Http\Controllers\Account8022Controller::class, 'account_pkti8022_stm_date'])->name('acc.account_pkti8022_stm_date'); //
+  Route::match(['get', 'post'], 'account_pkti8022_stmnull_date/{startdate}/{enddate}', [App\Http\Controllers\Account8022Controller::class, 'account_pkti8022_stmnull_date'])->name('acc.account_pkti8022_stmnull_date'); //
+  Route::match(['get', 'post'], 'account_8022_destroy', [App\Http\Controllers\Account8022Controller::class, 'account_8022_destroy'])->name('acc.account_8022_destroy'); //
+  Route::match(['get', 'post'], 'account_pkti8022_yok/{months}/{year}', [App\Http\Controllers\Account8022Controller::class, 'account_pkti8022_yok'])->name('acc.account_pkti8022_yok'); //
+  Route::match(['get', 'post'], 'account_pkti8022_search', [App\Http\Controllers\Account8022Controller::class, 'account_pkti8022_search'])->name('acc.account_pkti8022_search'); //
+  Route::match(['get', 'post'], 'account_pkti8022_checksit', [App\Http\Controllers\Account8022Controller::class, 'account_pkti8022_checksit'])->name('acc.account_pkti8022_checksit'); //
+
   Route::match(['get', 'post'], 'account_pkti2166_dash', [App\Http\Controllers\Account2166Controller::class, 'account_pkti2166_dash'])->name('acc.account_pkti2166_dash'); //
   Route::match(['get', 'post'], 'account_pkti2166_pull', [App\Http\Controllers\Account2166Controller::class, 'account_pkti2166_pull'])->name('acc.account_pkti2166_pull'); //
   Route::match(['get', 'post'], 'account_pkti2166_pulldata', [App\Http\Controllers\Account2166Controller::class, 'account_pkti2166_pulldata'])->name('acc.account_pkti2166_pulldata'); //
@@ -1871,6 +1920,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_monitor', [App\Http\Controllers\AccdashboardController::class, 'account_monitor'])->name('acc.account_monitor'); //
   Route::match(['get', 'post'], 'account_monitor_main', [App\Http\Controllers\AccdashboardController::class, 'account_monitor_main'])->name('acc.account_monitor_main'); //
 
+  Route::match(['get', 'post'], 'chang_dashboard', [App\Http\Controllers\MoveaccountController::class, 'chang_dashboard'])->name('acc.chang_dashboard');
   Route::match(['get', 'post'], 'chang_pttype_IPD', [App\Http\Controllers\MoveaccountController::class, 'chang_pttype_IPD'])->name('acc.chang_pttype_IPD'); //ย้ายผัง
   Route::match(['get', 'post'], 'chang_pttype_OPD', [App\Http\Controllers\MoveaccountController::class, 'chang_pttype_OPD'])->name('acc.chang_pttype_OPD'); //ย้ายผัง
   Route::delete('pttypeopd_destroy/{id}', [App\Http\Controllers\MoveaccountController::class, 'pttypeopd_destroy'])->name('acc.pttypeopd_destroy'); //ย้ายผัง
@@ -1994,6 +2044,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
 
   Route::match(['get', 'post'], 'account_pkucs209_dash', [App\Http\Controllers\Account209Controller::class, 'account_pkucs209_dash'])->name('acc.account_pkucs209_dash'); // 
   Route::match(['get', 'post'], 'account_pkucs209_pull', [App\Http\Controllers\Account209Controller::class, 'account_pkucs209_pull'])->name('acc.account_pkucs209_pull'); //
+  Route::match(['get', 'post'], 'account_pkucs209_search', [App\Http\Controllers\Account209Controller::class, 'account_pkucs209_search'])->name('acc.account_pkucs209_search'); //
   Route::match(['get', 'post'], 'account_pkucs209_checksit', [App\Http\Controllers\Account209Controller::class, 'account_pkucs209_checksit'])->name('acc.account_pkucs209_checksit'); //
   Route::match(['get', 'post'], 'account_pkucs209_pulldata', [App\Http\Controllers\Account209Controller::class, 'account_pkucs209_pulldata'])->name('acc.account_pkucs209_pulldata'); //      
   Route::match(['get', 'post'], 'account_pkucs209_detail/{months}/{year}', [App\Http\Controllers\Account209Controller::class, 'account_pkucs209_detail'])->name('acc.account_pkucs209_detail'); //
@@ -2027,8 +2078,8 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   
   // Route::match(['get', 'post'], 'account_pkucs216_sendapi', [App\Http\Controllers\Account216Controller::class, 'account_pkucs216_sendapi'])->name('acc.account_pkucs216_sendapi'); //
   Route::match(['get', 'post'], 'account_pkucs216_sendapi', [App\Http\Controllers\ApiFdhController::class, 'account_pkucs216_sendapi'])->name('acc.account_pkucs216_sendapi'); //
-
-  Route::match(['get', 'post'], 'account_claim_cancel', [App\Http\Controllers\FdhCenterController::class, 'account_claim_cancel'])->name('acc.account_claim_cancel'); // 
+  Route::match(['get', 'post'], 'account_claim_cancel', [App\Http\Controllers\Account216Controller::class, 'account_claim_cancel'])->name('acc.account_claim_cancel'); // 
+  // Route::match(['get', 'post'], 'account_claim_cancel', [App\Http\Controllers\FdhCenterController::class, 'account_claim_cancel'])->name('acc.account_claim_cancel'); // 
 
   Route::match(['get', 'post'], 'account_401_api', [App\Http\Controllers\ApiSpschController::class, 'account_401_api'])->name('acc.account_401_api'); //
 
@@ -2206,6 +2257,8 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_401_claim_export', [App\Http\Controllers\Account401Controller::class, 'account_401_claim_export'])->name('acc.account_401_claim_export'); //
   Route::match(['get', 'post'], 'account_401_pulldata', [App\Http\Controllers\Account401Controller::class, 'account_401_pulldata'])->name('acc.account_401_pulldata'); //
   Route::match(['get', 'post'], 'account_401/{months}/{year}', [App\Http\Controllers\Account401Controller::class, 'account_401'])->name('acc.account_401'); //
+  Route::match(['get', 'post'], 'account_401_claim_detail/{months}/{year}', [App\Http\Controllers\Account401Controller::class, 'account_401_claim_detail'])->name('acc.account_401_claim_detail'); //
+  
   Route::match(['get', 'post'], 'account_401_detail/{months}/{year}', [App\Http\Controllers\Account401Controller::class, 'account_401_detail'])->name('acc.account_401_detail'); //
   Route::match(['get', 'post'], 'account_401_detail_date/{startdate}/{enddate}', [App\Http\Controllers\Account401Controller::class, 'account_401_detail_date'])->name('acc.account_401_detail_date'); //
   Route::match(['get', 'post'], 'account_401_stm/{months}/{year}', [App\Http\Controllers\Account401Controller::class, 'account_401_stm'])->name('acc.account_401_stm'); //
@@ -2243,6 +2296,7 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_402_claim_export', [App\Http\Controllers\Account402Controller::class, 'account_402_claim_export'])->name('acc.account_402_claim_export'); //
   Route::match(['get', 'post'], 'account_402_claim_zip', [App\Http\Controllers\Account402Controller::class, 'account_402_claim_zip'])->name('acc.account_402_claim_zip'); //
   Route::match(['get', 'post'], 'account_402_send_api', [App\Http\Controllers\Account402Controller::class, 'account_402_send_api'])->name('acc.account_402_send_api'); //
+  Route::match(['get', 'post'], 'account_402_checksit', [App\Http\Controllers\Account402Controller::class, 'account_402_checksit'])->name('acc.account_402_checksit'); //
 
   Route::match(['get', 'post'], 'account_501_dash', [App\Http\Controllers\Account501Controller::class, 'account_501_dash'])->name('acc.account_501_dash'); //  
   Route::match(['get', 'post'], 'account_501_pull', [App\Http\Controllers\Account501Controller::class, 'account_501_pull'])->name('acc.account_501_pull'); //
@@ -2426,6 +2480,10 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_801_stmnull_date/{startdate}/{enddate}', [App\Http\Controllers\Account801Controller::class, 'account_801_stmnull_date'])->name('acc.account_801_stmnull_date'); // 
   Route::match(['get', 'post'], 'account_801_destroy', [App\Http\Controllers\Account801Controller::class, 'account_801_destroy'])->name('acc.account_801_destroy'); //
   Route::match(['get', 'post'], 'account_801_yokpai/{months}/{year}', [App\Http\Controllers\Account801Controller::class, 'account_801_yokpai'])->name('acc.account_801_yokpai'); //
+  Route::match(['get', 'post'], 'account_801_checksit', [App\Http\Controllers\Account801Controller::class, 'account_801_checksit'])->name('acc.account_801_checksit'); //
+  Route::match(['get', 'post'], 'account_801_claimswitch', [App\Http\Controllers\Account801Controller::class, 'account_801_claimswitch'])->name('acc.account_801_claimswitch'); //
+  Route::match(['get', 'post'], 'account_801_claim', [App\Http\Controllers\Account801Controller::class, 'account_801_claim'])->name('acc.account_801_claim'); //
+  Route::match(['get', 'post'], 'account_801_zip', [App\Http\Controllers\Account801Controller::class, 'account_801_zip'])->name('acc.account_801_zip'); //
   // Route::match(['get','post'],'account_801_dash',[App\Http\Controllers\AccountPKController::class, 'account_801_dash'])->name('acc.account_801_dash');//
   // Route::match(['get','post'],'account_801_pull',[App\Http\Controllers\AccountPKController::class, 'account_801_pull'])->name('acc.account_801_pull');//
   // Route::match(['get','post'],'account_801_pulldata',[App\Http\Controllers\AccountPKController::class, 'account_801_pulldata'])->name('acc.account_801_pulldata');//
@@ -2450,6 +2508,11 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'account_802_stm_date/{startdate}/{enddate}', [App\Http\Controllers\Account802Controller::class, 'account_802_stm_date'])->name('acc.account_802_stm_date'); //
   Route::match(['get', 'post'], 'account_802_stmnull_date/{startdate}/{enddate}', [App\Http\Controllers\Account802Controller::class, 'account_802_stmnull_date'])->name('acc.account_802_stmnull_date'); // 
   Route::match(['get', 'post'], 'account_802_destroy', [App\Http\Controllers\Account802Controller::class, 'account_802_destroy'])->name('acc.account_802_destroy'); //
+
+  Route::match(['get', 'post'], 'account_802_checksit', [App\Http\Controllers\Account802Controller::class, 'account_802_checksit'])->name('acc.account_802_checksit'); //
+  Route::match(['get', 'post'], 'account_802_claimswitch', [App\Http\Controllers\Account802Controller::class, 'account_802_claimswitch'])->name('acc.account_802_claimswitch'); //
+  Route::match(['get', 'post'], 'account_802_claim', [App\Http\Controllers\Account802Controller::class, 'account_802_claim'])->name('acc.account_802_claim'); //
+  Route::match(['get', 'post'], 'account_802_zip', [App\Http\Controllers\Account802Controller::class, 'account_802_zip'])->name('acc.account_802_zip'); //
 
   Route::match(['get', 'post'], 'account_803_dash', [App\Http\Controllers\Account803Controller::class, 'account_803_dash'])->name('acc.account_803_dash'); //
   Route::match(['get', 'post'], 'account_803_pull', [App\Http\Controllers\Account803Controller::class, 'account_803_pull'])->name('acc.account_803_pull'); //
@@ -3013,7 +3076,6 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'opdtoipd_subsub/{vn}/{income}', [App\Http\Controllers\OpipController::class, 'opdtoipd_subsub'])->name('op.opdtoipd_subsub'); //
   // Route::match(['get','post'],'opdtoipd_sub/{month}/{year}',[App\Http\Controllers\OpipController::class, 'opdtoipd_sub'])->name('op.opdtoipd_sub');//
 
-
 //********************* */ ENV  ***********************************
 Route::match(['get','post'],'env_dashboard',[App\Http\Controllers\EnvController::class, 'env_dashboard'])->name('env.env_dashboard');//
 Route::match(['get','post'],'env_water_rep',[App\Http\Controllers\EnvController::class, 'env_water_rep'])->name('env.env_water_rep');//
@@ -3029,6 +3091,8 @@ Route::match(['get','post'],'env_water_delete/{id}',[App\Http\Controllers\EnvCon
 Route::match(['get','post'],'env_water_datetime',[App\Http\Controllers\EnvController::class, 'env_water_datetime'])->name('env.env_water_datetime');//ค้นตามช่วงวันที่
 Route::match(['get','post'],'env_water_add_pond',[App\Http\Controllers\EnvController::class, 'env_water_add_pond'])->name('env.env_water_add_pond');//เมนูเลือกบ่อบำบัดน้ำเสีย
 Route::match(['get','post'],'env_water_edittable',[App\Http\Controllers\EnvController::class, 'env_water_edittable'])->name('env.env_water_edittable');//แก้ไขข้อมูล
+
+Route::delete('water_sub_destroy/{id}', [App\Http\Controllers\EnvController::class, 'water_sub_destroy'])->name('env.water_sub_destroy'); //
 
 Route::match(['get','post'],'env_water_add_pond1/{id}',[App\Http\Controllers\EnvController::class, 'env_water_add_pond1'])->name('env.env_water_add_pond1');//บ่อปรับเสถียร
 Route::match(['get','post'],'env_water_add_pond1_save',[App\Http\Controllers\EnvController::class, 'env_water_add_pond1_save'])->name('env_water_add_pond1_save');//บันทึกบ่อปรับเสถียร
@@ -3072,13 +3136,13 @@ Route::match(['get','post'],'env_trash_parameter_update',[App\Http\Controllers\E
 Route::match(['get','post'],'env_trash_parameter_delete/{id}',[App\Http\Controllers\EnvController::class, 'env_trash_parameter_delete'])->name('env.env_trash_parameter_delete');//ลบข้อมูล
 Route::match(['get','post'],'env_trash_parameter_switchactive',[App\Http\Controllers\EnvController::class, 'env_trash_parameter_switchactive'])->name('env.env_trash_parameter_switchactive');//สถานะ
 
-//ตั่งค่าตัวแทนจำหน่าย
-Route::match(['get','post'],'env_vendor',[App\Http\Controllers\EnvController::class, 'env_vendor'])->name('env.env_vendor');//หน้าหลักแสดงข้อมูล
-Route::match(['get','post'],'env_vendor_add',[App\Http\Controllers\EnvController::class, 'env_env_vendor_add'])->name('env.env_vendor_add');//เพิ่ม
-Route::match(['get','post'],'env_vendor_save',[App\Http\Controllers\EnvController::class, 'env_env_vendor_save'])->name('env.env_vendor_save');//บันทึก
-Route::match(['get','post'],'env_vendor_edit/{id}',[App\Http\Controllers\EnvController::class, 'env_env_vendor_edit'])->name('env.env_vendor_edit');//แก้ไข
-Route::match(['get','post'],'env_vendor_update',[App\Http\Controllers\EnvController::class, 'env_env_vendor_update'])->name('env.env_vendor_update');//อัพเดท
-Route::match(['get','post'],'env_vendor_destroy/{id}',[App\Http\Controllers\EnvController::class, 'env_env_vendor_destroy'])->name('env.env_vendor_destroy');//ลบข้อมูล
+  //ตั่งค่าตัวแทนจำหน่าย
+  Route::match(['get', 'post'], 'env_vendor', [App\Http\Controllers\EnvController::class, 'env_vendor'])->name('env.env_vendor'); //หน้าหลักแสดงข้อมูล
+  Route::match(['get', 'post'], 'env_vendor_add', [App\Http\Controllers\EnvController::class, 'env_env_vendor_add'])->name('env.env_vendor_add'); //เพิ่ม
+  Route::match(['get', 'post'], 'env_vendor_save', [App\Http\Controllers\EnvController::class, 'env_env_vendor_save'])->name('env.env_vendor_save'); //บันทึก
+  Route::match(['get', 'post'], 'env_vendor_edit/{id}', [App\Http\Controllers\EnvController::class, 'env_env_vendor_edit'])->name('env.env_vendor_edit'); //แก้ไข
+  Route::match(['get', 'post'], 'env_vendor_update', [App\Http\Controllers\EnvController::class, 'env_env_vendor_update'])->name('env.env_vendor_update'); //อัพเดท
+  Route::match(['get', 'post'], 'env_vendor_destroy/{id}', [App\Http\Controllers\EnvController::class, 'env_env_vendor_destroy'])->name('env.env_vendor_destroy'); //ลบข้อมูล
 
   // ************** Report ****************************
   // Route::match(['get','post'],'report_db',[App\Http\Controllers\ReportNewController::class, 'report_db'])->name('re.report_db');
@@ -3572,9 +3636,24 @@ Route::match(['get','post'],'env_vendor_destroy/{id}',[App\Http\Controllers\EnvC
     Route::match(['get', 'post'], 'dental_save', [App\Http\Controllers\DentalController::class, 'dental_save'])->name('den.dental_save'); //
     Route::match(['get', 'post'], 'dental_edit/{id}', [App\Http\Controllers\DentalController::class, 'dental_edit'])->name('den.dental_edit'); //
     Route::match(['get', 'post'], 'dental_update', [App\Http\Controllers\DentalController::class, 'dental_update'])->name('den.dental_update'); //
-    Route::match(['get', 'post'], 'dental_switchactive', [App\Http\Controllers\DentalController::class, 'dental_switchactive'])->name('den.dental_switchactive'); // switchactive
+    
     Route::match(['get', 'post'], 'dental_assistant', [App\Http\Controllers\DentalController::class, 'dental_assistant'])->name('den.dental_assistant'); //
 
     Route::match(['get', 'post'], 'dental_assis/{id}', [App\Http\Controllers\DentalController::class, 'dental_assis'])->name('den.dental_assis'); //
     Route::match(['get', 'post'], 'dental_doctor/{id}', [App\Http\Controllers\DentalController::class, 'dental_doctor'])->name('den.dental_doctor'); //
+
+    Route::match(['get', 'post'], 'dental_calendar', [App\Http\Controllers\DentalController::class, 'dental_calendar'])->name('den.dental_calendar'); //
+    Route::match(['get', 'post'], 'dental_calendarsave', [App\Http\Controllers\DentalController::class, 'dental_calendarsave'])->name('den.dental_calendarsave'); //
+    Route::match(['get', 'post'], 'dental_appointment_add', [App\Http\Controllers\DentalController::class, 'dental_appointment_add'])->name('den.dental_appointment_add'); //เพิ่มรายการนัดหมาย
+    Route::match(['get', 'post'], 'dental_appointment_save', [App\Http\Controllers\DentalController::class, 'dental_appointment_save'])->name('den.dental_appointment_save');
+
+    Route::match(['get', 'post'], 'dental_setting_type', [App\Http\Controllers\DentalController::class, 'dental_setting_type'])->name('den.dental_setting_type'); // ตั้งค่าประเภทนัดหมาย
+    Route::match(['get', 'post'], 'dental_setting_type_add', [App\Http\Controllers\DentalController::class, 'dental_setting_type_add'])->name('den.dental_setting_type_add'); //หน้าเพิ่มประเภทนัดหมาย
+    Route::match(['get', 'post'], 'dental_setting_type_save', [App\Http\Controllers\DentalController::class, 'dental_setting_type_save'])->name('den.dental_setting_type_save');
+    Route::match(['get', 'post'], 'dental_setting_type_edit/{id}', [App\Http\Controllers\DentalController::class, 'dental_setting_type_edit'])->name('den.dental_setting_type_edit');
+    Route::match(['get', 'post'], 'dental_setting_type_update', [App\Http\Controllers\DentalController::class, 'dental_setting_type_update'])->name('den.dental_setting_type_update');//อัพเดท
+    Route::match(['get', 'post'], 'dental_setting_type_delete/{id}', [App\Http\Controllers\DentalController::class, 'dental_setting_type_delete'])->name('den.dental_setting_type_delete');
+
+    
+    Route::match(['get', 'post'], 'dental_switchactive', [App\Http\Controllers\DentalController::class, 'dental_switchactive'])->name('den.dental_switchactive'); // switchactive
 });

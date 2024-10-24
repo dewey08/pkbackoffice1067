@@ -49,9 +49,9 @@
           //               // window.location.reload(); 
           //               // window.location = "/book/bookmake_index"; // กรณี add page new  
           //               window.location.href = "{{url('bookmake_index')}}";
-          //               // http://dekbanbanproject.com/PK-OFFICE/public/book/bookmake_index
+          //               // http://dekbanbanproject.com/PK-BACKOFFice/public/book/bookmake_index
           //               // "http://www.code-father.com/member.php";
-          //               // window.location.href = "http://dekbanbanproject.com/PK-OFFICE/public/book/bookmake_index";
+          //               // window.location.href = "http://dekbanbanproject.com/PK-BACKOFFice/public/book/bookmake_index";
           //             }
           //           })      
           //       } else {          
@@ -253,7 +253,7 @@ $(document).ready(function(){
 //                       // window.location="/book/bookmake_index"; //{{ asset('js/gcpdfviewer.js') }}
 //                       link == data.link
 //                       window.location.href = "{{ asset('book/bookmake_index') }}";
-//                       // window.location.href = "http://203.157.231.35/PK-OFFICE/public/book/bookmake_index";
+//                       // window.location.href = "http://203.157.231.35/PK-BACKOFFice/public/book/bookmake_index";
 //                     }
 //                   })      
 //                 }

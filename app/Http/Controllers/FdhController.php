@@ -1813,6 +1813,7 @@ class FdhController extends Controller
                     LEFT OUTER JOIN ovstost ov on ov.ovstost = o.ovstost
                     WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"                  
                     AND v.income > 0 AND pt.nationality = "99" AND (o.an IS NULL OR o.an ="")
+                    AND v.pttype NOT IN("10")
                     GROUP BY o.vn
             ');
              
@@ -1948,7 +1949,7 @@ class FdhController extends Controller
                     LEFT OUTER JOIN kskdepartment k ON k.depcode = o.main_dep
                     LEFT OUTER JOIN ovstost ov on ov.ovstost = o.ovstost
                     WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"                  
-                    AND v.income > 0 AND pt.nationality = "99" AND (o.an IS NULL OR o.an ="")
+                    AND v.income > 0 AND pt.nationality = "99" AND (o.an IS NULL OR o.an ="") AND v.pttype NOT IN("10")
                     GROUP BY o.vn
             '
             );

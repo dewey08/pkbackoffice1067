@@ -205,10 +205,10 @@ File: Main Css File
 }
 
 body[data-topbar=dark] #page-topbar {
-  background-color: #252b3b;
+  background-color: #a519cf;
 }
 body[data-topbar=dark] .navbar-header .dropdown .show.header-item {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #a519cf;
 }
 body[data-topbar=dark] .navbar-header .waves-effect .waves-ripple {
   background: rgba(255, 255, 255, 0.4);
@@ -268,20 +268,20 @@ body[data-layout=horizontal] .navbar-brand-box {
   width: auto;
 }
 body[data-layout=horizontal] .page-content {
-  margin-top: 70px;
+  margin-top: 10px;
   padding: calc(55px + 24px) calc(24px / 2) 60px calc(24px / 2);
 }
 
 @media (max-width: 992px) {
   body[data-layout=horizontal] .page-content {
-    margin-top: 15px;
+    margin-top: 3px;
   }
 }
 body[data-topbar=colored] #page-topbar {
   background-color: #0f9cf3;
 }
 body[data-topbar=colored] .navbar-header .dropdown .show.header-item {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(191, 23, 233, 0.993);
 }
 body[data-topbar=colored] .navbar-header .waves-effect .waves-ripple {
   background: rgba(255, 255, 255, 0.4);

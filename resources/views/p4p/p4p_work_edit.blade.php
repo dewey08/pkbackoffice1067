@@ -80,7 +80,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">
                     <div class="card-header ">
                         <div class="row">
                             <div class="col-md-4">
@@ -94,14 +94,14 @@
                         </div>
                     </div>
                     <div class="card-body shadow-lg">
-                         <div class="row mb-3 mt-3"> 
+                         <div class="row mb-3"> 
                             <div class="col"></div>
                             <div class="col-md-1 text-end">
                                 <label for="p4p_work_code" style="font-family: sans-serif;font-size: 13px">รหัส</label>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <input id="p4p_work_code" type="text" class="form-control form-control-sm"
+                                    <input id="p4p_work_code" type="text" class="orm-control-sm input_new"
                                         name="p4p_work_code" value="{{$data_show->p4p_work_code}}" readonly>
                                 </div>
                             </div> 
@@ -113,7 +113,7 @@
                                         class="form-select form-select-sm" style="width: 100%">
                                         <option value=""> </option>
                                         @foreach ($budget_year as $its)  
-                                        @if ($y == $its->leave_year_id)
+                                        @if ($data_show->p4p_work_year == $its->leave_year_id)
                                         <option value="{{ $its->leave_year_id }}" selected> {{ $its->leave_year_id }} </option>
                                         @else
                                         <option value="{{ $its->leave_year_id }}"> {{ $its->leave_year_id }} </option>
@@ -143,7 +143,7 @@
                             <input type="hidden" id="p4p_work_id" value="{{$data_show->p4p_work_id}}"> 
 
                             <div class="col-md-2"> 
-                                <button type="button" class="btn btn-primary btn-sm" id="Updatebtn">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new" id="Updatebtn">
                                     <i class="fa-solid fa-floppy-disk me-2"></i>
                                     แก้ไขข้อมูล
                                 </button>
@@ -175,7 +175,7 @@
                                                         <td class="text-center" width="5%">{{ $i++ }}</td>    
                                                         <td class="text-center" width="15%" style="font-size: 13px">{{ $item->p4p_work_code }}</td> 
                                                         <td class="text-center" style="font-size: 13px" width="10%">{{ $item->p4p_work_year }}</td>
-                                                        <td class="p-2" style="font-size: 13px">{{ $item->MONTH_NAME }}</td>                                                          
+                                                        <td class="p-2" style="font-size: 13px">{{ $item->p4p_work_monthth }}</td>                                                          
                                                         <td class="text-center" width="10%">
                                                             <a href="{{url('p4p_work_edit/'.$item->p4p_work_id)}}" class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" >
                                                                 <i class="fa-solid fa-circle-info me-2 text-info" style="font-size:13px"></i> 
@@ -203,18 +203,7 @@
                         </div>
                        
                     </div>
-                    <div class="card-footer">
-                        <div class="col-md-12 text-end">
-                            <div class="form-group"> 
-                                {{-- <a href="{{ url('p4p_work') }}"
-                                    class="btn btn-danger btn-sm"> 
-                                    <i class="fa-regular fa-circle-left me-2"></i>
-                                    ย้อนกลับ
-                                </a> --}}
-                            </div>
-
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
         </div>
@@ -383,8 +372,8 @@
                                     .isConfirmed) {
                                     console.log(
                                         data);
-                                    window.location.reload();
-                                    // window.location="{{url('warehouse/warehouse_index')}}";
+                                    // window.location.reload();
+                                    window.location="{{url('p4p_work')}}";
                                 }
                             })
                         } else {

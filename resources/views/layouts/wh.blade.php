@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    {{-- <link href="{{ asset('pkclaim/libs/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css"> --}}
+    
     <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
@@ -55,8 +55,8 @@
    href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
 <!-- Plugins css -->
 <link href="{{ asset('assets/libs/dropzone/min/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('css/loginheader.css') }}" rel="stylesheet" />
-{{-- <link href="{{ asset('acccph/styles/css/base.css') }}" rel="stylesheet"> --}}
+{{-- <link href="{{ asset('css/loginheader.css') }}" rel="stylesheet" /> --}}
+ 
 </head>
 <style>
     .noto-sans-thai-looped-thin {
@@ -115,7 +115,7 @@
 </style>
 <style>
     body {         
-        background-color: rgb(255, 255, 255);
+        background-color: rgb(233, 233, 233);
         background-repeat: no-repeat;
         background-attachment: fixed; 
         background-size: 100% 100%; 
@@ -185,23 +185,34 @@
             .input_new{
                 border-radius: 2em 2em 2em 2em;
                 box-shadow: 0 0 10px rgb(252, 101, 1);
+                border:solid 1px #f80d6f;
+            }
+            .input_border{
+                /* border-radius: 2em 2em 2em 2em; */
+                box-shadow: 0 0 20px rgb(252, 101, 1);
+                border:solid 1px #f80d6f;
+            }
+            .buttom_border{
+                border-radius: 2em 2em 2em 2em;
+                box-shadow: 0 0 15px rgb(252, 101, 1);
+                border:solid 1px #f80d6f;
             }
             .card_pink{
                 border-radius: 3em 3em 3em 3em;
-                box-shadow: 0 0 10px rgb(252, 101, 1);
+                box-shadow: 0 0 30px rgb(252, 101, 1);
             }
             .card_audit_2b{
                 border-radius: 0em 0em 3em 3em;
-                box-shadow: 0 0 10px rgb(252, 101, 1);
+                box-shadow: 0 0 30px rgb(252, 101, 1);
             }
             .card_audit_4c{
                 border-radius: 2em 2em 2em 2em;
-                box-shadow: 0 0 15px rgb(252, 101, 1);
-                border:solid 1px #80acfd;
+                box-shadow: 0 0 30px rgb(252, 101, 1);
+                border:solid 1px #f80d6f;
             }
             .card_audit_4{
                 border-radius: 3em 3em 3em 3em;
-                box-shadow: 0 0 10px rgb(252, 101, 1);
+                box-shadow: 0 0 30px rgb(252, 101, 1);
             }
             .dcheckbox_{         
                 width: 20px;
@@ -209,39 +220,13 @@
                 border: 10px solid rgb(252, 101, 1); 
                 box-shadow: 0 0 10px rgb(252, 101, 1); 
             }
-            @keyframes colorShift {
-                0% {
-                    background-color: #22dcdf
+            .select2-selection {
+                border-color: green; /* example */
                 }
-                50% {
-                    background-color: #2ed82e
-                }
-                100% {
-                    background-color: #rgb(252, 101, 1)
-                }
+            .select2-drop.select2-drop-above.select2-drop-active {
+                border-top: 1px solid #ffff80;
             }
-            .loadingIcon {
-                width: 40px;
-                height: 40px;
-                border: 2px solid rgb(255, 255, 255); 
-                border-radius: 100%;
-                animation: 6s infinite linear spin;
-            }
-            .loadingIcon2 {
-                width: 40px;
-                height: 40px;
-                border: 2px solid rgb(255, 255, 255); 
-                border-radius: 100%;
-                animation: 3s infinite linear spin;
-            }
-            @keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                }
-                100% {
-                    transform: rotate(360deg);
-                }
-            }
+            
 </style>
 <?php
 if (Auth::check()) {
@@ -256,19 +241,29 @@ if (Auth::check()) {
 
         use App\Http\Controllers\StaticController;
         use App\Models\Products_request_sub;
-        $permiss_account = StaticController::permiss_account($iduser);
+        $permiss_account    = StaticController::permiss_account($iduser);
         $permiss_setting_upstm = StaticController::permiss_setting_upstm($iduser);
-        $permiss_ucs = StaticController::permiss_ucs($iduser);
-        $permiss_sss = StaticController::permiss_sss($iduser);
-        $permiss_ofc = StaticController::permiss_ofc($iduser);
-        $permiss_lgo = StaticController::permiss_lgo($iduser);
-        $permiss_prb = StaticController::permiss_prb($iduser);
-        $permiss_ti = StaticController::permiss_ti($iduser);
-        $permiss_rep_money = StaticController::permiss_rep_money($iduser);
-
+        $permiss_ucs        = StaticController::permiss_ucs($iduser);
+        $permiss_sss        = StaticController::permiss_sss($iduser);
+        $permiss_ofc        = StaticController::permiss_ofc($iduser);
+        $permiss_lgo        = StaticController::permiss_lgo($iduser);
+        $permiss_prb        = StaticController::permiss_prb($iduser);
+        $permiss_ti         = StaticController::permiss_ti($iduser);
+        $permiss_rep_money  = StaticController::permiss_rep_money($iduser);
+        $bgs_year           = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow         = $bgs_year->leave_year_id;
+        $wh_stock_list_only = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
+        $wh_stock_dep_only  = DB::select(
+            'SELECT b.stock_year,a.DEPARTMENT_SUB_SUB_ID,a.DEPARTMENT_SUB_SUB_NAME 
+                FROM department_sub_sub a
+                LEFT JOIN wh_stock_sub b ON b.stock_list_subid = a.DEPARTMENT_SUB_SUB_ID
+                WHERE b.stock_year = "'.$bg_yearnow.'"
+                GROUP BY a.DEPARTMENT_SUB_SUB_ID  
+            ');
 ?>
  
  <body data-topbar="dark" data-layout="horizontal">
+    {{-- <body data-topbar="light" data-layout="horizontal"> --}}
 {{-- <body data-topbar="colored" data-layout="horizontal"> --}}
     {{-- <body data-topbar="dark" data-layout="horizontal"> --}}
     <div id="layout-wrapper">
@@ -282,40 +277,45 @@ if (Auth::check()) {
                       
                         <a href="{{url('wh_dashboard')}}" class="logo logo-dark"> 
                             <span class="logo-sm me-2"> 
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30"> --}}
+                                {{-- <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">  --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="30"> 
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30"> --}}
+                                {{-- <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">  --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="30"> 
                             </span>
                         </a>
  
                         <a href="{{url('wh_dashboard')}}" class="logo logo-light">
                             <span class="logo-sm me-2"> 
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30"> --}}
+                                {{-- <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110"> 
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/officer5.png') }}" class="" alt="logo-sm-light" height="30">
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30"> --}}
+                                {{-- <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> --}}
+                                {{-- <img src="{{ asset('images/officer5.png') }}" class="" alt="logo-sm-light" height="30"> --}}
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110"> 
                             </span> 
                         </a>
                     </div>
                   
-                    <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                    <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item mt-3" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
                         <i class="ri-menu-2-line align-middle"></i>
                     </button>
 
+                  
                     <!-- App Search-->
-                    <form class="app-search d-none d-lg-block">
+                    <form class="app-search d-none d-lg-block mt-3">
                         <div class="position-relative">
-                            <input type="text" class="form-control" placeholder="Search...">
-                            <span class="ri-search-line"></span>
+                            {{-- <input type="text" class="form-control" placeholder="Search..."> --}}
+                            {{-- <span class="ri-search-line"></span> --}}
+                            <h3 style="color:rgb(255, 255, 255)" class="mt-2 noto-sans-thai-looped-light" >W A R E H O U S E</h3>
                         </div>
                     </form>
-
                    
                 </div>
 
@@ -364,7 +364,7 @@ if (Auth::check()) {
         <div class="topnav">
             <div class="container-fluid">
                 <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
-
+    
                     <div class="collapse navbar-collapse" id="topnav-menu-content">
                         <ul class="navbar-nav">
  
@@ -381,33 +381,52 @@ if (Auth::check()) {
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
-                                    <i class="fa-solid fa-diagram-project me-2" style="font-size: 20px;color:rgb(252, 101, 1)"></i>แผนจัดซื้อพัสดุ-ครุภัณฑ์  <div class="arrow-down"></div>
+                                    <i class="fa-solid fa-diagram-project me-2" style="font-size: 20px;color:rgb(252, 101, 1)"></i>แผนจัดซื้อ  <div class="arrow-down"></div>
                                 </a>
+                                @php
+                                      $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
+                                       $wh_stock_ = DB::select(
+                                            'SELECT *
+                                                FROM wh_stock_list
+                                                WHERE stock_type="1" ORDER BY stock_list_id ASC
+                                        ');
+                                @endphp
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                                    <a href="{{ url('wh_plan') }}" class="dropdown-item" target="_blank">แผนจัดซื้อวัสดุสำนักงาน</a>  
+                                    @foreach ($wh_stock_ as $item)
+                                    <a href="{{ url('wh_plan/'.$item->stock_list_id) }}" class="dropdown-item">แผนจัดซื้อ{{$item->stock_list_name}}</a>  
+                                    @endforeach
+                                   
                                 </div>  
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('wh_recieve') }}" target="_blank">
-                                     <i class="fa-solid fa-clipboard-check me-2" style="font-size: 20px;color:rgb(248, 51, 126)"></i> ตรวจรับ
-                                </a> 
+                                <a class="nav-link" href="{{ url('wh_recieve') }}">
+                                    {{-- <a class="nav-link" href="{{ url('wh_recieve') }}" target="_blank"> --}}
+                                        {{-- <i class="fa-solid fa-clipboard-check me-2" style="font-size: 20px;color:rgb(248, 51, 126)"></i> --}}
+                                     <i class="fa-solid fa-cart-arrow-down me-2" style="font-size: 20px;color:rgb(248, 51, 126)"></i> ตรวจรับ
+                                </a>  
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('wh_pay') }}" target="_blank">
-                                     <i class="fa-solid fa-clipboard-check me-2" style="font-size: 20px;color:rgb(9, 188, 201)"></i>เบิก-จ่าย
+                                <a class="nav-link" href="{{ url('wh_pay') }}">
+                                     <i class="fa-brands fa-amazon-pay me-2" style="font-size: 20px;color:rgb(9, 188, 201)"></i>เบิก-จ่าย
                                 </a> 
                             </li>
+                            {{-- <i class="fa-brands fa-amazon-pay"></i> --}}
+                            {{-- <li class="nav-item">
+                                <a class="nav-link" href="{{ url('wh_main_index') }}">
+                                     <i class="fa-solid fa-cubes me-2" style="font-size: 20px;color:rgb(204, 26, 56)"></i> คลังหลัก
+                                </a> 
+                            </li> --}}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
                                 <i class="fa-solid fa-cubes me-2" style="font-size: 20px;color:rgb(204, 26, 56)"></i>คลังหลัก <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                                    @foreach ($wh_stock_list as $item)
-                                        <a href="{{ url('wh_main/'.$item->stock_list_id) }}" class="dropdown-item" target="_blank">{{$item->stock_list_name}}</a> 
+                                    <a href="{{ url('wh_main_index') }}" class="dropdown-item">ทั้งหมด</a> 
+                                    @foreach ($wh_stock_list_only as $item)
+                                        <a href="{{ url('wh_main/'.$item->stock_list_id) }}" class="dropdown-item">{{$item->stock_list_name}}</a> 
                                     @endforeach
                                     
-                                </div>
-                                
+                                </div>                                
                             </li> 
 
                             <li class="nav-item dropdown">
@@ -415,11 +434,43 @@ if (Auth::check()) {
                                 <i class="fa-solid fa-cubes-stacked me-2" style="font-size: 20px;color:rgb(10, 116, 187)"></i>คลังย่อย <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
-                                    <a href="{{ url('wh_sub') }}" class="dropdown-item" target="_blank">คลัง</a> 
+                                    <a href="{{ url('wh_sub') }}" class="dropdown-item">ทั้งหมด</a> 
+                                    @foreach ($wh_stock_dep_only as $item_sub)
+                                        <a href="{{ url('wh_sub_dep/'.$item_sub->DEPARTMENT_SUB_SUB_ID) }}" class="dropdown-item">{{$item_sub->DEPARTMENT_SUB_SUB_NAME}}</a> 
+                                    @endforeach
+                                </div> 
+                            </li> 
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
+                                    <i class="fa-solid fa-chart-line me-2" style="font-size: 20px;color:rgb(134, 3, 117)"></i><span key="t-layouts">รายงาน</span> <div class="arrow-down"></div> 
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-layout">
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('wh_report_month')}}" id="topnav-layout-verti"
+                                            role="button">
+                                            <span key="t-vertical">รายงานประจำเดือน</span>  
+                                        </a> 
+                                    </div> 
                                 </div>
                                 
-                            </li> 
+                            </li>
                                
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
+                                    <i class="fas fa-tools me-2" style="font-size: 20px;color:rgb(129, 7, 54)"></i><span key="t-layouts">Setting</span> <div class="arrow-down"></div>                              
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-layout">
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('wh_product')}}" id="topnav-layout-verti" role="button">
+                                            <span key="t-vertical">รายการวัสดุ</span>  
+                                        </a> 
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('wh_subplies')}}" id="topnav-layout-verti" role="button">
+                                            <span key="t-vertical">ตัวแทนจำหน่าย</span>  
+                                        </a> 
+                                    </div> 
+                                </div>
+                            </li>
                             {{-- @if ($permiss_ucs != 0) --}}
                             {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
@@ -497,22 +548,20 @@ if (Auth::check()) {
                     @yield('content') 
             </div>
      
-            {{-- <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <script>
-                                document.write(new Date().getFullYear())
-                            </script> © โรงพยาบาลภูเขียวเฉลิมพระเกียรติ
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICE
-                            </div>
+            <div class="container-fluid fixed-bottom mb-4">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <script>
+                            document.write(new Date().getFullYear())
+                        </script> © โรงพยาบาลภูเขียวเฉลิมพระเกียรติ
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="text-sm-end d-none d-sm-block">
+                            Created with <i class="mdi mdi-heart text-danger"></i> by ประดิษฐ์ ระหา - กลุ่มงานสุขภาพดิจิทัล
                         </div>
                     </div>
                 </div>
-            </footer> --}}
+            </div>
 
         </div>  
 
@@ -527,21 +576,17 @@ if (Auth::check()) {
     <div class="rightbar-overlay"></div>
  
   <!-- JAVASCRIPT -->
-  <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
-  {{-- <script type="text/javascript" src="{{ asset('vendors/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script> --}}
+  <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script> 
   <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
-
-  <script src="{{ asset('js/select2.min.js') }}"></script>
-  {{-- <script src="{{ asset('pkclaim/libs/select2/js/select2.min.js') }}"></script> --}}
+  <script src="{{ asset('js/select2.min.js') }}"></script> 
   <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
-
   <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -553,7 +598,6 @@ if (Auth::check()) {
   <!-- Required datatable js -->
   <script src="{{ asset('pkclaim/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-
   <!-- Buttons examples -->
   <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
@@ -563,28 +607,20 @@ if (Auth::check()) {
   <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
-
   <script src="{{ asset('pkclaim/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
-
   <!-- Responsive examples -->
   <script src="{{ asset('pkclaim/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
-
   <!-- Datatable init js -->
   <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script>
   <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
-
-  <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script>
-
-
+  <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script> 
   <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script>
   <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
   <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
   <!-- App js -->
   <script src="{{ asset('pkclaim/js/app.js') }}"></script>
   <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>

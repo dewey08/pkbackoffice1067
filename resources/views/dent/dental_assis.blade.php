@@ -109,11 +109,11 @@
         <div class="row"> 
             <div class="col-md-4">
             
-                <h4 style="color:rgb(206, 29, 147)">ค่าภาระงาน ผช ทันตแพทย์</h4> 
+                <h4 style="color:rgb(206, 29, 147)">ค่าภาระงาน ทันตแพทย์</h4> 
             </div>
             <div class="col"></div>
             {{-- <input type="hidden" name="iduser" id="iduser" value="{{$id}}"> --}}
-            <div class="col-md-5 text-end">
+            <div class="col-md-4 text-end">
                           
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control bg_prs" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
@@ -148,7 +148,7 @@
     </form>
         <div class="row mt-2">
             <div class="col-xl-12">
-                <div class="card card_prs_4">
+                <div class="card card_prs_4" style="background-color: #f8e7f8">
                     <div class="card-body">    
                         <div class="row mb-3">
                            
@@ -158,7 +158,8 @@
         
                         <p class="mb-0">
                             <div class="table-responsive">
-                                <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;">
+                                <table id="example" class="table table-sm table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap myTable" style=" border-spacing: 0; width: 100%;"> --}}
                                 {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                                 {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
                                     <thead>

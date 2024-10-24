@@ -12,6 +12,13 @@
         <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">    
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
 
         <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
         <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
@@ -251,25 +258,29 @@
                       
                         <a href="{{url('support_main')}}" class="logo logo-dark"> 
                             <span class="logo-sm me-2"> 
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">  --}}
+                                <img src="{{ asset('images/pk_logo_new_white.png') }}" alt="logo-sm-light" height="110">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">  --}}
+                                <img src="{{ asset('images/pk_logo_new_white.png') }}" alt="logo-sm-light" height="110">
                             </span>
                         </a>
  
                         <a href="{{url('support_main')}}" class="logo logo-light">
                             <span class="logo-sm me-2">
                                 {{-- <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40"> --}}
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> --}}
+                                <img src="{{ asset('images/pk_logo_new_white.png') }}" alt="logo-sm-light" height="110">
                             </span>
                             <span class="logo-lg">
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
+                                {{-- <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
                                 <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/officer_g.png') }}" class="" alt="logo-sm-light" height="30">
+                                <img src="{{ asset('images/officer_g.png') }}" class="" alt="logo-sm-light" height="30"> --}}
+                                <img src="{{ asset('images/pk_logo_new_white.png') }}" alt="logo-sm-light" height="110">
                             </span>
                             
                         </a>
@@ -303,9 +314,9 @@
                     </button> --}}
 
                 
-                    <form class="app-search d-none d-lg-block">
+                    <form class="app-search d-none d-lg-block mt-3 ms-3">
                         <div class="position-relative">
-                            <h3 style="color:rgb(255, 255, 255)" class="mt-1 noto-sans-thai-looped-light">Air-Conditioner</h3> 
+                            <h3 style="color:rgb(255, 255, 255)" class="mt-1 noto-sans-thai-looped-light">A I R - C O N D I T I O N E R</h3> 
                         </div>
                     </form>
 

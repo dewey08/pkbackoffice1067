@@ -72,8 +72,8 @@
 
  
 .dcheckbox{         
-    width: 20px;
-    height: 20px;       
+    width: 30px;
+    height: 30px;       
     /* border-radius: 2em 2em 2em 2em; */
     border: 10px solid pink;
     /* color: teal; */
@@ -81,5 +81,10 @@
     box-shadow: 0 0 10px pink;
     /* box-shadow: 0 0 10px teal; */
 }
-
+.cardot{
+    border-radius: 4em 4em 4em 4em;
+    box-shadow: 0 0 10px rgba(199, 181, 240);
+    border:solid 1px #f755ee;
+    /* box-shadow: 0 0 10px rgb(247, 198, 176); */
+}
  

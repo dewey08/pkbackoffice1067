@@ -61,7 +61,7 @@ href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dis
 <link rel="stylesheet"
 href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
 <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/dcss.css') }}">
+{{-- <link rel="stylesheet" href="{{ asset('css/dcss.css') }}"> --}}
 </head>
 <style>
     body{
@@ -87,6 +87,15 @@ href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dis
   		background-image: url('/pkbackoffice/public/images/bgheader.jpg');
 		background-repeat: no-repeat;
 	}
+    .inputmedsalt{
+        border-radius: 2em 2em 2em 2em;
+        box-shadow: 0 0 10px rgb(7, 161, 154);
+    }
+    .cardmedsalt{
+        border-radius: 2em 2em 2em 2em;
+        box-shadow: 0 0 10px rgb(7, 161, 154);
+        border:solid 1px #03a892;
+    }
     /* .myTable thead tr{
     background-color: #b56fca;
     color: #ffffff;
@@ -223,7 +232,8 @@ use App\Models\Products_request_sub;
                         <div class="navbar-brand-box" style="background-color: rgb(255, 255, 255)">
                             <a href="" class="logo logo-dark">
                                 <span class="logo-sm">
-                                    <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm" height="37">
+                                    {{-- <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm" height="37"> --}}
+                                    <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="30"> 
                                 </span>
                                 <span class="logo-lg">
                                     {{-- <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-dark" height="20"> --}}
@@ -233,16 +243,17 @@ use App\Models\Products_request_sub;
     
                             <a href="" class="logo logo-light">
                                 <span class="logo-sm">
-                                    <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light"
-                                        height="40">
+                                    {{-- <img src="{{ asset('pkclaim/images/logo150.png') }}" alt="logo-sm-light" height="40"> --}}
+                                    <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="30"> 
                                 </span>
                                 <span class="logo-lg">
-                                    <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-OFFICE</h4>
+                                    {{-- <h4 style="color:rgba(23, 189, 147, 0.74)" class="mt-4">PK-OFFICE</h4> --}}
+                                    <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110"> 
                                 </span>
                             </a>
                         </div>
     
-                        <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect"
+                        <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect mt-3"
                             id="vertical-menu-btn">
                             <i class="ri-menu-2-line align-middle" style="color: rgb(255, 255, 255)"></i>
                         </button>

@@ -816,21 +816,30 @@ class CCtvController extends Controller
     }
     public function cctv_list_check_add(Request $request)
     { 
-        $startdate   = $request->startdate;
-        $enddate     = $request->enddate;
-        $date        = date('Y-m-d');
-        $y           = date('Y') + 543;
-        $months = date('m');
-        $year = date('Y'); 
+        $startdate    = $request->startdate;
+        $enddate      = $request->enddate;
+        $iduser       = Auth::user()->id;
+        $bgs_year     = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow   = $bgs_year->leave_year_id;
+        $lastday_     = DB::table('cctv_check')->orderBy('cctv_check_date', 'DESC')->latest()->first();
+        $lastday      = $lastday_->cctv_check_date;
+        $data['last_day']      = $lastday_->cctv_check_date;
+        $date         = date('Y-m-d');
+        $y            = date('Y') + 543;
+        $months       = date('m');
+        $year         = date('Y'); 
         $newdays      = date('Y-m-d', strtotime($date . ' -1 days'));//ย้อนหลัง 1 วัน
         $newweek_plus = date('Y-m-d', strtotime($date . ' +1 week')); //ไปหน้า 1 สัปดาห์
         $newweek      = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate      = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear      = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $iduser = Auth::user()->id;
-        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
-        $bg_yearnow    = $bgs_year->leave_year_id;
-        $datashow = DB::select(
+
+        $data['monthnow']   = date('m', strtotime($lastday));
+        
+        
+        // dd($monthnow);
+        
+        $datashow     = DB::select(
             'SELECT * from cctv_list 
             WHERE cctv_list_year = "'.$bg_yearnow.'"
             ORDER BY cctv_list_id ASC
@@ -838,7 +847,7 @@ class CCtvController extends Controller
         //  WHERE cctv_check = "N"
         //  WHERE cctv_status = "0" 
         //   AND cctv_check = "N"
-        return view('support_prs.cctv.cctv_list_check_add',[
+        return view('support_prs.cctv.cctv_list_check_add',$data,[
             'startdate'   =>     $startdate,
             'enddate'     =>     $enddate,
             'datashow'    =>     $datashow,
@@ -849,15 +858,17 @@ class CCtvController extends Controller
     {
         if ($request->ajax()) {
             if ($request->action == 'Edit') {
-                $c_an_ = Cctv_list::where('cctv_list_num', $request->cctv_list_num)->first();
+                $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+                $bg_yearnow    = $bgs_year->leave_year_id;
+                $c_an_ = Cctv_list::where('cctv_list_num', $request->cctv_list_num)->where('cctv_list_year', $bg_yearnow)->first();
                 // $an1    = $c_an_->count_an1;
                 // $an2    = $c_an_->count_an2;
                 // $an3    = $c_an_->count_an3;
                 
                 // $nursing_ = Nurse_ksk::where('ward',$request->ward)->first();
-                $date = date('Y-m-d');
-                $m = date('H');
-                $mm = date('H:m:s');
+                $date     = date('Y-m-d');
+                $m        = date('H');
+                $mm       = date('H:m:s');
                 $datefull = date('Y-m-d H:m:s');
 
                 if ($request->cctv_camera_screen =='1' || $request->cctv_camera_corner =='1' || $request->cctv_camera_drawback =='1') {
@@ -880,6 +891,7 @@ class CCtvController extends Controller
                 );
                 DB::connection('mysql')->table('cctv_list')
                     ->where('cctv_list_num', $request->cctv_list_num)
+                    ->where('cctv_list_year', $bg_yearnow)
                     ->update($data);
 
 
@@ -895,15 +907,23 @@ class CCtvController extends Controller
      
             $cctv_insert = Cctv_list::where('cctv_check', '=','N')->get();
             $date        = date('Y-m-d'); 
-            $m           = date('m');   
+            $y           = date('Y'); 
+            $m           = date('m'); 
+            $mm          = date('H:m:s');   
             $iduser      = Auth::user()->id;
+            $bgs_year    = DB::table('budget_year')->where('years_now','Y')->first();
+            $bg_yearnow  = $bgs_year->leave_year_id;
             foreach ($cctv_insert as $key => $value) {
-                $check = Cctv_check::where('article_num', $value->cctv_list_num)->whereMonth('cctv_check_date', '=', $m)->count(); 
+                $check = Cctv_check::where('article_num', $value->cctv_list_num)->whereMonth('cctv_check_date', '=', $m)->where('cctv_check_year', '=', $bg_yearnow)->count(); 
+                // $check = Cctv_check::where('article_num', $value->cctv_list_num)->whereMonth('cctv_check_date', '=', '9')->whereYear('cctv_check_year', '=','2024')->count(); 
+                // $check = Cctv_check::where('article_num', $value->cctv_list_num)->whereMonth('cctv_check_date', '=', '06')->count(); 
+                // $check = Cctv_check::where('article_num', $value->cctv_list_num)->where('cctv_check_date', '=', '2024-10-22')->count(); 
                 $cctv_detail = Cctv_list::where('cctv_list_num',$value->cctv_list_num)->first();
 
                 if ($check > 0) {
-                    Cctv_check::where('article_num', $value->cctv_list_num)->whereMonth('cctv_check_date', '=', $m)->update([ 
-                        // 'cctv_check_date'           => $value->cctv_check_date,
+                    // Cctv_check::where('article_num', $value->cctv_list_num)->where('cctv_check_date', '=', '2024-10-22')->update([ 
+
+                        Cctv_check::where('article_num', $value->cctv_list_num)->whereMonth('cctv_check_date', '=', $m)->where('cctv_check_year', '=', $bg_yearnow)->update([                    
                         'cctv_camera_screen'        => $value->cctv_camera_screen,
                         'cctv_camera_corner'        => $value->cctv_camera_corner,
                         'cctv_camera_drawback'      => $value->cctv_camera_drawback,
@@ -912,15 +932,16 @@ class CCtvController extends Controller
                         'cctv_type'                 => $cctv_detail->cctv_type,
                         'cctv_location'             => $cctv_detail->cctv_location,
                         'cctv_user_id'              => $iduser,
-                        'cctv_check_date'           => $date
+                        'cctv_check_date'           => $date,
+                        'cctv_check_time'           => $mm,
+                        'cctv_check_year'           => $bg_yearnow
                     ]);
                     Cctv_list::where('cctv_list_num', $value->cctv_list_num)->update([ 
-                        'cctv_check_date'           => $date, 
+                        'cctv_check_date'           => $date,
                     ]);
                 } else {
                     Cctv_check::insert([
-                        'article_num'               => $value->cctv_list_num,
-                        // 'cctv_check_date'           => $value->cctv_check_date,
+                        'article_num'               => $value->cctv_list_num, 
                         'cctv_camera_screen'        => $value->cctv_camera_screen,
                         'cctv_camera_corner'        => $value->cctv_camera_corner,
                         'cctv_camera_drawback'      => $value->cctv_camera_drawback,
@@ -929,22 +950,22 @@ class CCtvController extends Controller
                         'cctv_type'                 => $cctv_detail->cctv_type,
                         'cctv_location'             => $cctv_detail->cctv_location,
                         'cctv_user_id'              => $iduser,
-                        'cctv_check_date'           => $date
+                        'cctv_check_date'           => $date,
+                        'cctv_check_time'           => $mm,
+                        'cctv_check_year'           => $bg_yearnow
                     ]);
-                    Cctv_list::where('cctv_list_num', $value->cctv_list_num)->update([ 
-                        'cctv_check_date'           => $date, 
+                    Cctv_list::where('cctv_list_num', $value->cctv_list_num)->where('cctv_list_year', '=',$bg_yearnow)->update([ 
+                        'cctv_list_year'           => $bg_yearnow, 
+                        // 'cctv_list_year'           => '2568'
                     ]);
                 }
                 if ($value->cctv_camera_screen == '1' || $value->cctv_camera_corner == '1' || $value->cctv_camera_drawback == '1' || $value->cctv_camera_save == '1' || $value->cctv_camera_power_backup == '1') {
-                    Cctv_list::where('cctv_list_num',$value->cctv_list_num)->update(['cctv_status' => '1']);
+                    Cctv_list::where('cctv_list_num',$value->cctv_list_num)->where('cctv_list_year', '=',$bg_yearnow)->update(['cctv_status' => '1']);
                 } else {
-                    Cctv_list::where('cctv_list_num',$value->cctv_list_num)->update(['cctv_status' => '0']);
-                }
-                 
+                    Cctv_list::where('cctv_list_num',$value->cctv_list_num)->where('cctv_list_year', '=',$bg_yearnow)->update(['cctv_status' => '0']);
+                }                 
             }
                 
-            
-
             // $data  = array(
             //     'cctv_camera_screen'         => $request->cctv_camera_screen,
             //     'cctv_camera_corner'         => $request->cctv_camera_corner,

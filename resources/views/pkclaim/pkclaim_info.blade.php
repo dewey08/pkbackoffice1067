@@ -162,6 +162,7 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <h4 class="card-title mb-4">Hipdata Code</h4>
 
 
@@ -247,6 +248,7 @@
             <script src="{{ asset('js/chart.min.js') }}"></script>
             <script src="{{ asset('js/dist-chart.min.js') }}"></script>
             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
             <script type="text/javascript">
                 google.charts.load('current', {
                     'packages': ['corechart']
@@ -288,6 +290,7 @@
                     chart.draw(data, options);
                 }
             </script>
+                        
             <script>
                 $(document).ready(function() {
                     $('#example').DataTable();

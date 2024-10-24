@@ -6,63 +6,63 @@
 @section('content')
    
 <?php
-if (Auth::check()) {
-    $type = Auth::user()->type;
-    $iduser = Auth::user()->id;
-} else {
-    echo "<body onload=\"TypeAdmin()\"></body>";
-    exit();
-}
-$url = Request::url();
-$pos = strrpos($url, '/') + 1;
+        if (Auth::check()) {
+            $type = Auth::user()->type;
+            $iduser = Auth::user()->id;
+        } else {
+            echo "<body onload=\"TypeAdmin()\"></body>";
+            exit();
+        }
+        $url = Request::url();
+        $pos = strrpos($url, '/') + 1;
 
-use App\Http\Controllers\UsersuppliesController;
-use App\Http\Controllers\StaticController;
-use App\Models\Products_request_sub;
+        use App\Http\Controllers\UsersuppliesController;
+        use App\Http\Controllers\StaticController;
+        use App\Models\Products_request_sub;
 
-$refnumber                = UsersuppliesController::refnumber();
-$checkhn                  = StaticController::checkhn($iduser);
-$checkhnshow              = StaticController::checkhnshow($iduser);
-$count_suprephn           = StaticController::count_suprephn($iduser);
-$count_bookrep_rong       = StaticController::count_bookrep_rong();
-$count_bookrep_po         = StaticController::count_bookrep_po();
-$countpesmiss_per         = StaticController::countpesmiss_per($iduser);
-$countpesmiss_book        = StaticController::countpesmiss_book($iduser);
-$countpesmiss_car         = StaticController::countpesmiss_car($iduser);
-$countpesmiss_meetting    = StaticController::countpesmiss_meetting($iduser);
-$countpesmiss_repair      = StaticController::countpesmiss_repair($iduser);
-$countpesmiss_com         = StaticController::countpesmiss_com($iduser);
-$countpesmiss_medical     = StaticController::countpesmiss_medical($iduser);
-$countpesmiss_hosing      = StaticController::countpesmiss_hosing($iduser);
-$countpesmiss_plan        = StaticController::countpesmiss_plan($iduser);
-$countpesmiss_asset       = StaticController::countpesmiss_asset($iduser);
-$countpesmiss_supplies    = StaticController::countpesmiss_supplies($iduser);
-$countpesmiss_store       = StaticController::countpesmiss_store($iduser);
-$countpesmiss_store_dug   = StaticController::countpesmiss_store_dug($iduser);
-$countpesmiss_pay         = StaticController::countpesmiss_pay($iduser);
-$countpesmiss_money       = StaticController::countpesmiss_money($iduser);
-$countpesmiss_claim       = StaticController::countpesmiss_claim($iduser);
-$countpermiss_gleave      = StaticController::countpermiss_gleave($iduser);
-$countpermiss_ot          = StaticController::countpermiss_ot($iduser);
-$countpermiss_medicine    = StaticController::countpermiss_medicine($iduser);
-$countpermiss_p4p         = StaticController::countpermiss_p4p($iduser);
-$countpermiss_time        = StaticController::countpermiss_time($iduser);
-$countpermiss_env         = StaticController::countpermiss_env($iduser);
-$permiss_account          = StaticController::permiss_account($iduser);
-$permiss_report_all       = StaticController::permiss_report_all($iduser);
-$permiss_sot              = StaticController::permiss_sot($iduser);
-$permiss_clinic_tb        = StaticController::permiss_clinic_tb($iduser);
-$permiss_medicine_salt    = StaticController::permiss_medicine_salt($iduser);
-$pesmiss_ct               = StaticController::pesmiss_ct($iduser);
-$per_prs                  = StaticController::per_prs($iduser);
-$per_cctv                 = StaticController::per_cctv($iduser);
-$per_fire                 = StaticController::per_fire($iduser);
-$per_air                  = StaticController::per_air($iduser);
-$per_nurse                = StaticController::per_nurse($iduser);
-// $per_config               = StaticController::per_config($iduser);
+        $refnumber                = UsersuppliesController::refnumber();
+        $checkhn                  = StaticController::checkhn($iduser);
+        $checkhnshow              = StaticController::checkhnshow($iduser);
+        $count_suprephn           = StaticController::count_suprephn($iduser);
+        $count_bookrep_rong       = StaticController::count_bookrep_rong();
+        $count_bookrep_po         = StaticController::count_bookrep_po();
+        $countpesmiss_per         = StaticController::countpesmiss_per($iduser);
+        $countpesmiss_book        = StaticController::countpesmiss_book($iduser);
+        $countpesmiss_car         = StaticController::countpesmiss_car($iduser);
+        $countpesmiss_meetting    = StaticController::countpesmiss_meetting($iduser);
+        $countpesmiss_repair      = StaticController::countpesmiss_repair($iduser);
+        $countpesmiss_com         = StaticController::countpesmiss_com($iduser);
+        $countpesmiss_medical     = StaticController::countpesmiss_medical($iduser);
+        $countpesmiss_hosing      = StaticController::countpesmiss_hosing($iduser);
+        $countpesmiss_plan        = StaticController::countpesmiss_plan($iduser);
+        $countpesmiss_asset       = StaticController::countpesmiss_asset($iduser);
+        $countpesmiss_supplies    = StaticController::countpesmiss_supplies($iduser);
+        $countpesmiss_store       = StaticController::countpesmiss_store($iduser);
+        $countpesmiss_store_dug   = StaticController::countpesmiss_store_dug($iduser);
+        $countpesmiss_pay         = StaticController::countpesmiss_pay($iduser);
+        $countpesmiss_money       = StaticController::countpesmiss_money($iduser);
+        $countpesmiss_claim       = StaticController::countpesmiss_claim($iduser);
+        $countpermiss_gleave      = StaticController::countpermiss_gleave($iduser);
+        $countpermiss_ot          = StaticController::countpermiss_ot($iduser);
+        $countpermiss_medicine    = StaticController::countpermiss_medicine($iduser);
+        $countpermiss_p4p         = StaticController::countpermiss_p4p($iduser);
+        $countpermiss_time        = StaticController::countpermiss_time($iduser);
+        $countpermiss_env         = StaticController::countpermiss_env($iduser);
+        $permiss_account          = StaticController::permiss_account($iduser);
+        $permiss_report_all       = StaticController::permiss_report_all($iduser);
+        $permiss_sot              = StaticController::permiss_sot($iduser);
+        $permiss_clinic_tb        = StaticController::permiss_clinic_tb($iduser);
+        $permiss_medicine_salt    = StaticController::permiss_medicine_salt($iduser);
+        $pesmiss_ct               = StaticController::pesmiss_ct($iduser);
+        $per_prs                  = StaticController::per_prs($iduser);
+        $per_cctv                 = StaticController::per_cctv($iduser);
+        $per_fire                 = StaticController::per_fire($iduser);
+        $per_air                  = StaticController::per_air($iduser);
+        $per_nurse                = StaticController::per_nurse($iduser);
+        // $per_config               = StaticController::per_config($iduser);
 ?>
 
-    <style>
+<style>
         #button{
                display:block;
                margin:20px auto;
@@ -115,7 +115,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
                     z-index: -1;
                     animation: float 2s ease-in-out infinite;
                 }
-    </style>
+</style>
  
     <br>
 

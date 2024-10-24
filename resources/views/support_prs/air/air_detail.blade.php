@@ -141,21 +141,21 @@
                                                     $plan_s5   = $val_5->air_list_num;
                                                 } 
 
-                                                $plan_maint = DB::select(
-                                                    'SELECT COUNT(a.air_list_num) as air_list_num 
-                                                        FROM air_repaire_sub a
-                                                        LEFT JOIN air_plan b ON b.air_list_num = a.air_list_num
-                                                        LEFT JOIN air_plan_month c ON c.air_plan_month_id = b.air_plan_month_id
-                                                        LEFT JOIN air_repaire_type d ON d.air_repaire_type_id = c.air_repaire_type_id
-                                                    WHERE a.air_list_num = "'.$item_plan->air_list_num.'" 
-                                                        AND a.air_repaire_type_code = "'.$item_plan->air_repaire_type_code.'"
-                                                        AND b.air_plan_year = "'.$item_plan->years_en.'" 
-                                                        AND c.air_plan_month = "'.$item_plan->air_plan_month.'"
-                                                        AND c.years = "'.$item_plan->years.'"
-                                                ');
-                                                foreach ($plan_maint as $key => $val_ma) {
-                                                    $plan_maint_count   = $val_ma->air_list_num;
-                                                }     
+                                                // $plan_maint = DB::select(
+                                                //     'SELECT COUNT(a.air_list_num) as air_list_num 
+                                                //         FROM air_repaire_sub a
+                                                //         LEFT JOIN air_plan b ON b.air_list_num = a.air_list_num
+                                                //         LEFT JOIN air_plan_month c ON c.air_plan_month_id = b.air_plan_month_id
+                                                //         LEFT JOIN air_repaire_type d ON d.air_repaire_type_id = c.air_repaire_type_id
+                                                //     WHERE a.air_list_num = "'.$item_plan->air_list_num.'" 
+                                                //         AND a.air_repaire_type_code = "'.$item_plan->air_repaire_type_code.'"
+                                                //         AND b.air_plan_year = "'.$item_plan->years_en.'" 
+                                                //         AND c.air_plan_month = "'.$item_plan->air_plan_month.'"
+                                                //         AND c.years = "'.$item_plan->years.'"
+                                                // ');
+                                                // foreach ($plan_maint as $key => $val_ma) {
+                                                //     $plan_maint_count   = $val_ma->air_list_num;
+                                                // }     
                                             ?>
                                                 <div class="col-6 text-start">
                                                     <div class="input-group"> 
@@ -175,10 +175,10 @@
                                                 </div> 
                                                 <div class="col-1 text-start me-4">
                                                     <div class="input-group">   
-                                                        @if ($plan_maint_count < '5')
-                                                        <p class="mt-2" style="color:rgb(253, 253, 253)">  <span class="badge bg-danger">{{$plan_maint_count}}</span></p> 
+                                                        @if ($item_plan->count_mt < '5')
+                                                        <p class="mt-2" style="color:rgb(253, 253, 253)">  <span class="badge bg-danger">{{$item_plan->count_mt}}</span></p> 
                                                         @else
-                                                        <p class="mt-2" style="color:rgb(253, 253, 253)">  <span class="badge bg-success">{{$plan_maint_count}}</span></p> 
+                                                        <p class="mt-2" style="color:rgb(253, 253, 253)">  <span class="badge bg-success">{{$item_plan->count_mt}}</span></p> 
                                                         @endif 
                                                        
                                                     </div> 

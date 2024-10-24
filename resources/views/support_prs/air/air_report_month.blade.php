@@ -67,10 +67,10 @@
                         <button type="submit" class="ladda-button btn-pill btn btn-sm btn-info bt_prs me-2" data-style="expand-left">
                             <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span> 
                         </button> 
-                        <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs">  
+                        <a href="{{URL('air_report_monthpdf')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-primary bt_prs">  
                             <i class="fa-solid fa-print me-2 text-white" style="font-size:13px"></i>
                             <span>Print</span> 
-                        </button> 
+                        </a> 
                 {{-- </div>  --}}
             </div> 
             {{-- <div class="col-md-1"> 
@@ -121,7 +121,7 @@
                                                         ');
                                                     foreach ($plan_count as $key => $val_count) {
                                                         $plan_s   = $val_count->air_plan_id;
-                                                    }                                            
+                                                    }                                          
 
                                                     $repaire_air = DB::select('SELECT COUNT(DISTINCT air_list_num) as air_problems FROM air_repaire WHERE repaire_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"');                                     
                                                     foreach ($repaire_air as $key => $rep_air) {$airproblems = $rep_air->air_problems;}
@@ -137,7 +137,6 @@
                                                     foreach ($repaire_air_plan as $key => $rep_air_plan) {
                                                         $airproblems_plan = $rep_air_plan->air_problems_plan;
                                                     }
-
                                                     // แผนการบำรุงรักษา
                                                     if ($plan_s < 1) {
                                                         $plan = "0";
@@ -212,7 +211,7 @@
                                                         'SELECT COUNT(a.air_plan_id) as air_plan_id 
                                                             FROM air_plan a
                                                             LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
-                                                            WHERE a.air_plan_year = "'.$item->years_ps.'" AND b.air_plan_month = "'.$item->months.'" AND b.air_plan_year = "'.$item->years.'"
+                                                            WHERE a.air_plan_year = "'.$item->bg_yearnow.'" AND b.air_plan_month = "'.$item->months.'"  
                                                         ');
                                                     foreach ($plan_count as $key => $val_count) {
                                                         $plan_s   = $val_count->air_plan_id;
@@ -227,12 +226,13 @@
                                                         WHERE YEAR(a.repaire_date) = "'.$item->years.'" AND MONTH(a.repaire_date) = "'.$item->months.'" AND b.air_repaire_type_code ="04"');                                     
                                                     foreach ($repaire_air_pro as $key => $rep_air_pro) {$airproblems04 = $rep_air_pro->air_problems04;}
                                                     
-                                                    $repaire_air_plan = DB::select('SELECT COUNT(DISTINCT a.air_list_num) as air_problems_plan FROM air_repaire a 
-                                                        LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
-                                                        WHERE YEAR(a.repaire_date) = "'.$item->years.'" AND MONTH(a.repaire_date) = "'.$item->months.'" AND b.air_repaire_type_code IN("01","02","03")
-                                                        AND a.air_list_num IN(SELECT a.air_list_num FROM air_plan a
-                                                            LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
-                                                            WHERE a.air_plan_year = "'.$item->years_ps.'" AND b.air_plan_month = "'.$item->months.'" AND b.air_plan_year = "'.$item->years.'")
+                                                    $repaire_air_plan = DB::select(
+                                                        'SELECT COUNT(DISTINCT a.air_list_num) as air_problems_plan 
+                                                            FROM air_repaire a 
+                                                            LEFT JOIN air_repaire_sub b ON b.air_repaire_id = a.air_repaire_id
+                                                            WHERE a.budget_year= "'.$item->bg_yearnow.'"
+                                                            AND MONTH(a.repaire_date) = "'.$item->months.'" 
+                                                            AND b.air_repaire_type_code IN("01","02","03") 
                                                     ');                                     
                                                     foreach ($repaire_air_plan as $key => $rep_air_plan) {
                                                         $airproblems_plan = $rep_air_plan->air_problems_plan;

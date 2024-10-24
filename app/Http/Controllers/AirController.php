@@ -1370,13 +1370,14 @@ class AirController extends Controller
         //     LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = b.air_repaire_type_id
         //     WHERE a.air_list_num = "'.$id.'" AND a.air_plan_year ="'.$bg_yearnow.'"'); 
         $data['plan']                       = DB::select(
-            'SELECT a.air_plan_year,a.air_list_num,b.air_plan_month,b.air_plan_name,d.maintenance_list_id
-            ,d.maintenance_list_name,b.air_repaire_type_id,c.air_repaire_type_code,c.air_repaire_typename,((b.air_plan_year)+543) as years_en,b.years,d.maintenance_list_name
+            'SELECT a.air_plan_year,a.air_list_num,b.air_plan_month,b.air_plan_name,d.maintenance_list_id ,d.maintenance_list_name
+            ,c.air_repaire_type_id ,c.air_repaire_type_code ,c.air_repaire_typename
+            ,((b.air_plan_year)+543) as years_en,b.years,(SELECT COUNT(air_list_num) FROM air_repaire_sub WHERE air_list_num = a.air_list_num AND air_repaire_type_code = c.air_repaire_type_code) as count_mt
                 FROM air_plan a
                 LEFT JOIN air_plan_month b ON b.air_plan_month_id = a.air_plan_month_id
-                LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = b.air_repaire_type_id
+                LEFT JOIN air_repaire_type c ON c.air_repaire_type_id = a.air_repaire_type_id
                 LEFT JOIN air_maintenance_list d On d.maintenance_list_num = c.air_repaire_type_id
-            WHERE a.air_list_num = "'.$id.'"
+            WHERE a.air_list_num = "'.$id.'" AND a.air_plan_year = "'.$bg_yearnow.'"
             
             GROUP BY b.air_plan_month ORDER BY b.air_plan_month_id ASC'); 
             // AND a.air_plan_year ="2568"
@@ -3941,7 +3942,7 @@ class AirController extends Controller
                 $month_s         = $months_->air_plan_month;           
                 $data['count_air'] = Air_stock_month::where('months','Y')->where('years_th',$bg_yearnow)->count(); 
                 $datashow = DB::select(
-                    'SELECT a.months,a.total_qty,a.years,a.years_th as years_ps,l.month_name as MONTH_NAME 
+                    'SELECT a.months,a.total_qty,a.years,a.years_th as years_ps,l.month_name as MONTH_NAME,a.bg_yearnow 
                     FROM air_stock_month a 
                     LEFT JOIN months l on l.month_no = a.months 
                     WHERE a.years_th = "'.$month_year.'" AND a.months = "'.$month_s.'"
@@ -3951,10 +3952,10 @@ class AirController extends Controller
                 'SELECT a.months,a.total_qty 
                 ,l.month_name as MONTH_NAME  
                 ,a.years  
-                ,a.years_th as years_ps 
+                ,a.years_th as years_ps ,a.bg_yearnow
                 FROM air_stock_month a
                 LEFT JOIN months l on l.month_no = a.months 
-                WHERE a.years_th = "'.$bg_yearnow.'" 
+                WHERE a.bg_yearnow = "'.$bg_yearnow.'" 
             '); 
               $data['count_air'] = Air_list::where('active','Y')->where('air_year',$bg_yearnow)->count();
         }
@@ -5189,12 +5190,61 @@ class AirController extends Controller
     {
       
         $dataprint = Fire::get();
+        $startdate     = $request->startdate;
+        $enddate       = $request->enddate;
+        $date_now      = date('Y-m-d');
+        $y             = date('Y') + 543;
+        $months        = date('m'); 
+        $newdays       = date('Y-m-d', strtotime($date_now . ' -1 days')); //ย้อนหลัง 1 วัน
+        $newweek       = date('Y-m-d', strtotime($date_now . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate       = date('Y-m-d', strtotime($date_now . ' -1 months')); //ย้อนหลัง 1 เดือน
+        $newyear       = date('Y-m-d', strtotime($date_now . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew       = date('Y');
+        $year_old      = date('Y')-1;
+        $months_old    = ('10');
+        $startdate_b   = (''.$year_old.'-10-01');
+        $enddate_b     = (''.$yearnew.'-09-30'); 
+        $iduser        = Auth::user()->id;
+        $month_id_      = $request->month_id;
+        // $months_       = DB::table('months')->where('month_id',$month_id)->first();
+        // $month_no      = $months_->month_no;    
 
-        // $qrcode = base64_encode(QrCode::format('svg')->size(200)->errorCorrection('H')->generate('string'));
-        // $pdf = PDF::loadView('main.inventory.view_pdf', compact('qrcode'));
-        // return $pdf->stream();
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();      
+        $bg_yearnow    = $bgs_year->leave_year_id;
+
+        if ($month_id_ != '') {            
+                $months_         = DB::table('air_plan_month')->where('air_plan_month_id',$month_id_)->first();
+                $month_year      = $months_->years;
+                $month_s         = $months_->air_plan_month;           
+                $data['count_air'] = Air_stock_month::where('months','Y')->where('years_th',$bg_yearnow)->count(); 
+                $datashow = DB::select(
+                    'SELECT a.months,a.total_qty,a.years,a.years_th as years_ps,l.month_name as MONTH_NAME,a.bg_yearnow 
+                    FROM air_stock_month a 
+                    LEFT JOIN months l on l.month_no = a.months 
+                    WHERE a.years_th = "'.$month_year.'" AND a.months = "'.$month_s.'"
+                ');
+        } else {
+            $datashow  = DB::select(
+                'SELECT a.months,a.total_qty 
+                ,l.month_name as MONTH_NAME  
+                ,a.years  
+                ,a.years_th as years_ps ,a.bg_yearnow
+                FROM air_stock_month a
+                LEFT JOIN months l on l.month_no = a.months 
+                WHERE a.bg_yearnow = "'.$bg_yearnow.'" 
+            '); 
+              $data['count_air'] = Air_list::where('active','Y')->where('air_year',$bg_yearnow)->count();
+        }
+        
+        $data['month_show']          = DB::table('months')->get();  
+        $data['air_plan_month']      = DB::table('air_plan_month')->where('active','Y')->get(); 
     
-        $pdf = PDF::loadView('support_prs.air.air_report_monthpdf',['dataprint'  =>  $dataprint]);
+        $pdf = PDF::loadView('support_prs.air.air_report_monthpdf',['datashow'  =>  $datashow])
+        ->setPaper('a4', 'landscape');
+  
+        $dom_pdf = $pdf->getDomPDF();
+        $canvas = $dom_pdf ->get_canvas();
+        $canvas->page_text(510, 12, "Page {PAGE_NUM} of {PAGE_COUNT}", null, 10, array(255, 0, 0));
         return @$pdf->stream();
     }
     // **************  แผน **********************
@@ -5615,6 +5665,7 @@ class AirController extends Controller
                         if ($check > 0) {  
                         } else {
                             Air_stock_month::insert([
+                                'bg_yearnow'     => $bg_yearnow,
                                 'months'         => $month_no1,
                                 'years'          => $leave_year_id1-543,
                                 'years_th'       => $leave_year_id1,

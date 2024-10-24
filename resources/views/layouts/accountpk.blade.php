@@ -8,37 +8,70 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
 
-    <!-- Font Awesome -->
-    <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
-    <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}">
- 
+        <!-- Font Awesome -->
+        <link href="{{ asset('assets/fontawesome/css/all.css') }}" rel="stylesheet">
+        <link rel="shortcut icon" href="{{ asset('pkclaim/images/logo150.ico') }}"> 
       
-       <!-- DataTables --> 
-       <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-       <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-       <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-        <!-- DataTables -->
- 
-       <!-- Responsive datatable examples -->
-       <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" /> 
-       <!-- Bootstrap Css -->
-       {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> --}}
-       <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" /> 
-       <!-- Icons Css -->
-       <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
-      
-       <link rel="stylesheet" href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
-       <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-       <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
-       <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
-       <!-- select2 -->
+        {{-- <!-- DataTables --> 
+        <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+            <!-- DataTables --> 
+        <!-- Responsive datatable examples -->
+        <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" /> 
+        <!-- Bootstrap Css -->       
+        <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" /> 
+        <!-- Icons Css -->
+        <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />        
+        <link rel="stylesheet" href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
+        <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">
+        <!-- select2 -->
         <link rel="stylesheet" href="{{ asset('asset/js/plugins/select2/css/select2.min.css') }}">
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-         <!-- App Css-->
-       <link href="{{ asset('assets_ubi/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
-       {{-- <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet"> --}}
-       <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}"> 
+        <!-- App Css-->
+        <link href="{{ asset('assets_ubi/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}">  --}}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai+Looped:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        
+        <link href="{{ asset('pkclaim/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet">    
+        <!-- jquery.vectormap css -->
+        <link href="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css') }}"
+            rel="stylesheet" type="text/css" />    
+        <!-- DataTables -->
+        <link href="{{ asset('pkclaim/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet"
+            type="text/css" />
+        <link href="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet"
+            type="text/css" />
+        <link href="{{ asset('pkclaim/libs/datatables.net-select-bs4/css//select.bootstrap4.min.css') }}" rel="stylesheet"
+            type="text/css" />    
+        <!-- Responsive datatable examples -->
+        <link href="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}"
+            rel="stylesheet" type="text/css" />    
+        <!-- Bootstrap Css -->
+        <link href="{{ asset('pkclaim/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+        <!-- Icons Css -->
+        <link href="{{ asset('pkclaim/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+        <!-- App Css-->
+        <link href="{{ asset('pkclaim/css/app.min.css') }}" id="app-style" rel="stylesheet" type="text/css" />
+    
+        <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet">
+       <!-- select2 -->
+        <link rel="stylesheet" href="{{asset('asset/js/plugins/select2/css/select2.min.css')}}">
+       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+       <link rel="stylesheet"
+       href="{{ asset('disacc/vendors/pixeden-stroke-7-icon-master/pe-icon-7-stroke/dist/pe-icon-7-stroke.css') }}">
+        <!-- Plugins css -->
+        <link href="{{ asset('assets/libs/dropzone/min/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}"> 
 
  
 </head>
@@ -167,24 +200,41 @@
         animation-iteration-count: infinite;
     }
     /* Logo หมุน END */
-
-            
+    
+    .cardacc{
+                border-radius: 2em 2em 2em 2em;
+                box-shadow: 0 0 20px rgb(250, 128, 124);
+                border:solid 1px #fd134e;
+            }
+            .input_new{
+                border-radius: 2em 2em 2em 2em;
+                box-shadow: 0 0 20px rgb(250, 128, 124);
+                border:solid 1px #fd134e;
+            }
+            .inputmedsalt{
+                border-radius: 2em 2em 2em 2em;
+                box-shadow: 0 0 20px rgb(250, 128, 124);
+                border:solid 1px #fd134e;
+            }
             .card_pink{
-                border-radius: 3em 3em 3em 3em;
-                box-shadow: 0 0 10px pink;
+                border-radius: 2em 2em 2em 2em;
+                box-shadow: 0 0 30px pink;
+                border:solid 1px #fd134e;
             }
             .card_audit_2b{
-                border-radius: 0em 0em 3em 3em;
-                box-shadow: 0 0 10px rgb(250, 128, 124);
+                border-radius: 0em 0em 2em 2em;
+                box-shadow: 0 0 30px rgb(250, 128, 124);
+                border:solid 1px #fd134e;
             }
             .card_audit_4c{
                 border-radius: 2em 2em 2em 2em;
-                box-shadow: 0 0 15px rgb(250, 128, 124);
-                border:solid 1px #80acfd;
+                box-shadow: 0 0 30px rgb(250, 128, 124);
+                border:solid 1px #fd134e;
             }
             .card_audit_4{
-                border-radius: 3em 3em 3em 3em;
-                box-shadow: 0 0 10px rgb(250, 128, 124);
+                border-radius: 2em 2em 2em 2em;
+                box-shadow: 0 0 30px rgb(250, 128, 124);
+                border:solid 1px #fd134e;
             }
             .dcheckbox_{         
                 width: 20px;
@@ -193,7 +243,7 @@
                 border: 10px solid rgb(250, 128, 124);
                 /* color: teal; */
                 /* border-color: teal; */
-                box-shadow: 0 0 10px rgb(250, 128, 124);
+                box-shadow: 0 0 10px rgb(247, 12, 71);
                 /* box-shadow: 0 0 10px teal; */
             }
             @keyframes colorShift {
@@ -261,7 +311,7 @@ if (Auth::check()) {
     {{-- <body data-topbar="dark" data-layout="horizontal"> --}}
     <div id="layout-wrapper">
         
-        <header id="page-topbar" style="background-color: pink">
+        <header id="page-topbar" style="background-color: rgb(252, 76, 105)">
       
             <div class="navbar-header">
                 <div class="d-flex">
@@ -269,53 +319,43 @@ if (Auth::check()) {
                     <div class="navbar-brand-box" >
                       
                         <a href="{{url('account_monitor_main')}}" class="logo logo-dark"> 
-                            <span class="logo-sm me-2"> 
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
+                            <span class="logo-sm me-2">  
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110">
                             </span>
-                            <span class="logo-lg">
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30"> 
+                            <span class="logo-lg"> 
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110">
                             </span>
                         </a>
  
                         <a href="{{url('account_monitor_main')}}" class="logo logo-light">
-                            <span class="logo-sm me-2"> 
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
+                            <span class="logo-sm me-2">  
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110">
                             </span>
-                            <span class="logo-lg">
-                                <img src="{{ asset('images/p.png') }}" class="loadingIcon2" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/k.png') }}" class="loadingIcon" alt="logo-sm-light" height="30">
-                                <img src="{{ asset('images/officer5.png') }}" class="" alt="logo-sm-light" height="30">
+                            <span class="logo-lg"> 
+                                <img src="{{ asset('images/Logo_pk.png') }}" alt="logo-sm-light" height="110">
                             </span> 
                         </a>
                     </div>
                   
-                    <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                    <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item mt-3" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
                         <i class="ri-menu-2-line align-middle"></i>
                     </button>
 
                     <!-- App Search-->
-                    <form class="app-search d-none d-lg-block">
-                        <div class="position-relative">
-                            <input type="text" class="form-control" placeholder="Search...">
-                            <span class="ri-search-line"></span>
+                    <form class="app-search d-none d-lg-block mt-3">
+                        <div class="position-relative"> 
+                            <h3 style="color:rgb(255, 255, 255)" class="mt-2 noto-sans-thai-looped-light" >A C C O U N T</h3>
                         </div>
-                    </form>
-
-                   
+                    </form>                   
                 </div>
 
                 <div class="d-flex">
                     
-
                     <div class="dropdown d-none d-lg-inline-block ms-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                             <i class="ri-fullscreen-line"></i>
                         </button>
                     </div>
-
                   
                     <div class="dropdown d-inline-block user-dropdown">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
@@ -341,557 +381,18 @@ if (Auth::check()) {
                             </form>
                             <a class="dropdown-item text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="ri-shut-down-line align-middle me-2 text-danger"></i> Logout</a>
                         </div>
-                    </div>
-
-                   
+                    </div>                   
         
                 </div>
             </div>
         </header>
-        {{-- <div class="topnav">
-            <div class="container-fluid">
-                <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
-
-                    <div class="collapse navbar-collapse" id="topnav-menu-content">
-                        <ul class="navbar-nav">
- 
-                            
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_dashboard') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-chart-pie me-2"></i>Dashboard  
-                                </a> 
-                            </li>
-
-                            <li class="nav-item dropdown"> 
-
-                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_main') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-fan me-2"></i>ทะเบียนเครื่องปรับอากาศ  <span class="badge bg-danger me-2 ms-2">1</span>
-                                </a>
-                              
-                            </li>
-
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_main_repaire') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-fan me-2"></i>ทะเบียนแจ้งซ่อม  <span class="badge bg-danger me-2 ms-2">2</span>
-                                </a>
-                            </li>
-
-                           
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('air_plan_year') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-diagram-project me-2"></i>แผนการบำรุงรักษา  
-                                </a>
-                            </li>
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
-                                    <i class="fa-solid fa-chart-line me-2"></i><span key="t-layouts">รายงาน</span> <div class="arrow-down"></div> 
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="topnav-layout">
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_report_type')}}" id="topnav-layout-verti"
-                                            role="button">
-                                            <span key="t-vertical">รายงานแยกตามประเภท</span>  
-                                        </a> 
-                                    </div>
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_report_building')}}" id="topnav-layout-verti"
-                                            role="button">
-                                            <span key="t-vertical">รายงานแยกตามอาคาร</span>  
-                                        </a> 
-                                    </div>
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_report_problems')}}" id="topnav-layout-verti"
-                                            role="button">
-                                            <span key="t-vertical">รายงานแยกตามปัญหา</span>  
-                                        </a> 
-                                    </div>
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_report_month')}}" id="topnav-layout-verti"
-                                            role="button">
-                                            <span key="t-vertical">รายงานประจำเดือน</span>  
-                                        </a> 
-                                    </div>
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_report_company')}}" id="topnav-layout-verti"
-                                            role="button">
-                                            <span key="t-vertical">รายงานบริษัท</span>  
-                                        </a> 
-                                    </div>
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_report_department')}}" id="topnav-layout-verti"
-                                            role="button">
-                                            <span key="t-vertical">รายงานแยกตามหน่วยงาน</span>  
-                                        </a> 
-                                    </div>
-                                </div>
-                                
-                            </li>
-
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
-                                    <i class="fas fa-tools me-2"></i><span key="t-layouts">Setting</span> <div class="arrow-down"></div>                              
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="topnav-layout">
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting_yearnow')}}" id="topnav-layout-verti"
-                                            role="button">
-                                            <span key="t-vertical">ตั้งค่าปีงบประมาณ</span>  
-                                        </a> 
-                                    </div>
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting_year')}}" id="topnav-layout-verti"
-                                            role="button">
-                                            <span key="t-vertical">ตั้งค่าทะเบียนเครื่องปรับอากาศ(ปีงบประมาณ)</span>  
-                                        </a> 
-                                    </div>
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting_month')}}" id="topnav-layout-verti"
-                                            role="button">
-                                            <span key="t-vertical">ยกยอด(รายเดือน)</span>  
-                                        </a> 
-                                    </div>
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting')}}" id="topnav-layout-verti"
-                                            role="button">
-                                            <span key="t-vertical">Import แผนการบำรุงรักษารายปี</span>  
-                                        </a> 
-                                    </div>
-
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="{{url('air_setting_type')}}" id="topnav-layout-verti"
-                                            role="button">
-                                            <span key="t-vertical">กำหนดประเภท/ปีงบประมาณ</span>  
-                                        </a> 
-                                    </div>
-                                 
-                                </div>
-                            </li>
- 
-
-                        </ul>
-                    </div>
-                    
-                </nav>
-            </div>
-        </div> --}}
-
-        {{-- <header id="page-topbar" style="background-color: pink">
-            <div class="navbar-header">
-                <div class="d-flex">
-                    <!-- LOGO -->
-                    <div class="navbar-brand-box">
-                        <a href="index.html" class="logo logo-dark">
-                            <span class="logo-sm">
-                                <img src="assets/images/logo-sm.png" alt="logo-sm" height="22">
-                            </span>
-                            <span class="logo-lg">
-                                <img src="assets/images/logo-dark.png" alt="logo-dark" height="20">
-                            </span>
-                        </a>
-
-                        <a href="index.html" class="logo logo-light">
-                            <span class="logo-sm">
-                                <img src="assets/images/logo-sm.png" alt="logo-sm-light" height="22">
-                            </span>
-                            <span class="logo-lg">
-                                <img src="assets/images/logo-light.png" alt="logo-light" height="20">
-                            </span>
-                        </a>
-                    </div>
-
-                    <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
-                        <i class="ri-menu-2-line align-middle"></i>
-                    </button>
-
-                    <!-- App Search-->
-                    <form class="app-search d-none d-lg-block">
-                        <div class="position-relative">
-                            <input type="text" class="form-control" placeholder="Search...">
-                            <span class="ri-search-line"></span>
-                        </div>
-                    </form>
-
-                    <div class="dropdown dropdown-mega d-none d-lg-block ms-2">
-                        <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
-                            Mega Menu
-                            <i class="mdi mdi-chevron-down"></i> 
-                        </button>
-                        <div class="dropdown-menu dropdown-megamenu">
-                            <div class="row">
-                                <div class="col-sm-8">
-            
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <h5 class="font-size-14">UI Components</h5>
-                                            <ul class="list-unstyled megamenu-list">
-                                                <li>
-                                                    <a href="javascript:void(0);">Lightbox</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Range Slider</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Sweet Alert</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Rating</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Forms</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Tables</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Charts</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <h5 class="font-size-14">Applications</h5>
-                                            <ul class="list-unstyled megamenu-list">
-                                                <li>
-                                                    <a href="javascript:void(0);">Ecommerce</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Calendar</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Email</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Projects</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Tasks</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Contacts</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <h5 class="font-size-14">Extra Pages</h5>
-                                            <ul class="list-unstyled megamenu-list">
-                                                <li>
-                                                    <a href="javascript:void(0);">Light Sidebar</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Compact Sidebar</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Horizontal layout</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Maintenance</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Coming Soon</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Timeline</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">FAQs</a>
-                                                </li>
-                                    
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <h5 class="font-size-14">UI Components</h5>
-                                            <ul class="list-unstyled megamenu-list">
-                                                <li>
-                                                    <a href="javascript:void(0);">Lightbox</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Range Slider</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Sweetalert 2</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Rating</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Forms</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Tables</a>
-                                                </li>
-                                                <li>
-                                                    <a href="javascript:void(0);">Charts</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <div class="col-sm-5">
-                                            <div>
-                                                <img src="assets/images/megamenu-img.png" alt="megamenu-img" class="img-fluid mx-auto d-block">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex">
-
-                    <div class="dropdown d-inline-block d-lg-none ms-2">
-                        <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-search-dropdown"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-search-line"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
-                            aria-labelledby="page-header-search-dropdown">
-                
-                            <form class="p-3">
-                                <div class="mb-3 m-0">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search ...">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="submit"><i class="ri-search-line"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="dropdown d-inline-block">
-                        <button type="button" class="btn header-item waves-effect"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="" src="assets/images/flags/us.jpg" alt="Header Language" height="16">
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <img src="assets/images/flags/spain.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Spanish</span>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <img src="assets/images/flags/germany.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">German</span>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <img src="assets/images/flags/italy.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Italian</span>
-                            </a>
-
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <img src="assets/images/flags/russia.jpg" alt="user-image" class="me-1" height="12"> <span class="align-middle">Russian</span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="dropdown d-none d-lg-inline-block ms-1">
-                        <button type="button" class="btn header-item noti-icon waves-effect"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-apps-2-line"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                            <div class="px-lg-2">
-                                <div class="row g-0">
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#">
-                                            <img src="assets/images/brands/github.png" alt="Github">
-                                            <span>GitHub</span>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#">
-                                            <img src="assets/images/brands/bitbucket.png" alt="bitbucket">
-                                            <span>Bitbucket</span>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#">
-                                            <img src="assets/images/brands/dribbble.png" alt="dribbble">
-                                            <span>Dribbble</span>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="row g-0">
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#">
-                                            <img src="assets/images/brands/dropbox.png" alt="dropbox">
-                                            <span>Dropbox</span>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#">
-                                            <img src="assets/images/brands/mail_chimp.png" alt="mail_chimp">
-                                            <span>Mail Chimp</span>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#">
-                                            <img src="assets/images/brands/slack.png" alt="slack">
-                                            <span>Slack</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="dropdown d-none d-lg-inline-block ms-1">
-                        <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                            <i class="ri-fullscreen-line"></i>
-                        </button>
-                    </div>
-
-                    <div class="dropdown d-inline-block">
-                        <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
-                              data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-notification-3-line"></i>
-                            <span class="noti-dot"></span>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
-                            aria-labelledby="page-header-notifications-dropdown">
-                            <div class="p-3">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <h6 class="m-0"> Notifications </h6>
-                                    </div>
-                                    <div class="col-auto">
-                                        <a href="#!" class="small"> View All</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div data-simplebar style="max-height: 230px;">
-                                <a href="" class="text-reset notification-item">
-                                    <div class="d-flex">
-                                        <div class="avatar-xs me-3">
-                                            <span class="avatar-title bg-primary rounded-circle font-size-16">
-                                                <i class="ri-shopping-cart-line"></i>
-                                            </span>
-                                        </div>
-                                        <div class="flex-1">
-                                            <h6 class="mb-1">Your order is placed</h6>
-                                            <div class="font-size-12 text-muted">
-                                                <p class="mb-1">If several languages coalesce the grammar</p>
-                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 3 min ago</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="" class="text-reset notification-item">
-                                    <div class="d-flex">
-                                        <img src="assets/images/users/avatar-3.jpg"
-                                            class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                        <div class="flex-1">
-                                            <h6 class="mb-1">James Lemire</h6>
-                                            <div class="font-size-12 text-muted">
-                                                <p class="mb-1">It will seem like simplified English.</p>
-                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 1 hours ago</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a href="" class="text-reset notification-item">
-                                    <div class="d-flex">
-                                        <div class="avatar-xs me-3">
-                                            <span class="avatar-title bg-success rounded-circle font-size-16">
-                                                <i class="ri-checkbox-circle-line"></i>
-                                            </span>
-                                        </div>
-                                        <div class="flex-1">
-                                            <h6 class="mb-1">Your item is shipped</h6>
-                                            <div class="font-size-12 text-muted">
-                                                <p class="mb-1">If several languages coalesce the grammar</p>
-                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 3 min ago</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-
-                                <a href="" class="text-reset notification-item">
-                                    <div class="d-flex">
-                                        <img src="assets/images/users/avatar-4.jpg"
-                                            class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                        <div class="flex-1">
-                                            <h6 class="mb-1">Salena Layfield</h6>
-                                            <div class="font-size-12 text-muted">
-                                                <p class="mb-1">As a skeptical Cambridge friend of mine occidental.</p>
-                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i> 1 hours ago</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="p-2 border-top">
-                                <div class="d-grid">
-                                    <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
-                                        <i class="mdi mdi-arrow-right-circle me-1"></i> View More..
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="dropdown d-inline-block user-dropdown">
-                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-1.jpg"
-                                alt="Header Avatar">
-                            <span class="d-none d-xl-inline-block ms-1">Julia</span>
-                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <!-- item-->
-                            <a class="dropdown-item" href="#"><i class="ri-user-line align-middle me-1"></i> Profile</a>
-                            <a class="dropdown-item" href="#"><i class="ri-wallet-2-line align-middle me-1"></i> My Wallet</a>
-                            <a class="dropdown-item d-block" href="#"><span class="badge bg-success float-end mt-1">11</span><i class="ri-settings-2-line align-middle me-1"></i> Settings</a>
-                            <a class="dropdown-item" href="#"><i class="ri-lock-unlock-line align-middle me-1"></i> Lock screen</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="#"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
-                        </div>
-                    </div>
-
-                    <div class="dropdown d-inline-block">
-                        <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
-                            <i class="ri-settings-2-line"></i>
-                        </button>
-                    </div>
-        
-                </div>
-            </div>
-        </header> --}}
+     
         <div class="topnav">
             <div class="container-fluid">
                 <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
 
                     <div class="collapse navbar-collapse" id="topnav-menu-content">
-                        <ul class="navbar-nav">
-
-                            {{-- <li class="nav-item">
-                                <a class="nav-link" href="{{ url('account_pk_dash') }}">
-                                    <i class="ri-dashboard-line me-2"></i> Dashboard
-                                </a>
-                            </li> --}}
-                            {{-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
-                                >
-                                    <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(110, 21, 252)"></i>Monitor<div class="arrow-down"></div>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="topnav-apps">     --}}
+                        <ul class="navbar-nav">                           
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
@@ -904,44 +405,7 @@ if (Auth::check()) {
                                 </div>
                                 
                             </li>
-
-                            {{-- <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-uielement" role="button"
-                                >
-                                    <i class="ri-pencil-ruler-2-line me-2"></i>UCS <div class="arrow-down"></div>
-                                </a>
-
-                                <div class="dropdown-menu mega-dropdown-menu px-2 dropdown-mega-menu-xl"
-                                    aria-labelledby="topnav-uielement">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div>
-                                                <a href="ui-alerts.html" class="dropdown-item">Alerts</a>
-                                                <a href="ui-buttons.html" class="dropdown-item">Buttons</a>
-                                                <a href="ui-cards.html" class="dropdown-item">Cards</a>
-                                                <a href="ui-carousel.html" class="dropdown-item">Carousel</a>
-                                                <a href="ui-dropdowns.html" class="dropdown-item">Dropdowns</a>
-                                                <a href="ui-grid.html" class="dropdown-item">Grid</a>
-                                                <a href="ui-images.html" class="dropdown-item">Images</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div>
-                                                <a href="ui-lightbox.html" class="dropdown-item">Lightbox</a>
-                                                <a href="ui-modals.html" class="dropdown-item">Modals</a>
-                                                <a href="ui-offcanvas.html" class="dropdown-item">Offcanvas</a>
-                                                <a href="ui-rangeslider.html" class="dropdown-item">Range Slider</a>
-                                                <a href="ui-roundslider.html" class="dropdown-item">Round slider</a>
-                                                <a href="ui-session-timeout.html" class="dropdown-item">Session Timeout</a>
-                                                <a href="ui-progressbars.html" class="dropdown-item">Progress Bars</a>                                           
-                                            </div>
-                                        </div>
-                                         
-                                    </div>
-
-                                </div>
-                            </li> --}}
-                               
+                                
                             @if ($permiss_ucs != 0)
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
@@ -994,7 +458,7 @@ if (Auth::check()) {
                                         <div class="dropdown-menu" aria-labelledby="topnav-form"> 
                                             <a href="{{ url('account_pkucs209_dash') }}" class="dropdown-item">dashboard</a>
                                             <a href="{{ url('account_pkucs209_pull') }}" class="dropdown-item">ดึงลูกหนี้</a> 
-                                            
+                                            <a href="{{ url('account_pkucs209_search') }}" class="dropdown-item">ค้นหาลูกหนี้</a> 
                                         </div>
                                     </div>
                                     <div class="dropdown">
@@ -1314,6 +778,17 @@ if (Auth::check()) {
                                     <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
                                             role="button">
+                                            8022-ลูกหนี้ค่ารักษา-เบิกจ่ายตรงอปท.รูปแบบพิเศษ.IP<div class="arrow-down"></div>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="topnav-form">
+                                            <a href="{{ url('account_pkti8022_dash') }}" class="dropdown-item">dashboard</a>
+                                            <a href="{{ url('account_pkti8022_pull') }}" class="dropdown-item">ดึงลูกหนี้</a>
+                                            <a href="{{ url('account_pkti8022_search') }}" class="dropdown-item">ค้นหาลูกหนี้</a> 
+                                        </div>
+                                    </div>
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
+                                            role="button">
                                             2166-ลูกหนี้ค่ารักษา-บริการเฉพาะ(CR)(ฟอกไต) OP<div class="arrow-down"></div>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="topnav-form">
@@ -1466,10 +941,21 @@ if (Auth::check()) {
                                             <a href="{{ url('acc_107_debt') }}" class="dropdown-item">ทวงหนี้</a> 
                                         </div>
                                     </div> 
+                                     
 
                                     @if ($permiss_rep_money != 0)
-                                    <a href="{{ url('chang_pttype_OPD') }}" class="dropdown-item">เปลี่ยนสิทธิ-ปรับผัง</a>
+                                    {{-- <a href="{{ url('chang_pttype_OPD') }}" class="dropdown-item">เปลี่ยนสิทธิ-ปรับผัง</a> --}}
                                     <a href="{{ url('uprep_money') }}" class="dropdown-item">ลงใบเสร็จรับเงิน</a>
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
+                                            role="button">
+                                            เปลี่ยนสิทธิ-ปรับผัง<div class="arrow-down"></div>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="topnav-form">
+                                            <a href="{{ url('chang_dashboard') }}" class="dropdown-item">dashboard</a>
+                                            <a href="{{ url('chang_pttype_OPD') }}" class="dropdown-item">เปลี่ยนสิทธิ-ปรับผัง</a> 
+                                        </div>
+                                    </div>
                                     <div class="dropdown">
                                         <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
                                             role="button">
@@ -1480,6 +966,7 @@ if (Auth::check()) {
                                             <a href="{{ url('uprep_money_plbop_all') }}" class="dropdown-item">พรบ.-OPIP</a> 
                                         </div>
                                     </div> 
+                                    
                                     @endif
 
                                 </div>                                
@@ -1724,14 +1211,16 @@ if (Auth::check()) {
             <footer class="footer">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-6" style="color:#fd1b5f">
                             <script>
                                 document.write(new Date().getFullYear())
                             </script> © โรงพยาบาลภูเขียวเฉลิมพระเกียรติ
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICE
+                                {{-- Created with <i class="mdi mdi-heart text-danger"></i> by --}}
+                                <p style="color:#fd1b5f">Created with <i class="mdi mdi-heart text-danger"></i> by ประดิษฐ์ ระหา - กลุ่มงานสุขภาพดิจิทัล</p>
+                                
                             </div>
                         </div>
                     </div>
@@ -1748,7 +1237,7 @@ if (Auth::check()) {
     <div class="rightbar-overlay"></div>
     
     <!-- JAVASCRIPT -->
-    <script src="{{ asset('assets_ubi/libs/jquery/jquery.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets_ubi/libs/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets_ubi/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets_ubi/libs/metismenu/metisMenu.min.js') }}"></script>
     <script src="{{ asset('assets_ubi/libs/simplebar/simplebar.min.js') }}"></script>
@@ -1760,9 +1249,7 @@ if (Auth::check()) {
     <!-- jquery.vectormap map -->
     <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
     <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}"></script>
-    <!-- Required datatable js -->
-    {{-- <script src="assets/libs/datatables.net/js/jquery.dataTables.min.js"></script> --}}
-    {{-- <script src="assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script> --}}
+    <!-- Required datatable js --> 
     <script src="{{ asset('assets_ubi/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets_ubi/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <!-- Buttons examples -->
@@ -1779,81 +1266,60 @@ if (Auth::check()) {
     <!-- Responsive examples -->
     <script src="{{ asset('assets_ubi/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets_ubi/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
-    <!-- Datatable init js -->
-    {{-- <script src="assets/js/pages/datatables.init.js"></script> --}}
-    {{-- <script src="assets/js/app.js"></script> --}}
+    <!-- Datatable init js --> 
       <!-- Datatable init js -->
       <script src="{{ asset('assets_ubi/js/pages/datatables.init.js') }}"></script>
-      <script src="{{ asset('assets_ubi/js/app.js') }}"></script> 
-      {{-- <script src="{{ asset('pkclaim/js/app.js') }}"></script>  --}}
+      <script src="{{ asset('assets_ubi/js/app.js') }}"></script>   --}}
 
-    {{-- <!-- JAVASCRIPT -->
-    <script src="{{ asset('assets_ubi/libs/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/metismenu/metisMenu.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/simplebar/simplebar.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/node-waves/waves.min.js') }}"></script>
-    <!-- Required datatable js -->
-    <script src="{{ asset('assets_ubi/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <!-- Buttons examples -->
-    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/pdfmake/build/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/pdfmake/build/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>    
-    <!-- Responsive examples -->
-    <script src="{{ asset('assets_ubi/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets_ubi/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
-    <!-- Datatable init js -->
-    <script src="{{ asset('assets_ubi/js/pages/datatables.init.js') }}"></script>
-    <script src="{{ asset('assets_ubi/js/app.js') }}"></script> --}}
+      <!-- JAVASCRIPT -->
+  <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script> 
+  <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
+  <script src="{{ asset('js/select2.min.js') }}"></script> 
+  <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/spectrum-colorpicker2/spectrum.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-                {{-- <!-- JAVASCRIPT --> 
-                <script src="{{ asset('pkclaim/libs/jquery/jquery.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/metismenu/metisMenu.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/simplebar/simplebar.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/node-waves/waves.min.js') }}"></script>
-                <script src="{{ asset('js/select2.min.js') }}"></script>       
-                <script src="{{ asset('pkclaim/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.th.min.js" integrity="sha512-cp+S0Bkyv7xKBSbmjJR0K7va0cor7vHYhETzm2Jy//ZTQDUvugH/byC4eWuTii9o5HN9msulx2zqhEXWau20Dg=="
-                    crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
-                <!-- jquery.vectormap map -->
-                <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}"></script>
-        
-                <!-- Required datatable js -->
-                <script src="{{ asset('pkclaim/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-          
-                <!-- Buttons examples -->
-                <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/jszip/jszip.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/pdfmake/build/pdfmake.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/pdfmake/build/vfs_fonts.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
-                <!-- Responsive examples -->
-                <script src="{{ asset('pkclaim/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>  
-                <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script>
-                <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>      
-                <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script>
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>            
-                <!-- App js -->
-                <script src="{{ asset('pkclaim/js/app.js') }}"></script> --}}
- 
+  <!-- jquery.vectormap map -->
+  <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-us-merc-en.js') }}">
+  </script>
+
+  <!-- Required datatable js -->
+  <script src="{{ asset('pkclaim/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+  <!-- Buttons examples -->
+  <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/jszip/jszip.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/pdfmake/build/pdfmake.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/datatables.net-select/js/dataTables.select.min.js') }}"></script>
+  <!-- Responsive examples -->
+  <script src="{{ asset('pkclaim/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+  <!-- Datatable init js -->
+  <script src="{{ asset('pkclaim/js/pages/datatables.init.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
+  <script src="{{ asset('pkclaim/libs/twitter-bootstrap-wizard/prettify.js') }}"></script> 
+  <script src="{{ asset('pkclaim/js/pages/form-wizard.init.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('fullcalendar/lib/moment.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('fullcalendar/fullcalendar.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('fullcalendar/lang/th.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- App js -->
+  <script src="{{ asset('pkclaim/js/app.js') }}"></script>
+  <script src="{{ asset('assets/jquery-tabledit/jquery.tabledit.min.js') }}"></script>
  
 
     @yield('footer')

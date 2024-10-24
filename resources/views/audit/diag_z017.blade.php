@@ -93,10 +93,10 @@
                 </div>
             </div>
         </div>
-        <form action="{{ route('audit.diag_z017') }}" method="GET" enctype="multipart/form-data"> 
+        <form action="{{ route('audit.diag_z017') }}" method="POST" enctype="multipart/form-data"> 
             @csrf
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <h4 class="card-title" style="color:rgb(250, 128, 124)">Detail Pre-Audit Z017</h4>
                     <p class="card-title-desc">รายละเอียดข้อมูล Pre-Audit Z017</p>
                 </div>
@@ -106,7 +106,13 @@
                     </button>
                 </div> --}}
                 <div class="col"></div>
-                <div class="col-md-5 text-end">
+                <div class="col-md-1">
+                    <input type="text" id="spclty" name="spclty" placeholder="แผนก" class="form-control card_audit_4" required>
+                </div>
+                <div class="col-md-1">
+                    <input type="text" id="icd10" name="icd10" placeholder="icd10" class="form-control card_audit_4" required>
+                </div>
+                <div class="col-md-6 text-end">
                     <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
                         data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                         <input type="text" class="form-control card_audit_4" name="startdate" id="datepicker"
@@ -321,6 +327,7 @@
                     $(".sub_chk").prop('checked', false);
                 }
             });
+            
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

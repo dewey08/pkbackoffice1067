@@ -82,8 +82,8 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header ">
+                <div class="card card_audit_sm" style="background-color: rgb(246, 235, 247)">
+                    <div class="card-header">
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>บันทึกรายการภาระงาน P4P </h5>
@@ -96,26 +96,26 @@
                         </div>
                     </div>
                     <div class="card-body shadow-lg">
-                         <div class="row mb-3 mt-3"> 
+                         <div class="row mb-3"> 
                             <div class="col"></div>
                             <div class="col-md-1 text-end">
                                 <label for="p4p_work_code" style="font-family: sans-serif;font-size: 13px">รหัส </label>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
-                                    <input id="p4p_work_code" type="text" class="form-control form-control-sm"
+                                    <input id="p4p_work_code" type="text" class="form-control-sm input_new"
                                         name="p4p_work_code" value="{{$refwork}}" readonly>
                                 </div>
                             </div> 
                             <div class="col-md-1 text-end">
-                                <label for="p4p_work_year" style="font-family: sans-serif;font-size: 13px">ปี </label>
+                                <label for="p4p_work_year" style="font-family: sans-serif;font-size: 13px">ปีงบประมาณ</label>
                             </div>
                             <div class="col-md-2">  
                                 <select id="p4p_work_year" name="p4p_work_year"
-                                        class="form-select form-select-sm" style="width: 100%">
+                                        class="form-control-sm input_new" style="width: 100%">
                                         <option value=""> </option>
                                         @foreach ($budget_year as $its)  
-                                        @if ($y == $its->leave_year_id)
+                                        @if ($bg_yearnow == $its->leave_year_id)
                                         <option value="{{ $its->leave_year_id }}" selected> {{ $its->leave_year_id }} </option>
                                         @else
                                         <option value="{{ $its->leave_year_id }}"> {{ $its->leave_year_id }} </option>
@@ -129,7 +129,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <select id="p4p_work_month" name="p4p_work_month"
-                                        class="form-select form-select-sm" style="width: 100%">
+                                        class="form-control-sm input_new" style="width: 100%">
                                         <option value=""> </option>
                                         @foreach ($leave_month as $items)  
                                         @if ($month == $items->MONTH_ID)
@@ -143,7 +143,7 @@
                             </div>
                             <input type="hidden" id="p4p_work_user" value="{{$iduser}}"> 
                             <div class="col-md-2"> 
-                                <button type="button" class="btn btn-primary btn-sm" id="Savebtn">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new" id="Savebtn">
                                     <i class="fa-solid fa-floppy-disk me-2"></i>
                                     บันทึก
                                 </button>
@@ -151,17 +151,17 @@
                             <div class="col"></div>
                         </div> 
                         <hr>
-                        <div class="row mt-3">
+                        <div class="row mt-2">
                             <div class="col-md-12">
                                 <p class="mb-0">
                                     <div class="table-responsive">
-                                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
-                                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
+                                        <table id="scroll-vertical-datatable" class="table table-sm table-striped dt-responsive nowrap w-100">
                                             <thead>
                                                 <tr>
                                                     <th width="5%" class="text-center">ลำดับ</th>  
                                                     <th width="15%" class="text-center">รหัสรายการ</th>
-                                                    <th width="10%" class="text-center">ปี</th>
+                                                    <th width="10%" class="text-center">ปีงบประมาณ</th>
                                                     <th class="text-center">เดือน</th> 
                                                     <th width="5%" class="text-center">จัดการ</th>                                                    
                                                 </tr>
@@ -171,9 +171,9 @@
                                                 @foreach ($p4p_work as $item) 
                                                     <tr id="sid{{ $item->p4p_work_id }}">   
                                                         <td class="text-center" width="5%">{{ $i++ }}</td>    
-                                                        <td class="text-center" width="15%" style="font-size: 13px">{{ $item->p4p_work_code }}</td> 
-                                                        <td class="text-center" style="font-size: 13px" width="10%">{{ ($item->p4p_work_year)+543 }}</td>
-                                                        <td class="p-2" style="font-size: 13px">{{ $item->MONTH_NAME }}</td>                                                          
+                                                        <td class="text-center" width="10%" style="font-size: 13px">{{ $item->p4p_work_code }}</td> 
+                                                        <td class="text-center" style="font-size: 13px" width="10%">{{ ($item->p4p_work_year) }}</td>
+                                                        <td class="p-2" style="font-size: 13px">{{ $item->p4p_work_monthth }}</td>                                                          
                                                         <td class="text-center" width="10%" style="font-size:12px">
                                                             <a href="{{url('p4p_work_edit/'.$item->p4p_work_id)}}" class="btn btn-outline-warning btn-sm" data-bs-toggle="tooltip" >
                                                                 <i class="fa-solid fa-circle-info me-2 text-info" style="font-size:13px"></i> 
@@ -209,18 +209,14 @@
                         </div>
                        
                     </div>
-                    <div class="card-footer">
+                    {{-- <div class="card-footer">
                         <div class="col-md-12 text-end">
                             <div class="form-group"> 
-                                {{-- <a href="{{ url('p4p_work') }}"
-                                    class="btn btn-danger btn-sm"> 
-                                    <i class="fa-regular fa-circle-left me-2"></i>
-                                    ย้อนกลับ
-                                </a> --}}
+                               
                             </div>
 
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

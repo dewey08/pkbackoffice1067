@@ -1,4 +1,4 @@
-@extends('layouts.accountnew')
+@extends('layouts.account_new')
 @section('title', 'PK-OFFICE || ACCOUNT')
 @section('content')
 <script>
@@ -105,10 +105,11 @@ $pos = strrpos($url, '/') + 1;
 </form>
         <div class="row ">
             <div class="col-md-12">
-                <div class="card cardfinan"> 
+                <div class="card cardfinan" style="background-color: rgb(246, 235, 247)"> 
                     <div class="card-body"> 
+                        <table id="example" class="table table-sm table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> 
                         {{-- <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        {{-- <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                             <thead>
                                 <tr>
                                     {{-- <th class="text-center">ลำดับ</th>  --}}
@@ -179,11 +180,11 @@ $pos = strrpos($url, '/') + 1;
                             </tbody>
                             <tr style="background-color: #f3fca1">
                                 <td colspan="6" class="text-end" style="background-color: #fca1a1"></td>
-                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                <td class="text-center" style="background-color: rgb(83, 55, 243)" ><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                <td class="text-center" style="background-color: rgb(125, 202, 23)"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td>
-                                <td class="text-center" style="background-color: rgb(235, 146, 30)"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
-                                <td class="text-center" style="background-color: #FC7373"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #055d97">{{ number_format($total1, 2) }}</label></td>
+                                <td class="text-center" style="background-color: rgb(83, 55, 243)" ><label for="" style="color: #055d97">{{ number_format($total2, 2) }}</label></td>
+                                <td class="text-center" style="background-color: rgb(125, 202, 23)"><label for="" style="color: #055d97">{{ number_format($total3, 2) }}</label> </td>
+                                <td class="text-center" style="background-color: rgb(235, 146, 30)"><label for="" style="color: #055d97">{{ number_format($total4, 2) }}</label></td>
+                                <td class="text-center" style="background-color: #FC7373"><label for="" style="color: #055d97">{{ number_format($total5, 2) }}</label></td>
                                 <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
                             </tr>  
                         </table>

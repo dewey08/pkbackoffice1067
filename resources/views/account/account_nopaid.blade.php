@@ -1,4 +1,4 @@
-@extends('layouts.accountnew')
+@extends('layouts.account_new')
 @section('title', 'PK-OFFICE || ACCOUNT')
  
 @section('content')
@@ -120,7 +120,7 @@
                     </div>
                 @endif
                 
-                <div class="col-md-2 text-start"> 
+                <div class="col-md-1 text-start"> 
                     <button type="submit" class="ladda-button btn-pill btn btn-primary cardfinan" data-style="expand-left">
                         <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                         <span class="ladda-spinner"></span>
@@ -131,11 +131,12 @@
             <div class="row"> 
             
                 <div class="col-xl-5">                
-                    <div class="card cardfinan">
+                    <div class="card cardfinan" style="background-color: rgb(250, 230, 242)">
                         <div class="card-body"> 
                             <p class="mb-0">
                                 <div class="table-responsive">
-                                    <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;">
+                                    <table id="example" class="table table-sm table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                    {{-- <table id="example" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
                                         <thead>
                                             <tr>                                          
                                                 <th width="5%" class="text-center">ลำดับ</th>  
@@ -185,11 +186,12 @@
                     </div>
                 </div> 
                 <div class="col-xl-7"> 
-                    <div class="card cardfinan">
+                    <div class="card cardfinan" style="background-color: rgb(250, 230, 242)">
                         <div class="card-body"> 
                             <p class="mb-0">
                                 <div class="table-responsive">
-                                    <table id="example2" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;">
+                                    <table id="example2" class="table table-sm table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                    {{-- <table id="example2" class="table table-hover table-sm dt-responsive nowrap" style=" border-spacing: 0; width: 100%;"> --}}
                                         <thead>
                                             <tr>                                          
                                                 <th width="5%" class="text-center">ลำดับ</th>   

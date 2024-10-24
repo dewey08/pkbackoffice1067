@@ -83,9 +83,13 @@ $loter = $date.''.$time
    
     <div class="row"> 
         <div class="col-md-3">
-            <h4 class="card-title" style="color:rgb(10, 151, 85)">CHECK CCTV</h4>
-            <p class="card-title-desc" style="font-size: 15px;">บันทึกข้อมูลกล้องวงจรปิด</p>
+            <h4 style="color:rgb(10, 151, 85)">CHECK CCTV</h4>
+            <p style="font-size: 15px;">บันทึกข้อมูลกล้องวงจรปิด </p>
         </div>
+        <div class="col"></div>
+        <div class="col-md-3">
+            <h4>วันที่เช็คล่าสุด {{Datethai($last_day)}}</h4>
+            </div>
         <div class="col"></div>
         <div class="col-md-2 text-end">
             <button type="button" class="adda-button me-2 btn-pill btn btn-sm btn-primary bt_prs" id="Pulldata"> 
@@ -145,7 +149,7 @@ $loter = $date.''.$time
                                                 //     $cctv_camera_save         = $dataedit->cctv_camera_save;
                                                 //     $cctv_camera_power_backup = $dataedit->cctv_camera_power_backup;
                                         ?>
-                                        @if ($datenow == $newweek)
+                                        {{-- @if ($datenow == $newweek) --}}
                                             <tr style="font-size:13px"> 
                                                 <td class="text-center" width="7%" >{{ $item->cctv_list_num }}</td>
                                                 <td class="p-2"> {{ $item->cctv_location }}</td>  
@@ -154,9 +158,9 @@ $loter = $date.''.$time
                                                 <td class="text-center" width="7%">{{$item->cctv_camera_corner}}</td> 
                                                 <td class="text-center" width="7%">{{$item->cctv_camera_drawback}}</td>  
                                             </tr> 
-                                        @else
+                                        {{-- @else --}}
                                             
-                                        @endif
+                                        {{-- @endif --}}
                                             
                                         @endforeach
                                     </tbody>

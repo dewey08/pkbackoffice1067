@@ -17,13 +17,12 @@ return new class extends Migration
                 $table->bigIncrements('wh_request_sub_id'); 
                 $table->string('wh_request_id')->nullable(); // 
                 $table->string('request_year')->nullable();  //
-
                 $table->string('stock_list_id')->nullable(); //  คลังหลัก
-                $table->string('stock_list_subid')->nullable(); //  รับเข้าคลัง(ย่อย)
-               
+                $table->string('stock_list_subid')->nullable(); //  รับเข้าคลัง(ย่อย)               
                 $table->string('pro_id')->nullable();  //  
                 $table->string('pro_name')->nullable();  //   
                 $table->string('qty')->nullable();  //  
+                $table->string('qty_pay')->nullable();  // 
                 $table->string('unit_id')->nullable();  //  
                 $table->string('unit_name')->nullable();  // 
                 $table->decimal('one_price',total: 12, places: 2)->nullable(); //   
