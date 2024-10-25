@@ -219,9 +219,6 @@ $pos = strrpos($url, '/') + 1;
                                     <div class="row">
                                         <label for="">รายการคุณภาพน้ำ</label>
                                         <div class="col-md-12">
-                                            {{-- @foreach ($dataparameters as $item)
-                                                <p>{{$item->parameter_list_name}}</p>
-                                            @endforeach --}}
                                             <table class="gwt-table table-striped table-vcenter" style="width: 100%;">
                                                 <thead style="background-color: #aecefd;">
                                                     <tr height="40">
@@ -229,7 +226,7 @@ $pos = strrpos($url, '/') + 1;
                                                         <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="25%">รายการพารามิเตอร์</th>
                                                         <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="10%">ผลการวิเคราะห์</th>
                                                         <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;" width="7%">หน่วย</th> 
-                                                        <th class="text-center" style="background-color: rgb(228, 255, 240);font-size: 13px;">delete</th>                                                        --}}
+                                                        <th class="text-center" style="background-color: rgb(228, 255, 240);font-size: 13px;">ลบรายการ</th>                                                        
                                                     </tr>
                                                 </thead>
                                                 <tbody class="tbody">
@@ -246,7 +243,7 @@ $pos = strrpos($url, '/') + 1;
                                                         <td class="text-center" width="3%"">
                                                             <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="water_sub_destroy({{ $items2->water_sub_id }})"
                                                                 data-bs-toggle="tooltip" data-bs-placement="left" data-bs-custom-class="custom-tooltip" title="ลบ">
-                                                            <i class="fa-solid fa-trash-can text-danger ms-2"></i>
+                                                            <i class="fa-solid fa-trash-can fa-xl" style="color: #b7c1d2;"></i>
                                                          </td>
                                                     </tr>
                                                     @endforeach 

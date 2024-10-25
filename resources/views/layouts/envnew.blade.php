@@ -68,6 +68,7 @@
     <link href="{{ asset('disacc/styles/css/base.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/dacccss.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <style>
     body {
@@ -249,7 +250,7 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
                 <div class="d-flex">
                     <!-- LOGO -->
                     <div class="navbar-brand-box">
-                        <a href="{{url('pre_audit')}}" class="logo logo-dark">
+                        <a href="{{url('env_dashboard')}}" class="logo logo-dark">
                             <span class="logo-sm">
                                 <img src="assets/images/p.png" alt="logo-sm" height="22">
                             </span>
@@ -258,7 +259,7 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
                             </span>
                         </a>
 
-                        <a href="{{url('pre_audit')}}" class="logo logo-light">
+                        <a href="{{url('env_dashboard')}}" class="logo logo-light">
                             <span class="logo-sm me-2">
                                 <img src="{{ asset('images/pk_smal.png') }}" alt="logo-sm-light" height="40">
                             </span>
@@ -280,12 +281,12 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
                     </div>
 
                     <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
-                        <i class="ri-menu-2-line align-middle" style="color: black"></i>
+                        <i class="ri-menu-2-line align-middle" style="color: rgb(0, 0, 0)"></i>
                     </button>
                     <?php
-                        $org = DB::connection('mysql')->select(                                                            '
+                        $org = DB::connection('mysql')->select('
                                 select * from orginfo
-                                where orginfo_id = 1                                                                                                                      ',
+                                where orginfo_id = 1',
                         );
                     ?>
                     <form class="app-search d-none d-lg-block">
@@ -447,14 +448,14 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
                         <li class="menu-title">Menu</li>
                         <li>
                             <a href="{{ url('env_dashboard') }}">  
-                                <i class="fa-solid fa-gauge-high text-white"></i>
+                                <i class="fa-solid fa-chart-line fa-2xl" style="color: #B197FC;"></i>
                                 <span>Dashboard</span>
                             </a> 
                         </li>
                         
-                        <li>
+                        <li>                            
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-pen text-danger"></i>
+                                <i class="fa-solid fa-droplet fa-2xl" style="color: #3d87ff;"></i>                          
                                 <span>ระบบบ่อบำบัดน้ำเสีย</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -464,7 +465,7 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-pen text-danger"></i>
+                                <i class="fa-solid fa-recycle fa-2xl" style="color: #08b414;"></i>
                                 <span>ระบบบริหารจัดการขยะ</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -474,21 +475,19 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-pen text-danger"></i>
+                                <i class="fa-solid fa-clipboard-list fa-2xl" style="color: #fd44f7;"></i>
                                 <span>รายงาน</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">                                
                                 <li><a href="{{ url('env_water_rep') }}">รายงานระบบบ่อบำบัดน้ำเสีย</a></li>
                                 <li><a href="{{ url('env_trash_rep') }}">รายงานระบบบริหารจัดการขยะ</a></li>
                             </ul>
-                        </li>
-
-                       
+                        </li>                       
 
                         @if ($permiss_setting_env !=0)
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-file-pen text-danger"></i>
+                                <i class="fa-solid fa-gears fa-2xl" style="color: #f9912f;"></i>
                                 <span>ตั้งค่า</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">

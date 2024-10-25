@@ -241,12 +241,6 @@ class EnvController extends Controller
                     WHERE pond_id ="1"                     
                     ORDER BY water_date DESC                   
                 ');
-                // $data['datashow_1'] = DB::connection('mysql')->select('
-                //     SELECT w.*
-                //     FROM env_water_sub w 
-                //     WHERE pond_id ="1" 
-                //     ORDER BY water_id DESC 
-                // ');
                 $data['datashow_2'] = DB::connection('mysql')->select('
                     SELECT w.water_id , w.water_date , w.water_location , CONCAT(u.fname," ",u.lname) as water_user ,w.water_comment
                     FROM env_water w
