@@ -29,7 +29,7 @@
            width: 250px;
            height: 250px;
            border: 10px #ddd solid;
-           border-top: 10px #1fdab1 solid;
+           border-top: 10px #2cc5a6 solid;
            border-radius: 50%;
            animation: sp-anime 0.8s infinite linear;
            }
@@ -74,15 +74,20 @@ if (Auth::check()) {
                 <div class="cv-spinner">
                   <span class="spinner"></span>
                 </div>
-              </div>
-              
-        </div> 
+              </div>              
+        </div>
+        {{-- <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
+            </div>
+        </div>  --}}
 
        
 
         <div class="main-card mb-3 card">
             <div class="card-header" >
-                รายระเอียดผลวิเคราะห์คุณภาพน้ำทิ้ง
+                <h4 class="card-title"  style="color:rgba(21, 177, 60, 0.871)">รายระเอียดผลวิเคราะห์คุณภาพน้ำทิ้ง</h4>                
                 <div class="btn-actions-pane-right">
                     <div class="nav">
                         <a href="{{ url('env_water_add_pond') }}" class="btn btn-outline-success">เพิ่มข้อมูล</a>                        
@@ -119,146 +124,147 @@ if (Auth::check()) {
                                         
                                 </div>
                             </form>
-                            <div class="row mt-5">
-                                <div class="col-md-12">
-                                    <!-- Nav tabs -->
-                                    <ul class="nav nav-tabs" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab">
-                                                <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                                <span class="d-none d-sm-block">บ่อปรับเสถียร</span>    
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-bs-toggle="tab" href="#profile" role="tab">
-                                                <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                                <span class="d-none d-sm-block">บ่อคลองวนเวียน</span>    
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-bs-toggle="tab" href="#messages" role="tab">
-                                                <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
-                                                <span class="d-none d-sm-block">บ่อสัมผัสคลอลีน</span>    
-                                            </a>
-                                        </li>
-                                       
-                                       
-                                    </ul>
+                            <div class="row mt-4">
+                                <div class="row">
+                                    <div class="card_audit_4">                                       
+                                            <!-- Nav tabs -->
+                                            <ul class="nav nav-tabs p-3" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab">
+                                                        <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                                        <span class="d-none d-sm-block">บ่อปรับเสถียร</span>    
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-bs-toggle="tab" href="#profile" role="tab">
+                                                        <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                                        <span class="d-none d-sm-block">บ่อคลองวนเวียน</span>    
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-bs-toggle="tab" href="#messages" role="tab">
+                                                        <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                                        <span class="d-none d-sm-block">บ่อสัมผัสคลอลีน</span>    
+                                                    </a>
+                                                </li>
+                                            </ul>
 
-                                    <!-- Tab panes -->
-                                    <div class="tab-content p-3 text-muted">
-                                     
-                                            <div class="tab-pane active" id="home" role="tabpanel">
-                                                <p class="mb-0">
-                                                    <table id="example1" class="table table-striped">
-                                                        <thead class="table-light">
-                                                            <tr>
-                                                                <th class="text-center" width="1%" style="background-color: rgb(255, 251, 228);font-size: 14px;">ลำดับ</th>
-                                                                <th class="text-center" width="2%" style="background-color: rgb(222, 201, 248);font-size: 14px;">วันที่บันทึก</th>
-                                                                <th class="text-center" width="5%" style="background-color: rgb(222, 201, 248);font-size: 14px;">สถานที่เก็บตัวอย่าง</th>
-                                                                <th class="text-center" width="3%" style="background-color: rgb(222, 201, 248);font-size: 14px;">ผู้บันทึก</th> 
-                                                                <th class="text-center" width="5%" style="background-color: rgb(222, 201, 248);font-size: 14px;">หมายเหตุ</th>
-                                                                <th class="text-center" width="1%" style="background-color: rgb(248, 252, 198);font-size: 14px;">คำสั่ง</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $i = 1;$total1 = 0;  ?>
-                                                            @foreach ($datashow_1 as $item1)                                                        
-                                                                <tr>
-                                                                    <th class="text-center"width="1%">{{ $i++ }}</th>
-                                                                    <td class="text-center"width="2%">{{DateThai($item1->water_date)}}</td>
-                                                                    <td class="text-center"width="5%">{{$item1->water_location}}</td>
-                                                                    <td class="text-center"width="3%">{{$item1->water_user}}</td> 
-                                                                    <td class="text-center"width="5%">{{$item1->water_comment}}</td>
-                                                                    <td class="text-center"width="1%">
-                                                                        <a href="{{url('env_water_edit/'.$item1->water_id)}}">
-                                                                            <i class="fa-regular fa-pen-to-square fa-2xl" style="color: #FFD43B;"></i>
-                                                                        </a>
-                                                                        {{-- <a href="{{url('wh_recieve_addsub/'.$item->water_id)}}" target="_blank">
-                                                                            <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
-                                                                        </a> --}}                                                                        
-                                                                    </td> 
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </p>
-                                            </div>
-
-                                            <div class="tab-pane" id="profile" role="tabpanel">
-                                                <p class="mb-0">
-                                                    <table id="example2" class="table table-striped">
-                                                        <thead class="table-light">
-                                                            <tr>
-                                                                <th class="text-center" width="1%" style="background-color: rgb(255, 251, 228);font-size: 14px;">ลำดับ</th>
-                                                                <th class="text-center" width="2%" style="background-color: rgb(222, 201, 248);font-size: 14px;">วันที่บันทึก</th>
-                                                                <th class="text-center" width="5%" style="background-color: rgb(222, 201, 248);font-size: 14px;">สถานที่เก็บตัวอย่าง</th>
-                                                                <th class="text-center" width="3%" style="background-color: rgb(222, 201, 248);font-size: 14px;">ผู้บันทึก</th> 
-                                                                <th class="text-center" width="5%" style="background-color: rgb(222, 201, 248);font-size: 14px;">หมายเหตุ</th>
-                                                                <th class="text-center" width="1%" style="background-color: rgb(248, 252, 198);font-size: 14px;">คำสั่ง</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $i = 1;$total1 = 0;  ?>
-                                                            @foreach ($datashow_2 as $item2)                                                        
-                                                                <tr>
-                                                                    <th class="text-center"width="2%">{{ $i++ }}</th>
-                                                                    <td class="text-center"width="5%">{{DateThai($item2->water_date)}}</td>
-                                                                    <td class="text-center"width="5%">{{$item2->water_location}}</td>
-                                                                    <td class="text-center"width="5%">{{$item2->water_user}}</td> 
-                                                                    <td class="text-center"width="5%">{{$item2->water_comment}}</td>
-                                                                    <td class="text-center"width="5%">
-                                                                        <a href="{{url('env_water_edit/'.$item2->water_id)}}">
-                                                                            <i class="fa-regular fa-pen-to-square fa-2xl" style="color: #FFD43B;"></i>
-                                                                        </a>                                                                      
-                                                                    </td> 
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </p>
-                                            </div>
+                                            <!-- Tab panes -->
+                                            <div class="tab-content p-3 text-muted">
                                             
-                                            <div class="tab-pane" id="messages" role="tabpanel">
-                                                <p class="mb-0">
-                                                    <table id="example3" class="table table-striped">
-                                                        <thead class="table-light">
-                                                            <tr>
-                                                                <th class="text-center" width="1%" style="background-color: rgb(255, 251, 228);font-size: 14px;">ลำดับ</th>
-                                                                <th class="text-center" width="2%" style="background-color: rgb(222, 201, 248);font-size: 14px;">วันที่บันทึก</th>
-                                                                <th class="text-center" width="5%" style="background-color: rgb(222, 201, 248);font-size: 14px;">สถานที่เก็บตัวอย่าง</th>
-                                                                <th class="text-center" width="3%" style="background-color: rgb(222, 201, 248);font-size: 14px;">ผู้บันทึก</th> 
-                                                                <th class="text-center" width="5%" style="background-color: rgb(222, 201, 248);font-size: 14px;">หมายเหตุ</th>
-                                                                <th class="text-center" width="1%" style="background-color: rgb(248, 252, 198);font-size: 14px;">คำสั่ง</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php $i = 1;$total1 = 0;  ?>
-                                                            @foreach ($datashow_3 as $item3)                                                        
-                                                                <tr>
-                                                                    <th class="text-center"width="1%">{{ $i++ }}</th>
-                                                                    <td class="text-center"width="2%">{{DateThai($item3->water_date)}}</td>
-                                                                    <td class="text-center"width="5%">{{$item3->water_location}}</td>
-                                                                    <td class="text-center"width="3%">{{$item3->water_user}}</td> 
-                                                                    <td class="text-center"width="5%">{{$item3->water_comment}}</td>
-                                                                    <td class="text-center"width="1%">
-                                                                        <a href="{{url('env_water_edit/'.$item3->water_id)}}">
-                                                                            <i class="fa-regular fa-pen-to-square fa-2xl" style="color: #FFD43B;"></i>
-                                                                        </a>
-                                                                        {{-- <a href="{{url('wh_recieve_addsub/'.$item->water_id)}}" target="_blank">
-                                                                            <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
-                                                                        </a> --}}                                                                        
-                                                                    </td> 
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                </p>
-                                            </div>                                        
-                                    </div>
-                                    {{-- @endforeach --}}
+                                                    <div class="tab-pane active" id="home" role="tabpanel">
+                                                        <p class="mb-0">
+                                                            <table id="example1" class="table table-striped">
+                                                                <thead class="table-light">
+                                                                    <tr>
+                                                                        <th class="text-center" width="1%" style="background-color: rgb(255, 251, 228);font-size: 14px;">ลำดับ</th>
+                                                                        <th class="text-center" width="2%" style="background-color: rgb(222, 201, 248);font-size: 14px;">วันที่บันทึก</th>
+                                                                        <th class="text-center" width="5%" style="background-color: rgb(222, 201, 248);font-size: 14px;">สถานที่เก็บตัวอย่าง</th>
+                                                                        <th class="text-center" width="3%" style="background-color: rgb(222, 201, 248);font-size: 14px;">ผู้บันทึก</th> 
+                                                                        <th class="text-center" width="5%" style="background-color: rgb(222, 201, 248);font-size: 14px;">หมายเหตุ</th>
+                                                                        <th class="text-center" width="1%" style="background-color: rgb(248, 252, 198);font-size: 14px;">คำสั่ง</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $i = 1;$total1 = 0;  ?>
+                                                                    @foreach ($datashow_1 as $item1)                                                        
+                                                                        <tr>
+                                                                            <th class="text-center"width="1%">{{ $i++ }}</th>
+                                                                            <td class="text-center"width="2%">{{DateThai($item1->water_date)}}</td>
+                                                                            <td class="text-center"width="5%">{{$item1->water_location}}</td>
+                                                                            <td class="text-center"width="3%">{{$item1->water_user}}</td> 
+                                                                            <td class="text-center"width="5%">{{$item1->water_comment}}</td>
+                                                                            <td class="text-center"width="1%">
+                                                                                <a href="{{url('env_water_edit/'.$item1->water_id)}}">
+                                                                                    <i class="fa-regular fa-pen-to-square fa-2xl" style="color: #FFD43B;"></i>
+                                                                                </a>
+                                                                                {{-- <a href="{{url('wh_recieve_addsub/'.$item->water_id)}}" target="_blank">
+                                                                                    <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
+                                                                                </a> --}}                                                                        
+                                                                            </td> 
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </p>
+                                                    </div>
 
+                                                    <div class="tab-pane" id="profile" role="tabpanel">
+                                                        <p class="mb-0">
+                                                            <table id="example2" class="table table-striped">
+                                                                <thead class="table-light">
+                                                                    <tr>
+                                                                        <th class="text-center" width="1%" style="background-color: rgb(255, 251, 228);font-size: 14px;">ลำดับ</th>
+                                                                        <th class="text-center" width="2%" style="background-color: rgb(222, 201, 248);font-size: 14px;">วันที่บันทึก</th>
+                                                                        <th class="text-center" width="5%" style="background-color: rgb(222, 201, 248);font-size: 14px;">สถานที่เก็บตัวอย่าง</th>
+                                                                        <th class="text-center" width="3%" style="background-color: rgb(222, 201, 248);font-size: 14px;">ผู้บันทึก</th> 
+                                                                        <th class="text-center" width="5%" style="background-color: rgb(222, 201, 248);font-size: 14px;">หมายเหตุ</th>
+                                                                        <th class="text-center" width="1%" style="background-color: rgb(248, 252, 198);font-size: 14px;">คำสั่ง</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $i = 1;$total1 = 0;  ?>
+                                                                    @foreach ($datashow_2 as $item2)                                                        
+                                                                        <tr>
+                                                                            <th class="text-center"width="2%">{{ $i++ }}</th>
+                                                                            <td class="text-center"width="5%">{{DateThai($item2->water_date)}}</td>
+                                                                            <td class="text-center"width="5%">{{$item2->water_location}}</td>
+                                                                            <td class="text-center"width="5%">{{$item2->water_user}}</td> 
+                                                                            <td class="text-center"width="5%">{{$item2->water_comment}}</td>
+                                                                            <td class="text-center"width="5%">
+                                                                                <a href="{{url('env_water_edit/'.$item2->water_id)}}">
+                                                                                    <i class="fa-regular fa-pen-to-square fa-2xl" style="color: #FFD43B;"></i>
+                                                                                </a>                                                                      
+                                                                            </td> 
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </p>
+                                                    </div>
+                                                    
+                                                    <div class="tab-pane" id="messages" role="tabpanel">
+                                                        <p class="mb-0">
+                                                            <table id="example3" class="table table-striped">
+                                                                <thead class="table-light">
+                                                                    <tr>
+                                                                        <th class="text-center" width="1%" style="background-color: rgb(255, 251, 228);font-size: 14px;">ลำดับ</th>
+                                                                        <th class="text-center" width="2%" style="background-color: rgb(222, 201, 248);font-size: 14px;">วันที่บันทึก</th>
+                                                                        <th class="text-center" width="5%" style="background-color: rgb(222, 201, 248);font-size: 14px;">สถานที่เก็บตัวอย่าง</th>
+                                                                        <th class="text-center" width="3%" style="background-color: rgb(222, 201, 248);font-size: 14px;">ผู้บันทึก</th> 
+                                                                        <th class="text-center" width="5%" style="background-color: rgb(222, 201, 248);font-size: 14px;">หมายเหตุ</th>
+                                                                        <th class="text-center" width="1%" style="background-color: rgb(248, 252, 198);font-size: 14px;">คำสั่ง</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $i = 1;$total1 = 0;  ?>
+                                                                    @foreach ($datashow_3 as $item3)                                                        
+                                                                        <tr>
+                                                                            <th class="text-center"width="1%">{{ $i++ }}</th>
+                                                                            <td class="text-center"width="2%">{{DateThai($item3->water_date)}}</td>
+                                                                            <td class="text-center"width="5%">{{$item3->water_location}}</td>
+                                                                            <td class="text-center"width="3%">{{$item3->water_user}}</td> 
+                                                                            <td class="text-center"width="5%">{{$item3->water_comment}}</td>
+                                                                            <td class="text-center"width="1%">
+                                                                                <a href="{{url('env_water_edit/'.$item3->water_id)}}">
+                                                                                    <i class="fa-regular fa-pen-to-square fa-2xl" style="color: #FFD43B;"></i>
+                                                                                </a>
+                                                                                {{-- <a href="{{url('wh_recieve_addsub/'.$item->water_id)}}" target="_blank">
+                                                                                    <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
+                                                                                </a> --}}                                                                        
+                                                                            </td> 
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </p>
+                                                    </div>                                        
+                                            </div>
+                                            {{-- @endforeach --}}                                       
+
+                                    </div>
                                 </div> 
+
                             </div> 
                         </p>
                     </div>

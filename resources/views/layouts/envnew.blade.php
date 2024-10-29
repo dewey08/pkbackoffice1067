@@ -87,6 +87,10 @@
         /* width: 100vw;   ให้เต็มพอดี */
         /* height: 100vh; ให้เต็มพอดี  */
     }
+    .input_new{
+        border-radius: 2em 2em 2em 2em;
+        box-shadow: 0 0 10px rgb(252, 101, 1);
+    }
 
     .Bgsidebar {
         background-image: url('/pkbackoffice/public/images/bgside.jpg');
@@ -107,7 +111,7 @@
     }
     .card_audit_4{
         border-radius: 2em 2em 2em 2em;
-        box-shadow: 0 0 15px rgb(12, 179, 6);
+        box-shadow: 0 0 15px rgb(159, 241, 156);
     }
     .auditcheckbox{         
         width: 20px;
@@ -119,6 +123,7 @@
         box-shadow: 0 0 10px rgb(250, 128, 124);
         /* box-shadow: 0 0 10px teal; */
     }
+    
  
 </style>
 <style>
@@ -245,7 +250,7 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
 
         <header id="page-topbar">
             {{-- <div class="navbar-header shadow-lg" style="background-color: rgb(252, 252, 252)"> --}}
-                <div class="navbar-header shadow" style="background-color: rgb(14, 194, 83)">
+                <div class="navbar-header shadow" style="background-color: rgb(141, 218, 148)">
  
                 <div class="d-flex">
                     <!-- LOGO -->
@@ -448,14 +453,14 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
                         <li class="menu-title">Menu</li>
                         <li>
                             <a href="{{ url('env_dashboard') }}">  
-                                <i class="fa-solid fa-chart-line fa-2xl" style="color: #B197FC;"></i>
+                                <i class="fa-solid fa-chart-line fa-beat fa-2xl" style="color: #74C0FC;"></i>
                                 <span>Dashboard</span>
                             </a> 
                         </li>
                         
                         <li>                            
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-droplet fa-2xl" style="color: #3d87ff;"></i>                          
+                                <i class="fa-solid fa-poo fa-beat fa-2xl" style="color: #FFD43B;"></i>                          
                                 <span>ระบบบ่อบำบัดน้ำเสีย</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -465,7 +470,7 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-recycle fa-2xl" style="color: #08b414;"></i>
+                                <i class="fa-solid fa-recycle fa-beat fa-2xl" style="color: #1b9d3b;"></i>
                                 <span>ระบบบริหารจัดการขยะ</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -475,7 +480,7 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-clipboard-list fa-2xl" style="color: #fd44f7;"></i>
+                                <i class="fa-solid fa-clipboard-list fa-beat fa-2xl" style="color: #ee4fe8;"></i>
                                 <span>รายงาน</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">                                
@@ -487,10 +492,10 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
                         @if ($permiss_setting_env !=0)
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-gears fa-2xl" style="color: #f9912f;"></i>
+                                <i class="fa-solid fa-gears fa-beat fa-2xl" style="color: #f5a824;"></i>
                                 <span>ตั้งค่า</span>
                             </a>
-                            <ul class="sub-menu" aria-expanded="true">
+                            <ul class="sub-menu" aria-expanded="true">                                
                                 <li><a href="{{ url('env_water_parameter') }}">ตั้งค่า Parameter น้ำ</a></li>
                                 <li><a href="{{ url('env_water_parameter_set') }}">ตั้งค่า บ่อบำบัด</a></li>
                                 <li><a href="{{ url('env_trash_parameter') }}">ตั้งค่า ประเภทขยะ</a></li>

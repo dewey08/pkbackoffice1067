@@ -83,18 +83,9 @@
             </div>
         </div>
 
-        {{-- <div class="tabs-animation"> 
-            <div class="row text-center">
-                <div id="overlay">
-                    <div class="cv-spinner">
-                        <span class="spinner"></span>
-                    </div>
-                </div> 
-            </div> --}}
-
         <div class="row ">
             <div class="col-12">
-                <div class="block-header block-header-default">
+                <div class="block-header block-header-default">                                       
                     <h4 class="text-center mb-sm-0">ข้อมูลสิ่งแวดล้อมและความปลอดภัย</h4>
                 </div>
             </div>
@@ -275,7 +266,7 @@
         var data = google.visualization.arrayToDataTable([
           ['Month', 'ขยะทั่วไป(Kg)', 'ขยะติดเชื้อ(Kg)', 'ขยะเคมีบำบัด(Kg)'],
           ['มกราคม',   <?php echo $tra_1; ?>,<?php echo $tra_21; ?>,<?php echo $tra_31; ?>],
-          ['กุมภาพัน',  <?php echo $tra_2; ?>,<?php echo $tra_22; ?>,<?php echo $tra_32; ?>],
+          ['กุมภาพันธุ์',  <?php echo $tra_2; ?>,<?php echo $tra_22; ?>,<?php echo $tra_32; ?>],
           ['มีนาคม',   <?php echo $tra_3; ?>,<?php echo $tra_23; ?>,<?php echo $tra_33; ?>],
           ['เมษายน',  <?php echo $tra_4; ?>,<?php echo $tra_24; ?>,<?php echo $tra_34; ?>],
           ['พฤษภาคม', <?php echo $tra_5; ?>,<?php echo $tra_25; ?>,<?php echo $tra_35; ?>],
