@@ -109,9 +109,9 @@ $count_service = StaticController::count_service();
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <select id="patient_hn" name="patient_hn" class="form-control form-control-sm" style="width: 100%">
+                                            <select id="dent_hn" name="dent_hn" class="form-control form-control-sm" style="width: 100%">
                                                 <option value="">--เลือก--</option>
-                                                @foreach ($patient as $pa)
+                                                @foreach ($data_p as $pa)
                                                     @if ($data_p == $pa->id)
                                                     <option value="{{ $pa->id }}" selected> {{ $pa->fname }} {{ $pa->lname }}</option>
                                                     @else
@@ -123,13 +123,25 @@ $count_service = StaticController::count_service();
                                     </div>
 
                                     <div class="col-md-1 text-end">
-                                        <label for="trash_date">ชื่อ - นามสกุล :</label>
+                                        <label for="dent_patient_name">ชื่อ - นามสกุล :</label>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <div class="form-group">
-                                                <input id="trash_date" type="date" class="form-control form-control-sm"
-                                                    name="trash_date">
+                                                <input id="dent_patient_name" type="date" class="form-control form-control-sm"
+                                                    name="dent_patient_name">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1 text-end">
+                                        <label for="dent_tel">เบอร์โทร :</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <input id="dent_tel" type="date" class="form-control form-control-sm"
+                                                    name="dent_tel">
                                             </div>
                                         </div>
                                     </div>
@@ -139,21 +151,33 @@ $count_service = StaticController::count_service();
 
                                 <div class="row mt-2">
                                     <div class="col-md-1 text-end">
-                                        <label for="trash_time">เวลาบันทึก :</label>
+                                        <label for="dent_date">วันที่นัด :</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <input id="dent_date" type="date" class="form-control form-control-sm"
+                                                    name="dent_date">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1 text-end">
+                                        <label for="dent_time">เวลานัด :</label>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <input type="time" id="trash_time" name="trash_time" class="form-control"
+                                            <input type="dent_time" id="dent_time" name="dent_time" class="form-control"
                                                 placeholder="" />
                                         </div>
                                     </div>
                                     
                                     <div class="col-md-2 text-end">
-                                            <label for="trash_user">ผู้บันทึกข้อมูล :</label>
+                                            <label for="dent_doctor">ทันตแพทย์ผู้นัด :</label>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <select id="water_user2" name="trash_user" class="form-control form-control-sm" style="width: 100%">
+                                                <select id="water_user2" name="dent_doctor" class="form-control form-control-sm" style="width: 100%">
                                                     <option value="">--เลือก--</option>
                                                     @foreach ($users as $ue)
                                                         @if ($iduser == $ue->id)
@@ -164,16 +188,33 @@ $count_service = StaticController::count_service();
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        </div>                                    
+                                        </div>    
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-md-2 text-end">
+                                        <label for="appointment_id">ประเภทการนัด :</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <select id="appointment_id" name="appointment_id" class="form-control form-control-sm" style="width: 100%">
+                                                <option value="">--เลือก--</option>
+                                                @foreach ($appointment as $ap)
+                                                    @if ($iduser == $ue->id)
+                                                    <option value="{{ $ue->id }}" selected> {{ $ue->fname }} {{ $ue->lname }}</option>
+                                                    @else
+                                                    <option value="{{ $ue->id }}"> {{ $ue->fname }} {{ $ue->lname }}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>                                    
                                     
                                 </div>
 
-                                <div class="row">
+                                {{-- <div class="row">
                                     <label for="">รายการขยะ</label>
                                     <div class="col-md-12">
-                                        {{-- @foreach ($dataparameters as $item)
-                                        <p>{{$item->parameter_list_name}}</p>
-                                        @endforeach --}}
                                         <table class="gwt-table table-striped table-vcenter" style="width: 100%;">
                                             <thead style="background-color: #aecefd;">
                                                 <tr height="40">
@@ -212,7 +253,7 @@ $count_service = StaticController::count_service();
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
+                                </div> --}}
 
 
                             </div>
@@ -263,13 +304,13 @@ $count_service = StaticController::count_service();
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
         });
-        // ช่องค้นหาชื่อ
+        // ช่องค้นหาชื่อคนไข้
         $('#patient_hn').select2({
-                placeholder: "--เลือก--",
-                allowClear: true
+            placeholder: "--เลือก--",
+            allowClear: true
             });
-        // ช่องค้นหาชื่อ
-            $('#trash_sub').select2({
+        // ช่องค้นหาชื่อทันตแพทย์
+        $('#water_user2').select2({
             placeholder: "--เลือก--",
             allowClear: true
         }); 

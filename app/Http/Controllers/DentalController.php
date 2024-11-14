@@ -572,35 +572,87 @@ class DentalController extends Controller
 
     public function dental_appointment_add (Request $request)
     {
-        $datenow = $request->start_date;
-        $dateend = $request->end_date;
-        $iduser = $request->user_id;
-        $starttime = $request->ot_one_starttime;
-        $endtime = $request->ot_one_endtime;
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+        $iduser = Auth::user()->id;
+        $data['users'] = User::get();
+        $data['leave_month'] = DB::table('leave_month')->get();
+        $data['users_group'] = DB::table('users_group')->get();
+        $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
 
-        $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
-        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-        $date = date('Y-m-d');
-        $y = date('Y') + 543;
-        $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $acc_debtors = DB::select('
+            SELECT count(*) as I from users u
+            left join p4p_workload l on l.p4p_workload_user=u.id
+            group by u.dep_subsubtrueid;
+        ');        
 
-        $data_p = DB::connection('mysql10')->select('
-            SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient 
-            ');
+        $data_dent_appointment_type = DB::table('dent_appointment_type')->get();
         
-        $data_d = DB::connection('mysql10')->select('
-            SELECT code,CONCAT(pname,fname," ",lname) dentname
-            FROM doctor
-            WHERE position_id in ("2","6","16")
-            AND active = "Y" 
-            ');
+        $data_p = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient');
+        foreach ($data_p as $key => $value) { 
+            $hn    = $value->hn;
+            // $token_  = $value->token;
+        }
 
+        // $trash_parameter = DB::table('env_trash_parameter')->where('trash_parameter_active','=',true)->get();
+        // $data_trash_sub = DB::table('env_trash_sub')->get();
+        // $data_trash_type = DB::table('env_trash_type')->get();
+        // $data['products_vendor'] = Products_vendor::get();
 
+        // $maxnum = Env_trash::max('trash_bill_on'); //****รันเลขที่อัตโนมัติ */
+        // if($maxnum != '' ||  $maxnum != null){
+        //  $refmax = Env_trash::where('trash_bill_on','=',$maxnum)->first();
+
+        //  if($refmax->trash_bill_on != '' ||  $refmax->trash_bill_on != null){
+        //  $maxpo = substr($refmax->trash_bill_on, 4)+1;
+        //  }else{
+        //  $maxref = 1;
+        //  }
+        //  $refe = str_pad($maxpo, 5, "0", STR_PAD_LEFT);
+        //  }else{
+        // $refe = '00001';
+        //  }
+        //  $billNo = 'TRA'.'-'.$refe;
+         
+
+        return view('dent.dental_appointment_add', $data,[
+            'startdate'        => $datestart,
+            'enddate'          => $dateend, 
+            // 'dataparameters'   => $data_parameter,
+            // 'trash_parameter'  => $trash_parameter,
+            // 'data_trash_sub'   => $data_trash_sub,
+            // 'data_trash_type'  => $data_trash_type,
+            // 'billNos'          => $billNo,
+        ]);
+        // $datenow = $request->start_date;
+        // $dateend = $request->end_date;
+        // $iduser = $request->user_id;
+        // $starttime = $request->ot_one_starttime;
+        // $endtime = $request->ot_one_endtime;
+        // $iduser = Auth::user()->id;
+        // $data['users'] = User::get();
+
+        // $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
+        // $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+
+        // $dent_appointment_type = DB::table('dent_appointment_type')->get();
+
+        // $date = date('Y-m-d');
+        // $y = date('Y') + 543;
+        // $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
+        // $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        // $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+
+        // $data_p = DB::connection('mysql10')->select('
+        //     SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient 
+        //     ');
         
-
-
+        // $data_d = DB::connection('mysql10')->select('
+        //     SELECT code,CONCAT(pname,fname," ",lname) dentname
+        //     FROM doctor
+        //     WHERE position_id in ("2","6","16")
+        //     AND active = "Y" 
+        //     ');
 
         // Dent_appointment::insert([
         //     'dent_hn'                 => $request->dent_hn,
@@ -613,57 +665,57 @@ class DentalController extends Controller
         //     'dent_doctor'             => $request->dent_doctor,
         //     'created_at'              => $datenow
         // ]);
-        $data_dent_appointment = DB::table('dent_appointment')->get();
+        // $data_dent_appointment = DB::table('dent_appointment')->get();
     
-        return redirect()->route('den.dental_calendar');
+        // return redirect()->route('den.dental_calendar');
 
         
     }
 
     public function dental_appointment_save (Request $request)
     {
-        $datebigin = $request->start_date;
-        $dateend = $request->end_date;
-        $iduser = $request->user_id;
-        $starttime = $request->ot_one_starttime;
-        $endtime = $request->ot_one_endtime;
+        // $datebigin = $request->start_date;
+        // $dateend = $request->end_date;
+        // $iduser = $request->user_id;
+        // $starttime = $request->ot_one_starttime;
+        // $endtime = $request->ot_one_endtime;
 
-        $checkdate = Ot_one::where('ot_one_date','=',$datebigin)->where('ot_one_nameid','=',$iduser)->count();
+        // $checkdate = Ot_one::where('ot_one_date','=',$datebigin)->where('ot_one_nameid','=',$iduser)->count();
 
-        if ($checkdate > 0) {
-            return response()->json([
-                'status'     => '100',
-            ]);
-        } else {
-            $add = new Ot_one();
-            $add->ot_one_date = $datebigin;
-            $add->ot_one_starttime = $starttime;
-            $add->ot_one_endtime = $endtime;
-            $add->ot_one_detail = $request->input('ot_one_detail');
+        // if ($checkdate > 0) {
+        //     return response()->json([
+        //         'status'     => '100',
+        //     ]);
+        // } else {
+        //     $add = new Ot_one();
+        //     $add->ot_one_date = $datebigin;
+        //     $add->ot_one_starttime = $starttime;
+        //     $add->ot_one_endtime = $endtime;
+        //     $add->ot_one_detail = $request->input('ot_one_detail');
 
-            $start = strtotime($starttime);
-            $end = strtotime($endtime);
-            $tot = ($end - $start) / 3600; 
-            $add->ot_one_total = $tot;
+        //     $start = strtotime($starttime);
+        //     $end = strtotime($endtime);
+        //     $tot = ($end - $start) / 3600; 
+        //     $add->ot_one_total = $tot;
 
             
-            if ($iduser != '') {
-                $usersave = DB::table('users')->where('id', '=', $iduser)->first(); 
-                $add->ot_one_nameid = $usersave->id;
-                $add->ot_one_fullname = $usersave->pnamelong . ' '.$usersave->fname . '  ' . $usersave->lname;
-                $add->dep_subsubtrueid = $usersave->dep_subsubtrueid;
-            } else {
-                $add->ot_one_nameid = ''; 
-                $add->ot_one_fullname = '';
-                $add->dep_subsubtrueid = '';
-            }
+        //     if ($iduser != '') {
+        //         $usersave = DB::table('users')->where('id', '=', $iduser)->first(); 
+        //         $add->ot_one_nameid = $usersave->id;
+        //         $add->ot_one_fullname = $usersave->pnamelong . ' '.$usersave->fname . '  ' . $usersave->lname;
+        //         $add->dep_subsubtrueid = $usersave->dep_subsubtrueid;
+        //     } else {
+        //         $add->ot_one_nameid = ''; 
+        //         $add->ot_one_fullname = '';
+        //         $add->dep_subsubtrueid = '';
+        //     }
 
-            $add->save();
+        //     $add->save();
 
-            return response()->json([
-                'status'     => '200',
-            ]);
-        }  
+        //     return response()->json([
+        //         'status'     => '200',
+        //     ]);
+        // }  
     }
 
     public function dental_setting_type (Request $request)
