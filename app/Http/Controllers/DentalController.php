@@ -586,11 +586,11 @@ class DentalController extends Controller
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
-        $data_p ['patient'] = DB::connection('mysql10')->select('
+        $data_p = DB::connection('mysql10')->select('
             SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient 
             ');
         
-        $data_p ['doctor'] = DB::connection('mysql10')->select('
+        $data_d = DB::connection('mysql10')->select('
             SELECT code,CONCAT(pname,fname," ",lname) dentname
             FROM doctor
             WHERE position_id in ("2","6","16")

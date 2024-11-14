@@ -17,6 +17,7 @@ class Dent_appointment extends Authenticatable
     // public $timestamps = false;  
     protected $fillable = [
         'dent_hn',
+        'dent_patient_name',
         'dent_tel',
         'dent_work',
         'dent_date',

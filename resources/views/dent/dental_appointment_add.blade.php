@@ -112,10 +112,10 @@ $count_service = StaticController::count_service();
                                             <select id="patient_hn" name="patient_hn" class="form-control form-control-sm" style="width: 100%">
                                                 <option value="">--เลือก--</option>
                                                 @foreach ($patient as $pa)
-                                                    @if ($iduser == $ue->id)
-                                                    <option value="{{ $ue->id }}" selected> {{ $ue->fname }} {{ $ue->lname }}</option>
+                                                    @if ($data_p == $pa->id)
+                                                    <option value="{{ $pa->id }}" selected> {{ $pa->fname }} {{ $pa->lname }}</option>
                                                     @else
-                                                    <option value="{{ $ue->id }}"> {{ $ue->fname }} {{ $ue->lname }}</option>
+                                                    <option value="{{ $pa->id }}"> {{ $pa->fname }} {{ $pa->lname }}</option>
                                                     @endif
                                                 @endforeach
                                             </select>
@@ -123,7 +123,7 @@ $count_service = StaticController::count_service();
                                     </div>
 
                                     <div class="col-md-1 text-end">
-                                        <label for="trash_date">วันที่บันทึก :</label>
+                                        <label for="trash_date">ชื่อ - นามสกุล :</label>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
