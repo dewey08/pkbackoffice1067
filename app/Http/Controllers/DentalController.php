@@ -575,10 +575,12 @@ class DentalController extends Controller
         $datestart = $request->startdate;
         $dateend = $request->enddate;
         $iduser = Auth::user()->id;
+        
         $data['users'] = User::get();
         $data['leave_month'] = DB::table('leave_month')->get();
         $data['users_group'] = DB::table('users_group')->get();
         $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
+        // $data['dent_appointment_type'] = DB::table('dent_appointment_type')->where('status','=','Y')->get();
 
         $date = date('Y-m-d');
         $y = date('Y') + 543;
@@ -586,12 +588,9 @@ class DentalController extends Controller
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี  
 
-        $acc_debtors = DB::select('
-            SELECT count(*) as I from users u
-            left join p4p_workload l on l.p4p_workload_user=u.id
-            group by u.dep_subsubtrueid;
-        '); 
-        
+        $data_appointment = DB::table('dent_appointment_type')->where('status','=','Y')->get();
+
+                
         $data_show = DB::connection('mysql2')->select(            
             'select count(distinct d.hn) 
             from dtmain d
@@ -613,88 +612,23 @@ class DentalController extends Controller
             AND active = "Y"
         ');
 
-        $data ['data_dent_appointment_type'] = DB::table('dent_appointment_type')->get();
-        
         $data_p = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient');
         foreach ($data_p as $key => $value) { 
             $hn    = $value->hn;
             // $token_  = $value->token;
         }
-
-        // $trash_parameter = DB::table('env_trash_parameter')->where('trash_parameter_active','=',true)->get();
-        // $data_trash_sub = DB::table('env_trash_sub')->get();
-        // $data_trash_type = DB::table('env_trash_type')->get();
-        // $data['products_vendor'] = Products_vendor::get();
-
-        // $maxnum = Env_trash::max('trash_bill_on'); //****รันเลขที่อัตโนมัติ */
-        // if($maxnum != '' ||  $maxnum != null){
-        //  $refmax = Env_trash::where('trash_bill_on','=',$maxnum)->first();
-
-        //  if($refmax->trash_bill_on != '' ||  $refmax->trash_bill_on != null){
-        //  $maxpo = substr($refmax->trash_bill_on, 4)+1;
-        //  }else{
-        //  $maxref = 1;
-        //  }
-        //  $refe = str_pad($maxpo, 5, "0", STR_PAD_LEFT);
-        //  }else{
-        // $refe = '00001';
-        //  }
-        //  $billNo = 'TRA'.'-'.$refe;
-         
+               
 
         return view('dent.dental_appointment_add', $data,[
-            'startdate'        => $datestart,
-            'enddate'          => $dateend, 
-            'appointment_id'   => $data,
-            // 'trash_parameter'  => $trash_parameter,
+            'startdate'         => $datestart,
+            'enddate'           => $dateend, 
+            'users'             => $data,
+            'appointment'       => $data_appointment,
             // 'data_trash_sub'   => $data_trash_sub,
             // 'data_trash_type'  => $data_trash_type,
             // 'billNos'          => $billNo,
         ]);
-        // $datenow = $request->start_date;
-        // $dateend = $request->end_date;
-        // $iduser = $request->user_id;
-        // $starttime = $request->ot_one_starttime;
-        // $endtime = $request->ot_one_endtime;
-        // $iduser = Auth::user()->id;
-        // $data['users'] = User::get();
-
-        // $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
-        // $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-
-        // $dent_appointment_type = DB::table('dent_appointment_type')->get();
-
-        // $date = date('Y-m-d');
-        // $y = date('Y') + 543;
-        // $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
-        // $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-        // $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-
-        // $data_p = DB::connection('mysql10')->select('
-        //     SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient 
-        //     ');
         
-        // $data_d = DB::connection('mysql10')->select('
-        //     SELECT code,CONCAT(pname,fname," ",lname) dentname
-        //     FROM doctor
-        //     WHERE position_id in ("2","6","16")
-        //     AND active = "Y" 
-        //     ');
-
-        // Dent_appointment::insert([
-        //     'dent_hn'                 => $request->dent_hn,
-        //     'dent_tel'                => $request->dent_tel,
-        //     'dent_work'               => $request->dent_work,
-        //     'dent_date'               => $request->dent_date,
-        //     'dent_time'               => $request->dent_time,
-        //     'appointment_id'          => $request->appointment_id,
-        //     'appointment_name'        => $request->appointment_name,
-        //     'dent_doctor'             => $request->dent_doctor,
-        //     'created_at'              => $datenow
-        // ]);
-        // $data_dent_appointment = DB::table('dent_appointment')->get();
-    
-        // return redirect()->route('den.dental_calendar');
 
         
     }

@@ -1587,6 +1587,7 @@ class EnvController extends Controller
         $data['leave_month'] = DB::table('leave_month')->get();
         $data['users_group'] = DB::table('users_group')->get();
         $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
+        
 
         $acc_debtors = DB::select('
             SELECT count(*) as I from users u

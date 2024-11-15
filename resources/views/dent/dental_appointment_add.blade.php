@@ -5,6 +5,7 @@
 if (Auth::check()) {
     $type = Auth::user()->type;
     $iduser = Auth::user()->id;
+
 } else {
     echo "<body onload=\"TypeAdmin()\"></body>";
     exit();
@@ -176,7 +177,7 @@ $count_service = StaticController::count_service();
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <select id="water_user2" name="trash_user" class="form-control form-control-sm" style="width: 100%">
+                                                <select id="dent_doctor" name="dent_doctor" class="form-control form-control-sm" style="width: 100%">
                                                     <option value="">--เลือก--</option>
                                                     @foreach ($users as $ue)
                                                         @if ($iduser == $ue->id)
@@ -192,13 +193,13 @@ $count_service = StaticController::count_service();
 
                                 <div class="row mt-2">
                                     <div class="col-md-2 text-end">
-                                        <label for="appointment_id">ประเภทการนัด :</label>
+                                        <label for="appointment">ประเภทการนัด :</label>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <select id="appointment_id" name="appointment_id" class="form-control form-control-sm" style="width: 100%">
+                                            <select id="appointment" name="appointment" class="form-control form-control-sm" style="width: 100%">
                                                 <option value="">--เลือก--</option>
-                                                @foreach ($appointment_id as $ap)
+                                                @foreach ($appointment as $ue)
                                                     @if ($iduser == $ue->id)
                                                     <option value="{{ $ue->id }}" selected> {{ $ue->fname }} {{ $ue->lname }}</option>
                                                     @else
@@ -303,13 +304,13 @@ $count_service = StaticController::count_service();
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
         });
-        // ช่องค้นหาชื่อคนไข้
-        $('#water_user2').select2({
+        // ช่องค้นหาชื่อทันตแพทย์
+        $('#dent_doctor').select2({
             placeholder: "--เลือก--",
             allowClear: true
             });
-        // ช่องค้นหาชื่อทันตแพทย์
-        $('#appointment_id').select2({
+        // ช่องค้นหาประเภทการนัด
+        $('#appointment').select2({
             placeholder: "--เลือก--",
             allowClear: true
         }); 
