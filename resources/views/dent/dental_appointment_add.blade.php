@@ -109,7 +109,7 @@ $count_service = StaticController::count_service();
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <select id="dent_hn" name="dent_hn" class="form-control form-control-sm" style="width: 100%">
+                                            {{-- <select id="dent_hn" name="dent_hn" class="form-control form-control-sm" style="width: 100%">
                                                 <option value="">--เลือก--</option>
                                                 @foreach ($data_p as $pa)
                                                     @if ($data_p == $pa->id)
@@ -118,7 +118,7 @@ $count_service = StaticController::count_service();
                                                     <option value="{{ $pa->id }}"> {{ $pa->fname }} {{ $pa->lname }}</option>
                                                     @endif
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
                                         </div>
                                     </div>
 
@@ -140,8 +140,7 @@ $count_service = StaticController::count_service();
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <div class="form-group">
-                                                <input id="dent_tel" type="date" class="form-control form-control-sm"
-                                                    name="dent_tel">
+                                                <input id="dent_tel" type="text" class="form-control form-control-sm" name="dent_tel">
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +166,7 @@ $count_service = StaticController::count_service();
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <input type="dent_time" id="dent_time" name="dent_time" class="form-control"
+                                            <input type="time" id="dent_time" name="dent_time" class="form-control"
                                                 placeholder="" />
                                         </div>
                                     </div>
@@ -177,7 +176,7 @@ $count_service = StaticController::count_service();
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <select id="water_user2" name="dent_doctor" class="form-control form-control-sm" style="width: 100%">
+                                                <select id="water_user2" name="trash_user" class="form-control form-control-sm" style="width: 100%">
                                                     <option value="">--เลือก--</option>
                                                     @foreach ($users as $ue)
                                                         @if ($iduser == $ue->id)
@@ -199,7 +198,7 @@ $count_service = StaticController::count_service();
                                         <div class="form-group">
                                             <select id="appointment_id" name="appointment_id" class="form-control form-control-sm" style="width: 100%">
                                                 <option value="">--เลือก--</option>
-                                                @foreach ($appointment as $ap)
+                                                @foreach ($appointment_id as $ap)
                                                     @if ($iduser == $ue->id)
                                                     <option value="{{ $ue->id }}" selected> {{ $ue->fname }} {{ $ue->lname }}</option>
                                                     @else
@@ -305,12 +304,12 @@ $count_service = StaticController::count_service();
                 }
         });
         // ช่องค้นหาชื่อคนไข้
-        $('#patient_hn').select2({
+        $('#water_user2').select2({
             placeholder: "--เลือก--",
             allowClear: true
             });
         // ช่องค้นหาชื่อทันตแพทย์
-        $('#water_user2').select2({
+        $('#appointment_id').select2({
             placeholder: "--เลือก--",
             allowClear: true
         }); 

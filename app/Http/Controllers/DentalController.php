@@ -580,13 +580,40 @@ class DentalController extends Controller
         $data['users_group'] = DB::table('users_group')->get();
         $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
 
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี  
+
         $acc_debtors = DB::select('
             SELECT count(*) as I from users u
             left join p4p_workload l on l.p4p_workload_user=u.id
             group by u.dep_subsubtrueid;
-        ');        
+        '); 
+        
+        $data_show = DB::connection('mysql2')->select(            
+            'select count(distinct d.hn) 
+            from dtmain d
+            left outer join vn_stat v on v.vn=d.vn
+            where d.vstdate between "'.$newweek.'" and "'.$date.'"
+            and v.pt_subtype <> "2"
+        ');
+        
+        $data['doctor'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "2"
+            AND active = "Y"
+        ');
+        $data['helper'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "6" 
+            AND active = "Y"
+        ');
 
-        $data_dent_appointment_type = DB::table('dent_appointment_type')->get();
+        $data ['data_dent_appointment_type'] = DB::table('dent_appointment_type')->get();
         
         $data_p = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient');
         foreach ($data_p as $key => $value) { 
@@ -618,7 +645,7 @@ class DentalController extends Controller
         return view('dent.dental_appointment_add', $data,[
             'startdate'        => $datestart,
             'enddate'          => $dateend, 
-            // 'dataparameters'   => $data_parameter,
+            'appointment_id'   => $data,
             // 'trash_parameter'  => $trash_parameter,
             // 'data_trash_sub'   => $data_trash_sub,
             // 'data_trash_type'  => $data_trash_type,
