@@ -574,6 +574,10 @@ class DentalController extends Controller
     {
         $datestart = $request->startdate;
         $dateend = $request->enddate;
+        $datenow             = date('Y-m-d');
+        $data['date_now']    = date('Y-m-d');
+
+        
         $iduser = Auth::user()->id;
         
         
@@ -615,10 +619,7 @@ class DentalController extends Controller
         ');
 
         $data['hn'] = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient GROUP BY hn limit 1000');
-        // foreach ($data_p as $key => $value) { 
-        //     $hn    = $value->hn;
-        //     $token_  = $value->token;
-        // }
+        
                
 
         return view('dent.dental_appointment_add', $data,[
@@ -626,13 +627,27 @@ class DentalController extends Controller
             'enddate'           => $dateend, 
             'users'             => $data,
             'appointment'       => $data_appointment,
-            // 'data_trash_sub'   => $data_trash_sub,
+            // 'datenow'           => $datenow,
             // 'data_trash_type'  => $data_trash_type,
             // 'billNos'          => $billNo,
         ]);
         
 
         
+    }
+
+    public function dental_detail_patient(Request $request)
+    {
+        $hn                 =  $request->denthn;
+       
+        $data_show          = Patient::where('hn',$hn)->first();
+        $data_cid           = $data_show->cid;
+        $data_ptname        = $data_show->pname.''.$data_show->fname.'  '.$data_show->lname;
+        $data_hometel       = $data_show->hometel;
+
+        $output='<label for="">เลขบัตรประชาชน  :   '.$data_cid. '&nbsp;&nbsp;&nbsp; ||   ชื่อ-นามสกุล  :    ' .$data_ptname.'&nbsp;&nbsp;&nbsp; ||   เบอร์โทร  :    ' .$data_hometel.'</label>' ; 
+        
+        echo $output;        
     }
 
     public function dental_appointment_save (Request $request)
@@ -853,12 +868,12 @@ class DentalController extends Controller
 
     public function dental_detail_patient000(Request $request)
     {
-        $hn          =  $request->denthn;
-        $datapatient = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname,cid FROM patient WHERE hn = "'.$hn.'"');
-        foreach ($datapatient as $key => $value) {
-            // $hometel     = $value->hometel;
-            $cid         = $value->cid;
-        }
+        // $hn          =  $request->denthn;
+        // $datapatient = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname,cid FROM patient WHERE hn = "'.$hn.'"');
+        // foreach ($datapatient as $key => $value) {
+        //     // $hometel     = $value->hometel;
+        //     $cid         = $value->cid;
+        // }
         // dd($hn);
         // return response()->json([
         //     'status'          => '200',
@@ -866,21 +881,7 @@ class DentalController extends Controller
         // ]); 
     }
 
-    public function dental_detail_patient(Request $request)
-    {
-        $hn                 =  $request->denthn;
-       
-        $data_show          = Patient::where('hn',$hn)->first();
-        $data_cid           = $data_show->cid;
-        $data_ptname        = $data_show->pname.''.$data_show->fname.'  '.$data_show->lname;
-        $data_hometel       = $data_show->hometel;
 
-        $output='<label for="">เลขบัตรประชาชน  :   '.$data_cid. '&nbsp;&nbsp;&nbsp; ||   ชื่อ-นามสกุล  :    ' .$data_ptname.'&nbsp;&nbsp;&nbsp; ||   เบอร์โทร  :    ' .$data_hometel.'</label>'
-        
-        ; 
-        
-        echo $output;        
-    }
 
     
 

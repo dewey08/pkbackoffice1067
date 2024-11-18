@@ -870,82 +870,87 @@ Route::get('home_supplies_excel', [App\Http\Controllers\AirController::class, 'h
   Route::match(['get', 'post'], 'warehouse/warehouse_pay_sub/{id}', [WarehousePayController::class, 'warehouse_pay_sub'])->name('pay.warehouse_pay_sub');
   Route::get('warehouse/warehouse_plus/{id}', [WarehouseController::class, 'warehouse_plus'])->name('pay.warehouse_plus');
  
-  // Route::match(['get', 'post'], 'wh_main', [App\Http\Controllers\WhController::class, 'wh_main'])->name('wh.wh_main');
-  Route::match(['get', 'post'], 'wh_main_index', [App\Http\Controllers\WhController::class, 'wh_main_index'])->name('wh.wh_main_index');
-  Route::match(['get', 'post'], 'wh_dashboard', [App\Http\Controllers\WhController::class, 'wh_dashboard'])->name('wh.wh_dashboard'); //
-  Route::match(['get', 'post'], 'wh_plan', [App\Http\Controllers\WhController::class, 'wh_plan'])->name('wh.wh_plan'); //
-  Route::match(['get', 'post'], 'wh_main/{id}', [App\Http\Controllers\WhController::class, 'wh_main'])->name('wh.wh_main'); //
-  Route::match(['get', 'post'], 'wh_sub', [App\Http\Controllers\WhController::class, 'wh_sub'])->name('wh.wh_sub'); //
-  Route::match(['get', 'post'], 'wh_sub_dep/{id}', [App\Http\Controllers\WhController::class, 'wh_sub_dep'])->name('wh.wh_sub_dep'); //
-  Route::match(['get', 'post'], 'wh_stock_card/{id}', [App\Http\Controllers\WhController::class, 'wh_stock_card'])->name('wh.wh_stock_card'); //
+// Route::match(['get', 'post'], 'wh_main', [App\Http\Controllers\WhController::class, 'wh_main'])->name('wh.wh_main');
+Route::match(['get', 'post'], 'wh_main_index', [App\Http\Controllers\WhController::class, 'wh_main_index'])->name('wh.wh_main_index');
+Route::match(['get', 'post'], 'wh_dashboard', [App\Http\Controllers\WhController::class, 'wh_dashboard'])->name('wh.wh_dashboard'); //
+Route::match(['get', 'post'], 'wh_plan/{id}', [App\Http\Controllers\WhController::class, 'wh_plan'])->name('wh.wh_plan'); //
+Route::match(['get', 'post'], 'wh_main/{id}', [App\Http\Controllers\WhController::class, 'wh_main'])->name('wh.wh_main'); //
+Route::match(['get', 'post'], 'wh_sub', [App\Http\Controllers\WhController::class, 'wh_sub'])->name('wh.wh_sub'); //
+Route::match(['get', 'post'], 'wh_sub_dep/{id}', [App\Http\Controllers\WhController::class, 'wh_sub_dep'])->name('wh.wh_sub_dep'); //
+Route::match(['get', 'post'], 'wh_stock_card/{idstore}/{idpro}', [App\Http\Controllers\WhController::class, 'wh_stock_card'])->name('wh.wh_stock_card'); //
 
-  Route::match(['get', 'post'], 'wh_subplies', [App\Http\Controllers\WhController::class, 'wh_subplies'])->name('wh.wh_subplies'); //
-  
-  Route::match(['get', 'post'], 'wh_recieve', [App\Http\Controllers\WhController::class, 'wh_recieve'])->name('wh.wh_recieve'); //
-  Route::match(['get', 'post'], 'wh_recieve_add', [App\Http\Controllers\WhController::class, 'wh_recieve_add'])->name('wh.wh_recieve_add'); //
-  Route::match(['get', 'post'], 'wh_recieve_save', [App\Http\Controllers\WhController::class, 'wh_recieve_save'])->name('wh.wh_recieve_save'); //
-  Route::match(['get', 'post'], 'wh_recieve_edit/{id}', [App\Http\Controllers\WhController::class, 'wh_recieve_edit'])->name('wh.wh_recieve_edit'); //
-  Route::match(['get', 'post'], 'wh_recieve_update', [App\Http\Controllers\WhController::class, 'wh_recieve_update'])->name('wh.wh_recieve_update'); //
-  Route::match(['get', 'post'], 'wh_recieve_addsub/{id}', [App\Http\Controllers\WhController::class, 'wh_recieve_addsub'])->name('wh.wh_recieve_addsub'); //
+Route::match(['get', 'post'], 'wh_subplies', [App\Http\Controllers\WhController::class, 'wh_subplies'])->name('wh.wh_subplies'); //
+Route::match(['get', 'post'], 'wh_product', [App\Http\Controllers\WhController::class, 'wh_product'])->name('wh.wh_product'); //
+Route::match(['get', 'post'], 'wh_product_add', [App\Http\Controllers\WhController::class, 'wh_product_add'])->name('wh.wh_product_add'); //
+Route::match(['get', 'post'], 'wh_product_edit/{id}', [App\Http\Controllers\WhController::class, 'wh_product_edit'])->name('wh.wh_product_edit'); //
+Route::match(['get', 'post'], 'wh_product_save', [App\Http\Controllers\WhController::class, 'wh_product_save'])->name('wh.wh_product_save'); //
+Route::match(['get', 'post'], 'wh_product_update', [App\Http\Controllers\WhController::class, 'wh_product_update'])->name('wh.wh_product_update'); //
 
-  Route::match(['get', 'post'], 'load_data_table', [App\Http\Controllers\WhController::class, 'load_data_table'])->name('wh.load_data_table'); //
-  Route::match(['get', 'post'], 'load_data_lot_no', [App\Http\Controllers\WhController::class, 'load_data_lot_no'])->name('wh.load_data_lot_no'); //
-  Route::match(['get', 'post'], 'load_data_sum', [App\Http\Controllers\WhController::class, 'load_data_sum'])->name('wh.load_data_sum'); //
+Route::match(['get', 'post'], 'wh_recieve', [App\Http\Controllers\WhController::class, 'wh_recieve'])->name('wh.wh_recieve'); //
+Route::match(['get', 'post'], 'wh_recieve_add', [App\Http\Controllers\WhController::class, 'wh_recieve_add'])->name('wh.wh_recieve_add'); //
+Route::match(['get', 'post'], 'wh_recieve_save', [App\Http\Controllers\WhController::class, 'wh_recieve_save'])->name('wh.wh_recieve_save'); //
+Route::match(['get', 'post'], 'wh_recieve_edit/{id}', [App\Http\Controllers\WhController::class, 'wh_recieve_edit'])->name('wh.wh_recieve_edit'); //
+Route::match(['get', 'post'], 'wh_recieve_update', [App\Http\Controllers\WhController::class, 'wh_recieve_update'])->name('wh.wh_recieve_update'); //
+Route::match(['get', 'post'], 'wh_recieve_addsub/{id}', [App\Http\Controllers\WhController::class, 'wh_recieve_addsub'])->name('wh.wh_recieve_addsub'); //
 
-  Route::match(['get', 'post'], 'wh_recieve_addsub_save', [App\Http\Controllers\WhController::class, 'wh_recieve_addsub_save'])->name('wh.wh_recieve_addsub_save'); //
-  Route::match(['get', 'post'], 'wh_recieve_destroy', [App\Http\Controllers\WhController::class, 'wh_recieve_destroy'])->name('wh.wh_recieve_destroy'); //
-  Route::match(['get', 'post'], 'wh_recieve_updatestock', [App\Http\Controllers\WhController::class, 'wh_recieve_updatestock'])->name('wh.wh_recieve_updatestock'); //
-  Route::match(['get', 'post'], 'wh_recieve_edittable', [App\Http\Controllers\WhController::class, 'wh_recieve_edittable'])->name('wh.wh_recieve_edittable'); //
-  Route::match(['get', 'post'], 'add_product', [App\Http\Controllers\WhController::class, 'add_product'])->name('wh.add_product'); //
-  Route::match(['get', 'post'], 'addwh_unitt', [App\Http\Controllers\WhController::class, 'addwh_unitt'])->name('wh.addwh_unitt'); //
-  Route::match(['get', 'post'], 'addwh_supplies', [App\Http\Controllers\WhController::class, 'addwh_supplies'])->name('wh.addwh_supplies'); //
-  
-  Route::match(['get', 'post'], 'wh_pay', [App\Http\Controllers\WhController::class, 'wh_pay'])->name('wh.wh_pay'); //
-  Route::match(['get', 'post'], 'wh_pay_add', [App\Http\Controllers\WhController::class, 'wh_pay_add'])->name('wh.wh_pay_add'); //
-  Route::match(['get', 'post'], 'wh_pay_save', [App\Http\Controllers\WhController::class, 'wh_pay_save'])->name('wh.wh_pay_save'); //
-  Route::match(['get', 'post'], 'wh_pay_edit/{id}', [App\Http\Controllers\WhController::class, 'wh_pay_edit'])->name('wh.wh_pay_edit'); //
-  Route::match(['get', 'post'], 'wh_pay_update', [App\Http\Controllers\WhController::class, 'wh_pay_update'])->name('wh.wh_pay_update'); //
-  Route::match(['get', 'post'], 'wh_pay_addsub/{id}', [App\Http\Controllers\WhController::class, 'wh_pay_addsub'])->name('wh.wh_pay_addsub'); //
-  Route::match(['get', 'post'], 'wh_pay_addsub_save', [App\Http\Controllers\WhController::class, 'wh_pay_addsub_save'])->name('wh.wh_pay_addsub_save'); //
-  Route::match(['get', 'post'], 'wh_pay_sublot_save', [App\Http\Controllers\WhController::class, 'wh_pay_sublot_save'])->name('wh.wh_pay_sublot_save'); //
-  Route::match(['get', 'post'], 'wh_pay_destroy', [App\Http\Controllers\WhController::class, 'wh_pay_destroy'])->name('wh.wh_pay_destroy'); //
-  Route::match(['get', 'post'], 'wh_pay_updatestock', [App\Http\Controllers\WhController::class, 'wh_pay_updatestock'])->name('wh.wh_pay_updatestock'); //
-  Route::match(['get', 'post'], 'wh_pay_edittable', [App\Http\Controllers\WhController::class, 'wh_pay_edittable'])->name('wh.wh_pay_edittable'); //
-  Route::match(['get', 'post'], 'wh_pay_approve/{id}', [App\Http\Controllers\WhController::class, 'wh_pay_approve'])->name('wh.wh_pay_approve'); //
-  Route::match(['get', 'post'], 'wh_pay_select_lot', [App\Http\Controllers\WhController::class, 'wh_pay_select_lot'])->name('wh.wh_pay_select_lot'); //
-  Route::match(['get', 'post'], 'wh_pay_select_lotsave', [App\Http\Controllers\WhController::class, 'wh_pay_select_lotsave'])->name('wh.wh_pay_select_lotsave'); //
-  Route::match(['get', 'post'], 'wh_pay_updatetable', [App\Http\Controllers\WhController::class, 'wh_pay_updatetable'])->name('wh.wh_pay_updatetable'); //
-  Route::match(['get', 'post'], 'wh_pay_subdestroy', [App\Http\Controllers\WhController::class, 'wh_pay_subdestroy'])->name('wh.wh_pay_subdestroy'); //
+Route::match(['get', 'post'], 'load_data_table', [App\Http\Controllers\WhController::class, 'load_data_table'])->name('wh.load_data_table'); //
+Route::match(['get', 'post'], 'load_data_lot_no', [App\Http\Controllers\WhController::class, 'load_data_lot_no'])->name('wh.load_data_lot_no'); //
+Route::match(['get', 'post'], 'load_data_sum', [App\Http\Controllers\WhController::class, 'load_data_sum'])->name('wh.load_data_sum'); //
 
-  Route::match(['get', 'post'], 'wh_supplies_save', [App\Http\Controllers\WhController::class, 'wh_supplies_save'])->name('wh.wh_supplies_save'); //
-  Route::match(['get', 'post'], 'wh_supplies_destroy', [App\Http\Controllers\WhController::class, 'wh_supplies_destroy'])->name('wh.wh_supplies_destroy'); //
-  Route::match(['get', 'post'], 'wh_report_month', [App\Http\Controllers\WhController::class, 'wh_report_month'])->name('wh.wh_report_month'); //
+Route::match(['get', 'post'], 'wh_recieve_addsub_save', [App\Http\Controllers\WhController::class, 'wh_recieve_addsub_save'])->name('wh.wh_recieve_addsub_save'); //
+Route::match(['get', 'post'], 'wh_recieve_destroy', [App\Http\Controllers\WhController::class, 'wh_recieve_destroy'])->name('wh.wh_recieve_destroy'); //
+Route::match(['get', 'post'], 'wh_recieve_updatestock', [App\Http\Controllers\WhController::class, 'wh_recieve_updatestock'])->name('wh.wh_recieve_updatestock'); //
+Route::match(['get', 'post'], 'wh_recieve_edittable', [App\Http\Controllers\WhController::class, 'wh_recieve_edittable'])->name('wh.wh_recieve_edittable'); //
+Route::match(['get', 'post'], 'add_product', [App\Http\Controllers\WhController::class, 'add_product'])->name('wh.add_product'); //
+Route::match(['get', 'post'], 'addwh_unitt', [App\Http\Controllers\WhController::class, 'addwh_unitt'])->name('wh.addwh_unitt'); //
+Route::match(['get', 'post'], 'addwh_supplies', [App\Http\Controllers\WhController::class, 'addwh_supplies'])->name('wh.addwh_supplies'); //
 
-  Route::match(['get', 'post'], 'wh_sub_main', [App\Http\Controllers\WhUserController::class, 'wh_sub_main'])->name('wh.wh_sub_main'); //
-  Route::match(['get', 'post'], 'wh_sub_main_rp', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_rp'])->name('wh.wh_sub_main_rp'); //
-  Route::match(['get', 'post'], 'wh_sub_main_add', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_add'])->name('wh.wh_sub_main_add'); //
-  Route::match(['get', 'post'], 'wh_sub_main_rprint/{id}', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_rprint'])->name('wh.wh_sub_main_rprint'); //
-  Route::match(['get', 'post'], 'wh_sub_main_detail', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_detail'])->name('wh.wh_sub_main_detail'); //
-  Route::match(['get', 'post'], 'wh_request', [App\Http\Controllers\WhUserController::class, 'wh_request'])->name('wh.wh_request'); //
-  Route::match(['get', 'post'], 'wh_request_add', [App\Http\Controllers\WhUserController::class, 'wh_request_add'])->name('wh.wh_request_add'); //
-  Route::match(['get', 'post'], 'wh_request_save', [App\Http\Controllers\WhUserController::class, 'wh_request_save'])->name('wh.wh_request_save'); //
-  Route::match(['get', 'post'], 'wh_request_edit/{id}', [App\Http\Controllers\WhUserController::class, 'wh_request_edit'])->name('wh.wh_request_edit'); //
-  Route::match(['get', 'post'], 'wh_request_update', [App\Http\Controllers\WhUserController::class, 'wh_request_update'])->name('wh.wh_request_update'); //
-  Route::match(['get', 'post'], 'wh_request_addsub/{id}', [App\Http\Controllers\WhUserController::class, 'wh_request_addsub'])->name('wh.wh_request_addsub'); //
-  Route::match(['get', 'post'], 'wh_request_addsub_save', [App\Http\Controllers\WhUserController::class, 'wh_request_addsub_save'])->name('wh.wh_request_addsub_save'); //
-  Route::match(['get', 'post'], 'wh_request_destroy', [App\Http\Controllers\WhUserController::class, 'wh_request_destroy'])->name('wh.wh_request_destroy'); //
-  Route::match(['get', 'post'], 'wh_request_updatestock', [App\Http\Controllers\WhUserController::class, 'wh_request_updatestock'])->name('wh.wh_request_updatestock'); //
-  Route::match(['get', 'post'], 'wh_request_edittable', [App\Http\Controllers\WhUserController::class, 'wh_request_edittable'])->name('wh.wh_request_edittable'); //
-  Route::match(['get', 'post'], 'wh_approve_stock/{id}', [App\Http\Controllers\WhUserController::class, 'wh_approve_stock'])->name('wh.wh_approve_stock'); //
-  Route::match(['get', 'post'], 'wh_sub_main_pay', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_pay'])->name('wh.wh_sub_main_pay'); //
-  Route::match(['get', 'post'], 'wh_sub_main_paysave', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_paysave'])->name('wh.wh_sub_main_paysave'); //
-  Route::match(['get', 'post'], 'wh_sub_main_payadd/{id}', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_payadd'])->name('wh.wh_sub_main_payadd'); //
-  Route::match(['get', 'post'], 'wh_sub_main_paysub_save', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_paysub_save'])->name('wh.wh_sub_main_paysub_save'); //
-  Route::match(['get', 'post'], 'wh_sub_main_payedittable', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_payedittable'])->name('wh.wh_sub_main_payedittable'); //
-  Route::match(['get', 'post'], 'wh_sub_main_paysub_update', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_paysub_update'])->name('wh.wh_sub_main_paysub_update'); //
+Route::match(['get', 'post'], 'wh_pay', [App\Http\Controllers\WhController::class, 'wh_pay'])->name('wh.wh_pay'); //
+Route::match(['get', 'post'], 'wh_pay_add', [App\Http\Controllers\WhController::class, 'wh_pay_add'])->name('wh.wh_pay_add'); //
+Route::match(['get', 'post'], 'wh_pay_save', [App\Http\Controllers\WhController::class, 'wh_pay_save'])->name('wh.wh_pay_save'); //
+Route::match(['get', 'post'], 'wh_pay_edit/{id}', [App\Http\Controllers\WhController::class, 'wh_pay_edit'])->name('wh.wh_pay_edit'); //
+Route::match(['get', 'post'], 'wh_pay_update', [App\Http\Controllers\WhController::class, 'wh_pay_update'])->name('wh.wh_pay_update'); //
+Route::match(['get', 'post'], 'wh_pay_addsub/{id}', [App\Http\Controllers\WhController::class, 'wh_pay_addsub'])->name('wh.wh_pay_addsub'); //
+Route::match(['get', 'post'], 'wh_pay_addsub_save', [App\Http\Controllers\WhController::class, 'wh_pay_addsub_save'])->name('wh.wh_pay_addsub_save'); //
+Route::match(['get', 'post'], 'wh_pay_sublot_save', [App\Http\Controllers\WhController::class, 'wh_pay_sublot_save'])->name('wh.wh_pay_sublot_save'); //
+Route::match(['get', 'post'], 'wh_pay_destroy', [App\Http\Controllers\WhController::class, 'wh_pay_destroy'])->name('wh.wh_pay_destroy'); //
+Route::match(['get', 'post'], 'wh_pay_updatestock', [App\Http\Controllers\WhController::class, 'wh_pay_updatestock'])->name('wh.wh_pay_updatestock'); //
+Route::match(['get', 'post'], 'wh_pay_edittable', [App\Http\Controllers\WhController::class, 'wh_pay_edittable'])->name('wh.wh_pay_edittable'); //
+Route::match(['get', 'post'], 'wh_pay_approve/{id}', [App\Http\Controllers\WhController::class, 'wh_pay_approve'])->name('wh.wh_pay_approve'); //
+Route::match(['get', 'post'], 'wh_pay_select_lot', [App\Http\Controllers\WhController::class, 'wh_pay_select_lot'])->name('wh.wh_pay_select_lot'); //
+Route::match(['get', 'post'], 'wh_pay_select_lotsave', [App\Http\Controllers\WhController::class, 'wh_pay_select_lotsave'])->name('wh.wh_pay_select_lotsave'); //
+Route::match(['get', 'post'], 'wh_pay_updatetable', [App\Http\Controllers\WhController::class, 'wh_pay_updatetable'])->name('wh.wh_pay_updatetable'); //
+Route::match(['get', 'post'], 'wh_pay_subdestroy', [App\Http\Controllers\WhController::class, 'wh_pay_subdestroy'])->name('wh.wh_pay_subdestroy'); //
 
-  Route::match(['get', 'post'], 'load_datauser_table', [App\Http\Controllers\WhUserController::class, 'load_datauser_table'])->name('wh.load_datauser_table'); //
-  Route::match(['get', 'post'], 'load_data_usersum', [App\Http\Controllers\WhUserController::class, 'load_data_usersum'])->name('wh.load_data_usersum'); //
+Route::match(['get', 'post'], 'wh_supplies_save', [App\Http\Controllers\WhController::class, 'wh_supplies_save'])->name('wh.wh_supplies_save'); //
+Route::match(['get', 'post'], 'wh_supplies_destroy', [App\Http\Controllers\WhController::class, 'wh_supplies_destroy'])->name('wh.wh_supplies_destroy'); //
+Route::match(['get', 'post'], 'wh_report_month', [App\Http\Controllers\WhController::class, 'wh_report_month'])->name('wh.wh_report_month'); //
+
+Route::match(['get', 'post'], 'wh_sub_main', [App\Http\Controllers\WhUserController::class, 'wh_sub_main'])->name('wh.wh_sub_main'); //
+Route::match(['get', 'post'], 'wh_sub_main_rp', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_rp'])->name('wh.wh_sub_main_rp'); //
+Route::match(['get', 'post'], 'wh_sub_main_add', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_add'])->name('wh.wh_sub_main_add'); //
+Route::match(['get', 'post'], 'wh_sub_main_rprint/{id}', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_rprint'])->name('wh.wh_sub_main_rprint'); //
+Route::match(['get', 'post'], 'wh_sub_main_detail', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_detail'])->name('wh.wh_sub_main_detail'); //
+Route::match(['get', 'post'], 'wh_request', [App\Http\Controllers\WhUserController::class, 'wh_request'])->name('wh.wh_request'); //
+Route::match(['get', 'post'], 'wh_request_add', [App\Http\Controllers\WhUserController::class, 'wh_request_add'])->name('wh.wh_request_add'); //
+Route::match(['get', 'post'], 'wh_request_save', [App\Http\Controllers\WhUserController::class, 'wh_request_save'])->name('wh.wh_request_save'); //
+Route::match(['get', 'post'], 'wh_request_edit/{id}', [App\Http\Controllers\WhUserController::class, 'wh_request_edit'])->name('wh.wh_request_edit'); //
+Route::match(['get', 'post'], 'wh_request_update', [App\Http\Controllers\WhUserController::class, 'wh_request_update'])->name('wh.wh_request_update'); //
+Route::match(['get', 'post'], 'wh_request_addsub/{id}', [App\Http\Controllers\WhUserController::class, 'wh_request_addsub'])->name('wh.wh_request_addsub'); //
+Route::match(['get', 'post'], 'wh_request_addsub_save', [App\Http\Controllers\WhUserController::class, 'wh_request_addsub_save'])->name('wh.wh_request_addsub_save'); //
+Route::match(['get', 'post'], 'wh_request_destroy', [App\Http\Controllers\WhUserController::class, 'wh_request_destroy'])->name('wh.wh_request_destroy'); //
+Route::match(['get', 'post'], 'wh_request_updatestock', [App\Http\Controllers\WhUserController::class, 'wh_request_updatestock'])->name('wh.wh_request_updatestock'); //
+Route::match(['get', 'post'], 'wh_request_edittable', [App\Http\Controllers\WhUserController::class, 'wh_request_edittable'])->name('wh.wh_request_edittable'); //
+Route::match(['get', 'post'], 'wh_approve_stock/{id}', [App\Http\Controllers\WhUserController::class, 'wh_approve_stock'])->name('wh.wh_approve_stock'); //
+Route::match(['get', 'post'], 'wh_sub_main_pay', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_pay'])->name('wh.wh_sub_main_pay'); //
+Route::match(['get', 'post'], 'wh_sub_main_paysave', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_paysave'])->name('wh.wh_sub_main_paysave'); //
+Route::match(['get', 'post'], 'wh_sub_main_payadd/{id}', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_payadd'])->name('wh.wh_sub_main_payadd'); //
+Route::match(['get', 'post'], 'wh_sub_main_paysub_save', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_paysub_save'])->name('wh.wh_sub_main_paysub_save'); //
+Route::match(['get', 'post'], 'wh_sub_main_payedittable', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_payedittable'])->name('wh.wh_sub_main_payedittable'); //
+Route::match(['get', 'post'], 'wh_sub_main_paysub_update', [App\Http\Controllers\WhUserController::class, 'wh_sub_main_paysub_update'])->name('wh.wh_sub_main_paysub_update'); //
+
+Route::match(['get', 'post'], 'load_datauser_table', [App\Http\Controllers\WhUserController::class, 'load_datauser_table'])->name('wh.load_datauser_table'); //
+Route::match(['get', 'post'], 'load_data_usersum', [App\Http\Controllers\WhUserController::class, 'load_data_usersum'])->name('wh.load_data_usersum'); //
 
 
 

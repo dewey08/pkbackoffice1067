@@ -68,6 +68,7 @@ use App\Http\Controllers\StaticController;
 $refnumber = SuppliesController::refnumber();
 $count_product = StaticController::count_product();
 $count_service = StaticController::count_service();
+
 ?>
 
 @section('content')
@@ -77,7 +78,7 @@ $count_service = StaticController::count_service();
 {{-- <div class="container" style="width: 97%"> --}}
     <div class="row ">
         <div class="col-md-12">
-            <div class="card shadow">
+            <div class="card card_prs_4">
 
                 <div class="card-header">
                     <div class="d-flex">
@@ -114,7 +115,7 @@ $count_service = StaticController::count_service();
                                                 <option value="">--เลือก--</option>
                                                 @foreach ($hn as $ph)
                                                     
-                                                    <option value="{{ $ph->hn }}"> {{ $ph->hn }} || {{ $ph->ptname }}</option> 
+                                                    <option value="{{ $ph->hn }}"> {{ $ph->hn }}</option> 
                                                 @endforeach
                                             </select>
                                         </div>
@@ -125,34 +126,7 @@ $count_service = StaticController::count_service();
                                     <div class="col-md-6">                          
                                         <div id="show_detailpatient"></div>                                     
                                     </div>
-                                    {{-- <div class="col-md-8">
-                                        <label for=""></label>
-                                    </div> --}}
-
-                                    {{-- <div class="col-md-1 text-end">
-                                        <label for="dent_patient_name">ชื่อ - นามสกุล :</label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <div class="form-group">
-                                                <input id="dent_patient_name" type="date" class="form-control form-control-sm"
-                                                    name="dent_patient_name">
-                                            </div>
-                                        </div>
-                                    </div> --}}
-
-                                    {{-- <div class="col-md-1 text-end">
-                                        <label for="dent_tel">เบอร์โทร :</label>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <div class="form-group">
-                                                <input id="dent_tel" type="text" class="form-control form-control-sm" name="dent_tel">
-                                            </div>
-                                        </div>
-                                    </div> --}}
-
-                                    
+                                                                        
                                 </div>
 
                                 <div class="row mt-2">
@@ -161,9 +135,12 @@ $count_service = StaticController::count_service();
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <div class="form-group">
-                                                <input id="dent_date" type="date" class="form-control form-control-sm"
-                                                    name="dent_date">
+                                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                            {{-- <div class="form-group"> --}}
+                                                {{-- <input id="dent_date" type="date" class="form-control form-control-sm" name="dent_date"> --}}
+                                                <input type="text" class="form-control-sm d12font input_new" name="datepicker" id="datepicker" placeholder="Start Date" data-date-autoclose="true" autocomplete="off"
+                                                data-date-language="th-th" value="{{ $date_now }}"/>
+
                                             </div>
                                         </div>
                                     </div>
@@ -173,8 +150,7 @@ $count_service = StaticController::count_service();
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <input type="time" id="dent_time" name="dent_time" class="form-control"
-                                                placeholder="" />
+                                            <input type="time" id="dent_time" name="dent_time" class="form-control" placeholder="" />
                                         </div>
                                     </div>
                                     
@@ -198,23 +174,32 @@ $count_service = StaticController::count_service();
                                 </div>
 
                                 <div class="row mt-2">
-                                    <div class="col-md-2 text-end">
+                                    <div class="col-md-1 text-end">
                                         <label for="appointment">ประเภทการนัด :</label>
                                     </div>
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <select id="appointment" name="appointment" class="form-control form-control-sm" style="width: 100%">
                                                 <option value="">--เลือก--</option>
-                                                @foreach ($appointment as $ap)
-                                                    {{-- @if ($data_appointment == $ap->id) --}}
-                                                    {{-- <option value="{{ $ap->id }}" selected> {{ $ap->appointment_name }}</option> --}}
-                                                    {{-- @else --}}
-                                                    <option value="{{ $ap->appointment_id }}"> {{ $ap->appointment_name }}</option>
-                                                    {{-- @endif --}}
+                                                @foreach ($appointment as $ap)                                                    
+                                                    <option value="{{ $ap->appointment_id }}"> {{ $ap->appointment_name }}</option>                                                    
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div>                                    
+                                    </div> 
+                                    
+                                    <div class="col-md-1 text-end">
+                                        <label for="dent_work">งาน :</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="form-group">
+                                            <div class="form-group">
+                                                <input id="dent_work" type="text" class="form-control form-control-sm" name="dent_work">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     
                                 </div>
 
@@ -297,7 +282,7 @@ $count_service = StaticController::count_service();
 <script>
      function hnDent() {
 
-        // alert('iiiiiiioopkojoip');
+        // alert('ใส่ข้อความที่ต้องการ');
             var denthn = document.getElementById("dent_hn").value;
                 // var supplies_tax = document.getElementById("supplies_tax").value;
                 // alert(denthn);
@@ -311,7 +296,7 @@ $count_service = StaticController::count_service();
                         _token: _token
                     },
                     success: function (result) {
-                        // $('.show_detailpatient').html(data.data_patient);
+                        
                         $('#show_detailpatient').html(result);
                     }
                 })
@@ -338,16 +323,25 @@ $count_service = StaticController::count_service();
             placeholder: "--เลือก--",
             allowClear: true
             });
+
+        // ช่องค้นหาHN
             $('#dent_hn').select2({
-            placeholder: "--เลือก--",
+            placeholder: "--ค้นหา HN--",
             allowClear: true
             });
             
         // ช่องค้นหาประเภทการนัด
         $('#appointment').select2({
-            placeholder: "--เลือก--",
+            placeholder: "--เลือกประเภทการนัด--",
             allowClear: true
         }); 
+
+        $('#datepicker').datepicker({
+                format: 'yyyy-mm-dd'
+            });
+            $('#datepicker2').datepicker({
+                format: 'yyyy-mm-dd'
+            });
        
        
     });

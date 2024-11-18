@@ -164,9 +164,9 @@ class WhController extends Controller
                 ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty
                 ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name
                 ,e.*
-                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "'. $yy3.'") plan_65
-                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "'. $yy2.'") plan_66
-                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "'. $yy1.'") plan_67
+                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "'. $yy3.'" AND plan_store = "'. $id.'") plan_65
+                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "'. $yy2.'" AND plan_store = "'. $id.'") plan_66
+                ,(SELECT total_plan FROM wh_plan WHERE pro_id = a.pro_id AND wh_plan_year = "'. $yy1.'" AND plan_store = "'. $id.'") plan_67
                 FROM wh_product a
                 LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
                 LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
@@ -288,7 +288,7 @@ class WhController extends Controller
             'enddate'    => $enddate,
         ]);
     }
-    public function wh_stock_card(Request $request,$id)
+    public function wh_stock_card(Request $request,$idstore,$idpro)
     {
         $startdate  = $request->datepicker;
         $enddate    = $request->datepicker2;
@@ -306,7 +306,7 @@ class WhController extends Controller
         $bg_yearnow    = $bgs_year->leave_year_id;
         $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
  
-        $data_main_stc         = DB::table('wh_stock')->where('wh_stock_id','=',$id)->first();
+        $data_main_stc         = DB::table('wh_stock')->where('wh_stock_id','=',$idstore)->first();
         $stock_year            = $data_main_stc->stock_year;
         $stock_list_id         = $data_main_stc->stock_list_id;
         $stock_list_name       = $data_main_stc->stock_list_name;
@@ -341,7 +341,7 @@ class WhController extends Controller
             LEFT JOIN wh_recieve_sub b ON b.pro_id = a.pro_id
             LEFT JOIN wh_recieve c ON c.wh_recieve_id = b.wh_recieve_id
             LEFT JOIN wh_unit d ON d.wh_unit_id = a.unit_id
-            WHERE a.pro_id = "'.$id.'"  
+            WHERE a.pro_id = "'.$idpro.'"  
             GROUP BY b.lot_no ASC
             ORDER BY b.lot_no ASC 
         ');
@@ -351,14 +351,14 @@ class WhController extends Controller
             LEFT JOIN wh_stock_export_sub b ON b.pro_id = a.pro_id
             LEFT JOIN wh_stock_export c ON c.wh_stock_export_id = b.wh_stock_export_id
             LEFT JOIN wh_unit d ON d.wh_unit_id = a.unit_id
-            WHERE a.pro_id = "'.$id.'"  
+            WHERE a.pro_id = "'.$idpro.'"  
             ORDER BY b.wh_stock_export_sub_id ASC 
         ');
         $data_qty_  = DB::select(
             'SELECT SUM(b.qty) as qty_rep,b.one_price  
             FROM wh_stock a
             LEFT JOIN wh_recieve_sub b ON b.pro_id = a.pro_id 
-            WHERE a.pro_id = "'.$id.'"  
+            WHERE a.pro_id = "'.$idpro.'"  
         ');
         foreach ($data_qty_ as $key => $value) {
             $qty_rep         = $value->qty_rep;
@@ -369,7 +369,7 @@ class WhController extends Controller
             'SELECT SUM(b.qty_pay) as qty_pay,b.one_price  
             FROM wh_stock a
             LEFT JOIN wh_stock_export_sub b ON b.pro_id = a.pro_id 
-            WHERE a.pro_id = "'.$id.'"  
+            WHERE a.pro_id = "'.$idpro.'"  
         ');
         foreach ($data_qty_pay as $key => $value2) {
             $qty_pay         = $value2->qty_pay;
@@ -1411,7 +1411,8 @@ class WhController extends Controller
                         <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" >รายการวัสดุ</td>
                           <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" >ราคา</td>
                         <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" >LOT</td>
-                        <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" width="12%">คงเหลือ</td>                        
+                        <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" width="12%">คงเหลือ</td>        
+                        <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" width="12%">จ่าย</td>                  
                         <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" width="6%">เลือก</td>
                     </tr>
                 </thead>
@@ -1425,8 +1426,9 @@ class WhController extends Controller
                             <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;" align="center" >' . $item->one_price . '</td>
                               <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;" align="center" >' . $item->lot_no . '</td>
                             <td class="text-font" style="border: 1px solid black;padding-right:10px;font-size: 13px;" align="right" >' . $item->qty-$item->pay . '</td>
+                            <td class="text-font" style="border: 1px solid black;padding-right:10px;font-size: 13px;" align="right" ><input class="form-control form-control-sm" name="qty_pay'.$item->wh_recieve_sub_id.'" id="qty_pay'.$item->wh_recieve_sub_id.'" type="text"></td>
                             <td class="text-font" style="border: 1px solid black;" align="center" >
-                            <button type="button" class="btn btn-outline-primary btn-sm"  style="font-family: \'Kanit\', sans-serif; font-size: 13px;font-weight:normal;"  onclick="selectsupreq('.$item->wh_recieve_sub_id.','.$count.')">เลือก</button></td> 
+                            <button type="button" class="btn btn-outline-primary btn-sm"  style="font-family: \'Kanit\', sans-serif; font-size: 13px;font-weight:normal;" onclick="selectsupreq('.$item->wh_recieve_sub_id.','.$count.')">เลือก</button></td> 
                         </tr>';
                      }
                     $output .= '</tbody>
@@ -1437,8 +1439,10 @@ class WhController extends Controller
     { 
         $wh_request_id     = $request->wh_request_id;
         $iddeb             = Wh_request::where('wh_request_id',$wh_request_id)->first();
+    
         $idrecieve_sub     = Wh_recieve_sub::where('wh_recieve_sub_id',$request->wh_recieve_sub_id)->first();
-        // $pro_id            = $idrecieve_sub->pro_id;
+        $id_pro            = Wh_request_sub::where('wh_request_id',$wh_request_id)->where('pro_id',$idrecieve_sub->pro_id)->first();
+        $qty_req           = $id_pro->qty;
         $count             = Wh_request_subpay::where('wh_recieve_sub_id',$request->wh_recieve_sub_id)->where('wh_request_id',$wh_request_id)->count();
         if ($count > 0) {
             # code...
@@ -1450,6 +1454,8 @@ class WhController extends Controller
                 'stock_list_id'      => $idrecieve_sub->stock_list_id,
                 'stock_list_subid'   => $iddeb->stock_list_subid,
                 'pro_id'             => $idrecieve_sub->pro_id,
+                'qty'                => $qty_req,
+                'qty_pay'            => $request->qty_pay,                 
                 'pro_code'           => $idrecieve_sub->pro_code,
                 'pro_name'           => $idrecieve_sub->pro_name,
                 'unit_id'            => $idrecieve_sub->unit_id,
@@ -1872,6 +1878,8 @@ class WhController extends Controller
     // ************************  Report ************************************
     public function wh_report_month(Request $request)
     {
+        $startdate                  = $request->startdate;
+        $enddate                    = $request->enddate;
         $budget_year                = $request->budget_year;
         $acc_trimart_id             = $request->acc_trimart_id;
         $dabudget_year              = DB::table('budget_year')->where('active','=',true)->get();
@@ -1920,6 +1928,8 @@ class WhController extends Controller
             'dabudget_year'     =>  $dabudget_year,
             'budget_year'       =>  $budget_year,
             'y'                 =>  $y, 
+            'startdate'         =>  $startdate,
+            'enddate'           =>  $enddate,
         ]);
     }
 
