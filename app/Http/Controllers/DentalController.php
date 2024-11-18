@@ -46,7 +46,7 @@ use App\Models\Acc_stm_lgo;
 use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
 use App\Models\Acc_stm_ucs_excel;
-use App\Models\D_claim_db_hipdata_code;
+use App\Models\Patient;
 use App\Models\Oapp;
 use PDF;
 use setasign\Fpdi\Fpdi;
@@ -576,10 +576,12 @@ class DentalController extends Controller
         $dateend = $request->enddate;
         $iduser = Auth::user()->id;
         
+        
         $data['users'] = User::get();
         $data['leave_month'] = DB::table('leave_month')->get();
         $data['users_group'] = DB::table('users_group')->get();
         $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
+        
         // $data['dent_appointment_type'] = DB::table('dent_appointment_type')->where('status','=','Y')->get();
 
         $date = date('Y-m-d');
@@ -612,11 +614,11 @@ class DentalController extends Controller
             AND active = "Y"
         ');
 
-        $data_p = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient');
-        foreach ($data_p as $key => $value) { 
-            $hn    = $value->hn;
-            // $token_  = $value->token;
-        }
+        $data['hn'] = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient GROUP BY hn limit 1000');
+        // foreach ($data_p as $key => $value) { 
+        //     $hn    = $value->hn;
+        //     $token_  = $value->token;
+        // }
                
 
         return view('dent.dental_appointment_add', $data,[
@@ -847,6 +849,37 @@ class DentalController extends Controller
         $active = Dent_appointment_type::find($id);
         $active->status = $request->onoff;
         $active->save();
+    }
+
+    public function dental_detail_patient000(Request $request)
+    {
+        $hn          =  $request->denthn;
+        $datapatient = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname,cid FROM patient WHERE hn = "'.$hn.'"');
+        foreach ($datapatient as $key => $value) {
+            // $hometel     = $value->hometel;
+            $cid         = $value->cid;
+        }
+        // dd($hn);
+        // return response()->json([
+        //     'status'          => '200',
+        //     'data_patient'    => $cid
+        // ]); 
+    }
+
+    public function dental_detail_patient(Request $request)
+    {
+        $hn                 =  $request->denthn;
+       
+        $data_show          = Patient::where('hn',$hn)->first();
+        $data_cid           = $data_show->cid;
+        $data_ptname        = $data_show->pname.''.$data_show->fname.'  '.$data_show->lname;
+        $data_hometel       = $data_show->hometel;
+
+        $output='<label for="">เลขบัตรประชาชน  :   '.$data_cid. '&nbsp;&nbsp;&nbsp; ||   ชื่อ-นามสกุล  :    ' .$data_ptname.'&nbsp;&nbsp;&nbsp; ||   เบอร์โทร  :    ' .$data_hometel.'</label>'
+        
+        ; 
+        
+        echo $output;        
     }
 
     

@@ -3653,7 +3653,9 @@ Route::match(['get','post'],'env_trash_parameter_switchactive',[App\Http\Control
     Route::match(['get', 'post'], 'dental_setting_type_edit/{id}', [App\Http\Controllers\DentalController::class, 'dental_setting_type_edit'])->name('den.dental_setting_type_edit');
     Route::match(['get', 'post'], 'dental_setting_type_update', [App\Http\Controllers\DentalController::class, 'dental_setting_type_update'])->name('den.dental_setting_type_update');//อัพเดท
     Route::match(['get', 'post'], 'dental_setting_type_delete/{id}', [App\Http\Controllers\DentalController::class, 'dental_setting_type_delete'])->name('den.dental_setting_type_delete');
-
     
     Route::match(['get', 'post'], 'dental_switchactive', [App\Http\Controllers\DentalController::class, 'dental_switchactive'])->name('den.dental_switchactive'); // switchactive
+
+    Route::match(['get', 'post'], 'dental_detail_patient', [App\Http\Controllers\DentalController::class, 'dental_detail_patient'])->name('den.dental_detail_patient'); //
+
 });

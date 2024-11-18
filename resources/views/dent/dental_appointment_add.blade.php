@@ -74,7 +74,7 @@ $count_service = StaticController::count_service();
 
 
 
-<div class="container-fluid" style="width: 97%">
+{{-- <div class="container" style="width: 97%"> --}}
     <div class="row ">
         <div class="col-md-12">
             <div class="card shadow">
@@ -110,20 +110,26 @@ $count_service = StaticController::count_service();
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            {{-- <select id="dent_hn" name="dent_hn" class="form-control form-control-sm" style="width: 100%">
+                                            <select id="dent_hn" name="dent_hn" class="form-control form-control-sm" style="width: 100%" onchange="hnDent()">
                                                 <option value="">--เลือก--</option>
-                                                @foreach ($data_p as $pa)
-                                                    @if ($data_p == $pa->id)
-                                                    <option value="{{ $pa->id }}" selected> {{ $pa->fname }} {{ $pa->lname }}</option>
-                                                    @else
-                                                    <option value="{{ $pa->id }}"> {{ $pa->fname }} {{ $pa->lname }}</option>
-                                                    @endif
+                                                @foreach ($hn as $ph)
+                                                    
+                                                    <option value="{{ $ph->hn }}"> {{ $ph->hn }} || {{ $ph->ptname }}</option> 
                                                 @endforeach
-                                            </select> --}}
+                                            </select>
                                         </div>
                                     </div>
+                                    <div class="col-md-2 text-end">
+                                        <label for="" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:13px">รายละเอียดคนไข้ :</label>
+                                    </div>
+                                    <div class="col-md-6">                          
+                                        <div id="show_detailpatient"></div>                                     
+                                    </div>
+                                    {{-- <div class="col-md-8">
+                                        <label for=""></label>
+                                    </div> --}}
 
-                                    <div class="col-md-1 text-end">
+                                    {{-- <div class="col-md-1 text-end">
                                         <label for="dent_patient_name">ชื่อ - นามสกุล :</label>
                                     </div>
                                     <div class="col-md-3">
@@ -133,9 +139,9 @@ $count_service = StaticController::count_service();
                                                     name="dent_patient_name">
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
-                                    <div class="col-md-1 text-end">
+                                    {{-- <div class="col-md-1 text-end">
                                         <label for="dent_tel">เบอร์โทร :</label>
                                     </div>
                                     <div class="col-md-3">
@@ -144,7 +150,7 @@ $count_service = StaticController::count_service();
                                                 <input id="dent_tel" type="text" class="form-control form-control-sm" name="dent_tel">
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     
                                 </div>
@@ -199,12 +205,12 @@ $count_service = StaticController::count_service();
                                         <div class="form-group">
                                             <select id="appointment" name="appointment" class="form-control form-control-sm" style="width: 100%">
                                                 <option value="">--เลือก--</option>
-                                                @foreach ($appointment as $ue)
-                                                    @if ($iduser == $ue->id)
-                                                    <option value="{{ $ue->id }}" selected> {{ $ue->fname }} {{ $ue->lname }}</option>
-                                                    @else
-                                                    <option value="{{ $ue->id }}"> {{ $ue->fname }} {{ $ue->lname }}</option>
-                                                    @endif
+                                                @foreach ($appointment as $ap)
+                                                    {{-- @if ($data_appointment == $ap->id) --}}
+                                                    {{-- <option value="{{ $ap->id }}" selected> {{ $ap->appointment_name }}</option> --}}
+                                                    {{-- @else --}}
+                                                    <option value="{{ $ap->appointment_id }}"> {{ $ap->appointment_name }}</option>
+                                                    {{-- @endif --}}
                                                 @endforeach
                                             </select>
                                         </div>
@@ -283,14 +289,37 @@ $count_service = StaticController::count_service();
     </div>
 
 </div>
-</div>
+{{-- </div> --}}
 
 
 @endsection
 @section('footer')
 <script>
+     function hnDent() {
+
+        // alert('iiiiiiioopkojoip');
+            var denthn = document.getElementById("dent_hn").value;
+                // var supplies_tax = document.getElementById("supplies_tax").value;
+                // alert(denthn);
+
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: "{{url('dental_detail_patient')}}",
+                    method: "GET",
+                    data: {
+                        denthn: denthn,
+                        _token: _token
+                    },
+                    success: function (result) {
+                        // $('.show_detailpatient').html(data.data_patient);
+                        $('#show_detailpatient').html(result);
+                    }
+                })
+        }
     $(document).ready(function() {
         // $("#overlay").fadeIn(300);　
+
+       
 
         $('#datepicker').datepicker({
             format: 'yyyy-mm-dd'
@@ -309,6 +338,11 @@ $count_service = StaticController::count_service();
             placeholder: "--เลือก--",
             allowClear: true
             });
+            $('#dent_hn').select2({
+            placeholder: "--เลือก--",
+            allowClear: true
+            });
+            
         // ช่องค้นหาประเภทการนัด
         $('#appointment').select2({
             placeholder: "--เลือก--",
