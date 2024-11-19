@@ -182,7 +182,7 @@
 
     .input_new{
         border-radius: 2em 2em 2em 2em;
-        box-shadow: 0 0 10px rgb(252, 149, 218);
+        box-shadow: 0 0 10px rgb(252, 251, 252);
         border:solid 1px #ffc5ff;
     } 
     .card_prs_2b{
@@ -429,19 +429,25 @@
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('dental_db') }}" id="topnav-more" role="button">
-                                    <i class="fa-solid fa-chart-pie fa-beat fa-xl me-2" style="color: #6e09f1;"></i>Dashboard
+                                    <img src="{{ asset('images/Dashboards.png') }}" height="27px" width="27px" >
+                                    {{-- <i class="fa-solid fa-chart-pie fa-beat fa-xl me-2" style="color: #6e09f1;"> --}}
+                                    </i>Dashboard
                                 </a> 
                             </li>
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="{{ url('dental_calendar') }}" id="topnav-more" role="button">
-                                    <i class="fa-regular fa-calendar-check fa-beat fa-xl me-2" style="color: #74C0FC;"></i>ปฏิทินการนัด
+                                    <img src="{{ asset('images/Calendar.png') }}" height="27px" width="27px" >
+                                    {{-- <i class="fa-regular fa-calendar-check fa-beat fa-xl me-2" style="color: #74C0FC;"> --}}
+                                    </i>ปฏิทินการนัด
                                 </a>                                
                             </li>                            
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
-                                    <i class="fa-solid fa-user-nurse fa-beat fa-xl me-2" style="color: #B197FC;"></i>ค่าภาระงาน <div class="arrow-down"></div>
+                                    {{-- <i class="fa-solid fa-user-nurse fa-beat fa-xl me-2" style="color: #B197FC;"> --}}
+                                    <img src="{{ asset('images/job.png') }}" height="27px" width="27px" >
+                                    </i>ค่าภาระงาน <div class="arrow-down"></div>
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">                                   
@@ -467,7 +473,9 @@
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
-                                    <i class="fa-solid fa-screwdriver-wrench fa-beat fa-xl me-2" style="color: #1f68e5;"></i><span key="t-layouts">ตั้งค่า</span> <div class="arrow-down"></div>
+                                    <img src="{{ asset('images/Settings.png') }}" height="27px" width="27px" >
+                                    {{-- <i class="fa-solid fa-screwdriver-wrench fa-beat fa-xl me-2" style="color: #1f68e5;"> --}}
+                                    </i><span key="t-layouts">ตั้งค่า</span> <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
                                     <a href="{{ url('dental_setting_type') }}" class="dropdown-item">ตั้งค่าประเภทการนัด</a> 

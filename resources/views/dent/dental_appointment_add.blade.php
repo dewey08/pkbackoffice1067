@@ -78,7 +78,7 @@ $count_service = StaticController::count_service();
 {{-- <div class="container" style="width: 97%"> --}}
     <div class="row ">
         <div class="col-md-12">
-            <div class="card card_prs_4">
+            <div class="card card_prs_4" >
 
                 <div class="card-header">
                     <div class="d-flex">
@@ -92,9 +92,9 @@ $count_service = StaticController::count_service();
                 </div>
 
                 <div class="card-body shadow-lg">
-                    <form class="custom-validation" action="{{ route('den.dental_appointment_save') }}" method="POST"
+                    {{-- <form class="custom-validation" action="{{ route('den.dental_appointment_save') }}" method="POST"
                         enctype="multipart/form-data">
-                        @csrf
+                        @csrf --}}
                         <input type="hidden" name="store_id" id="store_id" value=" {{ Auth::user()->store_id }}">
                         <div class="row">
 
@@ -136,11 +136,8 @@ $count_service = StaticController::count_service();
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                                            {{-- <div class="form-group"> --}}
-                                                {{-- <input id="dent_date" type="date" class="form-control form-control-sm" name="dent_date"> --}}
                                                 <input type="text" class="form-control-sm input_new" name="datepicker" id="datepicker" placeholder="Start Date" data-date-autoclose="true" autocomplete="off"
                                                 data-date-language="th-th" value="{{ $date_now }}"/>
-
                                             </div>
                                         </div>
                                     </div>
@@ -171,7 +168,7 @@ $count_service = StaticController::count_service();
                                                 </select>
                                             </div>
                                         </div>    
-                                </div>
+                                    </div>
 
                                 <div class="row mt-2">
                                     <div class="col-md-1 text-end">
@@ -199,34 +196,35 @@ $count_service = StaticController::count_service();
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    
                                 </div>                             
-
 
                             </div>
                         </div>
                 </div>
 
+                
+                {{-- </form> --}}
+
                 <div class="card-footer">
                     <div class="col-md-12 text-end">
+
                         <div class="form-group">
 
-                            <button type="submit" class="btn btn-primary btn-sm">
+                            <button type="button" id="SaveData" class="btn btn-primary btn-sm">
                                 {{-- <i class="fa-solid fa-floppy-disk me-2"></i> --}}
                                 <img src="{{ asset('images/Savewhit.png') }}" class="me-2 ms-2" height="18px" width="18px">
                                 บันทึกข้อมูล
                             </button>
 
-                            <a href="{{ url('env_trash') }}" class="btn btn-danger btn-sm">
+                            <a href="{{ url('dental_calendar') }}" class="btn btn-danger btn-sm">
                                 {{-- <i class="fa-solid fa-xmark me-2"></i> --}}
                                 <img src="{{ asset('images/back.png') }}" class="me-2 ms-2" height="18px" width="18px">
                                 ยกเลิก
                             </a>
                         </div>
+
                     </div>
                 </div>
-                </form>
 
             </div>
         </div>
@@ -301,8 +299,82 @@ $count_service = StaticController::count_service();
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
-       
-       
+            
+            $('#SaveData').click(function() {
+                var dent_hn             = $('#dent_hn').val();                 
+                var dent_date           = $('#datepicker').val(); 
+                var dent_time           = $('#dent_time').val(); 
+                var appointment      = $('#appointment').val();
+                // var appointment_name    = $('#appointment_name').val();  
+                var dent_doctor         = $('#dent_doctor').val();
+                var dent_work      = $('#dent_work').val();                  
+// alert(dent_hn);
+                Swal.fire({ position: "center",
+                        title: 'ต้องการเพิ่มข้อมูลใช่ไหม ?',
+                        text: "You Warn Add Data !!!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'ตกลง, เพิ่มเลย!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#overlay").fadeIn(300);　
+                                $("#spinner").show(); //Load button clicked show spinner 
+                                
+                                $.ajax({
+                                    url: "{{ route('den.dental_appointment_save') }}",
+                                    type: "POST",
+                                    dataType: 'json',
+                                    data: {dent_hn,dent_date,dent_time,appointment,dent_doctor,dent_work},
+                                    success: function(data) {
+                                        if (data.status == 200) { 
+                                            Swal.fire({ position: "center",
+                                                title: 'เพิ่มข้อมูลสำเร็จ',
+                                                text: "คุณเพิ่มข้อมูลสำเร็จแล้ว",
+                                                icon: 'success',
+                                                showCancelButton: false,
+                                                confirmButtonColor: '#06D177',
+                                                confirmButtonText: 'เรียบร้อย'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    // window.location.reload();
+                                                    window.location = "{{url('dental_calendar')}}"; 
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        } else {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "Oops...บ่มี HN",
+                                                text: "ใส่ HN ก่อนแหน่จ้า!",
+                                                // footer: '<a href="#">Why do I have this issue?</a>'
+                                            }).then((result) => {
+                                                if (result
+                                                    .isConfirmed) {
+                                                    console.log(
+                                                        data);
+                                                    // window.location.reload();
+                                                    window.location = "{{url('dental_calendar')}}"; 
+                                                    $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                }
+                                            })
+                                        }
+                                    },
+                                });
+                                
+                            }
+                })
+            });
     });
 </script>
 

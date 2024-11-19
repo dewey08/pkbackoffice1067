@@ -635,19 +635,7 @@ class DentalController extends Controller
         
     }
 
-    // public function dental_detail_patient_cid(Request $request)
-    // {
-    //     $hn                 =  $request->denthn;
-       
-    //     $data_show          = Patient::where('hn',$hn)->first();
-    //     $data_cid           = $data_show->cid;        
 
-    //     $output='<label for="show_cid">'.$data_cid. '</label>' ; 
-    //     // $output='<label for="">เลขบัตรประชาชน  :   '.$data_cid. '&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;  ชื่อ-นามสกุล  :    ' .$data_ptname.'&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;  เบอร์โทร  :    ' .$data_hometel.'</label>' ; 
-        
-    //     echo $output;        
-    // }
-    
     public function dental_detail_patient(Request $request)
     {
         $hn                 =  $request->denthn;
@@ -663,26 +651,54 @@ class DentalController extends Controller
         echo $output;        
     }
 
-
-    public function dental_appointment_save (Request $request)
+                  
+    public function dental_appointment_save (Request $request) 
     {
-        $hn                 =  $request->denthn;
-        $data_show          = Patient::where('hn',$hn)->first();
-        $data_cid           = $data_show->cid;  
-        // Dent_appointment::insert([
-        //     'year'                 => $request->bg_yearnow,
-        //     'recieve_date'         => $request->recieve_date,
-        //     'recieve_time'         => $request->recieve_time, 
-        //     'recieve_no'           => $request->recieve_no,
-        //     'stock_list_id'        => $request->stock_list_id,
-        //     'vendor_id'            => $request->vendor_id,
-        //     'recieve_po_sup'       => $request->recieve_po_sup,
-        //     // 'total_price'          => $request->total_price, 
-        //     'user_recieve'         => Auth::user()->id
-        // ]);
-        // return response()->json([ 
-        //     'status'    => '200'
-        // ]);
+        $hn                 =  $request->dent_hn;
+        if ($hn != '') {
+            $data_show          = Patient::where('hn',$hn)->first();        
+            $data_cid           = $data_show->cid;
+            if ($data_cid =='') {
+                $data_cid_ = '';
+            } else {
+                $data_cid_ = $data_cid;
+            }
+    
+            $data_type          = Dent_appointment_type::where('appointment_id',$request->appointment)->first();
+            $appointment_id     = $data_type->appointment_id;
+            $appointment_name   = $data_type->appointment_name;
+            
+            $data_ptname        = $data_show->pname.''.$data_show->fname.'  '.$data_show->lname;
+            $data_hometel       = $data_show->hometel;
+            if ($data_hometel =='') {
+                $data_hometel_  = '';
+            } else {
+                $data_hometel_  = $data_hometel ;
+            }
+            
+            Dent_appointment::insert([
+                'dent_hn'               => $hn,
+                'dent_patient_cid'      => $data_cid_,
+                'dent_patient_name'     => $data_ptname, 
+                'dent_tel'              => $data_hometel_,
+                'dent_work'             => $request->dent_work,
+                'dent_date'             => $request->dent_date,
+                'dent_time'             => $request->dent_time,
+                'appointment_id'        => $appointment_id,
+                'appointment_name'      => $appointment_name, 
+                'dent_doctor'           => $request->dent_doctor, 
+                'user_save'             => Auth::user()->id
+            ]);
+            return response()->json([ 
+                'status'    => '200'
+            ]);
+        } else {
+            return response()->json([ 
+                'status'    => '100'
+            ]);
+        }
+
+      
     }
 
     public function dental_setting_type (Request $request)

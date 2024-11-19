@@ -226,6 +226,9 @@
             .select2-drop.select2-drop-above.select2-drop-active {
                 border-top: 1px solid #ffff80;
             }
+            .f12{
+                font
+            }
             
 </style>
 <?php
@@ -371,7 +374,9 @@ if (Auth::check()) {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
-                                    <i class="fa-solid fa-chart-pie me-2" style="font-size: 20px;color:rgb(4, 194, 169)"></i>Dashboard <div class="arrow-down"></div>
+                                    {{-- <i class="fa-solid fa-chart-pie me-2" style="font-size: 20px;color:rgb(4, 194, 169)"></i> --}}
+                                    <img src="{{ asset('images/wh07.png') }}" height="27px" width="27px" > 
+                                    Dashboard <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
                                     <a href="{{ url('wh_dashboard') }}" class="dropdown-item">dashboard</a> 
@@ -381,7 +386,9 @@ if (Auth::check()) {
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
-                                    <i class="fa-solid fa-diagram-project me-2" style="font-size: 20px;color:rgb(252, 101, 1)"></i>แผนจัดซื้อ  <div class="arrow-down"></div>
+                                    {{-- <i class="fa-solid fa-diagram-project me-2" style="font-size: 20px;color:rgb(252, 101, 1)"></i> --}}
+                                    <img src="{{ asset('images/wh08.png') }}" height="27px" width="27px" > 
+                                    แผนจัดซื้อ  <div class="arrow-down"></div>
                                 </a>
                                 @php
                                       $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
@@ -402,12 +409,16 @@ if (Auth::check()) {
                                 <a class="nav-link" href="{{ url('wh_recieve') }}">
                                     {{-- <a class="nav-link" href="{{ url('wh_recieve') }}" target="_blank"> --}}
                                         {{-- <i class="fa-solid fa-clipboard-check me-2" style="font-size: 20px;color:rgb(248, 51, 126)"></i> --}}
-                                     <i class="fa-solid fa-cart-arrow-down me-2" style="font-size: 20px;color:rgb(248, 51, 126)"></i> ตรวจรับ
+                                     {{-- <i class="fa-solid fa-cart-arrow-down me-2" style="font-size: 20px;color:rgb(248, 51, 126)"></i> --}}
+                                     <img src="{{ asset('images/wh04.png') }}" height="27px" width="27px" > 
+                                     ตรวจรับ
                                 </a>  
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('wh_pay') }}">
-                                     <i class="fa-brands fa-amazon-pay me-2" style="font-size: 20px;color:rgb(9, 188, 201)"></i>เบิก-จ่าย
+                                     {{-- <i class="fa-brands fa-amazon-pay me-2" style="font-size: 20px;color:rgb(9, 188, 201)"></i> --}}
+                                     <img src="{{ asset('images/wh06.png') }}" height="27px" width="27px" > 
+                                     เบิก-จ่าย
                                 </a> 
                             </li>
                             {{-- <i class="fa-brands fa-amazon-pay"></i> --}}
@@ -418,7 +429,9 @@ if (Auth::check()) {
                             </li> --}}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
-                                <i class="fa-solid fa-cubes me-2" style="font-size: 20px;color:rgb(204, 26, 56)"></i>คลังหลัก <div class="arrow-down"></div>
+                                {{-- <i class="fa-solid fa-cubes me-2" style="font-size: 20px;color:rgb(204, 26, 56)"></i> --}}
+                                <img src="{{ asset('images/wh03.png') }}" height="27px" width="27px" > 
+                                คลังหลัก <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
                                     <a href="{{ url('wh_main_index') }}" class="dropdown-item">ทั้งหมด</a> 
@@ -431,7 +444,9 @@ if (Auth::check()) {
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
-                                <i class="fa-solid fa-cubes-stacked me-2" style="font-size: 20px;color:rgb(10, 116, 187)"></i>คลังย่อย <div class="arrow-down"></div>
+                                {{-- <i class="fa-solid fa-cubes-stacked me-2" style="font-size: 20px;color:rgb(10, 116, 187)"></i> --}}
+                                <img src="{{ asset('images/wh05.png') }}" height="27px" width="27px" > 
+                                คลังย่อย <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
                                     <a href="{{ url('wh_sub') }}" class="dropdown-item">ทั้งหมด</a> 
@@ -443,7 +458,9 @@ if (Auth::check()) {
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
-                                    <i class="fa-solid fa-chart-line me-2" style="font-size: 20px;color:rgb(134, 3, 117)"></i><span key="t-layouts">รายงาน</span> <div class="arrow-down"></div> 
+                                    {{-- <i class="fa-solid fa-chart-line me-2" style="font-size: 20px;color:rgb(134, 3, 117)"></i> --}}
+                                    <img src="{{ asset('images/wh01.png') }}" height="27px" width="27px" > 
+                                    <span key="t-layouts">รายงาน</span> <div class="arrow-down"></div> 
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-layout">
                                     <div class="dropdown">
@@ -458,7 +475,9 @@ if (Auth::check()) {
                                
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
-                                    <i class="fas fa-tools me-2" style="font-size: 20px;color:rgb(129, 7, 54)"></i><span key="t-layouts">Setting</span> <div class="arrow-down"></div>                              
+                                    {{-- <i class="fas fa-tools me-2" style="font-size: 20px;color:rgb(129, 7, 54)"></i> --}}
+                                    <img src="{{ asset('images/wh02.png') }}" height="27px" width="27px" > 
+                                    <span key="t-layouts">Setting</span> <div class="arrow-down"></div>                              
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-layout">
                                     <div class="dropdown">
