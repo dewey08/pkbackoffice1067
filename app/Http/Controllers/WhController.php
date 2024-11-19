@@ -520,7 +520,7 @@ class WhController extends Controller
         // $year                = date('Y')+ 543;
         // $ynew          = substr($request->bg_yearnow,2,2); 
         Wh_recieve::insert([
-            'year'                 => $request->bg_yearnow,
+            'dent_hn'              => $request->dent_hn,
             'recieve_date'         => $request->recieve_date,
             'recieve_time'         => $request->recieve_time, 
             'recieve_no'           => $request->recieve_no,

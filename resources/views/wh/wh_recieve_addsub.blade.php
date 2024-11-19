@@ -93,13 +93,18 @@
                 <div class="col-md-4 text-end">
                 
                     <button type="button" id="UpdateData" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="บันทึกรายการทั้งหมดเข้าคลัง">
-                        <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
+                        {{-- <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i> --}}
+                        <img src="{{ asset('images/Savewhit.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                        บันทึก
                    </button>
-                   <a href="{{url('wh_recieve')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new"> <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>ยกเลิก</a>
-                   <button type="button" style="background-color: #0a4ba0" class="ladda-button me-2 btn-pill btn btn-sm input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="คู่มือการใช้งาน">
-                        <i class="fa-regular fa-file-video text-white me-2 ms-2"></i> 
-                </button>
+                   <a href="{{url('wh_recieve')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="ยกเลิก"> 
+                    {{-- <i class="fa-solid fa-xmark text-white me-2 ms-2"></i> --}}
+                    <img src="{{ asset('images/back.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
+                    ยกเลิก</a>
+                   <button type="button" style="background-color: #ffffff" class="ladda-button me-2 btn-pill btn btn-sm input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="คู่มือการใช้งาน">
+                        {{-- <i class="fa-regular fa-file-video text-white me-2 ms-2"></i>  --}}
+                        <img src="{{ asset('images/document_new.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
+                    </button>
                 </div>
             </div> 
             {{-- <div class="row">
@@ -129,10 +134,11 @@
                                                         $countproid   =  $value->Cpro_id;
                                                     }
                                                 ?>
-                                                @if ($countproid > 0)  
-                                                @else
-                                                    <option value="{{$item_sup->pro_id}}">{{$item_sup->pro_code}} || {{$item_sup->pro_name}} || {{$item_sup->wh_unit_pack_qty}} / {{$item_sup->unit_name}} || {{$item_sup->wh_type_name}}</option>
-                                                @endif 
+                                                 <option value="{{$item_sup->pro_id}}">{{$item_sup->pro_code}} || {{$item_sup->pro_name}} || {{$item_sup->wh_unit_name}} || {{$item_sup->wh_type_name}}</option>
+                                                {{-- @if ($countproid > 0)  
+                                                @else --}}
+                                                    {{-- <option value="{{$item_sup->pro_id}}">{{$item_sup->pro_code}} || {{$item_sup->pro_name}} || {{$item_sup->wh_unit_pack_qty}} / {{$item_sup->unit_name}} || {{$item_sup->wh_type_name}}</option> --}}
+                                                {{-- @endif  --}}
                                             @endforeach
                                     </select>
                                 </div> 
@@ -152,10 +158,12 @@
                                         <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
                                     </button> --}}
                                     <button type="button" id="Addproduct" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มรายการวัสดุลงใน List">
-                                          <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
+                                          {{-- <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i> --}}
+                                          <img src="{{ asset('images/Addwhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                    </button>
                                    <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_recieve_destroy')}}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="ลบรายการที่เลือก">
-                                        <i class="fa-solid fa-trash-can text-white ms-2"></i> 
+                                        {{-- <i class="fa-solid fa-trash-can text-white ms-2"></i>  --}}
+                                        <img src="{{ asset('images/removewhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                     </button>
                                 </div> 
                             </div> 
@@ -183,7 +191,8 @@
                             </div>
                             <div class="col-md-1 text-start">
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-info input_new" onclick="addwh_unit();" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มหน่วยนับ">
-                                      <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
+                                      {{-- <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i> --}}
+                                      <img src="{{ asset('images/Addwhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                </button> 
                             </div> 
                             <div class="col-md-1 text-end">ประเภท</div>
@@ -196,7 +205,8 @@
                             </div>
                             <div class="col-md-1 text-start">
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-info input_new" onclick="add_product();" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มรายการวัสดุ">
-                                      <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
+                                      {{-- <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i> --}}
+                                      <img src="{{ asset('images/Addwhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                </button> 
                             </div> 
                         </div> 
@@ -228,6 +238,8 @@
                                                 <div id="getdata_show"></div> 
                                             </div> --}}
                                             <div id="getdata_show"></div> 
+
+                                            
                                              
                                             {{-- <table id="Tabledit" class="table table-bordered border-primary table-hover table-sm" style="border-collapse: collapse;border-spacing: 0; width: 100%;">                                               
                                                 <thead> 
@@ -273,6 +285,9 @@
                                                     <td class="text-end" style="background-color: #fca1a1"></td>
                                                 </tr>                                                 
                                             </table> --}}
+
+
+
     
                                         </div>
                                     </div>

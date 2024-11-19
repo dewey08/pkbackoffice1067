@@ -2,23 +2,25 @@
 @section('title', 'PK-OFFICE || Where House')
 
 @section('content')
+
     <script>
         function TypeAdmin() {
             window.location.href = '{{ route('index') }}';
         }
     </script>
+
     <?php
-    if (Auth::check()) {
-        $type = Auth::user()->type;
-        $iduser = Auth::user()->id;
-    } else {
-        echo "<body onload=\"TypeAdmin()\"></body>";
-        exit();
-    }
-    $url = Request::url();
-    $pos = strrpos($url, '/') + 1;
-    $ynow = date('Y') + 543;
-    $yb = date('Y') + 542;
+        if (Auth::check()) {
+            $type = Auth::user()->type;
+            $iduser = Auth::user()->id;
+        } else {
+            echo "<body onload=\"TypeAdmin()\"></body>";
+            exit();
+        }
+        $url = Request::url();
+        $pos = strrpos($url, '/') + 1;
+        $ynow = date('Y') + 543;
+        $yb = date('Y') + 542;
     ?>
 
     <style>
@@ -68,42 +70,36 @@
         }
     </style>
 
-<div class="tabs-animation">
+    <div class="tabs-animation">
 
-    <div class="row text-center">
-        <div id="overlay">
-            <div class="cv-spinner">
-                <span class="spinner"></span>
-            </div>
+        <div class="row text-center">
+            <div id="overlay">
+                <div class="cv-spinner">
+                    <span class="spinner"></span>
+                </div>
+            </div> 
         </div> 
-    </div> 
-    <div id="preloader">
-        <div id="status">
-            <div class="spinner"> 
+        <div id="preloader">
+            <div id="status">
+                <div class="spinner"> 
+                </div>
             </div>
         </div>
-    </div>
-        
-       
+               
         <div class="app-main__outer">
             <div class="app-main__inner">
                 
                 <div class="mb-3 card card_audit_4c">
                     <div class="tabs-lg-alternate card-header">
                         <ul class="nav nav-justified">
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="#tab-minimal-1" data-bs-toggle="tab" class="nav-link active minimal-tab-btn-1">
-                                    <div class="widget-number">
-                                        {{-- <span>$ 2000</span> --}}
+                                    <div class="widget-number">                                     
                                     </div>
-                                    <div class="tab-subheading">
-                                        {{-- <span class="pe-2 opactiy-6">
-                                            <i class="fa fa-comment-dots"></i>
-                                        </span>
-                                        ข้อมูลรายวัน --}}
+                                    <div class="tab-subheading">                                       
                                     </div>
                                 </a>
-                            </li>
+                            </li> --}}
                             <li class="nav-item">
                                 <a href="#tab-minimal-2" data-bs-toggle="tab" class="nav-link minimal-tab-btn-2">
                                     {{-- <div class="widget-number">
@@ -113,7 +109,7 @@
                                         <span>$ {{ number_format($data_total, 2) }}</span>
                                     </div> --}}
                                     <div class="widget-number text-danger">
-                                        <span>แผนปฎิบัติการจัดซื้อวัสดุทั่วไป</span>
+                                        <span>แผนปฎิบัติการจัดซื้อ {{$planname}}</span>
                                     </div>
                                     <div class="tab-subheading">
                                         {{-- <span class="pe-2 opactiy-6">
@@ -123,19 +119,14 @@
                                     </div>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="#tab-minimal-3" data-bs-toggle="tab" class="nav-link minimal-tab-btn-3">
-                                    <div class="widget-number text-danger">
-                                        {{-- <span>$6,784.0</span> --}}
+                                    <div class="widget-number text-danger"> 
                                     </div>
-                                    <div class="tab-subheading">
-                                        {{-- <span class="pe-2 opactiy-6">
-                                            <i class="fa fa-bullhorn"></i>
-                                        </span>
-                                        ข้อมูลรายปี --}}
+                                    <div class="tab-subheading"> 
                                     </div>
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                     <div class="tab-content">
@@ -219,25 +210,23 @@
                                             </table>  
                                     </div>
                                 </div>  
+
                             </div>
                         </div>
-                        <div class="tab-pane " id="tab-minimal-2">
-                            <div class="card-body">
-                               
+                        {{-- <div class="tab-pane " id="tab-minimal-2">
+                            <div class="card-body">                               
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="tab-minimal-3">
-                           
-                        </div>
+                        <div class="tab-pane fade" id="tab-minimal-3">                           
+                        </div> --}}
                     </div>
                 </div>
                  
             </div>
         </div>
-    </div>
-
 
     </div>
+ 
  
 @endsection
 @section('footer')
@@ -247,6 +236,7 @@
     <script>
         var Linechart;
         $(document).ready(function() {
+
             $('#example').DataTable();
             $('#example2').DataTable();
             var table = $('#example21').DataTable({

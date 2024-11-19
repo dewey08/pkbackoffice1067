@@ -82,7 +82,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory;
-
+use Symfony\Component\Console\Output\Output;
 
 date_default_timezone_set("Asia/Bangkok");
 
@@ -576,10 +576,10 @@ class DentalController extends Controller
         $dateend = $request->enddate;
         $datenow             = date('Y-m-d');
         $data['date_now']    = date('Y-m-d');
-
+        $data['m']           = date('H');
+        $data['mm']          = date('H:m:s');
         
-        $iduser = Auth::user()->id;
-        
+        $iduser = Auth::user()->id;        
         
         $data['users'] = User::get();
         $data['leave_month'] = DB::table('leave_month')->get();
@@ -630,12 +630,24 @@ class DentalController extends Controller
             // 'datenow'           => $datenow,
             // 'data_trash_type'  => $data_trash_type,
             // 'billNos'          => $billNo,
-        ]);
-        
+        ]);       
 
         
     }
 
+    // public function dental_detail_patient_cid(Request $request)
+    // {
+    //     $hn                 =  $request->denthn;
+       
+    //     $data_show          = Patient::where('hn',$hn)->first();
+    //     $data_cid           = $data_show->cid;        
+
+    //     $output='<label for="show_cid">'.$data_cid. '</label>' ; 
+    //     // $output='<label for="">เลขบัตรประชาชน  :   '.$data_cid. '&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;  ชื่อ-นามสกุล  :    ' .$data_ptname.'&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;  เบอร์โทร  :    ' .$data_hometel.'</label>' ; 
+        
+    //     echo $output;        
+    // }
+    
     public function dental_detail_patient(Request $request)
     {
         $hn                 =  $request->denthn;
@@ -644,56 +656,33 @@ class DentalController extends Controller
         $data_cid           = $data_show->cid;
         $data_ptname        = $data_show->pname.''.$data_show->fname.'  '.$data_show->lname;
         $data_hometel       = $data_show->hometel;
-
-        $output='<label for="">เลขบัตรประชาชน  :   '.$data_cid. '&nbsp;&nbsp;&nbsp; ||   ชื่อ-นามสกุล  :    ' .$data_ptname.'&nbsp;&nbsp;&nbsp; ||   เบอร์โทร  :    ' .$data_hometel.'</label>' ; 
         
+        $output='<label for="">เลขบัตรประชาชน  :   '.$data_cid. '&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;  ชื่อ-นามสกุล  :    ' .$data_ptname.'&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;  เบอร์โทร  :    ' .$data_hometel.'</label>' ; 
+        
+
         echo $output;        
     }
 
+
     public function dental_appointment_save (Request $request)
     {
-        // $datebigin = $request->start_date;
-        // $dateend = $request->end_date;
-        // $iduser = $request->user_id;
-        // $starttime = $request->ot_one_starttime;
-        // $endtime = $request->ot_one_endtime;
-
-        // $checkdate = Ot_one::where('ot_one_date','=',$datebigin)->where('ot_one_nameid','=',$iduser)->count();
-
-        // if ($checkdate > 0) {
-        //     return response()->json([
-        //         'status'     => '100',
-        //     ]);
-        // } else {
-        //     $add = new Ot_one();
-        //     $add->ot_one_date = $datebigin;
-        //     $add->ot_one_starttime = $starttime;
-        //     $add->ot_one_endtime = $endtime;
-        //     $add->ot_one_detail = $request->input('ot_one_detail');
-
-        //     $start = strtotime($starttime);
-        //     $end = strtotime($endtime);
-        //     $tot = ($end - $start) / 3600; 
-        //     $add->ot_one_total = $tot;
-
-            
-        //     if ($iduser != '') {
-        //         $usersave = DB::table('users')->where('id', '=', $iduser)->first(); 
-        //         $add->ot_one_nameid = $usersave->id;
-        //         $add->ot_one_fullname = $usersave->pnamelong . ' '.$usersave->fname . '  ' . $usersave->lname;
-        //         $add->dep_subsubtrueid = $usersave->dep_subsubtrueid;
-        //     } else {
-        //         $add->ot_one_nameid = ''; 
-        //         $add->ot_one_fullname = '';
-        //         $add->dep_subsubtrueid = '';
-        //     }
-
-        //     $add->save();
-
-        //     return response()->json([
-        //         'status'     => '200',
-        //     ]);
-        // }  
+        $hn                 =  $request->denthn;
+        $data_show          = Patient::where('hn',$hn)->first();
+        $data_cid           = $data_show->cid;  
+        // Dent_appointment::insert([
+        //     'year'                 => $request->bg_yearnow,
+        //     'recieve_date'         => $request->recieve_date,
+        //     'recieve_time'         => $request->recieve_time, 
+        //     'recieve_no'           => $request->recieve_no,
+        //     'stock_list_id'        => $request->stock_list_id,
+        //     'vendor_id'            => $request->vendor_id,
+        //     'recieve_po_sup'       => $request->recieve_po_sup,
+        //     // 'total_price'          => $request->total_price, 
+        //     'user_recieve'         => Auth::user()->id
+        // ]);
+        // return response()->json([ 
+        //     'status'    => '200'
+        // ]);
     }
 
     public function dental_setting_type (Request $request)

@@ -179,7 +179,12 @@
         animation-timing-function: cubic-bezier;
         animation-iteration-count: infinite;
     }
- 
+
+    .input_new{
+        border-radius: 2em 2em 2em 2em;
+        box-shadow: 0 0 10px rgb(252, 149, 218);
+        border:solid 1px #ffc5ff;
+    } 
     .card_prs_2b{
         border-radius: 0em 0em 2em 2em;
         box-shadow: 0 0 15px rgb(252, 149, 218);
@@ -201,10 +206,15 @@
     }
     .card_prs_4{
         border-radius: 2em 2em 2em 2em;
-        box-shadow: 0 0 25px rgb(252, 149, 218);
+        box-shadow: 0 0 30px rgb(252, 149, 218);
         /* border-color: #0583cc */
         border:solid 1px #ffc5ff;
         background-color: aliceblue;
+    }    
+    .card_audit_4c{ 
+        border-radius: 2em 2em 2em 2em;
+        box-shadow: 0 0 30px rgb(252, 101, 1);
+        border:solid 1px #f80d6f;
     }
     .prscheckbox{         
         width: 20px;

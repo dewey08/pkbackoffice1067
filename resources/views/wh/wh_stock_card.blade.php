@@ -102,7 +102,7 @@
         {{-- <i class="fa-solid fa-money-check-dollar"></i> --}}
  
        
-        <div class="row">
+        <div class="row mt-2">
             <div class="col-md-12">
                 
                 <div class="card card_audit_4c" style="background-color: rgb(248, 241, 237)">

@@ -110,13 +110,17 @@
                                     <h4 class="text-start" style="color:rgb(8, 138, 120);">แก้ไขข้อมูลการตรวจรับ </h4>
                                 </div>
                                 <div class="col"></div>   
-                                <div class="col-md-2 text-end">
+                                <div class="col-md-3 text-end">
                                      
                                     <button type="button" id="UpdateData" class="ladda-button me-2 btn-pill btn btn-sm btn-success buttom_border" >
-                                        <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
+                                        {{-- <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i> --}}
+                                        <img src="{{ asset('images/Savewhit.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                        บันทึก
                                    </button>
-                                   <a href="{{url('wh_recieve')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger buttom_border"> <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>ยกเลิก</a>
+                                   <a href="{{url('wh_recieve')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger buttom_border"> 
+                                    {{-- <i class="fa-solid fa-xmark text-white me-2 ms-2"></i> --}}
+                                    <img src="{{ asset('images/back.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
+                                    ยกเลิก</a>
                                 </div>
                             </div> 
                         </div> 
@@ -265,7 +269,8 @@
                             <div class="row mt-2 text-center">
                                 <div class="col-md-12">
                                     <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-info input_new" onclick="addwh_supplies();" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มผู้แทนจำหน่าย">
-                                        <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
+                                        {{-- <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i> --}}
+                                        <img src="{{ asset('images/Addwhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                     </button>  
                                 </div>
                             </div>

@@ -97,10 +97,14 @@
                         ตรวจรับ
                     </a>  --}}
                     <button type="button" id="UpdateData" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" >
-                        <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
+                        {{-- <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i> --}}
+                        <img src="{{ asset('images/Savewhit.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                        บันทึก
                    </button>
-                   <a href="{{url('wh_pay')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new"> <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>ยกเลิก</a>
+                   <a href="{{url('wh_pay')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new">
+                     {{-- <i class="fa-solid fa-xmark text-white me-2 ms-2"></i> --}}
+                     <img src="{{ asset('images/back.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
+                     ยกเลิก</a>
                 </div>
             </div> 
 
@@ -185,7 +189,9 @@
                                                 <div class="col"></div>
                                                 <div class="col-md-2 text-center">
                                                     <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_pay_subdestroy')}}">
-                                                        <i class="fa-solid fa-trash-can text-white ms-2"></i> 
+                                                        {{-- <i class="fa-solid fa-trash-can text-white ms-2"></i>  --}}
+
+                                                        <img src="{{ asset('images/removewhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                                     </button>
                                                 </div>
                                             </div>
@@ -294,13 +300,15 @@
 
         function selectsupreq(wh_recieve_sub_id, count) {
             var wh_request_id = document.getElementById("wh_request_id").value;
+            var qty_pay       = document.getElementById("qty_pay"+wh_recieve_sub_id).value;
+            // alert(qty_pay);
             var _token = $('input[name="_token"]').val();
             // alert(wh_recieve_sub_id);
             $.ajax({
                 url: "{{ route('wh.wh_pay_sublot_save') }}",
                 method: "POST",
                 data: {
-                    wh_recieve_sub_id: wh_recieve_sub_id,wh_request_id:wh_request_id,
+                    wh_recieve_sub_id: wh_recieve_sub_id,wh_request_id:wh_request_id,qty_pay:qty_pay,
                     _token: _token
                 },
                 success: function(result) {
@@ -308,12 +316,13 @@
                     // $('.infounitname' + count).html(result);
                     if (result.status == 200) {
                         window.location.reload();
-                    } else {
-                        
-                    }
-                    
+                    } else {                        
+                    }                    
                 }
             })
+
+
+
             // $.ajax({
             //     url: "{{ route('user_ware.selectsupunitname') }}",
             //     method: "GET",

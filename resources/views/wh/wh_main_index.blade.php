@@ -111,7 +111,7 @@
                         </div>
                         @else
                         <div class="col-md-2"> 
-                                <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center card_audit_4c" style="width: 100%;font-size:13px">
+                                <select name="budget_year" id="budget_year" class="form-control-sm inputmedsalt text-center card_audit_4c" style="width: 100%;font-size:13px">
                                     @foreach ($dabudget_year as $item_y)
                                         @if ($budget_year == $item_y->leave_year_id )
                                             <option value="{{$item_y->leave_year_id}}" selected>{{$item_y->leave_year_name}}</option>
@@ -123,9 +123,12 @@
                         </div>
                         @endif
                         <div class="col-md-1 text-start">  
-                            <button type="submit" class="ladda-button btn-pill btn btn-primary card_audit_4c" data-style="expand-left">
-                                <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
-                                <span class="ladda-spinner"></span>
+                            <button type="submit" class="ladda-button btn-pill btn btn-sm btn-primary card_audit_4c" data-style="expand-left">
+                                <span class="ladda-label"> 
+                                    {{-- <i class="fa-solid fa-magnifying-glass text-white me-2"></i> --}}
+                                    <img src="{{ asset('images/Search02.png') }}" class="ms-2 me-2" height="23px" width="23px"> 
+                                    ค้นหา
+                                </span> 
                             </button>   
                         </div>                   
                         <div class="col"></div>                   

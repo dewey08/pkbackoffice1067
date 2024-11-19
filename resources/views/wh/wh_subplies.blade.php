@@ -98,7 +98,9 @@
                                              
                         <div class="col-md-2 text-start">  
                             <a href="javascript:void(0);" class="ladda-button btn-pill btn btn-sm btn-primary card_audit_4c" data-bs-toggle="modal" data-bs-target="#Request">
-                                <i class="fa-solid fa-address-book text-white me-2 ms-2"></i> เพิ่มตัวแทนจำหน่าย  
+                                {{-- <i class="fa-solid fa-address-book text-white me-2 ms-2"></i>  --}}
+                                <img src="{{ asset('images/HumanResources.png') }}" class="ms-2 me-2" height="23px" width="23px">
+                                เพิ่มตัวแทนจำหน่าย  
                             </a>   
                         </div>     
                     </div>              
@@ -237,11 +239,15 @@
                         <div class="col-md-12 text-center">
                             <div class="form-group">
                                 <button type="button" id="AddSupplies" class="ladda-button me-2 btn-pill btn btn-sm btn-success card_prs_4" >
-                                     <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
+                                     {{-- <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i> --}}
+                                     <img src="{{ asset('images/Savewhit.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                     บันทึก
                                 </button>
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger card_prs_4" data-bs-dismiss="modal">
-                                    <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>Close</button>
+                                    {{-- <i class="fa-solid fa-xmark text-white me-2 ms-2"></i> --}}
+                                    <img src="{{ asset('images/back.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
+                                    Close
+                                </button>
 
                             </div>
                         </div>

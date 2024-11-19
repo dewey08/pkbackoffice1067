@@ -144,7 +144,12 @@
                                                 <input type="text" class="form-control-sm card_audit_4c" name="enddate" placeholder="End Date" id="datepicker2" style="font-size: 12px" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                                     data-date-language="th-th" value="{{ $enddate }}"/>  
                                                     <button type="submit" class="ladda-button btn-pill btn btn-sm btn-primary card_audit_4c" data-style="expand-left">
-                                                        <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2 ms-2"></i>ค้นหา</span> 
+                                                        <span class="ladda-label"> 
+                                                            {{-- <i class="fa-solid fa-magnifying-glass text-white me-2 ms-2"></i> --}}
+                                                            <img src="{{ asset('images/Search02.png') }}" class="ms-2 me-2" height="23px" width="23px"> 
+                                                            ค้นหา
+                                                        
+                                                        </span> 
                                                     </button> 
                                             </div>   
                                         </div> 
@@ -157,7 +162,9 @@
                                                 <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เปิดบิล  
                                             </a>   --}}
                                             <a href="{{URL('wh_recieve_add')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-info input_new">
-                                                <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> สร้างใบตรวจรับ  
+                                                {{-- <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> --}}
+                                                <img src="{{ asset('images/Cartaddwhite.png') }}" class="ms-2 me-2" height="23px" width="23px"> 
+                                                สร้างใบตรวจรับ  
                                             </a> 
                                         </div> 
                                          
@@ -213,11 +220,13 @@
                                                     <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->ptname}}</td> 
                                                     <td class="text-center" width="5%">                                                       
                                                         {{-- @if ($item->active == 'PREPARE') --}}
-                                                            <a href="{{url('wh_recieve_edit/'.$item->wh_recieve_id)}}">
-                                                                <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
+                                                            <a href="{{url('wh_recieve_edit/'.$item->wh_recieve_id)}}" class="me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="แก้ไขใบตรวจรับ">
+                                                                {{-- <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i> --}}
+                                                                <img src="{{ asset('images/Edit.png') }}" height="25px" width="25px"> 
                                                             </a>
-                                                            <a href="{{url('wh_recieve_addsub/'.$item->wh_recieve_id)}}" target="_blank">
-                                                                <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
+                                                            <a href="{{url('wh_recieve_addsub/'.$item->wh_recieve_id)}}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มรายการวัสดุ">
+                                                                {{-- <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i> --}}
+                                                                <img src="{{ asset('images/ShoppingCart01.png') }}" height="25px" width="25px"> 
                                                             </a>                                                           
                                                         {{-- @else
                                                             <i class="fa-solid fa-check" style="color: #06b992;font-size:20px"></i>

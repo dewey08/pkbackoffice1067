@@ -109,9 +109,9 @@ $count_service = StaticController::count_service();
                                     <div class="col-md-1 text-end">
                                         <label for="dent_hn">HN :</label>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group">
-                                            <select id="dent_hn" name="dent_hn" class="form-control form-control-sm" style="width: 100%" onchange="hnDent()">
+                                            <select id="dent_hn" name="dent_hn" class="form-control-sm d12font input_new" style="width: 100%" onchange="hnDent()">
                                                 <option value="">--เลือก--</option>
                                                 @foreach ($hn as $ph)
                                                     
@@ -120,11 +120,11 @@ $count_service = StaticController::count_service();
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-2 text-end">
-                                        <label for="" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:13px">รายละเอียดคนไข้ :</label>
+                                    <div class="col-md-1 text-end">
+                                        <label for="" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:13px">ข้อมูลคนไข้ :</label>
                                     </div>
                                     <div class="col-md-6">                          
-                                        <div id="show_detailpatient"></div>                                     
+                                        <div id="show_detailpatient" ></div>                                     
                                     </div>
                                                                         
                                 </div>
@@ -138,7 +138,7 @@ $count_service = StaticController::count_service();
                                             <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                                             {{-- <div class="form-group"> --}}
                                                 {{-- <input id="dent_date" type="date" class="form-control form-control-sm" name="dent_date"> --}}
-                                                <input type="text" class="form-control-sm d12font input_new" name="datepicker" id="datepicker" placeholder="Start Date" data-date-autoclose="true" autocomplete="off"
+                                                <input type="text" class="form-control-sm input_new" name="datepicker" id="datepicker" placeholder="Start Date" data-date-autoclose="true" autocomplete="off"
                                                 data-date-language="th-th" value="{{ $date_now }}"/>
 
                                             </div>
@@ -150,7 +150,7 @@ $count_service = StaticController::count_service();
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <input type="time" id="dent_time" name="dent_time" class="form-control" placeholder="" />
+                                            <input type="time" id="dent_time" name="dent_time" class="form-control-sm input_new" placeholder="" value="{{$mm}}" style="width: 100%" />
                                         </div>
                                     </div>
                                     
@@ -159,7 +159,7 @@ $count_service = StaticController::count_service();
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <select id="dent_doctor" name="dent_doctor" class="form-control form-control-sm" style="width: 100%">
+                                                <select id="dent_doctor" name="dent_doctor" class="form-control-sm d12font input_new" style="width: 100%">
                                                     <option value="">--เลือก--</option>
                                                     @foreach ($users as $ue)
                                                         @if ($iduser == $ue->id)
@@ -180,7 +180,7 @@ $count_service = StaticController::count_service();
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <select id="appointment" name="appointment" class="form-control form-control-sm" style="width: 100%">
+                                            <select id="appointment" name="appointment" class="form-control-sm d12font input_new" style="width: 100%">
                                                 <option value="">--เลือก--</option>
                                                 @foreach ($appointment as $ap)                                                    
                                                     <option value="{{ $ap->appointment_id }}"> {{ $ap->appointment_name }}</option>                                                    
@@ -195,56 +195,13 @@ $count_service = StaticController::count_service();
                                     <div class="col-md-7">
                                         <div class="form-group">
                                             <div class="form-group">
-                                                <input id="dent_work" type="text" class="form-control form-control-sm" name="dent_work">
+                                                <input id="dent_work" type="text" class="form-control-sm d12font input_new" name="dent_work" style="width: 100%">
                                             </div>
                                         </div>
                                     </div>
                                     
                                     
-                                </div>
-
-                                {{-- <div class="row">
-                                    <label for="">รายการขยะ</label>
-                                    <div class="col-md-12">
-                                        <table class="gwt-table table-striped table-vcenter" style="width: 100%;">
-                                            <thead style="background-color: #aecefd;">
-                                                <tr height="40">
-                                                    <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;font-family: 'Kanit', sans-serif;font-size: 13px;"
-                                                        width="3%">ลำดับ</td>
-                                                    <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;"
-                                                        width="25%">ประเภทขยะ</th>
-                                                    <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;"
-                                                        width="7%">ปริมาณ</th>
-                                                    <th style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 14px;"
-                                                        width="10%">หน่วย</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="tbody">
-                                                <?php $number = 1; ?>
-                                                @foreach($trash_parameter as $items)
-                                                <tr height="20">
-                                                    <td
-                                                        style="text-align: center;font-family: 'Kanit', sans-serif;font-size: 13px;">
-                                                        {{ $number++}} </td>
-                                                    <td>
-                                                        <input type="hidden" value="{{ $items->trash_parameter_id }}"
-                                                            name="trash_parameter_id[]" id="trash_parameter_id[]"
-                                                            class="form-control input-sm fo13">
-                                                        <input value="{{ $items->trash_parameter_name }}" name="" id=""
-                                                            class="form-control input-sm fo13" readonly>
-                                                    </td>
-                                                    <td><input name="trash_sub_qty[]" id="trash_sub_qty[]"
-                                                            class="form-control input-sm fo13" required></td>
-                                                    <td><input value="{{ $items->trash_parameter_unit }}"
-                                                            name="trash_parameter_unit[]" id="trash_parameter_unit[]"
-                                                            class="form-control input-sm fo13" readonly></td>
-
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div> --}}
+                                </div>                             
 
 
                             </div>
@@ -256,12 +213,14 @@ $count_service = StaticController::count_service();
                         <div class="form-group">
 
                             <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fa-solid fa-floppy-disk me-2"></i>
+                                {{-- <i class="fa-solid fa-floppy-disk me-2"></i> --}}
+                                <img src="{{ asset('images/Savewhit.png') }}" class="me-2 ms-2" height="18px" width="18px">
                                 บันทึกข้อมูล
                             </button>
 
                             <a href="{{ url('env_trash') }}" class="btn btn-danger btn-sm">
-                                <i class="fa-solid fa-xmark me-2"></i>
+                                {{-- <i class="fa-solid fa-xmark me-2"></i> --}}
+                                <img src="{{ asset('images/back.png') }}" class="me-2 ms-2" height="18px" width="18px">
                                 ยกเลิก
                             </a>
                         </div>

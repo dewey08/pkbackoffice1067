@@ -80,7 +80,9 @@
                                         
                 <div class="col-md-2 text-end">  
                     <a href="javascript:void(0);" class="ladda-button btn-pill btn btn-sm btn-primary card_audit_4c">
-                        <i class="fa-solid fa-list-check text-white me-2 ms-2"></i> เพิ่มรายการวัสดุ
+                        {{-- <i class="fa-solid fa-list-check text-white me-2 ms-2"></i>  --}}
+                        <img src="{{ asset('images/Addwhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
+                        เพิ่มรายการวัสดุ
                     </a>   
                 </div>    
             </div>              
@@ -94,6 +96,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center" style="background-color: rgb(219, 247, 232)">ลำดับ</th> 
+                                                <th class="text-center" style="background-color: rgb(219, 247, 232)">รหัส</th> 
                                                 <th class="text-center" style="background-color: rgb(219, 247, 232)">รหัสวัสดุ</th> 
                                                 <th class="text-center" style="background-color: rgb(192, 220, 252)">ชื่อรายการวัสดุ</th> 
                                                 <th class="text-center" style="background-color: rgb(192, 220, 252)">หน่วยนับ</th>  
@@ -108,6 +111,7 @@
                                                 <?php $number++; ?>                                        
                                                     <tr style="font-size: 13px;">
                                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td>  
+                                                        <td class="text-start" style="font-size: 13px;color:#022f57" width="10%">{{$item->pro_id}}</td>  
                                                         <td class="text-start" style="font-size: 13px;color:#022f57" width="10%">{{$item->pro_code}}</td>    
                                                         <td class="text-start" style="color:rgb(29, 102, 185)" > {{ $item->pro_name}}</td>     
                                                         <td class="text-start" style="color:rgb(29, 102, 185)" width="10%"> {{ $item->wh_unit_name}}</td> 

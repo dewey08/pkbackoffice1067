@@ -88,16 +88,15 @@
         <div class="app-main__outer">
             <div class="app-main__inner">
 
-                <form action="{{ URL('wh_main_index') }}" method="GET">
+                <form action="{{ URL('wh_report_month') }}" method="GET">
                     @csrf
                     <div class="row"> 
-                        <div class="col"></div>
-                        <div class="col-md-7">
+                        {{-- <div class="col"></div> --}}
+                        <div class="col-md-4">
                             <h3 style="color:rgb(247, 103, 68)">คลังพัสดุ</h3>
-                            <p style="font-size: 15px">รายละเอียดข้อมูลคลังทั้งหมด</p>
-                        </div> 
-                         
-                        @if ($budget_year =='')
+                            <p style="font-size: 15px">รายงานวัสดุคงเหลือ</p>
+                        </div>                          
+                        {{-- @if ($budget_year =='')
                         <div class="col-md-2"> 
                                 <select name="budget_year" id="budget_year" class="form-control inputmedsalt text-center card_audit_4c" style="width: 100%;font-size:13px">
                                     @foreach ($dabudget_year as $item_y)
@@ -121,73 +120,92 @@
                                     @endforeach
                                 </select>
                         </div>
-                        @endif
-                        <div class="col-md-1 text-start">  
-                            <button type="submit" class="ladda-button btn-pill btn btn-primary card_audit_4c" data-style="expand-left">
+                        @endif --}}
+                        <div class="col"></div>
+                        <div class="col-md-1 text-end mt-2">วันที่</div>
+                        <div class="col-md-3 text-end">
+                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                <input type="text" class="form-control-sm card_audit_4c" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                    data-date-language="th-th" value="{{ $startdate }}" required/>
+                                <input type="text" class="form-control-sm card_audit_4c" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                    data-date-language="th-th" value="{{ $enddate }}"/>  
+                                    <button type="submit" class="ladda-button btn-pill btn btn-sm btn-info card_audit_4c" data-style="expand-left">
+                                        <span class="ladda-label">
+                                            {{-- <i class="fa-solid fa-magnifying-glass text-white me-2"></i> --}}
+                                            <img src="{{ asset('images/Search02.png') }}" class="ms-2 me-2" height="23px" width="23px"> 
+                                            ค้นหา</span>
+                                        <span class="ladda-spinner"></span>
+                                    </button>
+                                </form>
+                                    {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary card_audit_4c" data-style="expand-left" id="Pulldata">
+                                        <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
+                                        <span class="ladda-spinner"></span>
+                                    </button>  --}}
+                        </div> 
+
+                        {{-- <div class="col-md-1 text-start">  
+                            <button type="submit" class="ladda-button btn-pill btn btn-sm btn-primary card_audit_4c" data-style="expand-left">
                                 <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                                 <span class="ladda-spinner"></span>
                             </button>   
-                        </div>                   
+                        </div>--}}
                         <div class="col"></div>                   
                     </div>
                 </form> 
                          
                 <div class="row">  
-                    <div class="col"></div> 
+                    {{-- <div class="col"></div>  --}}
                    
-                        <div class="col-xl-10">
+                        <div class="col-xl-12">
                             <div class="card card_audit_4c" style="background-color: rgb(248, 241, 237)">   
-                                <div class="table-responsive p-3">                                
-                                    <table id="example" class="table table-sm table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <div class="table-responsive p-2">                                
+                                    <table id="example" class="table table-sm table-striped table-bordered" style="width: 100%;">
+                                        {{-- dt-responsive nowrap myTable --}}
                                         <thead>
-                                            <tr>
-                                                <th class="text-center" style="background-color: rgb(219, 247, 232)">ลำดับ</th> 
-                                                <th class="text-center" style="background-color: rgb(219, 247, 232)">คลัง</th> 
-                                                <th class="text-center" style="background-color: rgb(192, 220, 252)">รับเข้า(จำนวนรวม)</th> 
-                                                <th class="text-center" style="background-color: rgb(192, 220, 252)">รับเข้า(ราคารวม)</th>  
-                                                <th class="text-center" style="background-color: rgb(252, 204, 185)">จ่ายออก(จำนวนรวม)</th> 
-                                                <th class="text-center" style="background-color: rgb(252, 204, 185)">จ่ายออก(ราคารวม)</th>  
-                                                <th class="text-center" style="background-color: rgb(252, 144, 185)">คงเหลือ(จำนวนรวม)</th> 
-                                                <th class="text-center" style="background-color: rgb(252, 144, 185)">คงเหลือ(ราคารวม)</th>  
+                                            <tr style="font-size: 13px">
+                                                <th class="text-center" style="background-color: rgb(219, 247, 232);width: 5%">ลำดับ</th> 
+                                                <th class="text-center" style="background-color: rgb(219, 247, 232)">รายการ</th> 
+                                                <th class="text-center" style="background-color: rgb(192, 220, 252)">ประเภทวัสดุ</th> 
+                                                <th class="text-center" style="background-color: rgb(192, 220, 252);width: 7%">หน่วยนับ</th>  
+                                                <th colspan="3" class="text-center" style="background-color: rgb(252, 204, 185);width: 15%">ยอดยกมา</th> 
+                                                <th colspan="3" class="text-center" style="background-color: rgb(204, 252, 185);width: 15%">รับ</th>  
+                                                <th colspan="3" class="text-center" style="background-color: rgb(252, 144, 185);width: 15%">จ่าย</th> 
+                                                <th colspan="3" class="text-center" style="background-color: rgb(144, 203, 252);width: 15%">คงเหลือ</th>  
+                                            </tr>
+                                            <tr style="font-size: 11px">
+                                                <th colspan="4" class="text-center" style="background-color: rgb(219, 247, 232)"></th> 
+                                                <th class="text-center" style="background-color: rgb(250, 249, 230)">จำนวน </th> 
+                                                <th class="text-center" style="background-color: rgb(219, 247, 232)">ราคา/หน่วย </th> 
+                                                <th class="text-center" style="background-color: rgb(253, 236, 242)">จำนวนเงิน </th> 
+                                                <th class="text-center" style="background-color: rgb(250, 249, 230)">จำนวน </th> 
+                                                <th class="text-center" style="background-color: rgb(219, 247, 232)">ราคา/หน่วย </th> 
+                                                <th class="text-center" style="background-color: rgb(253, 236, 242)">จำนวนเงิน </th> 
+                                                <th class="text-center" style="background-color: rgb(250, 249, 230)">จำนวน </th> 
+                                                <th class="text-center" style="background-color: rgb(219, 247, 232)">ราคา/หน่วย </th> 
+                                                <th class="text-center" style="background-color: rgb(253, 236, 242)">จำนวนเงิน </th> 
+                                                <th class="text-center" style="background-color: rgb(250, 249, 230)">จำนวน </th> 
+                                                <th class="text-center" style="background-color: rgb(173, 211, 241)">ราคา/หน่วย </th> 
+                                                <th class="text-center" style="background-color: rgb(253, 236, 242)">จำนวนเงิน </th> 
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php 
                                                 $number = 0; $total1 = 0; $total2 = 0; $total3 = 0; $total4 = 0; $total5 = 0;$total6 = 0;$total7 = 0;
                                             ?>
-                                            @foreach ($wh_stock_list as $item)
-                                                <?php
-                                                    $number++;
-                                                    // $y = $item->year;
-                                                    //     $ynew = $y + 543;
-                                                    // // ลูกหนี้ที่ต้องตั้ง 401
-                                                    // $datas = DB::select(
-                                                    //     'SELECT count(DISTINCT vn) as Can,SUM(debit_total) as sumdebit
-                                                    //         FROM acc_debtor
-                                                    //         WHERE account_code="1102050101.401"
-                                                    //         AND stamp = "N" AND debit_total > 0
-                                                    //         AND month(vstdate) = "'.$item->months.'"
-                                                    //         AND year(vstdate) = "'.$item->year.'"
-                                                    // ');
-                                                    // foreach ($datas as $key => $value) {
-                                                    //     $count_N = $value->Can;
-                                                    //     $sum_N = $value->sumdebit;
-                                                    // }         
-                                                ?>
+                                            {{-- @foreach ($wh_stock_list as $item)
+                                                <?php $number++; ?>
                                         
                                                     <tr>
                                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number }} </td>  
-                                                        <td class="text-start" style="font-size: 17px;color:#022f57">
-                                                            <a href="{{ url('wh_main/'.$item->stock_list_id) }}">{{$item->stock_list_name}}</a>
-                                                            
+                                                        <td class="text-start" style="font-size: 17px;color:#022f57"> 
+                                                            <a href="{{ url('wh_main/'.$item->stock_list_id) }}">{{$item->stock_list_name}}</a> 
                                                         </td>    
                                                         <td class="text-end" style="color:rgb(29, 102, 185)" width="10%"> {{ $item->rec_total_qty}}</td>     
                                                         <td class="text-end" style="color:rgb(29, 102, 185)" width="10%"> {{ number_format($item->rec_total_price, 2) }}</td> 
                                                         <td class="text-end" style="color:rgb(241, 83, 21)" width="10%"> {{ $item->pay_total_qty}}</td>     
                                                         <td class="text-end" style="color:rgb(241, 83, 21)" width="10%"> {{ number_format($item->pay_total_price, 2) }}</td> 
                                                         <td class="text-end" style="color:rgb(202, 9, 83)" width="10%"> {{ ($item->rec_total_qty-$item->pay_total_qty)}}</td>     
-                                                        <td class="text-end" style="color:rgb(202, 9, 83)" width="10%"> {{ number_format($item->rec_total_price-$item->pay_total_price, 2) }}</td>                                      
-                                                        
+                                                        <td class="text-end" style="color:rgb(202, 9, 83)" width="10%"> {{ number_format($item->rec_total_price-$item->pay_total_price, 2) }}</td>     
                                                     </tr>
                                                 <?php
                                                         $total1 = $total1 + $item->rec_total_qty; 
@@ -197,10 +215,10 @@
                                                         $total5 = $total5 + $item->rec_total_qty-$item->pay_total_qty; 
                                                         $total6 = $total6 + $item->rec_total_price-$item->pay_total_price; 
                                                 ?> 
-                                            @endforeach
+                                            @endforeach --}}
         
                                         </tbody>
-                                        <tr style="background-color: #0d8db4">
+                                        {{-- <tr style="background-color: #0d8db4">
                                             <td colspan="2" class="text-end" style="background-color: #fca1a1"></td>
                                             <td class="text-end" style="background-color: #47A4FA"><label for="" style="font-size:20px;color: rgb(29, 102, 185)">{{ number_format($total1, 2) }}</label></td>
                                             <td class="text-end" style="background-color: #033a6d"><label for="" style="font-size:20px;color: rgb(29, 102, 185)">{{ number_format($total2, 2) }}</label></td>
@@ -208,48 +226,15 @@
                                             <td class="text-end" style="background-color: #149966" ><label for="" style="font-size:20px;color: rgb(241, 83, 21)">{{ number_format($total4, 2) }}</label></td>  
                                             <td class="text-end" style="background-color: #f89625"><label for="" style="font-size:20px;color: rgb(202, 9, 83)">{{ number_format($total5, 2) }}</label></td> 
                                             <td class="text-end" style="background-color: #f89625"><label for="" style="font-size:20px;color: rgb(202, 9, 83)">{{ number_format($total6, 2) }}</label></td>                                          
-                                        </tr>  
+                                        </tr>   --}}
                                     </table>
                                 </div>
                             </div>
                         </div>
                    
-                    <div class="col"></div>
+                    {{-- <div class="col"></div> --}}
                 </div>
-                    {{-- <div class="row"> 
-                        @foreach ($wh_stock_list as $item) 
-                            <div class="col-xl-3 col-md-6">
-                                <a href="{{ url('wh_main/'.$item->stock_list_id) }}" target="_blank">
-                                    <div class="card input_new">
-                                        <div class="card-body">
-                                            <div class="d-flex">
-                                                <div class="flex-grow-1">
-                                                    
-                                                        <p class="text-truncate font-size-18 mb-2" style="color:rgb(2, 124, 155)">คลัง{{$item->stock_list_name}}</p>
-                                                
-                                                    @if ($item->total_price < 1)
-                                                        <h4 class="mb-2" style="color:rgb(250, 26, 112)">0.00</h4>
-                                                        <p class="text-muted mb-0"><span class="text-success fw-bold font-size-14 me-2">Total Qty 00 </span></p>
-                                                    @else
-                                                        <h4 class="mb-2" style="color:rgb(250, 26, 112)">Total Price {{number_format($item->total_price, 2)}} ฿</h4>
-                                                        <p class="text-muted mb-0"><span class="text-success fw-bold font-size-14 me-2">Total Qty {{$item->total_qty}} </span></p>
-                                                    @endif
-                                                
-                                                    
-                                                </div>
-                                                <div class="avatar-sm">
-                                                    <span class="avatar-title bg-light text-primary rounded-3">
-                                                        <i class="mdi mdi-currency-usd font-size-24"></i>  
-                                                    </span>
-                                                </div>
-                                            </div>                                            
-                                        </div> 
-                                    </div> 
-                                </a>
-                            </div>                       
-                        @endforeach
-                    </div>    --}}
- 
+                 
             </div>
         </div>
     </div>

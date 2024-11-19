@@ -200,7 +200,10 @@
                                                 <input type="text" class="form-control-sm card_audit_4c" name="enddate" placeholder="End Date" id="datepicker2" style="font-size: 12px" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                                     data-date-language="th-th" value="{{ $enddate }}"/>   
                                             <button type="submit" class="ladda-button btn-pill btn btn-sm btn-primary card_audit_4c" data-style="expand-left">
-                                                <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2 ms-2"></i>ค้นหา</span> 
+                                                <span class="ladda-label"> 
+                                                    {{-- <i class="fa-solid fa-magnifying-glass text-white me-2 ms-2"></i> --}}
+                                                    <img src="{{ asset('images/Search02.png') }}" height="23px" width="23px"> 
+                                                    ค้นหา</span> 
                                             </button> 
                                         </div> 
                                     </div>  
@@ -284,7 +287,8 @@
                                                                 <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
                                                             </a> --}}
                                                             <a href="{{url('wh_pay_addsub/'.$item->wh_request_id)}}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="1-จัดสรรรายการวัสดุ">
-                                                                <i class="fa-solid fa-cart-plus" style="color: #0db8ec;font-size:20px"></i>
+                                                                {{-- <i class="fa-solid fa-cart-plus" style="color: #0db8ec;font-size:20px"></i> --}}
+                                                                <img src="{{ asset('images/ShoppingCart01.png') }}" height="25px" width="25px"> 
                                                             </a>     
                                                             {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger input_new Destroystamp" data-url="{{url('wh_recieve_destroy')}}"> --}}
                                                                 {{-- <i class="fa-solid fa-clipboard-check ms-2" style="color: #016381;font-size:20px"></i>  --}}
@@ -292,7 +296,9 @@
                                                             @if ($item->active == 'CONFIRM')
                                                             <a href="javascript:void(0)" onclick="wh_pay_approve({{ $item->wh_request_id }})"
                                                                 data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                data-bs-custom-class="custom-tooltip" title="2-ยืนยันการจ่าย"><i class="fa-solid fa-clipboard-check ms-2" style="color: #e41258;font-size:20px"></i> 
+                                                                data-bs-custom-class="custom-tooltip" title="2-ยืนยันการจ่าย">
+                                                                {{-- <i class="fa-solid fa-clipboard-check ms-2" style="color: #e41258;font-size:20px"></i>  --}}
+                                                                <img src="{{ asset('images/Confirm.png') }}" height="25px" width="25px"> 
                                                             </a>
                                                             @endif
                                                                                                       

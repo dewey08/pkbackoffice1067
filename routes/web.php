@@ -3662,5 +3662,7 @@ Route::match(['get','post'],'env_trash_parameter_switchactive',[App\Http\Control
     Route::match(['get', 'post'], 'dental_switchactive', [App\Http\Controllers\DentalController::class, 'dental_switchactive'])->name('den.dental_switchactive'); // switchactive
 
     Route::match(['get', 'post'], 'dental_detail_patient', [App\Http\Controllers\DentalController::class, 'dental_detail_patient'])->name('den.dental_detail_patient'); //
+    Route::match(['get', 'post'], 'dental_detail_patient_cid', [App\Http\Controllers\DentalController::class, 'dental_detail_patient_cid'])->name('den.dental_detail_patient_cid'); //
+    Route::match(['get', 'post'], 'dental_detail_patient_tel', [App\Http\Controllers\DentalController::class, 'dental_detail_patient_tel'])->name('den.dental_detail_patient_tel'); //
 
 });

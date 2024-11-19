@@ -137,7 +137,7 @@
                                                         <td class="text-center" style="color:rgb(3, 93, 145)">{{$item->stock_qty}} </td>
                                                     @endif  --}}
                                                     <td class="text-center">
-                                                        <a href="{{URL('wh_stock_card/'.$item->wh_stock_id)}}" class="ladda-button me-2 btn-pill btn btn-sm input_new text-white" style="background-color: rgb(236, 11, 97);font-size: 12px;">Stock Card</a>
+                                                        <a href="{{URL('wh_stock_card/'.$item->wh_stock_id.'/'.$item->pro_id)}}" class="ladda-button me-2 btn-pill btn btn-sm input_new text-white" style="background-color: rgb(236, 11, 97);font-size: 12px;">Stock Card</a>
                                                     </td>
                                                     <td class="text-center" style="color:rgb(3, 93, 145)">
                                                         @if ($item->stock_rep =='')
