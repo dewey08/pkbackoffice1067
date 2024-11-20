@@ -453,14 +453,16 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
                         <li class="menu-title">Menu</li>
                         <li>
                             <a href="{{ url('env_dashboard') }}">  
-                                <i class="fa-solid fa-chart-line fa-beat fa-2xl" style="color: #74C0FC;"></i>
+                                {{-- <i class="fa-solid fa-chart-line fa-beat fa-2xl" style="color: #74C0FC;"></i> --}}
+                                <img src="{{ asset('images/acc12.png') }}" height="27px" width="27px" >
                                 <span>Dashboard</span>
                             </a> 
                         </li>
                         
                         <li>                            
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-poo fa-beat fa-2xl" style="color: #FFD43B;"></i>                          
+                                {{-- <i class="fa-solid fa-poo fa-beat fa-2xl" style="color: #FFD43B;"></i> --}}
+                                <img src="{{ asset('images/Wash-Hands.png') }}" height="27px" width="27px" >
                                 <span>ระบบบ่อบำบัดน้ำเสีย</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -470,7 +472,8 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-recycle fa-beat fa-2xl" style="color: #1b9d3b;"></i>
+                                {{-- <i class="fa-solid fa-recycle fa-beat fa-2xl" style="color: #1b9d3b;"></i> --}}
+                                <img src="{{ asset('images/Delete.png') }}" height="27px" width="27px" >
                                 <span>ระบบบริหารจัดการขยะ</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">
@@ -480,7 +483,8 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-clipboard-list fa-beat fa-2xl" style="color: #ee4fe8;"></i>
+                                {{-- <i class="fa-solid fa-clipboard-list fa-beat fa-2xl" style="color: #ee4fe8;"></i> --}}
+                                <img src="{{ asset('images/wh08.png') }}" height="27px" width="27px" >
                                 <span>รายงาน</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">                                
@@ -492,7 +496,8 @@ $permiss_setting_env = StaticController::permiss_setting_env($iduser);
                         @if ($permiss_setting_env !=0)
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <i class="fa-solid fa-gears fa-beat fa-2xl" style="color: #f5a824;"></i>
+                                {{-- <i class="fa-solid fa-gears fa-beat fa-2xl" style="color: #f5a824;"></i> --}}
+                                <img src="{{ asset('images/Settings.png') }}" height="27px" width="27px" >
                                 <span>ตั้งค่า</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="true">                                
