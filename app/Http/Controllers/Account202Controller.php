@@ -135,11 +135,11 @@ class Account202Controller extends Controller
      }
      public function account_pkucs202_search(Request $request)
      {
-         $datenow = date('Y-m-d');
-         $startdate = $request->startdate;
-         $enddate = $request->enddate;
-         $date = date('Y-m-d'); 
-         $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+         $datenow      = date('Y-m-d');
+         $startdate    = $request->startdate;
+         $enddate      = $request->enddate;
+         $date         = date('Y-m-d'); 
+         $new_day      = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
          $data['users'] = User::get();
          if ($startdate =='') {
             $datashow = DB::select(' 
@@ -631,7 +631,7 @@ class Account202Controller extends Controller
                     ,sum(if(op.icode IN("1560016","1540073","1530005"),sum_price,0)) as debit_drug
                     ,sum(if(op.icode IN ("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
-                    ,(SELECT SUM(opp.sum_price) FROM opitemrece opp LEFT JOIN nondrugitems nn ON nn.icode = opp.icode WHERE opp.an = a.an AND nn.nhso_adp_code IN("5601","9104","5402","5403","5406","5609")) as nonpay
+                    ,(SELECT SUM(opp.sum_price) FROM opitemrece opp LEFT JOIN nondrugitems nn ON nn.icode = opp.icode WHERE opp.an = a.an AND nn.nhso_adp_code IN("5601","9104","5402","5403","5406","5609","5307","5705","72940","4805")) as nonpay
  
                     from ipt ip
                     LEFT JOIN an_stat a ON ip.an = a.an
@@ -645,7 +645,10 @@ class Account202Controller extends Controller
                 AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="IPD" AND pttype <>"")                              
                 GROUP BY a.an
         '); 
-        
+        // IN("3010894","3010941","3010942","3010943","3011044","3011045","3011046","3010817","3010818","3010867","3010819","3010820","3010871","3009720","3010895","3010065","3010581")
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+
          foreach ($acc_debtor as $key => $value) {
             // $count_pttype = DB::connection('mysql2')->select('SELECT COUNT(an) as C_an FROM  ipt_pttype WHERE an = "'.$value->an.'" ');
             $count_pttype = DB::connection('mysql2')->table('ipt_pttype')->where('an', $value->an)->count();
@@ -663,6 +666,7 @@ class Account202Controller extends Controller
                                         # code...
                                     } else { 
                                         Acc_debtor::insert([
+                                            'bg_yearnow'         => $value->bg_yearnow,
                                             'hn'                 => $value->hn,
                                             'an'                 => $value->an,
                                             'vn'                 => $value->vn,
@@ -702,6 +706,7 @@ class Account202Controller extends Controller
                                    
                                 if ($value->debit > 0) {                                       
                                     Acc_debtor::insert([
+                                        'bg_yearnow'         => $value->bg_yearnow,
                                         'hn'                 => $value->hn,
                                         'an'                 => $value->an,
                                         'vn'                 => $value->vn,
@@ -780,17 +785,16 @@ class Account202Controller extends Controller
                 }
             }       
          }
-         $acc_ucep = DB::connection('mysql')->select('SELECT an,sum_price_ipd,sum_price_ucep_all FROM acc_ucep_24');
-         foreach ($acc_ucep as $key => $val_up) {
-            $count_u = Acc_debtor::where('account_code', '1102050101.202')->where('an', $val_up->an)->count();
-            if ($count_u > 0) {
-                Acc_debtor::where('an',$val_up->an)->where('account_code', '1102050101.202')->update([  
-                    'debit_total'    => $val_up->sum_price_ipd - $val_up->sum_price_ucep_all,
-                    'debit_ucep'     => $val_up->sum_price_ucep_all,     
-                ]);  
-            }
-           
-         }
+        //  $acc_ucep = DB::connection('mysql')->select('SELECT an,sum_price_ipd,sum_price_ucep_all FROM acc_ucep_24');
+        //  foreach ($acc_ucep as $key => $val_up) {
+        //     $count_u = Acc_debtor::where('account_code', '1102050101.202')->where('an', $val_up->an)->count();
+        //     if ($count_u > 0) {
+        //         Acc_debtor::where('an',$val_up->an)->where('account_code', '1102050101.202')->update([  
+        //             'debit_total'    => $val_up->sum_price_ipd - $val_up->sum_price_ucep_all,
+        //             'debit_ucep'     => $val_up->sum_price_ucep_all,     
+        //         ]);  
+        //     }           
+        //  }
         $acc_norget = DB::connection('mysql')->select('
             SELECT an,debit,debit_instument,debit_drug,debit_toa,debit_refer,debit_ucep,nonpay 
             FROM acc_debtor 

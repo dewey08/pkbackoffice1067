@@ -280,7 +280,7 @@ class Account801Controller extends Controller
         $datenow = date('Y-m-d');
         $months = date('m');
         $year = date('Y');
-        $newday = date('Y-m-d', strtotime($datenow . ' -30 Day')); //ย้อนหลัง 1 สัปดาห์
+        $newday = date('Y-m-d', strtotime($datenow . ' -30 Day')); //ย้อนหลัง 30 วัน
         $startdate = $request->startdate;
         $enddate   = $request->enddate;
         
@@ -363,7 +363,12 @@ class Account801Controller extends Controller
      
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050102.801')->whereBetween('vstdate', [$startdate, $enddate])->count();
-                    if ($check == 0) {
+                    if ($check > 0) {
+                        Acc_debtor::where('vn', $value->vn)->update([
+                            'pdx'               => $value->pdx,
+                        ]);
+                    }else {
+                        
                         Acc_debtor::insert([
                             'hn'                 => $value->hn,
                             'an'                 => $value->an,
@@ -1474,7 +1479,7 @@ class Account801Controller extends Controller
                 //D_dru OK
                 $data_dru_ = DB::connection('mysql2')->select('
                     SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRICE
+                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,SUM(v.qty) AS AMOUNT ,round(v.unitprice,2) DRUGPRICE
                     ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
                     ,if(v.income="17",oo.presc_reason,"") as DRUGREMARK,"" PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
                     ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,"" PROVIDER,v.vstdate
@@ -1518,7 +1523,7 @@ class Account801Controller extends Controller
                             'DID'            => $va_14->DID,
                             'DIDNAME'        => $va_14->DIDNAME, 
                             'AMOUNT'         => $va_14->AMOUNT,
-                            'DRUGPRICE'       => $va_14->DRUGPRICE,
+                            'DRUGPRICE'      => $va_14->DRUGPRICE,
                             'DRUGCOST'       => $va_14->DRUGCOST,
                             'DIDSTD'         => $va_14->DIDSTD,
                             'UNIT'           => $va_14->UNIT,

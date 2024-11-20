@@ -279,20 +279,50 @@ class Account802Controller extends Controller
     {
         $datenow = date('Y-m-d');
         $months = date('m');
-        $year = date('Y'); 
-      
+        $year = date('Y');
+        $newday = date('Y-m-d', strtotime($datenow . ' -30 Day')); //ย้อนหลัง 30 วัน
         $startdate = $request->startdate;
-        $enddate = $request->enddate;
+        $enddate   = $request->enddate;
         
-        $acc_debtor = DB::select(
-            'SELECT a.* from acc_debtor a               
-            WHERE a.account_code="1102050102.802" AND a.stamp = "N"
-            GROUP BY a.vn
-            ORDER BY a.dchdate DESC
-        '); 
-            
-        $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050102.802')->whereBetween('dchdate', [$startdate, $enddate])->count();
-        $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050102.802')->whereBetween('dchdate', [$startdate, $enddate])->count();
+       
+
+        if ($startdate == '') {
+            // $acc_debtor = DB::select('
+            //     SELECT a.* from acc_debtor a               
+            //     WHERE a.account_code="1102050102.801" AND a.vstdate BETWEEN "' . $newday . '" AND "' . $datenow . '"
+            //     GROUP BY a.vn
+            //     ORDER BY a.vstdate DESC
+            // '); 
+            // $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050102.801')->whereBetween('vstdate', [$newday, $datenow])->count();
+            // $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050102.801')->whereBetween('vstdate', [$newday, $datenow])->count();
+
+            $acc_debtor = DB::select(
+                'SELECT a.* from acc_debtor a               
+                WHERE a.account_code="1102050102.802"  
+                GROUP BY a.an
+                ORDER BY a.dchdate DESC
+            '); 
+                
+            $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050102.802')->whereBetween('dchdate', [$startdate, $enddate])->count();
+            $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050102.802')->whereBetween('dchdate', [$startdate, $enddate])->count();
+
+        } else {
+            $acc_debtor = DB::select(
+                'SELECT a.* from acc_debtor a               
+                WHERE a.account_code="1102050102.802" 
+                GROUP BY a.an
+                ORDER BY a.dchdate DESC
+            '); 
+                
+            $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050102.802')->whereBetween('dchdate', [$startdate, $enddate])->count();
+            $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050102.802')->whereBetween('dchdate', [$startdate, $enddate])->count();
+        }
+        
+
+
+
+
+
 
         $data_activeclaim        = Acc_function::where('pang','1102050102.802')->first();
         $data['activeclaim']     = $data_activeclaim->claim_active;
@@ -423,11 +453,14 @@ class Account802Controller extends Controller
     } 
     public function account_802_checksit(Request $request)
     {
-        $datestart = $request->datestart;
-        $dateend = $request->dateend;
-        $date = date('Y-m-d');
+        $datestart    = $request->datepicker;
+        $dateend      = $request->datepicker2;
+        $date         = date('Y-m-d');
+        $id = $request->ids;
+        $iduser = Auth::user()->id;
+        $data_sitss = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
         
-        $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050102.802" AND stamp = "N" GROUP BY an');
+        // $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050102.802" AND stamp = "N" GROUP BY an');
  
         $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
         foreach ($token_data as $key => $value) { 

@@ -282,6 +282,7 @@
                 }
             }
 </style>
+
 <?php
 if (Auth::check()) {
             $type = Auth::user()->type;
@@ -295,15 +296,17 @@ if (Auth::check()) {
 
         use App\Http\Controllers\StaticController;
         use App\Models\Products_request_sub;
-        $permiss_account = StaticController::permiss_account($iduser);
+        $permiss_account       = StaticController::permiss_account($iduser);
         $permiss_setting_upstm = StaticController::permiss_setting_upstm($iduser);
-        $permiss_ucs = StaticController::permiss_ucs($iduser);
-        $permiss_sss = StaticController::permiss_sss($iduser);
-        $permiss_ofc = StaticController::permiss_ofc($iduser);
-        $permiss_lgo = StaticController::permiss_lgo($iduser);
-        $permiss_prb = StaticController::permiss_prb($iduser);
-        $permiss_ti = StaticController::permiss_ti($iduser);
-        $permiss_rep_money = StaticController::permiss_rep_money($iduser);
+        $permiss_ucs           = StaticController::permiss_ucs($iduser);
+        $permiss_sss           = StaticController::permiss_sss($iduser);
+        $permiss_ofc           = StaticController::permiss_ofc($iduser);
+        $permiss_lgo           = StaticController::permiss_lgo($iduser);
+        $permiss_prb           = StaticController::permiss_prb($iduser);
+        $permiss_ti            = StaticController::permiss_ti($iduser);
+        $permiss_rep_money     = StaticController::permiss_rep_money($iduser);
+        $per_accb01            = StaticController::per_accb01($iduser);
+        
 
 ?>
  
@@ -397,7 +400,9 @@ if (Auth::check()) {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
-                                    <i class="ri-dashboard-line me-2" style="font-size: 20px;color:pink"></i>Monitor <div class="arrow-down"></div>
+                                    {{-- <i class="ri-dashboard-line me-2" style="font-size: 20px;color:pink"></i> --}}
+                                    <img src="{{ asset('images/acc12.png') }}" height="27px" width="27px" > 
+                                    Monitor <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
                                     <a href="{{ url('account_pk_dash') }}" class="dropdown-item">dashboard</a> 
@@ -411,7 +416,10 @@ if (Auth::check()) {
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
                                 {{-- <i class="ri-apps-2-line"></i> --}}
-                                    <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(245, 96, 121)"></i>UCS <div class="arrow-down"></div>
+                                    {{-- <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(245, 96, 121)"></i> --}}
+                                    {{-- <img src="{{ asset('images/Bag-Dollar--Streamline-Core_O.png') }}" height="27px" width="27px" class="rounded-circle">  --}}
+                                    <img src="{{ asset('images/acc04.png') }}" height="27px" width="27px" > 
+                                    UCS <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
 
@@ -425,7 +433,7 @@ if (Auth::check()) {
                                         <div class="dropdown-menu" aria-labelledby="topnav-form">
                                             <a href="{{ url('account_201_dash') }}" class="dropdown-item">dashboard</a>
                                             <a href="{{ url('account_201_pull') }}" class="dropdown-item">ดึงลูกหนี้</a>
-                                            <a href="{{ url('account_201_detaildate') }}" class="dropdown-item">ตั้งลูกหนี้</a>
+                                            <a href="{{ url('account_201_detaildate') }}" class="dropdown-item">ค้นหาลูกหนี้</a>
                                         </div>
                                     </div>
                                     <div class="dropdown">
@@ -459,6 +467,14 @@ if (Auth::check()) {
                                             <a href="{{ url('account_pkucs209_dash') }}" class="dropdown-item">dashboard</a>
                                             <a href="{{ url('account_pkucs209_pull') }}" class="dropdown-item">ดึงลูกหนี้</a> 
                                             <a href="{{ url('account_pkucs209_search') }}" class="dropdown-item">ค้นหาลูกหนี้</a> 
+                                            <div class="dropdown">
+                                                <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form" role="button">การทดสอบการตั้งครรภ์<div class="arrow-down"></div> </a>
+                                                <div class="dropdown-menu" aria-labelledby="topnav-form">
+                                                    <a href="{{ url('account_209pp_dash') }}" class="dropdown-item">Dashboard</a> 
+                                                    <a href="{{ url('account_209pp_pull') }}" class="dropdown-item">Claim</a> 
+                                                    {{-- <a href="{{ url('account_209pp_search') }}" class="dropdown-item">ค้นหาลูกหนี้</a>  --}}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="dropdown">
@@ -480,7 +496,7 @@ if (Auth::check()) {
                                         <div class="dropdown-menu" aria-labelledby="topnav-form"> 
                                             <a href="{{ url('account_pkucs217_dash') }}" class="dropdown-item">dashboard</a>
                                             <a href="{{ url('account_pkucs217_pull') }}" class="dropdown-item">ดึงลูกหนี้</a> 
-                                            <a href="{{ url('account_pkucs217_search') }}" class="dropdown-item">ค้นหาลูกหนี้</a> 
+                                            <a href="{{ url('account_pkucs217_search') }}" class="dropdown-item">ค้นหาลูกหนี้</a>  
                                         </div>
                                     </div>
                                 </div>
@@ -491,7 +507,9 @@ if (Auth::check()) {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
-                                    <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:pink"></i>SSS <div class="arrow-down"></div>
+                                    {{-- <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:pink"></i> --}}
+                                    <img src="{{ asset('images/acc05.png') }}" height="27px" width="27px"> 
+                                    SSS <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
                                     <div class="dropdown">
@@ -503,6 +521,7 @@ if (Auth::check()) {
                                             <a href="{{ url('account_301_dash') }}" class="dropdown-item">dashboard</a>
                                             <a href="{{ url('account_301_pull') }}" class="dropdown-item">ดึงลูกหนี้</a>
                                             <a href="{{ url('account_301_detail_date') }}" class="dropdown-item">ค้นหาลูกหนี้</a>
+                                            <a href="{{ url('account_301_rep') }}" class="dropdown-item">Rep</a>
                                         </div>
                                     </div>
                                     <div class="dropdown">
@@ -612,7 +631,10 @@ if (Auth::check()) {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
-                                    <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(235, 94, 248)"></i>OFC <div class="arrow-down"></div>
+                                    {{-- <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(235, 94, 248)"></i> --}}
+                                    <img src="{{ asset('images/acc03.png') }}" height="27px" width="27px"> 
+                                    
+                                    OFC <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
                                     <div class="dropdown">
@@ -648,7 +670,10 @@ if (Auth::check()) {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
-                                    <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(6, 192, 176)"></i>LGO<div class="arrow-down"></div>
+                                    {{-- <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(6, 192, 176)"></i> --}}
+                                    {{-- <img src="{{ asset('images/Scanner-3--Streamline-Core.png') }}" height="27px" width="27px">  --}}
+                                    <img src="{{ asset('images/acc01.png') }}" height="27px" width="27px"> 
+                                    LGO<div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
                                     <div class="dropdown">
@@ -704,7 +729,9 @@ if (Auth::check()) {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
-                                    <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(252, 55, 88)"></i>พรบ<div class="arrow-down"></div>
+                                    {{-- <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(252, 55, 88)"></i> --}}
+                                    <img src="{{ asset('images/acc02.png') }}" height="27px" width="27px"> 
+                                    พรบ<div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
                                     <div class="dropdown">
@@ -739,7 +766,9 @@ if (Auth::check()) {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
-                                    <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(135, 214, 7)"></i>ไต<div class="arrow-down"></div>
+                                    {{-- <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(135, 214, 7)"></i> --}}
+                                    <img src="{{ asset('images/acc06.png') }}" height="27px" width="27px"> 
+                                    ไต<div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
                                     <div class="dropdown">
@@ -816,7 +845,9 @@ if (Auth::check()) {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
-                                    <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(248, 113, 22)"></i>คนต่างด้าว<div class="arrow-down"></div>
+                                    {{-- <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(248, 113, 22)"></i> --}}
+                                    <img src="{{ asset('images/acc07.png') }}" height="27px" width="27px"> 
+                                    คนต่างด้าว<div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
                                     <div class="dropdown">
@@ -870,7 +901,9 @@ if (Auth::check()) {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
-                                    <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(248, 214, 22)"></i>สถานะสิทธิ<div class="arrow-down"></div>
+                                    {{-- <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(248, 214, 22)"></i> --}}
+                                    <img src="{{ asset('images/acc08.png') }}" height="27px" width="27px"> 
+                                    สถานะสิทธิ<div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
                                     <div class="dropdown">
@@ -914,7 +947,9 @@ if (Auth::check()) {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
-                                    <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(143, 3, 3)"></i>อื่น ๆ<div class="arrow-down"></div>
+                                    {{-- <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(143, 3, 3)"></i> --}}
+                                    <img src="{{ asset('images/acc09.png') }}" height="27px" width="27px"> 
+                                    อื่น ๆ<div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
                                     <div class="dropdown">
@@ -944,29 +979,52 @@ if (Auth::check()) {
                                      
 
                                     @if ($permiss_rep_money != 0)
-                                    {{-- <a href="{{ url('chang_pttype_OPD') }}" class="dropdown-item">เปลี่ยนสิทธิ-ปรับผัง</a> --}}
-                                    <a href="{{ url('uprep_money') }}" class="dropdown-item">ลงใบเสร็จรับเงิน</a>
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
-                                            role="button">
-                                            เปลี่ยนสิทธิ-ปรับผัง<div class="arrow-down"></div>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="topnav-form">
-                                            <a href="{{ url('chang_dashboard') }}" class="dropdown-item">dashboard</a>
-                                            <a href="{{ url('chang_pttype_OPD') }}" class="dropdown-item">เปลี่ยนสิทธิ-ปรับผัง</a> 
+                                        {{-- <a href="{{ url('chang_pttype_OPD') }}" class="dropdown-item">เปลี่ยนสิทธิ-ปรับผัง</a> --}}
+                                        <a href="{{ url('uprep_money') }}" class="dropdown-item">ลงใบเสร็จรับเงิน</a>
+                                        <div class="dropdown">
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
+                                                role="button">
+                                                เปลี่ยนสิทธิ-ปรับผัง<div class="arrow-down"></div>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="topnav-form">
+                                                <a href="{{ url('chang_dashboard') }}" class="dropdown-item">dashboard</a>
+                                                <a href="{{ url('chang_pttype_OPD') }}" class="dropdown-item">เปลี่ยนสิทธิ-ปรับผัง</a> 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
-                                            role="button">
-                                            ลงใบเสร็จรับเงินรายตัว<div class="arrow-down"></div>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="topnav-form">
-                                            <a href="{{ url('uprep_sss_all') }}" class="dropdown-item">ประกันสังคม</a>
-                                            <a href="{{ url('uprep_money_plbop_all') }}" class="dropdown-item">พรบ.-OPIP</a> 
-                                        </div>
-                                    </div> 
-                                    
+                                        <div class="dropdown">
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
+                                                role="button">
+                                                ลงใบเสร็จรับเงินรายตัว<div class="arrow-down"></div>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="topnav-form">
+                                                <a href="{{ url('uprep_sss_all') }}" class="dropdown-item">ประกันสังคม</a>
+                                                <a href="{{ url('uprep_money_plbop_all') }}" class="dropdown-item">พรบ.-OPIP</a> 
+                                            </div>
+                                        </div> 
+                                    @endif
+                                    @if ($permiss_setting_upstm != 0)
+                                        <div class="dropdown">
+                                            <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
+                                                role="button">
+                                                UP STM<div class="arrow-down"></div>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="topnav-form">
+                                                <a href="{{ url('tree_document') }}" class="dropdown-item">Document</a> 
+                                                <a href="{{ url('stm_oneid_opd') }}" class="dropdown-item">UCS(ONEID-OPD)</a> 
+                                                <a href="{{ url('upstm_ucsopd') }}" class="dropdown-item">UCS(Excel-OPD)</a> 
+                                                <a href="{{ url('upstm_ucs') }}" class="dropdown-item">UCS(Excel-IPD)OK</a> 
+                                                <a href="{{ url('upstm_ofcexcel') }}" class="dropdown-item">OFC(Excel)OK</a> 
+                                                <a href="{{ url('upstm_bkkexcel') }}" class="dropdown-item">BKK(Excel)OK</a> 
+                                                <a href="{{ url('upstm_lgoexcel') }}" class="dropdown-item">LGO(Excel)OK</a> 
+                                                <a href="{{ url('upstm_lgo_rep') }}" class="dropdown-item">LGO(Rep Excel)</a> 
+                                                <a href="{{ url('upstm_ti') }}" class="dropdown-item">UCS(Excel-ไต)OK</a> 
+                                                <a href="{{ url('upstm_tixml') }}" class="dropdown-item">OFC(Xml-ไต)OK</a>
+                                                <a href="{{ url('upstm_lgotiexcel') }}" class="dropdown-item">LGO(Excel-ไต)OK</a>
+                                                <a href="{{ url('upstm_tixml_sss') }}" class="dropdown-item">SSS(Xml-ไต)OK</a>
+                                                {{-- <a href="{{ url('upstm_sss_xml') }}" class="dropdown-item">SSS(Xml)</a>  --}}
+                                                <a href="{{ url('upstm_sss_excel') }}" class="dropdown-item">SSS(Excel)</a> 
+                                            </div>
+                                        </div> 
                                     @endif
 
                                 </div>                                
@@ -1005,59 +1063,13 @@ if (Auth::check()) {
                                 </div>                                
                             </li>
                             @endif --}}
-
-                            @if ($permiss_setting_upstm != 0)
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
-                                    <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(110, 21, 252)"></i>UP STM<div class="arrow-down"></div>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="topnav-apps"> 
-                                    <a href="{{ url('tree_document') }}" class="dropdown-item">Document</a> 
-                                    <a href="{{ url('stm_oneid_opd') }}" class="dropdown-item">UCS(ONEID-OPD)</a> 
-                                    <a href="{{ url('upstm_ucsopd') }}" class="dropdown-item">UCS(Excel-OPD)</a> 
-                                    <a href="{{ url('upstm_ucs') }}" class="dropdown-item">UCS(Excel-IPD)OK</a> 
-                                    <a href="{{ url('upstm_ofcexcel') }}" class="dropdown-item">OFC(Excel)OK</a> 
-                                    <a href="{{ url('upstm_bkkexcel') }}" class="dropdown-item">BKK(Excel)OK</a> 
-                                    <a href="{{ url('upstm_lgoexcel') }}" class="dropdown-item">LGO(Excel)OK</a> 
-                                    <a href="{{ url('upstm_ti') }}" class="dropdown-item">UCS(Excel-ไต)OK</a> 
-                                    <a href="{{ url('upstm_tixml') }}" class="dropdown-item">OFC(Xml-ไต)OK</a>
-                                    <a href="{{ url('upstm_lgotiexcel') }}" class="dropdown-item">LGO(Excel-ไต)OK</a>
-                                    <a href="{{ url('upstm_tixml_sss') }}" class="dropdown-item">SSS(Xml-ไต)OK</a>
-                                    {{-- <a href="{{ url('upstm_sss_xml') }}" class="dropdown-item">SSS(Xml)</a>  --}}
-                                    <a href="{{ url('upstm_sss_excel') }}" class="dropdown-item">SSS(Excel)</a> 
-                                    {{-- <div class="dropdown">
-                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form"
-                                            role="button">
-                                            REPORT STM ALL<div class="arrow-down"></div>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="topnav-form">
-                                            <a href="{{ url('upstm_ucs_ipd') }}" class="dropdown-item">UCS IPD 202</a>
-                                            <a href="{{ url('upstm_ucs_opd216') }}" class="dropdown-item">UCS OPD 216</a>
-                                            <a href="{{ url('upstm_ucs_ipd217') }}" class="dropdown-item">UCS IPD 217</a> 
-                                            <a href="{{ url('upstm_ucs_ti') }}" class="dropdown-item">UCS ไต 2166</a> 
-                                            <a href="{{ url('upstm_sss_ti') }}" class="dropdown-item">SSS ไต 3099</a> 
-                                            <a href="{{ url('upstm_ofc_ti') }}" class="dropdown-item">OFC ไต 4011</a> 
-                                            <a href="{{ url('upstm_lgo_ti') }}" class="dropdown-item">LGO ไต 8011</a> 
-                                            <a href="{{ url('upstm_ofc_opd') }}" class="dropdown-item">OFC OPD 401</a> 
-                                            <a href="{{ url('upstm_ofc_ipd') }}" class="dropdown-item">OFC IPD 402</a> 
-                                            <a href="{{ url('upstm_lgo_opd') }}" class="dropdown-item">LGO OPD 801</a> 
-                                            <a href="{{ url('upstm_lgo_ipd') }}" class="dropdown-item">LGO IPD 802</a> 
-                                            <a href="{{ url('upstm_bkk_opd') }}" class="dropdown-item">BKK OPD 803</a> 
-                                            <a href="{{ url('upstm_bkk_ipd') }}" class="dropdown-item">BKK IPD 804</a>  
-                                        </div>
-                                    </div> --}}
-
-                                </div>
-
-                                
-                            </li>
-                            @endif
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
-                                >
-                                    <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(110, 21, 252)"></i>REPORT<div class="arrow-down"></div>
+                                    {{-- <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(110, 21, 252)"></i> --}}
+                                    {{-- <img src="{{ asset('images/Safe-Vault--Streamline-Core.png') }}" height="27px" width="27px" class="rounded-circle">  --}}
+                                    <img src="{{ asset('images/acc10.png') }}" height="27px" width="27px"> 
+                                    Report<div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">           
                                             <a href="{{ url('upstm_ucs_ipd') }}" class="dropdown-item">UCS IPD 202</a>
@@ -1075,6 +1087,38 @@ if (Auth::check()) {
                                             <a href="{{ url('upstm_bkk_ipd') }}" class="dropdown-item">BKK IPD 804</a>  
                                 </div> 
                             </li>
+
+                            @if ($per_accb01 != 0)
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button" >
+                                    {{-- <x-solar-money-bag-broken class="!h-6 !w-6 text-red-600"/> --}}
+                                    {{-- <i class="x-solar-money-bag-bold me-2" style="font-size: 20px;color:rgb(201, 80, 248)"></i> --}}
+                                    {{-- <img src="{{ asset('images/business.png') }}" height="27px" width="27px" class="rounded-circle">  --}}
+                                    <img src="{{ asset('images/acc11.png') }}" height="27px" width="27px"> 
+                                    
+                                    บัญชี
+                                    <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps"> 
+                                    {{-- <a href="{{ url('tree_document') }}" class="dropdown-item">Document</a>    --}}
+                                    <div class="dropdown">
+                                        <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-form" role="button">
+                                            ลูกหนี้รายเดือน<div class="arrow-down"></div>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="topnav-form"> 
+                                            <a href="{{ url('account_rep') }}" class="dropdown-item">รายงานลูกหนี้</a> 
+                                            {{-- <a href="{{ url('acc_106_debt') }}" class="dropdown-item">ทวงหนี้</a>  --}}
+                                        </div>
+                                    </div> 
+                                </div> 
+                                
+                            </li>
+                            @endif
+
+                    
+
+                           
+                            
                             {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button"
                                 >

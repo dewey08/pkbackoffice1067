@@ -150,19 +150,23 @@ class Account201Controller extends Controller
     }
     public function account_201_pull(Request $request)
     {
+        
         $datenow = date('Y-m-d');
         $months = date('m');
         $year = date('Y');
+        $newday = date('Y-m-d', strtotime($datenow . ' -1 Day')); //ย้อนหลัง 1 สัปดาห์
         // dd($year);
         $startdate = $request->startdate;
-        $enddate = $request->enddate;
+        $enddate   = $request->enddate;
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
                 SELECT * 
                 from acc_debtor a
                 WHERE a.account_code="1102050101.201"
-                AND a.stamp = "N" AND a.debit_total > 0
+             
+                AND a.debit_total > 0
+                AND vstdate BETWEEN "' . $newday . '" AND "' . $datenow . '"
                 group by a.vn
                 order by a.vstdate asc
             ');
@@ -174,7 +178,8 @@ class Account201Controller extends Controller
                 SELECT *                
                 from acc_debtor a
                 WHERE a.account_code="1102050101.201"
-                AND a.stamp = "N"
+           
+                AND vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 group by a.vn
                 order by a.vstdate asc
             ');
@@ -274,11 +279,11 @@ class Account201Controller extends Controller
 
     public function account_201_pulldata(Request $request)
     {
-        $db_ = Orginfo::where('orginfo_id','=','1')->first();
-        $db  = $db_->dbname;
-        $datenow = date('Y-m-d');
-        $startdate = $request->datepicker;
-        $enddate = $request->datepicker2; 
+        $db_        = Orginfo::where('orginfo_id','=','1')->first();
+        $db         = $db_->dbname;
+        $datenow    = date('Y-m-d');
+        $startdate  = $request->datepicker;
+        $enddate    = $request->datepicker2; 
         $acc_debtor = DB::connection('mysql2')->select('
                 SELECT v.vn,ifnull(o.an,"") as an,o.hn,pt.cid
                 ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
@@ -309,12 +314,15 @@ class Account201Controller extends Controller
                 AND v.hospmain IN(SELECT hospmain FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202")        
                 GROUP BY v.vn 
         ');
+        $bgs_year                   = DB::table('budget_year')->where('years_now','Y')->first(); 
+        $bg_yearnow                  = $bgs_year->leave_year_id;
 
         foreach ($acc_debtor as $key => $value) {
                     $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.201')->count();
                     if ($check == 0) {
                         if ($value->debit > 0) {                         
                             Acc_debtor::insert([
+                                'bg_yearnow'         => $bg_yearnow,
                                 'hn'                 => $value->hn,
                                 'an'                 => $value->an,
                                 'vn'                 => $value->vn,
@@ -437,8 +445,8 @@ class Account201Controller extends Controller
     public function account_201_detaildate(Request $request)
     {
         $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
+        $startdate  = $request->startdate;
+        $enddate  = $request->enddate;
         // dd($id);
         $data['users'] = User::get();
 

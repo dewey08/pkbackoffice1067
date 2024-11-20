@@ -55,6 +55,8 @@ use App\Models\Acc_stm_sssnew;
 use App\Models\Acc_trimart;
 use App\Models\Acc_stm_sss;
 use App\Models\Acc_stm_sssexcel;
+use App\Models\Acc_lgo_repexcel;
+use App\Models\Acc_lgo_rep;
 
 use PDF;
 use setasign\Fpdi\Fpdi;
@@ -90,6 +92,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+
+use function Ramsey\Uuid\v1;
 
 // use Orchestra\Parser\Xml\Facade as XmlParser;
 // use Illuminate\Container\Container;
@@ -1657,7 +1661,7 @@ class AccountPKController extends Controller
         ');
         $datacount_op = DB::connection('mysql')->select(
             'SELECT count(STMdoc) as cou_op
-            FROM acc_stm_bkkexcel WHERE (repno IS NOT NULL OR repno <> "") AND an IS NULL
+            FROM acc_stm_bkkexcel WHERE (repno IS NOT NULL OR repno <> "") AND (an IS NULL OR an ="-")
         ');
         // AND STMdoc LIKE "%STM_10978_OP%"
         foreach ($datacount_op as $key => $value) {
@@ -1665,7 +1669,7 @@ class AccountPKController extends Controller
         }
         $datacount_ip = DB::connection('mysql')->select(
             'SELECT count(STMdoc) as cou_ip
-            FROM acc_stm_bkkexcel WHERE (repno IS NOT NULL OR repno <> "") AND an IS NOT NULL
+            FROM acc_stm_bkkexcel WHERE (repno IS NOT NULL OR repno <> "") AND an <> "-"
             
         ');
         // AND STMdoc LIKE "%STM_10978_IP%"
@@ -2268,8 +2272,8 @@ class AccountPKController extends Controller
                 $sheet        = $spreadsheet->setActiveSheetIndex(0);
                 $row_limit    = $sheet->getHighestDataRow();
                 // $column_limit = $sheet->getHighestDataColumn();
-                $row_range    = range( '11', $row_limit ); 
-                $startcount = '11'; 
+                $row_range    = range( '8', $row_limit ); 
+                $startcount = '8'; 
 
                 $data = array();
                 foreach ($row_range as $row ) {
@@ -2550,6 +2554,500 @@ class AccountPKController extends Controller
  
         }
         Acc_stm_lgoexcelnew::truncate();
+        // return response()->json([
+        //     'status'    => '200',
+        // ]);
+        return redirect()->back();
+    }
+
+    public function upstm_lgo_rep(Request $request)
+    {
+        $datenow = date('Y-m-d');
+        $startdate = $request->startdate;
+        $enddate = $request->enddate;
+        $datashow = DB::connection('mysql')->select('
+            SELECT rep,vstdate,SUM(pay) as Sumprice,STMdoc,month(vstdate) as months
+            FROM acc_lgo_repexcel 
+            WHERE tran_id <> ""
+            GROUP BY tran_id
+            ');
+        $countc = DB::table('acc_lgo_repexcel')->count();
+        // dd($countc );
+        return view('account_pk.upstm_lgo_rep',[
+            'startdate'     =>     $startdate,
+            'enddate'       =>     $enddate,
+            'datashow'      =>     $datashow,
+            'countc'        =>     $countc
+        ]);
+    }
+
+    public function upstm_lgo_rep_save(Request $request)
+    { 
+            $this->validate($request, [
+                'file' => 'required|file|mimes:xls,xlsx'
+            ]);
+            $the_file = $request->file('file');
+            $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
+
+            try{
+                $spreadsheet = IOFactory::load($the_file->getRealPath()); 
+                $sheet        = $spreadsheet->setActiveSheetIndex(0);
+                $row_limit    = $sheet->getHighestDataRow();
+                // $column_limit = $sheet->getHighestDataColumn();
+                $row_range    = range( '8', $row_limit ); 
+                $startcount = '8'; 
+
+                $data = array();
+                foreach ($row_range as $row ) {
+
+                    $vst = $sheet->getCell( 'I' . $row )->getValue();
+                    // $starttime = substr($vst, 0, 5);
+                    $day           = substr($vst,0,2);
+                    $mo            = substr($vst,3,2);
+                    $year          = substr($vst,6,4);
+                    $vstdate       = $year.'-'.$mo.'-'.$day;
+
+                    $tran          = $sheet->getCell( 'J' . $row )->getValue(); 
+                    $day2          = substr($tran,0,2);
+                    $mo2           = substr($tran,3,2);
+                    $year2         = substr($tran,6,4);
+                    $dchdate       = $year2.'-'.$mo2.'-'.$day2;
+  
+                    $k = $sheet->getCell( 'K' . $row )->getValue();
+                    $del_k = str_replace(",","",$k);
+                    $l = $sheet->getCell( 'L' . $row )->getValue();
+                    $del_l = str_replace(",","",$l);
+                    $ad = $sheet->getCell( 'AD' . $row )->getValue();
+                    $del_ad = str_replace(",","",$ad);
+                    $g = $sheet->getCell( 'AG' . $row )->getValue();
+                    $del_g = str_replace(",","",$g);
+                    $ae = $sheet->getCell( 'AE' . $row )->getValue();
+                    $del_ae = str_replace(",","",$ae);
+                    $af = $sheet->getCell( 'AF' . $row )->getValue();
+                    $del_af = str_replace(",","",$af);
+                    $ah = $sheet->getCell( 'AH' . $row )->getValue();
+                    $del_ah = str_replace(",","",$ah);
+                    $ai = $sheet->getCell( 'AI' . $row )->getValue();
+                    $del_ai = str_replace(",","",$ai);
+
+                    $an = $sheet->getCell( 'AN' . $row )->getValue();
+                    $del_an = str_replace(",","",$an);
+                    $ao = $sheet->getCell( 'AO' . $row )->getValue();
+                    $del_ao = str_replace(",","",$ao);
+                    $ap = $sheet->getCell( 'AP' . $row )->getValue();
+                    $del_ap = str_replace(",","",$ap);
+                    $aq = $sheet->getCell( 'AQ' . $row )->getValue();
+                    $del_aq = str_replace(",","",$aq);
+                    $ar = $sheet->getCell( 'AR' . $row )->getValue();
+                    $del_ar = str_replace(",","",$ar);
+                    $as = $sheet->getCell( 'AS' . $row )->getValue();
+                    $del_as = str_replace(",","",$as);
+                    $at = $sheet->getCell( 'AT' . $row )->getValue();
+                    $del_at = str_replace(",","",$at);
+                    $au = $sheet->getCell( 'AU' . $row )->getValue();
+                    $del_au = str_replace(",","",$au);
+
+
+                        $data[] = [
+                            'rep'                    =>$sheet->getCell( 'A' . $row )->getValue(),
+                            'no'                     =>$sheet->getCell( 'B' . $row )->getValue(),
+                            'tran_id'                =>$sheet->getCell( 'C' . $row )->getValue(),
+                            'hn'                     =>$sheet->getCell( 'D' . $row )->getValue(),
+                            'an'                     =>$sheet->getCell( 'E' . $row )->getValue(),
+                            'pid'                    =>$sheet->getCell( 'F' . $row )->getValue(),
+                            'ptname'                 =>$sheet->getCell( 'G' . $row )->getValue(),
+                            'type'                   =>$sheet->getCell( 'H' . $row )->getValue(),
+                            'vstdate'                =>$vstdate ,
+                            'dchdate'                =>$dchdate ,
+                            'income_cherd'           =>$sheet->getCell( 'J' . $row )->getValue(), 
+                            'pp_cherd'               =>$sheet->getCell( 'L' . $row )->getValue(), 
+                            'error_code'             =>$sheet->getCell( 'M' . $row )->getValue(), 
+
+                            'toon'                   =>$sheet->getCell( 'N' . $row )->getValue(), 
+                            'type_service'           =>$sheet->getCell( 'O' . $row )->getValue(), 
+                            'refer'                  =>$sheet->getCell( 'P' . $row )->getValue(), 
+                            'ucc'                    =>$sheet->getCell( 'Q' . $row )->getValue(), 
+                            'hospmain'               =>$sheet->getCell( 'S' . $row )->getValue(), 
+                            'hospsub'                =>$sheet->getCell( 'T' . $row )->getValue(), 
+                            'hospmain'               =>$sheet->getCell( 'S' . $row )->getValue(), 
+                            'hospsub'                =>$sheet->getCell( 'T' . $row )->getValue(), 
+                            'href'                   =>$sheet->getCell( 'U' . $row )->getValue(), 
+
+                            'hcode'                  =>$sheet->getCell( 'V' . $row )->getValue(), 
+                            'prov1'                  =>$sheet->getCell( 'W' . $row )->getValue(), 
+                            'hoscode'                =>$sheet->getCell( 'U' . $row )->getValue(), 
+                            'hosname'                =>$sheet->getCell( 'U' . $row )->getValue(), 
+                            'proj'                   =>$sheet->getCell( 'U' . $row )->getValue(), 
+                            'pa'                     =>$sheet->getCell( 'AA' . $row )->getValue(), 
+                            'drg'                    =>$sheet->getCell( 'AB' . $row )->getValue(),
+                            'rw'                     =>$sheet->getCell( 'AC' . $row )->getValue(), 
+                            'income'                 =>$del_ad ,
+                            'pp_claim'               =>$del_ae ,
+                            'income_claim'           =>$del_af ,
+                            'income_noclaim'         =>$del_g ,
+                            'rcpt'                   =>$del_g ,
+                            'pay'                    =>$del_ai , 
+                            'ps'                     =>$sheet->getCell( 'AJ' . $row )->getValue(), 
+                            'psper'                  =>$sheet->getCell( 'AK' . $row )->getValue(), 
+                            'ccuf'                   =>$sheet->getCell( 'AL' . $row )->getValue(), 
+                            'adjrw'                  =>$sheet->getCell( 'AM' . $row )->getValue(), 
+                            'prb'                    =>$del_an ,
+                            'iplg'                   =>$del_ao ,
+                            'oplg'                   =>$del_ap ,
+                            'palg'                   =>$del_aq ,
+                            'instlg'                 =>$del_ar ,
+                            'otlg'                   =>$del_as ,
+                            'pp_grnee'               =>$del_at ,
+                            'drug'                   =>$del_au ,
+                            'iplg_deny'              =>$sheet->getCell( 'AV' . $row )->getValue(), 
+                            'oplg_deny'              =>$sheet->getCell( 'AW' . $row )->getValue(), 
+                            'palg_deny'              =>$sheet->getCell( 'AX' . $row )->getValue(), 
+                            'instlg_deny'            =>$sheet->getCell( 'AY' . $row )->getValue(), 
+                            'otlg_deny'              =>$sheet->getCell( 'AZ' . $row )->getValue(), 
+                            'ors'                    =>$sheet->getCell( 'BA' . $row )->getValue(), 
+                            'va'                     =>$sheet->getCell( 'BB' . $row )->getValue(), 
+                            'audit'                  =>$sheet->getCell( 'BC' . $row )->getValue(), 
+                            'STMdoc'                 =>$file_ ,
+                        ]; 
+                    $startcount++;
+                    
+                }
+                $for_insert = array_chunk($data, length:1000);
+                foreach ($for_insert as $key => $data_) {                     
+                    Acc_lgo_repexcel::insert($data_);                       
+                }
+             
+            } catch (Exception $e) {
+                $error_code = $e->errorInfo[1];
+                return back()->withErrors('There was a problem uploading the data!');
+            }
+               return response()->json([
+                'status'    => '200',
+            ]);
+    }
+
+    public function upstm_lgo_rep_send(Request $request)
+    {
+        $data_ = DB::connection('mysql')->select('SELECT * FROM acc_lgo_repexcel WHERE tran_id <> ""');
+ 
+        foreach ($data_ as $key => $value) {
+            // ผู้ป่วยใน
+            if ($value->an != '') {
+                $check_ipd = acc_lgo_rep::where('an',$value->an)->count();
+                if ($check_ipd > 0) { 
+                    Acc_lgo_rep::where('tran_id',$value->tran_id)->update([ 
+                        'rep'             => $value->rep,  
+                        'no'              => $value->no, 
+                        'tran_id'         => $value->tran_id,
+                        'hn'              => $value->hn,
+                        'an'              => $value->an,
+                        'pid'             => $value->pid, 
+                        'ptname'          => $value->ptname,
+                        'type'            => $value->type,
+                        'vstdate'         => $value->vstdate,
+                        'dchdate'         => $value->dchdate,
+                        'income_cherd'    => $value->income_cherd,
+                        'pp_cherd'        => $value->pp_cherd,
+                        'error_code'      => $value->error_code,
+                        'toon'            => $value->toon,
+                        'type_service'    => $value->type_service,
+                        'refer'           => $value->refer,
+                        'ucc'             => $value->ucc,
+                        'hospmain'        => $value->hospmain,
+                        'hospsub'         => $value->hospsub,
+                        'href'            => $value->href,
+                        'hcode'           => $value->hcode,
+                        'prov1'           => $value->prov1,
+                        'hoscode'         => $value->hoscode,
+                        'hosname'         => $value->hosname,
+                        'proj'            => $value->proj,
+                        'pa'              => $value->pa,
+                        'drg'             => $value->drg,
+                        'rw'              => $value->rw,
+                        'income'          => $value->income,
+                        'pp_claim'        => $value->pp_claim,
+                        'income_claim'    => $value->income_claim,
+                        'income_noclaim'  => $value->income_noclaim,
+                        'rcpt'            => $value->rcpt,
+                        'pay'             => $value->pay,
+                        'ps'              => $value->ps,
+                        'psper'           => $value->psper,
+                        'ccuf'            => $value->ccuf,
+                        'adjrw'           => $value->adjrw,
+                        'prb'             => $value->prb,
+                        'iplg'            => $value->iplg,
+                        'oplg'            => $value->oplg,
+                        'palg'            => $value->palg,
+                        'instlg'          => $value->instlg,
+                        'otlg'            => $value->otlg,
+                        'pp_grnee'        => $value->pp_grnee,
+                        'drug'            => $value->drug,
+                        'iplg_deny'       => $value->iplg_deny,
+                        'oplg_deny'       => $value->oplg_deny,
+                        'palg_deny'       => $value->palg_deny,
+                        'instlg_deny'     => $value->instlg_deny,
+                        'otlg_deny'       => $value->otlg_deny,
+                        'ors'             => $value->ors,
+                        'va'              => $value->va,
+                        'audit'           => $value->audit,
+                        'STMDoc'          => $value->STMdoc,
+                    ]);
+                } else {
+                    Acc_lgo_rep::insert([ 
+                        'rep'             => $value->rep,  
+                        'no'              => $value->no, 
+                        'tran_id'         => $value->tran_id,
+                        'hn'              => $value->hn,
+                        'an'              => $value->an,
+                        'pid'             => $value->pid, 
+                        'ptname'          => $value->ptname,
+                        'type'            => $value->type,
+                        'vstdate'         => $value->vstdate,
+                        'dchdate'         => $value->dchdate,
+                        'income_cherd'    => $value->income_cherd,
+                        'pp_cherd'        => $value->pp_cherd,
+                        'error_code'      => $value->error_code,
+                        'toon'            => $value->toon,
+                        'type_service'    => $value->type_service,
+                        'refer'           => $value->refer,
+                        'ucc'             => $value->ucc,
+                        'hospmain'        => $value->hospmain,
+                        'hospsub'         => $value->hospsub,
+                        'href'            => $value->href,
+                        'hcode'           => $value->hcode,
+                        'prov1'           => $value->prov1,
+                        'hoscode'         => $value->hoscode,
+                        'hosname'         => $value->hosname,
+                        'proj'            => $value->proj,
+                        'pa'              => $value->pa,
+                        'drg'             => $value->drg,
+                        'rw'              => $value->rw,
+                        'income'          => $value->income,
+                        'pp_claim'        => $value->pp_claim,
+                        'income_claim'    => $value->income_claim,
+                        'income_noclaim'  => $value->income_noclaim,
+                        'rcpt'            => $value->rcpt,
+                        'pay'             => $value->pay,
+                        'ps'              => $value->ps,
+                        'psper'           => $value->psper,
+                        'ccuf'            => $value->ccuf,
+                        'adjrw'           => $value->adjrw,
+                        'prb'             => $value->prb,
+                        'iplg'            => $value->iplg,
+                        'oplg'            => $value->oplg,
+                        'palg'            => $value->palg,
+                        'instlg'          => $value->instlg,
+                        'otlg'            => $value->otlg,
+                        'pp_grnee'        => $value->pp_grnee,
+                        'drug'            => $value->drug,
+                        'iplg_deny'       => $value->iplg_deny,
+                        'oplg_deny'       => $value->oplg_deny,
+                        'palg_deny'       => $value->palg_deny,
+                        'instlg_deny'     => $value->instlg_deny,
+                        'otlg_deny'       => $value->otlg_deny,
+                        'ors'             => $value->ors,
+                        'va'              => $value->va,
+                        'audit'           => $value->audit,
+                        'STMDoc'          => $value->STMdoc,
+                    ]);
+                }
+                $check802 = Acc_1102050102_802::where('an',$value->an)->where('STMdoc',NULL)->count();               
+                if ($check802 > 0) {
+                    Acc_1102050102_802::where('an',$value->an) 
+                        ->update([
+                            'status'          => 'Y', 
+                            'stm_money'       => $value->income_claim,
+                            'stm_rcpno'       => $value->rep,
+                            'STMDoc'          => $value->STMdoc,
+                    ]);
+                } else {                
+                    Acc_1102050102_802::where('an',$value->an) 
+                    ->update([
+                        'status'          => 'Y', 
+                        'stm_money'       => $value->income_claim,
+                        'stm_rcpno'       => $value->rep,
+                        'STMDoc'          => $value->STMdoc,
+                    ]);
+                }  
+                Acc_debtor::where('an',$value->an) 
+                ->update([ 
+                    'rep_error'       => $value->error_code,
+                    'rep_pay'         => $value->income_claim,
+                    'rep_nopay'       => $value->income_noclaim,
+                    'rep_doc'         => $value->STMdoc,
+                ]); 
+
+            // ผู้ป่วยนอก
+            } else {
+                $check_opd = Acc_lgo_rep::where('tran_id',$value->tran_id)->count();
+                if ($check_opd > 0) { 
+                    Acc_lgo_rep::where('tran_id',$value->tran_id)->update([ 
+                        'rep'             => $value->rep,  
+                        'no'              => $value->no, 
+                        'tran_id'         => $value->tran_id,
+                        'hn'              => $value->hn,
+                        'an'              => $value->an,
+                        'pid'             => $value->pid, 
+                        'ptname'          => $value->ptname,
+                        'type'            => $value->type,
+                        'vstdate'         => $value->vstdate,
+                        'dchdate'         => $value->dchdate,
+                        'income_cherd'    => $value->income_cherd,
+                        'pp_cherd'        => $value->pp_cherd,
+                        'error_code'      => $value->error_code,
+                        'toon'            => $value->toon,
+                        'type_service'    => $value->type_service,
+                        'refer'           => $value->refer,
+                        'ucc'             => $value->ucc,
+                        'hospmain'        => $value->hospmain,
+                        'hospsub'         => $value->hospsub,
+                        'href'            => $value->href,
+                        'hcode'           => $value->hcode,
+                        'prov1'           => $value->prov1,
+                        'hoscode'         => $value->hoscode,
+                        'hosname'         => $value->hosname,
+                        'proj'            => $value->proj,
+                        'pa'              => $value->pa,
+                        'drg'             => $value->drg,
+                        'rw'              => $value->rw,
+                        'income'          => $value->income,
+                        'pp_claim'        => $value->pp_claim,
+                        'income_claim'    => $value->income_claim,
+                        'income_noclaim'  => $value->income_noclaim,
+                        'rcpt'            => $value->rcpt,
+                        'pay'             => $value->pay,
+                        'ps'              => $value->ps,
+                        'psper'           => $value->psper,
+                        'ccuf'            => $value->ccuf,
+                        'adjrw'           => $value->adjrw,
+                        'prb'             => $value->prb,
+                        'iplg'            => $value->iplg,
+                        'oplg'            => $value->oplg,
+                        'palg'            => $value->palg,
+                        'instlg'          => $value->instlg,
+                        'otlg'            => $value->otlg,
+                        'pp_grnee'        => $value->pp_grnee,
+                        'drug'            => $value->drug,
+                        'iplg_deny'       => $value->iplg_deny,
+                        'oplg_deny'       => $value->oplg_deny,
+                        'palg_deny'       => $value->palg_deny,
+                        'instlg_deny'     => $value->instlg_deny,
+                        'otlg_deny'       => $value->otlg_deny,
+                        'ors'             => $value->ors,
+                        'va'              => $value->va,
+                        'audit'           => $value->audit,
+                        'STMdoc'          => $value->STMdoc,
+                    ]);
+                    $check801 = Acc_1102050102_801::where('hn',$value->hn)->where('vstdate',$value->vstdate)->where('STMdoc',NULL)->count();               
+                    $check801 = Acc_1102050102_801::where('hn',$value->hn)->where('vstdate',$value->vstdate)->where('STMdoc',NULL)->count();               
+                    if ($check801 > 0) {
+                        Acc_1102050102_801::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                            ->update([
+                                'status'          => 'Y', 
+                                'stm_money'       => $value->income_claim,
+                                'stm_rcpno'       => $value->rep,
+                                'STMDoc'          => $value->STMdoc,
+                            ]); 
+                    } else {
+                        Acc_1102050102_801::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                        ->update([
+                            'status'          => 'Y', 
+                            'stm_money'       => $value->income_claim,
+                            'stm_rcpno'       => $value->rep,
+                            'STMDoc'          => $value->STMdoc,
+                        ]);
+                    
+                    } 
+                } else {
+                    Acc_lgo_rep::insert([ 
+                        'rep'             => $value->rep,  
+                        'no'              => $value->no, 
+                        'tran_id'         => $value->tran_id,
+                        'hn'              => $value->hn,
+                        'an'              => $value->an,
+                        'pid'             => $value->pid, 
+                        'ptname'          => $value->ptname,
+                        'type'            => $value->type,
+                        'vstdate'         => $value->vstdate,
+                        'dchdate'         => $value->dchdate,
+                        'income_cherd'    => $value->income_cherd,
+                        'pp_cherd'        => $value->pp_cherd,
+                        'error_code'      => $value->error_code,
+                        'toon'            => $value->toon,
+                        'type_service'    => $value->type_service,
+                        'refer'           => $value->refer,
+                        'ucc'             => $value->ucc,
+                        'hospmain'        => $value->hospmain,
+                        'hospsub'         => $value->hospsub,
+                        'href'            => $value->href,
+                        'hcode'           => $value->hcode,
+                        'prov1'           => $value->prov1,
+                        'hoscode'         => $value->hoscode,
+                        'hosname'         => $value->hosname,
+                        'proj'            => $value->proj,
+                        'pa'              => $value->pa,
+                        'drg'             => $value->drg,
+                        'rw'              => $value->rw,
+                        'income'          => $value->income,
+                        'pp_claim'        => $value->pp_claim,
+                        'income_claim'    => $value->income_claim,
+                        'income_noclaim'  => $value->income_noclaim,
+                        'rcpt'            => $value->rcpt,
+                        'pay'             => $value->pay,
+                        'ps'              => $value->ps,
+                        'psper'           => $value->psper,
+                        'ccuf'            => $value->ccuf,
+                        'adjrw'           => $value->adjrw,
+                        'prb'             => $value->prb,
+                        'iplg'            => $value->iplg,
+                        'oplg'            => $value->oplg,
+                        'palg'            => $value->palg,
+                        'instlg'          => $value->instlg,
+                        'otlg'            => $value->otlg,
+                        'pp_grnee'        => $value->pp_grnee,
+                        'drug'            => $value->drug,
+                        'iplg_deny'       => $value->iplg_deny,
+                        'oplg_deny'       => $value->oplg_deny,
+                        'palg_deny'       => $value->palg_deny,
+                        'instlg_deny'     => $value->instlg_deny,
+                        'otlg_deny'       => $value->otlg_deny,
+                        'ors'             => $value->ors,
+                        'va'              => $value->va,
+                        'audit'           => $value->audit,
+                        'STMdoc'          => $value->STMdoc,
+                    ]);
+                    $check801 = Acc_1102050102_801::where('hn',$value->hn)->where('vstdate',$value->vstdate)->where('STMdoc',NULL)->count();               
+                    if ($check801 > 0) {
+                        Acc_1102050102_801::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                            ->update([
+                                'status'          => 'Y', 
+                                'stm_money'       => $value->income_claim,
+                                'stm_rcpno'       => $value->rep,
+                                'STMDoc'          => $value->STMdoc,
+                            ]); 
+                    } else {
+                        Acc_1102050102_801::where('hn',$value->hn)->where('vstdate',$value->vstdate)
+                        ->update([
+                            'status'          => 'Y', 
+                            'stm_money'       => $value->income_claim,
+                            'stm_rcpno'       => $value->rep,
+                            'STMDoc'          => $value->STMdoc,
+                        ]);
+                    
+                    } 
+                }
+                Acc_debtor::where('hn',$value->hn)->where('vstdate',$value->vstdate) 
+                ->update([ 
+                    'rep_error'       => $value->error_code,
+                    'rep_pay'         => $value->income_claim,
+                    'rep_nopay'       => $value->income_noclaim,
+                    'rep_doc'         => $value->STMdoc,
+                ]); 
+            }
+                 
+ 
+        }
+        Acc_lgo_repexcel::truncate();
         // return response()->json([
         //     'status'    => '200',
         // ]);
@@ -3044,12 +3542,12 @@ class AccountPKController extends Controller
         // ');
 
         $data['ucs_ti']     = DB::connection('mysql')->select('
-        SELECT b.STMDoc,SUM(b.Total_amount) as total,SUM(b.sum_price_approve) as total2
-        FROM acc_stm_ti_total b 
-        
-        WHERE b.STMDoc LIKE "10978_DCKD%" AND b.HDBill_TBill_HDflag IN("UCS","WEL")
-        GROUP BY b.STMDoc ORDER BY STMDoc DESC
-    ');
+            SELECT b.STMDoc,SUM(b.Total_amount) as total,SUM(b.sum_price_approve) as total2
+            FROM acc_stm_ti_total b 
+            
+            WHERE b.STMDoc LIKE "10978_DCKD%" AND b.HDBill_TBill_HDflag IN("UCS","WEL")
+            GROUP BY b.STMDoc ORDER BY STMDoc DESC
+        ');
         
         return view('account_pk.upstm_ucs_ti',$data,[
             'startdate'     =>     $startdate,

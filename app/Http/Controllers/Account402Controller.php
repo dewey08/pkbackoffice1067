@@ -515,12 +515,16 @@ class Account402Controller extends Controller
         // ,e.ar_ipd as account_code
         // dd($acc_debtor);
         // AND ipt.pttype IN("O1","O2","O3","O4","O5")  
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+        
         foreach ($acc_debtor as $key => $value) {
             if ($value->debit >0) {
                
                 $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.402')->count();
                 if ($check == 0) {
                     Acc_debtor::insert([
+                        'bg_yearnow'         => $value->bg_yearnow,
                         'hn'                 => $value->hn,
                         'an'                 => $value->an,
                         'vn'                 => $value->vn,
