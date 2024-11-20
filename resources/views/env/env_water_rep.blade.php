@@ -79,40 +79,40 @@
         </div>
         <form action="{{ route('env.env_water_rep') }}" method="GET">
             @csrf
-        <div class="row mb-2">
-            <div class="col"></div>
-            <div class="col-md-2">
-                <select name="pond_id" id="pond_id" class="form-control" style="width: 100%" required>
-                    <option value="">-Choose-</option>
-                    @foreach ($env_pond as $item_po)
-                    @if ($pond_id == $item_po->pond_id)
-                    <option value="{{$item_po->pond_id}}" selected>{{$item_po->pond_name}}</option>
-                    @else
-                    <option value="{{$item_po->pond_id}}">{{$item_po->pond_name}}</option>
-                    @endif
-                        
-                    @endforeach
+            <div class="row mb-2">
+                <div class="col"></div>
+                <div class="col-md-2">
+                    <select name="pond_id" id="pond_id" class="form-control" style="width: 100%" required>
+                        <option value="">-Choose-</option>
+                        @foreach ($env_pond as $item_po)
+                        @if ($pond_id == $item_po->pond_id)
+                        <option value="{{$item_po->pond_id}}" selected>{{$item_po->pond_name}}</option>
+                        @else
+                        <option value="{{$item_po->pond_id}}">{{$item_po->pond_name}}</option>
+                        @endif
+                            
+                        @endforeach
 
-                </select>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            autocomplete="off" data-date-language="th-th" value="{{ $startdate }}" required />
+                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                            autocomplete="off" data-date-language="th-th" value="{{ $enddate }}" required />
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-magnifying-glass me-2"></i>
+                            ค้นหา
+                        </button>
+                    </div> 
+                </div>
+                <div class="col"></div>
             </div>
-            <div class="col-md-4">
-                <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                    data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                        autocomplete="off" data-date-language="th-th" value="{{ $startdate }}" required />
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                        data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
-                        autocomplete="off" data-date-language="th-th" value="{{ $enddate }}" required />
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa-solid fa-magnifying-glass me-2"></i>
-                        ค้นหา
-                    </button>
-                </div> 
-            </div>
-            <div class="col"></div>
-        </div>
-    </form>
+        </form>
 
         <div class="main-card mb-2 card">
             <div class="card-header">

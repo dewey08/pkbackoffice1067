@@ -449,6 +449,21 @@
                                     <img src="{{ asset('images/job.png') }}" height="27px" width="27px" >
                                     </i>ค่าภาระงาน <div class="arrow-down"></div>
                                 </a>
+                                @php
+                                    $doctor = DB::connection('mysql10')->select('
+                                        SELECT code,CONCAT(pname,fname," ",lname) dentname
+                                        FROM doctor
+                                        WHERE position_id = "2"
+                                        AND active = "Y"
+                                    ');
+                                    $helper = DB::connection('mysql10')->select('
+                                        SELECT code,CONCAT(pname,fname," ",lname) dentname
+                                        FROM doctor
+                                        WHERE position_id = "6" 
+                                        AND active = "Y"
+                                    ');
+
+                                @endphp
 
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">                                   
                                     <div class="dropdown">
@@ -480,8 +495,19 @@
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
                                     <a href="{{ url('dental_setting_type') }}" class="dropdown-item">ตั้งค่าประเภทการนัด</a> 
                                     {{-- <a href="{{ url('account_monitor') }}" class="dropdown-item">Monitor</a>  --}}
-                                </div>
-                                
+                                </div>    
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layout" role="button">
+                                    <img src="{{ asset('images/Settings.png') }}" height="27px" width="27px" >
+                                    {{-- <i class="fa-solid fa-screwdriver-wrench fa-beat fa-xl me-2" style="color: #1f68e5;"> --}}
+                                    </i><span key="t-layouts">REPORT</span> <div class="arrow-down"></div>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="topnav-apps">
+                                    <a href="{{ url('dental_report_appointment') }}" class="dropdown-item">รายงานแยกประเภทการนัด</a> 
+                                    {{-- <a href="{{ url('account_monitor') }}" class="dropdown-item">Monitor</a>  --}}
+                                </div>    
                             </li>
  
                         </ul>

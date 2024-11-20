@@ -635,7 +635,6 @@ class DentalController extends Controller
         
     }
 
-
     public function dental_detail_patient(Request $request)
     {
         $hn                 =  $request->denthn;
@@ -650,11 +649,14 @@ class DentalController extends Controller
 
         echo $output;        
     }
-
                   
     public function dental_appointment_save (Request $request) 
     {
         $hn                 =  $request->dent_hn;
+        
+        $data_users = User::where('id','=',$request->dent_doctor)->first();
+        $name = $data_users->fname.' '.$data_users->lname;
+
         if ($hn != '') {
             $data_show          = Patient::where('hn',$hn)->first();        
             $data_cid           = $data_show->cid;
@@ -667,6 +669,10 @@ class DentalController extends Controller
             $data_type          = Dent_appointment_type::where('appointment_id',$request->appointment)->first();
             $appointment_id     = $data_type->appointment_id;
             $appointment_name   = $data_type->appointment_name;
+
+            $data_users         = User::where('id','=',$request->dent_doctor)->first();
+            $dent_doctor        = $data_users->dent_doctor;
+            $dent_doctor_name   = $data_users->dent_doctor_name;
             
             $data_ptname        = $data_show->pname.''.$data_show->fname.'  '.$data_show->lname;
             $data_hometel       = $data_show->hometel;
@@ -871,19 +877,59 @@ class DentalController extends Controller
         $active->save();
     }
 
-    public function dental_detail_patient000(Request $request)
+    // ************************* Report  *************************
+    public function dental_report_appointment(Request $request)
     {
-        // $hn          =  $request->denthn;
-        // $datapatient = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname,cid FROM patient WHERE hn = "'.$hn.'"');
-        // foreach ($datapatient as $key => $value) {
-        //     // $hometel     = $value->hometel;
-        //     $cid         = $value->cid;
-        // }
-        // dd($hn);
-        // return response()->json([
-        //     'status'          => '200',
-        //     'data_patient'    => $cid
-        // ]); 
+        $datestart               = $request->startdate;
+        $dateend                 = $request->enddate;
+        $datenow                 = date('Y-m-d');
+        $data['date_now']        = date('Y-m-d');
+        $data['m']               = date('H');
+        $data['mm']              = date('H:m:s');
+        
+        
+        $iduser = Auth::user()->id;        
+        
+        $data['users'] = User::get();
+        $data['leave_month'] = DB::table('leave_month')->get();
+        $data['users_group'] = DB::table('users_group')->get();
+        $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
+        
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี  
+
+        $data_appointment = DB::table('dent_appointment_type')->where('status','=','Y')->get();
+
+        if ($datestart == '') {
+                $datashow  = DB::connection('mysql')->select('
+                    SELECT * FROM dent_appointment 
+            ');
+        } else {
+            if ($data['appointment_id'] != '') {
+                $datashow = DB::connection('mysql')->select('
+                    
+                
+                ');
+            } else {
+                $datashow = DB::connection('mysql')->select('
+                    
+                
+                ');
+            }
+        }
+
+        $data['dent_appointment_type']  = DB::table('dent_appointment_type')->get();
+            
+        
+        return view('dent.dental_report_appointment',$data,[
+            'datestart'     => $datestart,
+            'dateend'       => $dateend, 
+            'datashow'      => $datashow,
+            'den_app'       => $data_appointment,
+        ]);
     }
 
 
