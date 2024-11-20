@@ -398,8 +398,7 @@ if (Auth::check()) {
                         <ul class="navbar-nav">                           
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
-                                >
+                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
                                     {{-- <i class="ri-dashboard-line me-2" style="font-size: 20px;color:pink"></i> --}}
                                     <img src="{{ asset('images/acc12.png') }}" height="27px" width="27px" > 
                                     Monitor <div class="arrow-down"></div>
