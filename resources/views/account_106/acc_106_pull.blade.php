@@ -74,52 +74,58 @@
                 </div>
             </div>
         </div>
-       
+        <form action="{{ URL('acc_106_pull') }}" method="GET">
+            @csrf
         <div class="row"> 
+            <div class="col-md-4">
+                <h5 class="card-title" style="color:rgb(248, 28, 83)">Detail 1102050102.106</h5>
+                <p class="card-title-desc">รายละเอียดข้อมูล ผัง 1102050102.106</p>
+            </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
             <div class="col-md-4 text-end">
                 
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
+                    <input type="text" class="form-control-sm cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' autocomplete="off"
                      data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $startdate }}"/>
-                    <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' autocomplete="off"
+                    <input type="text" class="form-control-sm cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' autocomplete="off"
                     data-provide="datepicker" data-date-autoclose="true" data-date-language="th-th" value="{{ $enddate }}"/>
-                    <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
+                    <button type="submit" class="ladda-button btn-pill btn btn-sm btn-info cardacc" data-style="expand-left">
                         <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                         <span class="ladda-spinner"></span>
                     </button>
-               
-                {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
-                    <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
-                    ดึงข้อมูล</button>     --}}
+                </form> 
+                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary cardacc" id="Pulldata">
+                    <i class="fa-solid fa-file-circle-plus text-white me-2"></i>
+                    ดึงข้อมูล
+                </button>    
                   
             </div>
         </div>
         </div>
          
-        <div class="row mt-3">
+        <div class="row">
             <div class="col-xl-12">
                 <div class="card card_audit_4c">
                     <div class="card-body shadow-lg">
                        
                       
-                        <div class="row">
-                            <div class="col-md-4">
+                        <div class="row mb-2">
+                            {{-- <div class="col-md-4">
                                 <h4 class="card-title">Detail Account ผัง 1102050102.106</h4>
                                 <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
-                            </div>
+                            </div> --}}
                             <div class="col"></div>
-                            <div class="col-md-2 text-end">
-                                {{-- <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('acc_106_stam')}}">
-                                    <i class="fa-solid fa-file-waveform me-2"></i>
-                                    ตั้งลูกหนี้
-                                </button> --}}
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('acc_106_stam')}}">
+                            <div class="col-md-4 text-end">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info btn-sm input_new Check_sit" data-url="{{url('acc_106_checksit')}}">
+                                    <i class="fa-solid fa-user me-2"></i>
+                                    ตรวจสอบสิทธิ์ 
+                                </button>
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary cardacc Savestamp" data-url="{{url('acc_106_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc Destroystamp" data-url="{{url('account_106_destroy')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger cardacc Destroystamp" data-url="{{url('account_106_destroy')}}">
                                     <i class="fa-solid fa-trash-can me-2"></i>
                                     ลบ
                                 </button>
@@ -132,21 +138,22 @@
                                 style=" border-spacing: 0; width: 100%;"> --}}
                                 <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                {{-- <table id="scroll-vertical-datatable" class="table table-sm table-striped dt-responsive nowrap w-100"> --}}
                                     <thead>
                                         <tr>
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
                                             <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
                                             <th class="text-center" width="5%">vn</th> 
-                                            <th class="text-center">an</th>
+                                            {{-- <th class="text-center">an</th> --}}
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
                                             <th class="text-center">ptname</th>
-                                            <th class="text-center">vstdate</th>  
-                                            <th class="text-center">pttype</th> 
-                                            <th class="text-center">spsch</th> 
-                                            <th class="text-center">pdx</th>  
-                                            <th class="text-center">ลูกหนี้</th>  
+                                            <th class="text-start">vstdate</th>  
+                                            <th class="text-start">pttype</th> 
+                                            <th class="text-start">spsch</th> 
+                                            <th class="text-start">pdx</th>  
+                                            <th class="text-start">ลูกหนี้</th>  
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -166,7 +173,7 @@
                                                 <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
 
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
-                                                <td class="text-center" width="5%">{{ $item->an }}</td> 
+                                                {{-- <td class="text-center" width="5%">{{ $item->an }}</td>  --}}
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                 <td class="p-2" >{{ $item->ptname }}</td> 
@@ -186,8 +193,8 @@
                                         @endforeach
                                     </tbody>
                                     <tr style="background-color: #f3fca1">
-                                        <td colspan="11" class="text-end" style="background-color: #fca1a1"></td>
-                                        <td class="text-center" style="background-color: #44E952"><label for="" style="color: #000000">{{ number_format($total1, 2) }}</label> </td> 
+                                        <td colspan="10" class="text-end" style="background-color: #fca1a1"></td>
+                                        <td class="text-center" style="background-color: #44E952"><label for="" style="color: #f31e4c">{{ number_format($total1, 2) }}</label> </td> 
                                        
                                     </tr>  
                                 </table>
@@ -308,9 +315,7 @@
                 }
             });
              
-
             $("#spinner-div").hide(); //Request is complete so hide spinner
-
          
             $('#Pulldata').click(function() {
                 var datepicker = $('#datepicker').val(); 
@@ -448,6 +453,88 @@
                         }) 
                     // var check = confirm("Are you want ?");  
                 }
+            });
+
+            $('.Check_sit').click(function() {
+                var allValls = [];
+                $(".sub_chk:checked").each(function () {
+                    allValls.push($(this).attr('data-id'));
+                });
+                if (allValls.length <= 0) {
+                    // alert("SSSS");
+                    Swal.fire({
+                        title: 'คุณยังไม่ได้เลือกรายการ ?',
+                        text: "กรุณาเลือกรายการก่อน",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33', 
+                        }).then((result) => {
+                        
+                        })
+                } else {
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "ต้องการตรวจสอบสอทธิ์ใช่ไหม!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'You Check Sit Data!.!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                var check = true;
+                                if (check == true) {
+                                    var join_selected_values = allValls.join(",");
+                                    // alert(join_selected_values);
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show(); //Load button clicked show spinner 
+
+                                    $.ajax({
+                                        url:$(this).data('url'),
+                                        type: 'POST',
+                                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                        data: 'ids='+join_selected_values,
+                                        success:function(data){ 
+                                                if (data.status == 200) {
+                                                    $(".sub_chk:checked").each(function () {
+                                                        $(this).parents("tr").remove();
+                                                    });
+                                                    Swal.fire({
+                                                        title: 'เช็คสิทธิ์สำเร็จ',
+                                                        text: "You Check sit success",
+                                                        icon: 'success',
+                                                        showCancelButton: false,
+                                                        confirmButtonColor: '#06D177',
+                                                        confirmButtonText: 'เรียบร้อย'
+                                                    }).then((result) => {
+                                                        if (result
+                                                            .isConfirmed) {
+                                                            console.log(
+                                                                data);
+                                                            window.location.reload();
+                                                            $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                        }
+                                                    })
+                                                } else {
+                                                    
+                                                }
+                                                
+                                        }
+                                    });
+                                    $.each(allValls,function (index,value) {
+                                        $('table tr').filter("[data-row-id='"+value+"']").remove();
+                                    });
+                                }
+                            }
+                        }) 
+
+ 
+                    }
             });
 
             

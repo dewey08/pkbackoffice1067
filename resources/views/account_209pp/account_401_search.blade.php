@@ -1,22 +1,6 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-OFFICE || ACCOUNT')
 @section('content')
-<script>
-    function TypeAdmin() {
-        window.location.href = '{{ route('index') }}';
-    }
-</script>
-<?php
-if (Auth::check()) {
-    $type = Auth::user()->type;
-    $iduser = Auth::user()->id;
-} else {
-    echo "<body onload=\"TypeAdmin()\"></body>";
-    exit();
-}
-$url = Request::url();
-$pos = strrpos($url, '/') + 1;
-?>
     <style>
         #button {
             display: block;
@@ -84,27 +68,27 @@ $pos = strrpos($url, '/') + 1;
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h5 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.202</h5>
-                        <form action="{{ route('acc.account_pkucs202_search') }}" method="GET">
+                        <h4 class="card-title" style="color:green">Search Detail 1102050101.401</h4> 
+                        <form action="{{ route('acc.account_401_search') }}" method="GET">
                             @csrf
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                            <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date"
+                                            <input type="text" class="form-control-sm cardacc" name="startdate" id="datepicker" placeholder="Start Date"
                                                 data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                                 data-date-language="th-th" value="{{ $startdate }}" required/>
-                                            <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2"
+                                            <input type="text" class="form-control-sm cardacc" name="enddate" placeholder="End Date" id="datepicker2"
                                                 data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                                 data-date-language="th-th" value="{{ $enddate }}" required/>
                                                
-                                            <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
+                                            <button type="submit" class="ladda-button btn-pill btn btn-sm btn-primary cardacc" data-style="expand-left">
                                                 <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                                                 <span class="ladda-spinner"></span>
                                             </button> 
                                         </div> 
                                     </ol>
                                 </div>
-    
+                        </form>
                     </div>
                 </div>
             </div>
@@ -113,7 +97,7 @@ $pos = strrpos($url, '/') + 1;
         
         <div class="row ">
             <div class="col-md-12">
-                <div class="card card_audit_4c">
+                <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">
                     {{-- <div class="card-header"> 
                        รายละเอียดตั้งลูกหนี้ผัง 1102050101.202
                         <div class="btn-actions-pane-right">                           
@@ -122,62 +106,55 @@ $pos = strrpos($url, '/') + 1;
                     <div class="card-body">  
                         <div class="table-responsive"> 
 
-                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
-                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             {{-- <table id="example" class="table table-striped table-bordered "
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
                             <thead>
                                 <tr>
                                     <th class="text-center">ลำดับ</th>
-                                    {{-- <th class="text-center">tranid</th>  --}}
-                                    <th class="text-center">an</th>
+                                    <th class="text-center">stm_rcpno</th>  
+                                    <th class="text-center" >vn</th> 
                                     <th class="text-center" >hn</th> 
-                                    <th class="text-center">ptname</th> 
-                                    {{-- <th class="text-center">Adjrw*8350</th> --}}
-                                    <th class="text-center">dchdate</th> 
+                                    <th class="text-center">ptname</th>  
+                                    <th class="text-center">vstdate</th> 
 
-                                    {{-- <th class="text-center">drug</th>  --}}
+                                    <th class="text-center">drug</th> 
                                     <th class="text-center">inst</th> 
-                                    {{-- <th class="text-center">toa</th>  --}}
-                                    {{-- <th class="text-center">refer</th>  --}}
-                                    <th class="text-center">ucep</th> 
-                                    {{-- <th class="text-center">fs</th>  --}}
+                                    <th class="text-center">toa</th> 
+                                    <th class="text-center">refer</th> 
+                                    {{-- <th class="text-center">ucep</th>  --}}
+
                                     <th class="text-center">ลูกหนี้</th>  
                                     <th class="text-center">ส่วนต่าง</th> 
-                                    <th class="text-center">Stm 202</th> 
-                                    <th class="text-center">ชดเชย</th>  
+                                    <th class="text-center">Stm 401</th>  
                                     <th class="text-center">STMdoc</th> 
-                                    <th class="text-center">อุทรณ์</th>  
-                                    <th class="text-center">STMdoc อุทรณ์</th> 
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $number = 0; 
-                                $total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0;$total10 = 0;
+                                $total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0;
                                 ?>
                                 @foreach ($datashow as $item)
                                     <?php $number++; ?>
                                     <tr height="20" style="font-size: 14px;">
                                         <td class="text-font" style="text-align: center;" width="4%">{{ $number }}</td> 
-                                        {{-- <td class="text-center" width="5%">{{ $item->stm_trainid }}</td>   --}}
-                                        <td class="text-center" width="6%">{{ $item->an }}</td> 
+                                        <td class="text-center" width="5%">{{ $item->stm_rcpno }}</td>  
+                                        <td class="text-center" width="7%">{{ $item->vn }}</td>
                                         <td class="text-center" width="4%">{{ $item->hn }}</td>   
-                                        <td class="p-2" width="8%">{{ $item->ptname }}</td>   
-                                        {{-- <td class="text-center" width="5%">{{ $item->total_adjrw_income }}</td> --}}
-                                        <td class="text-center" width="6%">{{ $item->dchdate }}</td>
-                                        {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_drug,2)}}</td>  --}}
+                                        <td class="p-2" width="8%">{{ $item->ptname }}</td>    
+                                        <td class="text-center" width="6%">{{ $item->vstdate }}</td>
+
+                                        <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_drug,2)}}</td> 
                                         <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_instument,2)}}</td> 
-                                        {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_toa,2)}}</td>  --}}
-                                        {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_refer,2)}}</td>  --}}
-                                        <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_ucep,2)}}</td> 
-                                        {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->fs,2)}}</td>  --}}
-                                        <td class="text-end" style="color:rgb(73, 147, 231)" width="6%">{{ number_format($item->debit_total,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_toa,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_refer,2)}}</td> 
+                                        {{-- <td class="text-end" style="color:rgb(155, 50, 18)" width="6%">{{ number_format($item->debit_ucep,2)}}</td>  --}}
+
+                                        <td class="text-end" style="color:rgb(27, 118, 223)" width="6%">{{ number_format($item->debit_total,2)}}</td> 
                                         <td class="text-end" style="color:rgb(184, 12, 169)" width="6%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
-                                        <td class="text-end" style="color:rgb(216, 95, 14)" width="6%">{{ number_format($item->stm_money,2)}}</td> 
-                                        <td class="text-end" style="color:rgb(9, 196, 180)" width="6%">{{ number_format($item->stm_total,2)}}</td>  
-                                        <td class="p-2" width="9%">{{ $item->STMdoc }}</td>  
-                                        <td class="text-end" style="color:rgb(9, 196, 180)" width="6%">{{ $item->auton}}</td>  
-                                        <td class="p-2" width="9%">{{ $item->STMdoc_authon }}</td> 
+                                        <td class="text-end" style="color:rgb(6, 159, 170)" width="6%">{{ number_format($item->stm_money,2)}}</td> 
+                                        {{-- <td class="text-end" style="color:rgb(9, 196, 180)" width="6%">{{ number_format($item->stm_total,2)}}</td>   --}} 
+                                        <td class="p-2" width="9%">{{ $item->STMDoc }}</td>  
                                     
                                     </tr>
                                         <?php
@@ -185,35 +162,27 @@ $pos = strrpos($url, '/') + 1;
                                             $total2 = $total2 + $item->debit_instument;
                                             $total3 = $total3 + $item->debit_toa;
                                             $total4 = $total4 + $item->debit_refer;
-                                            $total5 = $total5 + $item->debit_ucep;
-
-                                            // $total10 = $total10 + $item->fs;
+                                            // $total5 = $total5 + $item->debit_ucep;
 
                                             $total6 = $total6 + $item->debit_total;
                                             $total7 = $total7 + ($item->debit_total-$item->stm_money); 
-                                            $total8 = $total8 + ($item->stm_money);
-                                            $total9 = $total9 + ($item->stm_total);
-                                            // $total10 = $total10 + ($item->auton);
+                                            $total8 = $total8 + $item->stm_money;
+                                            // $total9 = $total9 + $item->stm_total;
                                         ?>                                 
                                 @endforeach  
                                
                             </tbody>
                                         <tr style="background-color: #f3fca1">
-                                            <td colspan="5" class="text-end" style="background-color: #ff9d9d"></td>
-                                            {{-- <td class="text-end" style="background-color: #f58d73">{{ number_format($total1,2)}}</td>  --}}
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total2,2)}}</td> 
-                                            {{-- <td class="text-end" style="background-color: #f58d73">{{ number_format($total3,2)}}</td>  --}}
-                                            {{-- <td class="text-end" style="background-color: #f58d73">{{ number_format($total4,2)}}</td>                                              --}}
-                                            <td class="text-end" style="background-color: #ace5fc">{{ number_format($total5,2)}}</td> 
-
-                                            {{-- <td class="text-end" style="background-color: #ace5fc">{{ number_format($total10,2)}}</td>  --}}
-
-                                            <td class="text-end" style="background-color: #e09be9">{{ number_format($total6,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f5a382">{{ number_format($total7,2)}}</td> 
-                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total8,2)}}</td>  
-                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>  
-                                            <td class="text-end" style="background-color: #ff9d9d"></td>
-                                            <td class="text-end" style="background-color: #bbf0e3">{{ $total10}}</td>  
+                                            <td colspan="6" class="text-end" style="background-color: #ff9d9d"></td>
+                                            <td class="text-end" style="background-color: #f58d73;color: #000000">{{ number_format($total1,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73;color: #000000">{{ number_format($total2,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73;color: #000000">{{ number_format($total3,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73;color: #000000">{{ number_format($total4,2)}}</td>                                             
+                                            {{-- <td class="text-end" style="background-color: #ace5fc">{{ number_format($total5,2)}}</td>  --}}
+                                            <td class="text-end" style="background-color: #276ed8;color: #1da7e7">{{ number_format($total6,2)}}</td> 
+                                            <td class="text-end" style="background-color: #8c3ee4;color: #af25e6">{{ number_format($total7,2)}}</td> 
+                                            <td class="text-end" style="background-color: #059b75;color: #078d9e">{{ number_format($total8,2)}}</td>  
+                                            {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>   --}}
                                             <td class="text-end" style="background-color: #ff9d9d"></td> 
                                         </tr>  
                         </table>

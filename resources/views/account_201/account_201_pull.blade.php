@@ -75,7 +75,8 @@
                 </div>
             </div>
         </div>
-       
+        <form action="{{ URL('account_201_pull') }}" method="GET" >
+            @csrf
         <div class="row"> 
             <div class="col-md-4">
                 <h5 class="card-title" style="color:rgb(10, 151, 85)">Detail 1102050101.201</h5>
@@ -83,14 +84,18 @@
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-5 text-end">
+            <div class="col-md-4 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                    <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control-sm cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
-                    <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                    <input type="text" class="form-control-sm cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
-                
-                        <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc" data-style="expand-left" id="Pulldata">
+                        <button type="submit" class="ladda-button btn-pill btn btn-sm btn-info cardacc" data-style="expand-left">
+                            <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                            <span class="ladda-spinner"></span>
+                        </button>
+                    </form>
+                        <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary cardacc" data-style="expand-left" id="Pulldata">
                             <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
                             <span class="ladda-spinner"></span>
                         </button>
@@ -113,16 +118,16 @@
                             </div> --}}
                             <div class="col"></div>
                             <div class="col-md-3 text-end">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info cardacc" id="Check_sitipd">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-info cardacc" id="Check_sitipd">
                                     <i class="fa-solid fa-user me-2"></i>
                                     ตรวจสอบสิทธิ์
                                 </button>
                                
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-primary cardacc Savestamp" data-url="{{url('account_201_stam')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary cardacc Savestamp" data-url="{{url('account_201_stam')}}">
                                     <i class="fa-solid fa-file-waveform me-2"></i>
                                     ตั้งลูกหนี้
                                 </button>
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-danger cardacc Destroystamp" data-url="{{url('account_201_destroy')}}">
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger cardacc Destroystamp" data-url="{{url('account_201_destroy')}}">
                                     <i class="fa-solid fa-trash-can me-2"></i>
                                     ลบ
                                 </button>
@@ -137,6 +142,7 @@
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
                                             <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
+                                            <th class="text-center" width="5%">stamp</th> 
                                             <th class="text-center" width="5%">vn</th> 
                                             {{-- <th class="text-center">an</th> --}}
                                             <th class="text-center" >hn</th>
@@ -167,7 +173,7 @@
                                                     <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
                                                 @endif
                                                 {{-- <td class="text-center" width="5%"><input type="checkbox" class="sub_chk dcheckbox" data-id="{{$item->acc_debtor_id}}"> </td>  --}}
-
+                                                <td class="text-center" width="5%">{{ $item->stamp }}</td> 
                                                 <td class="text-center" width="5%">{{ $item->vn }}</td> 
                                                 {{-- <td class="text-center" width="5%">{{ $item->an }}</td>  --}}
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
@@ -199,14 +205,14 @@
                                         @endforeach
                                     </tbody>
                                     <tr style="background-color: #f3fca1">
-                                        <td colspan="9" class="text-end" style="background-color: #fca1a1"></td>
-                                        <td class="text-center" style="background-color: #0eccda"><label for="" style="color: #FFFFFF">${{ number_format($total7, 2) }}</label></td>
-                                        <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">${{ number_format($total1, 2) }}</label></td>
-                                        <td class="text-center" style="background-color: #197cd8"><label for="" style="color: #FFFFFF">${{ number_format($total2, 2) }}</label></td>
-                                        <td class="text-center" style="background-color: #11cea5"><label for="" style="color: #FFFFFF">${{ number_format($total3, 2) }}</label></td>
-                                        <td class="text-center" style="background-color: #9d69fc"><label for="" style="color: #FFFFFF">${{ number_format($total4, 2) }}</label></td>
-                                        <td class="text-center" style="background-color: #87e211"><label for="" style="color: #FFFFFF">${{ number_format($total5, 2) }}</label></td>
-                                        <td class="text-center" style="background-color: #e09f12"><label for="" style="color: #FFFFFF">${{ number_format($total6, 2) }}</label></td>
+                                        <td colspan="10" class="text-end" style="background-color: #fca1a1"></td>
+                                        <td class="text-center" style="background-color: #0eccda"><label for="" style="color: #FFFFFF">{{ number_format($total7, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #47A4FA"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #197cd8"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #11cea5"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #9d69fc"><label for="" style="color: #FFFFFF">{{ number_format($total4, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #87e211"><label for="" style="color: #FFFFFF">{{ number_format($total5, 2) }}</label></td>
+                                        <td class="text-center" style="background-color: #e09f12"><label for="" style="color: #FFFFFF">{{ number_format($total6, 2) }}</label></td>
                                         {{-- <td colspan="5" class="text-end" style="background-color: #fca1a1"></td> --}}
                                     </tr>  
                                 </table>
@@ -361,10 +367,7 @@
                                     url: "{{ route('acc.account_201_pulldata') }}",
                                     type: "POST",
                                     dataType: 'json',
-                                    data: {
-                                        datepicker,
-                                        datepicker2                        
-                                    },
+                                    data: {datepicker,datepicker2},
                                     success: function(data) {
                                         if (data.status == 200) { 
                                             Swal.fire({
@@ -531,6 +534,7 @@
                     // var check = confirm("Are you want ?");  
                 }
             });
+
         });
     </script>
     @endsection
