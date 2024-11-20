@@ -137,7 +137,7 @@
        
             <div class="row">  
                 <div class="col"></div> 
-                @if ($startdate !='') 
+                
                     <div class="col-xl-10 col-md-10">
                         <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">   
                             <div class="table-responsive p-3">                                
@@ -190,19 +190,19 @@
                                                 } 
  
                                                 // STM 4011
-                                                $stm_ = DB::select(
-                                                    'SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount,am.STMdoc,U1.income,U1.rcpt_money 
-                                                        from acc_1102050101_4011 U1
-                                                        LEFT JOIN acc_stm_ti_total am on am.HDBill_hn = U1.hn AND am.vstdate = U1.vstdate
-                                                        WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-                                                        AND am.Total_amount is not null AND am.HDBill_TBill_HDflag IN("COC") 
-                                                ');     
-                                                // SELECT count(DISTINCT U1.vn) as Countvisit ,sum(U1.stm_total) as stm_total
-                                                //         FROM acc_1102050101_4011 U1  
-                                                //         WHERE month(U1.vstdate) = "'.$item->months.'"
-                                                //         AND year(U1.vstdate) = "'.$item->year.'"
-                                                //         AND U1.stm_total >= "0.00"
-
+                                                // $stm_ = DB::select(
+                                                //     'SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,am.Total_amount,am.STMdoc,U1.income,U1.rcpt_money 
+                                                //         from acc_1102050101_4011 U1
+                                                //         LEFT JOIN acc_stm_ti_total am on am.HDBill_hn = U1.hn AND am.vstdate = U1.vstdate
+                                                //         WHERE month(U1.vstdate) = "'.$item->months.'" AND year(U1.vstdate) = "'.$item->year.'" 
+                                                //         AND am.Total_amount is not null AND am.HDBill_TBill_HDflag IN("COC") 
+                                                // ');     
+                                                $stm_ = DB::select('SELECT count(DISTINCT U1.vn) as Countvisit ,sum(U1.stm_total) as stm_total
+                                                        FROM acc_1102050101_4011 U1  
+                                                        WHERE month(U1.vstdate) = "'.$item->months.'"
+                                                        AND year(U1.vstdate) = "'.$item->year.'"
+                                                        AND U1.stm_total >= "0.00"
+                                                ');  
                                                 foreach ($stm_ as $key => $value3) {
                                                     $sum_stm_money  = $value3->stm_total; 
                                                     $count_stm      = $value3->Countvisit; 
@@ -271,9 +271,7 @@
                             </div>
                         </div>
                     </div>
-                @else
-                 
-                @endif
+               
                 <div class="col"></div>
             </div>
     

@@ -81,7 +81,7 @@
             @csrf
         <div class="row"> 
             <div class="col-md-4"> 
-                <h5 class="card-title" style="color:green">Process data 1102050101.401</h5>
+                <h5 class="card-title" style="color:rgb(247, 31, 95)">Process data 1102050101.401</h5>
                 <p class="card-title-desc">ประมวลผลข้อมูล ตั้งลูกหนี้/เคลม ผัง 1102050101.401</p>
             </div>
             <div class="col"></div>
@@ -96,6 +96,7 @@
                             <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                             <span class="ladda-spinner"></span>
                         </button>
+                    </form>
                         <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary cardacc" data-style="expand-left" id="Pulldata">
                             <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
                             <span class="ladda-spinner"></span>
@@ -103,7 +104,7 @@
             </div> 
         </div>
     </div>  
-</form>
+
         <div class="row">
             <div class="col-xl-12">
                 <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">
@@ -135,11 +136,14 @@
                            
                             <div class="col"></div>
                             <div class="col-md-5 text-end">
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info btn-sm input_new" id="Check_sit">
+                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-info btn-sm input_new" id="Check_sit">
+                                    <i class="fa-solid fa-user me-2"></i>
+                                    ตรวจสอบสิทธิ์ 
+                                </button> --}}
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info btn-sm input_new Check_sit" data-url="{{url('account_401_checksit')}}">
                                     <i class="fa-solid fa-user me-2"></i>
                                     ตรวจสอบสิทธิ์ 
                                 </button>
-                               
                                 {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-success cardacc" id="SenddataAPI">
                                     <i class="fa-solid fa-upload me-2"></i>
                                     ส่ง New Eclaim
@@ -288,6 +292,11 @@
                                                                 <span class="bg-success badge">{{ $count_no }}</span>  Approv                                                               
                                                                 <span class="bg-danger badge">{{ $count_null }}</span> 
                                                             </th> 
+                                                            <th class="text-center">ตั้งลูกหนี้</th>
+                                                            <th class="text-center">                                                                 
+                                                                <span class="bg-success badge">{{ $count_claim }}</span> เคลม
+                                                                <span class="bg-danger badge">{{ $count_noclaim }}</span>  
+                                                            </th> 
                                                             <th class="text-center" style="background-color: #fad6b8">pdx</th> 
                                                             {{-- <th class="text-center">ยานอก</th> --}}
                                                             <th class="text-center">กายภาพ</th>
@@ -299,16 +308,13 @@
                                                             <th class="text-center" >hn</th>
                                                             <th class="text-center" >cid</th>
                                                             <th class="text-center">ptname</th>
-                                                            <th class="text-center">ตั้งลูกหนี้</th>
-                                                            <th class="text-center">                                                                 
-                                                                <span class="bg-success badge">{{ $count_claim }}</span> เคลม
-                                                                <span class="bg-danger badge">{{ $count_noclaim }}</span>  
-                                                            </th>                                                         
+                                                                                                                   
                                                             <th class="text-center">vstdate</th>  
                                                             <th class="text-center">pttype</th> 
                                                             <th class="text-center">spsch</th>   
-                                                            <th class="text-center">Rep</th>                                                          
-                                                            <th class="text-center">ลูกหนี้</th>   
+                                                                                                                    
+                                                            <th class="text-center">ลูกหนี้</th>  
+                                                            <th class="text-center">Rep</th>  
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -366,7 +372,21 @@
                                                                     @else
                                                                         <span class="bg-warning badge text-center">-</span> 
                                                                     @endif 
+                                                                </td> 
+                                                                <td class="text-center" width="5%">
+                                                                    @if ($item->stamp =='N')
+                                                                        <span class="bg-danger badge me-2">{{ $item->stamp }}</span> 
+                                                                    @else
+                                                                        <span class="bg-success badge me-2">{{ $item->stamp }}</span> 
+                                                                    @endif
                                                                 </td>  
+                                                                <td class="text-center" width="5%">
+                                                                    @if ($item->active_claim =='N')
+                                                                        <span class="bg-danger badge me-2">{{ $item->active_claim }}</span> 
+                                                                    @else
+                                                                        <span class="bg-success badge me-2">{{ $item->active_claim }}</span> 
+                                                                    @endif 
+                                                                </td>   
                                                                 <td class="text-start" width="5%">
                                                                     @if ($item->pdx != NULL)
                                                                         <span class="bg-info badge">{{ $item->pdx }}</span> 
@@ -409,33 +429,13 @@
                                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
                                                                 <td class="p-2">{{ $item->ptname }}</td> 
 
-                                                                <td class="text-center" width="5%">
-                                                                    @if ($item->stamp =='N')
-                                                                        <span class="bg-danger badge me-2">{{ $item->stamp }}</span> 
-                                                                    @else
-                                                                        <span class="bg-success badge me-2">{{ $item->stamp }}</span> 
-                                                                    @endif
-                                                                </td>  
-                                                                <td class="text-center" width="5%">
-                                                                    @if ($item->active_claim =='N')
-                                                                        <span class="bg-danger badge me-2">{{ $item->active_claim }}</span> 
-                                                                    @else
-                                                                        <span class="bg-success badge me-2">{{ $item->active_claim }}</span> 
-                                                                    @endif 
-                                                                </td>  
+                                                               
                                                                 
                                                                
                                                                 <td class="text-center" width="8%">{{ $item->vstdate }}</td>   
                                                                 <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{ $item->pttype }}</td>                                                 
                                                                 <td class="text-center" style="color:rgb(216, 95, 14)" width="5%">{{ $item->subinscl }}</td> 
-                                                                <td class="text-center" width="6%">
-                                                                    @if ($item->rep_pay =='')
-                                                                        <span class="bg-danger badge me-2">*-*</span> 
-                                                                    @else
-                                                                        <span class="bg-success badge me-2">{{ number_format($item->rep_pay, 2) }}</span> 
-                                                                    @endif 
-                                                                    
-                                                                </td> 
+                                                               
                                                                 <td class="text-center" width="8%">
                                                                     @if ($item->debit_total < $item->rep_pay)
                                                                         <span class="bg-danger badge me-2"> {{ number_format($item->debit_total, 2) }}</span> 
@@ -443,9 +443,15 @@
                                                                         <span class="bg-success badge me-2"> {{ number_format($item->debit_total, 2) }}</span> 
                                                                     @else
                                                                         <span class="bg-info badge me-2"> {{ number_format($item->debit_total, 2) }}</span> 
-                                                                    @endif
-                                                                   
+                                                                    @endif 
                                                                 </td>  
+                                                                <td class="text-center" width="6%">
+                                                                    @if ($item->rep_pay =='')
+                                                                        <span class="bg-danger badge me-2">*-*</span> 
+                                                                    @else
+                                                                        <span class="bg-success badge me-2">{{ number_format($item->rep_pay, 2) }}</span> 
+                                                                    @endif  
+                                                                </td> 
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
@@ -1392,59 +1398,139 @@
                 })
             });
 
-            $('#Check_sit').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val(); 
-                //    alert(datepicker);
-                Swal.fire({ position: "top-end",
-                        title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
-                        text: "You Check Sit Data!",
+            // $('#Check_sit').click(function() {
+            //     var datepicker = $('#datepicker').val(); 
+            //     var datepicker2 = $('#datepicker2').val();  
+            //     Swal.fire({ position: "top-end",
+            //             title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
+            //             text: "You Check Sit Data!",
+            //             icon: 'warning',
+            //             showCancelButton: true,
+            //             confirmButtonColor: '#3085d6',
+            //             cancelButtonColor: '#d33',
+            //             confirmButtonText: 'Yes, pull it!'
+            //             }).then((result) => {
+            //                 if (result.isConfirmed) {
+            //                     $("#overlay").fadeIn(300);　
+            //                     $("#spinner-div").show(); //Load button clicked show spinner 
+            //                 $.ajax({
+            //                     url: "{{ route('acc.account_401_checksit') }}",
+            //                     type: "POST",
+            //                     dataType: 'json',
+            //                     data: {
+            //                         datepicker,
+            //                         datepicker2                        
+            //                     },
+            //                     success: function(data) {
+            //                         if (data.status == 200) { 
+            //                             Swal.fire({ position: "top-end",
+            //                                 title: 'เช็คสิทธิ์สำเร็จ',
+            //                                 text: "You Check sit success",
+            //                                 icon: 'success',
+            //                                 showCancelButton: false,
+            //                                 confirmButtonColor: '#06D177',
+            //                                 confirmButtonText: 'เรียบร้อย'
+            //                             }).then((result) => {
+            //                                 if (result
+            //                                     .isConfirmed) {
+            //                                     console.log(
+            //                                         data);
+            //                                     window.location.reload();
+            //                                     $('#spinner-div').hide();//Request is complete so hide spinner
+            //                                         setTimeout(function(){
+            //                                             $("#overlay").fadeOut(300);
+            //                                         },500);
+            //                                 }
+            //                             })
+            //                         } else {
+                                        
+            //                         }
+
+            //                     },
+            //                 });
+            //             }
+            //     })
+            // });
+            $('.Check_sit').click(function() {
+                var allValls = [];
+                $(".sub_chk:checked").each(function () {
+                    allValls.push($(this).attr('data-id'));
+                });
+                if (allValls.length <= 0) {
+                    // alert("SSSS");
+                    Swal.fire({
+                        title: 'คุณยังไม่ได้เลือกรายการ ?',
+                        text: "กรุณาเลือกรายการก่อน",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33', 
+                        }).then((result) => {
+                        
+                        })
+                } else {
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "ต้องการตรวจสอบสอทธิ์ใช่ไหม!",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, pull it!'
+                        confirmButtonText: 'You Check Sit Data!.!'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner-div").show(); //Load button clicked show spinner 
-                            $.ajax({
-                                url: "{{ route('acc.account_401_checksit') }}",
-                                type: "POST",
-                                dataType: 'json',
-                                data: {
-                                    datepicker,
-                                    datepicker2                        
-                                },
-                                success: function(data) {
-                                    if (data.status == 200) { 
-                                        Swal.fire({ position: "top-end",
-                                            title: 'เช็คสิทธิ์สำเร็จ',
-                                            text: "You Check sit success",
-                                            icon: 'success',
-                                            showCancelButton: false,
-                                            confirmButtonColor: '#06D177',
-                                            confirmButtonText: 'เรียบร้อย'
-                                        }).then((result) => {
-                                            if (result
-                                                .isConfirmed) {
-                                                console.log(
-                                                    data);
-                                                window.location.reload();
-                                                $('#spinner-div').hide();//Request is complete so hide spinner
-                                                    setTimeout(function(){
-                                                        $("#overlay").fadeOut(300);
-                                                    },500);
-                                            }
-                                        })
-                                    } else {
-                                        
-                                    }
+                                var check = true;
+                                if (check == true) {
+                                    var join_selected_values = allValls.join(",");
+                                    // alert(join_selected_values);
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show(); //Load button clicked show spinner 
 
-                                },
-                            });
-                        }
-                })
+                                    $.ajax({
+                                        url:$(this).data('url'),
+                                        type: 'POST',
+                                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                        data: 'ids='+join_selected_values,
+                                        success:function(data){ 
+                                                if (data.status == 200) {
+                                                    $(".sub_chk:checked").each(function () {
+                                                        $(this).parents("tr").remove();
+                                                    });
+                                                    Swal.fire({
+                                                        title: 'เช็คสิทธิ์สำเร็จ',
+                                                        text: "You Check sit success",
+                                                        icon: 'success',
+                                                        showCancelButton: false,
+                                                        confirmButtonColor: '#06D177',
+                                                        confirmButtonText: 'เรียบร้อย'
+                                                    }).then((result) => {
+                                                        if (result
+                                                            .isConfirmed) {
+                                                            console.log(
+                                                                data);
+                                                            window.location.reload();
+                                                            $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                        }
+                                                    })
+                                                } else {
+                                                    
+                                                }
+                                                
+                                        }
+                                    });
+                                    $.each(allValls,function (index,value) {
+                                        $('table tr').filter("[data-row-id='"+value+"']").remove();
+                                    });
+                                }
+                            }
+                        }) 
+
+ 
+                    }
             });
 
             $('.Claim').on('click', function(e) {

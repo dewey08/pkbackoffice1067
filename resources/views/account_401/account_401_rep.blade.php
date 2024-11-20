@@ -120,7 +120,7 @@
                                     class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                     <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip"
                                         data-bs-placement="top" title="UP STM"></i>
-                                    UP STM
+                                    UP REP
                                 </button>
                                 </form>
                                        

@@ -126,7 +126,8 @@
 
                                     <th class="text-center">ลูกหนี้</th>  
                                     <th class="text-center">ส่วนต่าง</th> 
-                                    <th class="text-center">Stm 401</th>  
+                                    <th class="text-center">Rep</th> 
+                                    <th class="text-center">Stm</th>  
                                     <th class="text-center">STMdoc</th> 
                                 </tr>
                             </thead>
@@ -152,9 +153,17 @@
 
                                         <td class="text-end" style="color:rgb(27, 118, 223)" width="6%">{{ number_format($item->debit_total,2)}}</td> 
                                         <td class="text-end" style="color:rgb(184, 12, 169)" width="6%">{{ number_format(($item->debit_total-$item->stm_money),2)}}</td> 
-                                        <td class="text-end" style="color:rgb(6, 159, 170)" width="6%">{{ number_format($item->stm_money,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(4, 82, 172)" width="6%">{{ number_format($item->rep_pay,2)}}</td> 
+                                        <td class="text-end" style="color:rgb(4, 132, 141)" width="6%">{{ number_format($item->stm_money,2)}}</td> 
                                         {{-- <td class="text-end" style="color:rgb(9, 196, 180)" width="6%">{{ number_format($item->stm_total,2)}}</td>   --}} 
-                                        <td class="p-2" width="9%">{{ $item->STMDoc }}</td>  
+                                        <td class="p-2" width="9%">
+                                            @if ($item->STMDoc =='')
+                                            {{ $item->rep_doc }}
+                                            @else
+                                            {{ $item->STMDoc }}
+                                            @endif
+                                           
+                                        </td>  
                                     
                                     </tr>
                                         <?php
@@ -166,8 +175,8 @@
 
                                             $total6 = $total6 + $item->debit_total;
                                             $total7 = $total7 + ($item->debit_total-$item->stm_money); 
-                                            $total8 = $total8 + $item->stm_money;
-                                            // $total9 = $total9 + $item->stm_total;
+                                            $total8 = $total8 + $item->rep_pay;
+                                            $total9 = $total9 + $item->stm_money;
                                         ?>                                 
                                 @endforeach  
                                
@@ -182,7 +191,7 @@
                                             <td class="text-end" style="background-color: #276ed8;color: #1da7e7">{{ number_format($total6,2)}}</td> 
                                             <td class="text-end" style="background-color: #8c3ee4;color: #af25e6">{{ number_format($total7,2)}}</td> 
                                             <td class="text-end" style="background-color: #059b75;color: #078d9e">{{ number_format($total8,2)}}</td>  
-                                            {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>   --}}
+                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>  
                                             <td class="text-end" style="background-color: #ff9d9d"></td> 
                                         </tr>  
                         </table>
