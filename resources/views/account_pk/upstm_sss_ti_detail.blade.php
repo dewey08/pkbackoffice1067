@@ -21,103 +21,62 @@
     $yb = date('Y') + 542;
     ?>
 
-    <style>
-        #button {
-            display: block;
-            margin: 20px auto;
-            padding: 30px 30px;
-            background-color: #eee;
-            border: solid #ccc 1px;
-            cursor: pointer;
-        }
+<style>
+    #button {
+        display: block;
+        margin: 20px auto;
+        padding: 30px 30px;
+        background-color: #eee;
+        border: solid #ccc 1px;
+        cursor: pointer;
+    }
 
-        #overlay {
-            position: fixed;
-            top: 0;
-            z-index: 100;
-            width: 100%;
-            height: 100%;
-            display: none;
-            background: rgba(0, 0, 0, 0.6);
-        }
+    #overlay {
+        position: fixed;
+        top: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        display: none;
+        background: rgba(0, 0, 0, 0.6);
+    }
 
-        .cv-spinner {
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    .cv-spinner {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-        .spinner {
-            width: 250px;
-            height: 250px;
-            border: 10px #ddd solid;
-            border-top: 10px #fd6812 solid;
-            border-radius: 50%;
-            animation: sp-anime 0.8s infinite linear;
-        }
+    .spinner {
+        width: 250px;
+        height: 250px;
+        border: 10px #ddd solid;
+        border-top: 10px #fd6812 solid;
+        border-radius: 50%;
+        animation: sp-anime 0.8s infinite linear;
+    }
 
-        @keyframes sp-anime {
-            100% {
-                transform: rotate(360deg);
-            }
+    @keyframes sp-anime {
+        100% {
+            transform: rotate(360deg);
         }
+    }
 
-        .is-hide {
-            display: none;
-        }
-        .bar{
-            height: 50px;
-            background-color: rgb(10, 218, 55);
-        }
-        .percent{
-            position: absolute;
-            left: 50%;
-            color: black;
-        }       
-        .card{
-            border-radius: 3em 3em 3em 3em;
-            /* box-shadow: 0 0 10px teal; */
-        }
-        .card-ucs{
-            border-radius: 3em 3em 3em 3em;
-            box-shadow: 0 0 10px rgb(3, 136, 252);
-        }
-        .card-ofc{
-            border-radius: 3em 3em 3em 3em;
-            box-shadow: 0 0 10px rgb(10, 110, 223);
-        }
-        .card-lgo{
-            border-radius: 3em 3em 3em 3em;
-            box-shadow: 0 0 10px teal;
-        }
-        .card-ucsti{
-            border-radius: 3em 3em 3em 3em;
-            box-shadow: 0 0 10px rgb(252, 144, 3);
-        }
-        .card-ofcti{
-            border-radius: 3em 3em 3em 3em;
-            box-shadow: 0 0 10px rgb(252, 3, 82);
-        }
-        .card-sssti{
-            border-radius: 3em 3em 3em 3em;
-            box-shadow: 0 0 10px rgb(94, 93, 93);
-        }
-        .card-lgoti{
-            border-radius: 3em 3em 3em 3em;
-            box-shadow: 0 0 10px teal;
-        }
-        .nav{
-         
-            border-radius: 3em 3em 20 20;
-            background-color: aliceblue;
-            /* box-shadow: 0 0 10px teal; */
-        }
-        .nav-link{
-            border-radius: 20 20 10 10;
-            box-shadow: 0 0 10px teal;
-        }
-    </style>
+    .is-hide {
+        display: none;
+    }
+    .bar{
+        height: 50px;
+        background-color: rgb(10, 218, 55);
+    }
+    .percent{
+        position: absolute;
+        left: 50%;
+        color: black;
+    }       
+    
+</style>
     <?php
     use App\Http\Controllers\StaticController;
     use Illuminate\Support\Facades\DB;
@@ -234,9 +193,9 @@
                                                 </tbody> 
                                                 <tr style="background-color: #f3fca1">
                                                     <td colspan="6" class="text-end" style="background-color: #ffdede"></td>
-                                                    <td class="text-center" style="background-color: rgb(233, 83, 14)"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                                    <td class="text-center" style="background-color: rgb(18, 118, 233)"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                                    <td class="text-center" style="background-color: rgb(10, 151, 85)"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td>  
+                                                    <td class="text-center" style="background-color: rgb(233, 83, 14)"><label for="" style="color: #046fb6;font-size:15px">{{ number_format($total1, 2) }}</label></td>
+                                                    <td class="text-center" style="background-color: rgb(18, 118, 233)"><label for="" style="color: #046fb6;font-size:15px">{{ number_format($total2, 2) }}</label></td>
+                                                    <td class="text-center" style="background-color: rgb(10, 151, 85)"><label for="" style="color: #046fb6;font-size:15px">{{ number_format($total3, 2) }}</label> </td>  
                                                 </tr>  
                                             </table>
                                         </div>

@@ -83,7 +83,7 @@
             @csrf --}}
         <div class="row"> 
             <div class="col-md-4">
-                <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050102.8022</h4>
+                <h4 class="card-title" style="color:rgb(248, 28, 83)">Detail Account ผัง 1102050102.8022</h4>
                 <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p>
             </div>
             <div class="col"></div>

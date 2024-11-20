@@ -103,26 +103,25 @@
             <div class="col-xl-8 col-md-6">
                 <div class="card cardacc">
                     <div class="grid-menu-col">
-                        <form action="{{ route('acc.upstm_lgoexcel_save') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('acc.upstm_lgo_rep_save') }}" id="InsertData" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
 
                                 <div class="col"></div>
                                 <div class="col-md-6">
                                     <div class="mb-3 mt-3">
-                                        <label for="formFileLg" class="form-label">UP STM EXCEL </label>
+                                        <label for="formFileLg" class="form-label">UP REP EXCEL LGO</label>
                                         <input class="form-control form-control-lg" id="formFileLg" name="file"
                                             type="file" required>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     </div>
                                     @if ($countc > 0)  
-                                        <a href="{{ url('upstm_lgoexcel_senddata') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary" id="Senddata">
+                                        <a href="{{ url('upstm_lgo_rep_send') }}" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-primary">
                                             <i class="fa-solid fa-file-import me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="ส่งข้อมูล"></i>
                                                 ส่งข้อมูล
                                         </a>
                                     @else
-                                        <button type="submit"
-                                            class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
+                                        <button type="submit" class="mb-3 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">
                                             <i class="fa-solid fa-cloud-arrow-up me-2" data-bs-toggle="tooltip"
                                                 data-bs-placement="top" title="UP STM"></i>
                                             UP STM
@@ -201,7 +200,7 @@
 
                                     <tr height="20" >
                                         <td class="text-font" style="text-align: center;" width="4%" >{{ $number }}</td>
-                                        <td class="text-center" width="10%" > {{ $item->rep_no }}</td> 
+                                        <td class="text-center" width="10%" > {{ $item->rep }}</td> 
                                         @if ($item->months == '1')
                                             <td width="10%" class="text-center" >มกราคม </td>
                                         @elseif ($item->months == '2')
@@ -329,7 +328,7 @@
             //     }
             // })
 
-            $('#Upstmti').on('submit', function(e) {
+            $('#InsertData').on('submit', function(e) {
                 e.preventDefault();
                 var form = this;
                 // alert('OJJJJOL');

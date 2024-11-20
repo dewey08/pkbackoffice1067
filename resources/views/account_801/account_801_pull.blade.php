@@ -74,7 +74,8 @@
                 </div>
             </div>
         </div>
-       
+        <form action="{{ URL('account_801_pull') }}" method="GET">
+            @csrf
         <div class="row"> 
             <div class="col-md-4">
                 <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050102.801</h4>
@@ -82,12 +83,17 @@
             </div>
             <div class="col"></div>
             <div class="col-md-1 text-end mt-2">วันที่</div>
-            <div class="col-md-4 text-end">
+            <div class="col-md-5 text-end">
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                     <input type="text" class="form-control-sm cardacc" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $startdate }}" required/>
                     <input type="text" class="form-control-sm cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
+                        <button type="submit" class="ladda-button btn-pill btn btn-sm btn-info cardacc" data-style="expand-left">
+                            <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                            <span class="ladda-spinner"></span>
+                        </button>
+                    </form> 
                         <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary cardacc" data-style="expand-left" id="Pulldata">
                             <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
                             <span class="ladda-spinner"></span>
@@ -100,7 +106,7 @@
             {{-- <div class="col"></div> --}}
         </div>
     </div>  
-        
+  
         <div class="row">
             <div class="col-xl-12">
                 <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">
@@ -167,7 +173,7 @@
                                           
                                             <th width="5%" class="text-center">ลำดับ</th> 
                                             <th width="5%" class="text-center"><input type="checkbox" class="dcheckbox_" name="stamp" id="stamp"> </th> 
-                                            <th class="text-center" width="5%">vn</th> 
+                                            {{-- <th class="text-center" width="5%">vn</th>  --}}
                                             {{-- <th class="text-center">an</th> --}}
                                             <th class="text-center" >hn</th>
                                             <th class="text-center" >cid</th>
@@ -183,6 +189,7 @@
                                             <th class="text-center">pttype</th> 
                                             <th class="text-center">spsch</th>  
                                             <th class="text-center">ลูกหนี้</th>  
+                                            <th class="text-center">Rep</th>  
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -197,9 +204,19 @@
                                                 @else
                                                     <td class="text-center" width="5%"><input type="checkbox" class="sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
                                                 @endif --}}
+                                                {{-- <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td>  --}}
+                                                @if ($activeclaim == 'Y')
+                                                @if ($item->debit_total == '' || $item->pdx =='')
+                                                    <td class="text-center" width="5%">
+                                                        <input class="form-check-input" type="checkbox" id="flexCheckDisabled" disabled> 
+                                                    </td> 
+                                                @else
+                                                    <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
+                                                @endif  
+                                            @else
                                                 <td class="text-center" width="5%"><input type="checkbox" class="dcheckbox_ sub_chk" data-id="{{$item->acc_debtor_id}}"> </td> 
-
-                                                <td class="text-center" width="5%">{{ $item->vn }}</td> 
+                                            @endif
+                                                {{-- <td class="text-center" width="5%">{{ $item->vn }}</td>  --}}
                                                 {{-- <td class="text-center" width="5%">{{ $item->an }}</td>  --}}
                                                 <td class="text-center" width="5%">{{ $item->hn }}</td>  
                                                 <td class="text-center" width="10%">{{ $item->cid }}</td>  
@@ -238,6 +255,13 @@
                                                         <span class="bg-success badge me-2"> {{ number_format($item->debit_total, 2) }}</span> 
                                                     @endif
                                                </td> 
+                                               <td class="text-center" width="6%">
+                                                @if ($item->rep_pay =='')
+                                                    <span class="bg-danger badge me-2">*-*</span> 
+                                                @else
+                                                    <span class="bg-success badge me-2">{{ number_format($item->rep_pay, 2) }}</span> 
+                                                @endif  
+                                            </td> 
  
                                             </tr>
                                         @endforeach
@@ -470,8 +494,8 @@
                                                         $(this).parents("tr").remove();
                                                     });
                                                     Swal.fire({ position: "top-end",
-                                                        title: 'ประมวลผลสำเร็จ',
-                                                        text: "You Process data success",
+                                                    title: 'ประมวลผลข้อมูลเคลมสำเร็จ',
+                                                    text: "You Process Claim data success",
                                                         icon: 'success',
                                                         showCancelButton: false,
                                                         confirmButtonColor: '#06D177',

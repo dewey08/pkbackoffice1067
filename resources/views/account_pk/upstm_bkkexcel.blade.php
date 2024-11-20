@@ -1,9 +1,6 @@
 @extends('layouts.accountpk')
 @section('title', 'PK-OFFICE || ACCOUNT')
-
-
-
-
+ 
 @section('content')
     <script>
         function TypeAdmin() {
@@ -359,7 +356,7 @@
                         confirmButtonText: 'เรียบร้อย'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location = "{{ url('upstm_ofcexcel') }}";
+                            window.location = "{{ url('upstm_bkkexcel') }}";
                         }
                     })
                 }

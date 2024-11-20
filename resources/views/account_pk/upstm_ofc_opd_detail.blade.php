@@ -107,16 +107,7 @@
             border-radius: 3em 3em 3em 3em;
             box-shadow: 0 0 10px teal;
         }
-        .nav{
-         
-            border-radius: 3em 3em 20 20;
-            background-color: aliceblue;
-            /* box-shadow: 0 0 10px teal; */
-        }
-        .nav-link{
-            border-radius: 20 20 10 10;
-            box-shadow: 0 0 10px teal;
-        }
+        
     </style>
     <?php
     use App\Http\Controllers\StaticController;
@@ -231,9 +222,9 @@
                                 </tbody> 
                                 <tr style="background-color: #f3fca1">
                                     <td colspan="6" class="text-end" style="background-color: #ffdede"></td>
-                                    <td class="text-center" style="background-color: rgb(233, 83, 14)"><label for="" style="color: #FFFFFF">{{ number_format($total1, 2) }}</label></td>
-                                    <td class="text-center" style="background-color: rgb(18, 118, 233)"><label for="" style="color: #FFFFFF">{{ number_format($total2, 2) }}</label></td>
-                                    <td class="text-center" style="background-color: rgb(10, 151, 85)"><label for="" style="color: #FFFFFF">{{ number_format($total3, 2) }}</label> </td>  
+                                    <td class="text-center" style="background-color: rgb(233, 83, 14)"><label for="" style="color: #046fb6;font-size:15px">{{ number_format($total1, 2) }}</label></td>
+                                    <td class="text-center" style="background-color: rgb(18, 118, 233)"><label for="" style="color: #046fb6;font-size:15px">{{ number_format($total2, 2) }}</label></td>
+                                    <td class="text-center" style="background-color: rgb(10, 151, 85)"><label for="" style="color: #046fb6;font-size:15px">{{ number_format($total3, 2) }}</label> </td>  
                                 </tr>  
                             </table>
                         </div>

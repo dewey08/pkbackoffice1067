@@ -74,7 +74,8 @@
                 </div>
             </div>
         </div>
-
+        <form action="{{ URL('account_802_pull') }}" method="GET">
+            @csrf
         <div class="row"> 
             <div class="col-md-4">
                 <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050102.802</h4>
@@ -88,6 +89,10 @@
                         data-date-language="th-th" value="{{ $startdate }}" required/>
                     <input type="text" class="form-control-sm cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
+                        <button type="submit" class="ladda-button btn-pill btn btn-sm btn-info cardacc" data-style="expand-left">
+                            <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
+                            <span class="ladda-spinner"></span>
+                        </button>
                         <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary cardacc" data-style="expand-left" id="Pulldata">
                             <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
                             <span class="ladda-spinner"></span>
@@ -100,7 +105,7 @@
             {{-- <div class="col"></div> --}}
         </div>
     </div>   
-        
+</form>  
         <div class="row">
             <div class="col-xl-12">
                 <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">
@@ -132,7 +137,11 @@
                             </div>
                             <div class="col"></div>
                             <div class="col-md-4 text-end"> 
-                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info btn-sm input_new" id="Check_sit">
+                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-info btn-sm input_new" id="Check_sit">
+                                    <i class="fa-solid fa-user me-2"></i>
+                                    ตรวจสอบสิทธิ์ 
+                                </button> --}}
+                                <button type="button" class="ladda-button me-2 btn-pill btn btn-info btn-sm input_new Check_sit" data-url="{{url('account_802_checksit')}}">
                                     <i class="fa-solid fa-user me-2"></i>
                                     ตรวจสอบสิทธิ์ 
                                 </button>
@@ -544,61 +553,146 @@
                 }
             });
 
-            $('#Check_sit').click(function() {
-                var datepicker = $('#datepicker').val(); 
-                var datepicker2 = $('#datepicker2').val(); 
-                //    alert(datepicker);
-                Swal.fire({
-                    position: "top-end",
-                        title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
-                        text: "You Check Sit Data!",
+            // $('#Check_sit').click(function() {
+            //     var datepicker = $('#datepicker').val(); 
+            //     var datepicker2 = $('#datepicker2').val(); 
+            //     //    alert(datepicker);
+            //     Swal.fire({
+            //         position: "top-end",
+            //             title: 'ต้องการตรวจสอบสอทธิ์ใช่ไหม ?',
+            //             text: "You Check Sit Data!",
+            //             icon: 'warning',
+            //             showCancelButton: true,
+            //             confirmButtonColor: '#3085d6',
+            //             cancelButtonColor: '#d33',
+            //             confirmButtonText: 'Yes, Check Sit it!'
+            //             }).then((result) => {
+            //                 if (result.isConfirmed) {
+            //                     $("#overlay").fadeIn(300);　
+            //                     $("#spinner-div").show(); //Load button clicked show spinner 
+            //                 $.ajax({
+            //                     url: "{{ route('acc.account_802_checksit') }}",
+            //                     type: "POST",
+            //                     dataType: 'json',
+            //                     data: {
+            //                         datepicker,
+            //                         datepicker2                        
+            //                     },
+            //                     success: function(data) {
+            //                         if (data.status == 200) { 
+            //                             Swal.fire({
+            //                                 position: "top-end",
+            //                                 title: 'เช็คสิทธิ์สำเร็จ',
+            //                                 text: "You Check sit success",
+            //                                 icon: 'success',
+            //                                 showCancelButton: false,
+            //                                 confirmButtonColor: '#06D177',
+            //                                 confirmButtonText: 'เรียบร้อย'
+            //                             }).then((result) => {
+            //                                 if (result
+            //                                     .isConfirmed) {
+            //                                     console.log(
+            //                                         data);
+            //                                     window.location.reload();
+            //                                     $('#spinner-div').hide();//Request is complete so hide spinner
+            //                                         setTimeout(function(){
+            //                                             $("#overlay").fadeOut(300);
+            //                                         },500);
+            //                                 }
+            //                             })
+            //                         } else {
+                                        
+            //                         }
+
+            //                     },
+            //                 });
+            //             }
+            //     })
+            // });
+
+            $('.Check_sit').click(function() {
+                var allValls = [];
+                $(".sub_chk:checked").each(function () {
+                    allValls.push($(this).attr('data-id'));
+                });
+                if (allValls.length <= 0) {
+                    // alert("SSSS");
+                    Swal.fire({
+                        title: 'คุณยังไม่ได้เลือกรายการ ?',
+                        text: "กรุณาเลือกรายการก่อน",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33', 
+                        }).then((result) => {
+                        
+                        })
+                } else {
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "ต้องการตรวจสอบสอทธิ์ใช่ไหม!",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, Check Sit it!'
+                        confirmButtonText: 'You Check Sit Data!.!'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner-div").show(); //Load button clicked show spinner 
-                            $.ajax({
-                                url: "{{ route('acc.account_802_checksit') }}",
-                                type: "POST",
-                                dataType: 'json',
-                                data: {
-                                    datepicker,
-                                    datepicker2                        
-                                },
-                                success: function(data) {
-                                    if (data.status == 200) { 
-                                        Swal.fire({
-                                            position: "top-end",
-                                            title: 'เช็คสิทธิ์สำเร็จ',
-                                            text: "You Check sit success",
-                                            icon: 'success',
-                                            showCancelButton: false,
-                                            confirmButtonColor: '#06D177',
-                                            confirmButtonText: 'เรียบร้อย'
-                                        }).then((result) => {
-                                            if (result
-                                                .isConfirmed) {
-                                                console.log(
-                                                    data);
-                                                window.location.reload();
-                                                $('#spinner-div').hide();//Request is complete so hide spinner
-                                                    setTimeout(function(){
-                                                        $("#overlay").fadeOut(300);
-                                                    },500);
-                                            }
-                                        })
-                                    } else {
-                                        
-                                    }
+                                var check = true;
+                                if (check == true) {
+                                    var join_selected_values = allValls.join(",");
+                                    // alert(join_selected_values);
+                                    $("#overlay").fadeIn(300);　
+                                    $("#spinner").show(); //Load button clicked show spinner 
 
-                                },
-                            });
-                        }
-                })
+                                    $.ajax({
+                                        url:$(this).data('url'),
+                                        type: 'POST',
+                                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                                        data: 'ids='+join_selected_values,
+                                        success:function(data){ 
+                                                if (data.status == 200) {
+                                                    $(".sub_chk:checked").each(function () {
+                                                        $(this).parents("tr").remove();
+                                                    });
+                                                    Swal.fire({
+                                                        title: 'เช็คสิทธิ์สำเร็จ',
+                                                        text: "You Check sit success",
+                                                        icon: 'success',
+                                                        showCancelButton: false,
+                                                        confirmButtonColor: '#06D177',
+                                                        confirmButtonText: 'เรียบร้อย'
+                                                    }).then((result) => {
+                                                        if (result
+                                                            .isConfirmed) {
+                                                            console.log(
+                                                                data);
+                                                            window.location.reload();
+                                                            $('#spinner').hide();//Request is complete so hide spinner
+                                                        setTimeout(function(){
+                                                            $("#overlay").fadeOut(300);
+                                                        },500);
+                                                        }
+                                                    })
+                                                } else {
+                                                    
+                                                }
+                                                
+
+                                            // } else {
+                                            //     alert("Whoops Something went worng all"); 
+                                            // }
+                                        }
+                                    });
+                                    $.each(allValls,function (index,value) {
+                                        $('table tr').filter("[data-row-id='"+value+"']").remove();
+                                    });
+                                }
+                            }
+                        }) 
+ 
+                    }
             });
 
             $('.Claim').on('click', function(e) {
