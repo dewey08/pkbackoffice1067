@@ -823,7 +823,7 @@ $per_nurse                = StaticController::per_nurse($iduser);
             @if ($countpermiss_env != 0)  
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('env_dashboard') }}" target="_blank">
-                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(93, 218, 114)">
+                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: #65d0c1">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
                                 <div class="col-sm-12">
