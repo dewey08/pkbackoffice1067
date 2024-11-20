@@ -85,12 +85,48 @@ if (Auth::check()) {
 
        
 
-        <div class="main-card mb-3 card">
+        <div class="main-card card">
             <div class="card-header" >
-                <h4 class="card-title"  style="color:rgba(21, 177, 60, 0.871)">รายระเอียดผลวิเคราะห์คุณภาพน้ำทิ้ง</h4>                
+                {{-- <h4 class="card-title"  style="color:rgba(21, 177, 60, 0.871)">รายระเอียดผลวิเคราะห์คุณภาพน้ำทิ้ง</h4>                
                 <div class="btn-actions-pane-right">
                     <div class="nav">
                         <a href="{{ url('env_water_add_pond') }}" class="btn btn-outline-success">เพิ่มข้อมูล</a>                        
+                    </div>
+                </div> --}}
+                <form action="{{ route('env.env_water') }}" method="GET">
+                    @csrf
+                <div class="row"> 
+                    <div class="col-md-4">
+                        <h4 class="card-title"  style="color:rgba(21, 177, 60, 0.871)">รายระเอียดผลวิเคราะห์คุณภาพน้ำทิ้ง</h4>   
+                    </div>
+                    <div class="col"></div>
+                    <div class="col-md-1 text-end">วันที่</div>
+                    <div class="col-md-4 text-center">
+                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                    data-date-language="th-th" value="{{ $startdate }}" required/>
+                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                    data-date-language="th-th" value="{{ $enddate }}" required/> 
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa-solid fa-magnifying-glass me-2"></i>
+                                        ค้นหา
+                                    </button> 
+                                    
+                                </form>
+                        </div>
+                    </div>
+                    
+                    {{-- <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-magnifying-glass me-2"></i>
+                            ค้นหา
+                        </button>                                
+                    </div> --}}
+                    <div class="col-md-1 text-end">
+                        <a href="{{ url('env_water_add_pond') }}" class="btn btn-outline-success">เพิ่มข้อมูล</a> 
                     </div>
                 </div>
             </div>
@@ -98,8 +134,8 @@ if (Auth::check()) {
             <div class="card-body" >
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab-eg2-0" role="tabpanel">
-                        <p> 
-                            <form action="{{ route('env.env_water') }}" method="GET">
+                        {{-- <p>  --}}
+                            {{-- <form action="{{ route('env.env_water') }}" method="GET">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-2 text-end">วันที่</div>
@@ -123,8 +159,8 @@ if (Auth::check()) {
                                     </div>
                                         
                                 </div>
-                            </form>
-                            <div class="row mt-4">
+                            </form> --}}
+                            {{-- <div class="row"> --}}
                                 <div class="row">
                                     <div class="card_audit_4">                                       
                                             <!-- Nav tabs -->
@@ -265,8 +301,8 @@ if (Auth::check()) {
                                     </div>
                                 </div> 
 
-                            </div> 
-                        </p>
+                            {{-- </div>  --}}
+                        {{-- </p> --}}
                     </div>
                      
                 </div>

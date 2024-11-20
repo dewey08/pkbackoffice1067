@@ -313,8 +313,8 @@
     <div id="layout-wrapper">
         
  
-        <header id="page-topbar" style="background-color: #fc9dfc">
-            {{-- <header id="page-topbar" style="background-color: #f737f7"> --}}
+        <header id="page-topbar" style="background-color: #65d0c1">
+            
             <div class="navbar-header" >
                 <div class="d-flex">
             
@@ -354,7 +354,7 @@
  
                     <form class="app-search d-none d-lg-block mt-3">
                         <div class="position-relative">
-                            <h3 style="color:rgb(255, 255, 255)" class="mt-1 noto-sans-thai-looped-light">D E N T A L</h3> 
+                            <h3 style="color:rgb(255, 255, 255)" class="mt-1 noto-sans-thai-looped-light">E N V</h3> 
                         </div>
                     </form> 
                 </div>
@@ -421,7 +421,7 @@
             </div>
         </header>
    
-        <div class="topnav" style="background-color: #fad7fa">
+        <div class="topnav" style="background-color: #b5f0e0">
             <div class="container-fluid">
                 <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
 
@@ -445,7 +445,7 @@
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
-                                    <img src="{{ asset('images/job.png') }}" height="27px" width="27px" >
+                                    <img src="{{ asset('images/Wash-Hands.png') }}" height="27px" width="27px" >
                                     </i>ระบบบ่อบำบัดน้ำเสีย <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
@@ -455,7 +455,7 @@
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
-                                    <img src="{{ asset('images/job.png') }}" height="27px" width="27px" >
+                                    <img src="{{ asset('images/Delete.png') }}" height="27px" width="27px" >
                                     </i>ระบบบริหารจัดการขยะ <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
@@ -465,7 +465,7 @@
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
-                                    <img src="{{ asset('images/job.png') }}" height="27px" width="27px" >
+                                    <img src="{{ asset('images/wh08.png') }}" height="27px" width="27px" >
                                     </i>รายงาน <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps">
@@ -477,7 +477,7 @@
                             @if ($permiss_setting_env !=0)
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
-                                    <img src="{{ asset('images/job.png') }}" height="27px" width="27px" >
+                                    <img src="{{ asset('images/Settings.png') }}" height="27px" width="27px" >
                                     </i>ตั้งค่า <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-apps"> 
@@ -574,7 +574,7 @@
             </div>
             <!-- End Page-content -->
 
-            <footer class="footer" style="background-color: #fad7fa">
+            <footer class="footer" style="background-color: #e1f7f1">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">

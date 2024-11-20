@@ -312,8 +312,8 @@
     <div id="layout-wrapper">
         
  
-        <header id="page-topbar" style="background-color: #fc9dfc">
-            {{-- <header id="page-topbar" style="background-color: #f737f7"> --}}
+        <header id="page-topbar" style="background-color: #b080d8">
+            
             <div class="navbar-header" >
                 <div class="d-flex">
             
@@ -420,7 +420,7 @@
             </div>
         </header>
    
-        <div class="topnav" style="background-color: #fad7fa">
+        <div class="topnav" style="background-color: #fef09f">
             <div class="container-fluid">
                 <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
 
@@ -570,7 +570,7 @@
             </div>
             <!-- End Page-content -->
 
-            <footer class="footer" style="background-color: #fad7fa">
+            <footer class="footer" style="background-color: #f1a8d4">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-6">
