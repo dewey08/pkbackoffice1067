@@ -85,13 +85,13 @@ if (Auth::check()) {
 
         <div class="main-card mb-3 card">
             <div class="card-header">
-                รายระเอียดข้อมูลขยะ
-                
+                <h4 class="card-title"  style="color:rgba(21, 177, 60, 0.871)">รายระเอียดข้อมูลขยะ</h4>   
                 <div class="btn-actions-pane-right">
                     <div class="nav">
-                        <a href="{{ url('env_trash_add') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">เพิ่มข้อมูล</a>
-                        {{-- <a href="{{ url('time_nurs_depsub') }}" class="btn-pill btn-wide me-1 ms-1  btn btn-outline-alternate btn-sm">กลุ่มงาน/ฝ่าย</a>
-                        <a href="{{ url('time_nurs_depsubsub') }}" class="btn-pill btn-wide  btn btn-outline-alternate btn-sm">หน่วยงาน</a> --}}
+                        <div class="col-md-12 text-end">
+                            <a href="{{ url('env_trash_add') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">เพิ่มข้อมูล</a>
+                            {{-- <a href="{{ url('dental_appointment_add') }}" class="mb-1 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">เพิ่มข้อมูลนัดหมาย</a> --}}
+                        </div>
                     </div>
                 </div>
             </div>

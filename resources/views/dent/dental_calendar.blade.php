@@ -102,10 +102,10 @@ $count_service = StaticController::count_service();
         <div class="row mt-2">
             <div class="col-xl-12">
                 <div class="card cardot">
-                    <div class="card-header">
+                    <div class="card-header">                         
                         <div class="btn-actions-pane-right">
-                            <div class="nav">
-                                <a href="{{ url('dental_appointment_add') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">เพิ่มข้อมูลนัดหมาย</a>
+                            <div class="col-md-12 text-end">
+                                <a href="{{ url('dental_appointment_add') }}" class="mb-1 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">เพิ่มข้อมูลนัดหมาย</a>
                             </div>
                         </div>
                     </div>

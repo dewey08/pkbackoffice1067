@@ -123,11 +123,13 @@ if (Auth::check()) {
 
                                                 <td class="text-center" width="7%">
                                                     <a href="{{url('dental_setting_type_edit/'.$item->appointment_id)}}">
-                                                        <i class="fa-solid fa-pen-to-square fa-xl" style="color: #068e0f;"></i>
+                                                        {{-- <i class="fa-solid fa-pen-to-square fa-xl" style="color: #068e0f;"></i> --}}
+                                                        <img src="{{ asset('images/Edit.png') }}" height="25px" width="25px">
                                                     </a>
                                                     
                                                     <a href="{{url('dental_setting_type_delete/'.$item->appointment_id)}}">
-                                                        <i class="fa-solid fa-trash fa-square fa-xl" style="color: #e60f24;"></i>
+                                                        {{-- <i class="fa-solid fa-trash fa-square fa-xl" style="color: #e60f24;"></i> --}}
+                                                        <img src="{{ asset('images/remove.png') }}" height="25px" width="25px">
                                                     </a>                                                                                                    
                                                     
                                                 </td>

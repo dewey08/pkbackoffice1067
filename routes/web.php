@@ -3634,35 +3634,35 @@ Route::match(['get','post'],'env_trash_parameter_switchactive',[App\Http\Control
 
 
 
-    //********************* */ DENTAL  ***********************************
-    Route::match(['get', 'post'], 'dental_db', [App\Http\Controllers\DentalController::class, 'dental_db'])->name('den.dental_db'); //
-    Route::match(['get', 'post'], 'dental', [App\Http\Controllers\DentalController::class, 'dental'])->name('den.dental'); //
-    Route::match(['get', 'post'], 'dental_detail/{id}', [App\Http\Controllers\DentalController::class, 'dental_detail'])->name('den.dental_detail'); //
-    Route::match(['get', 'post'], 'dental_save', [App\Http\Controllers\DentalController::class, 'dental_save'])->name('den.dental_save'); //
-    Route::match(['get', 'post'], 'dental_edit/{id}', [App\Http\Controllers\DentalController::class, 'dental_edit'])->name('den.dental_edit'); //
-    Route::match(['get', 'post'], 'dental_update', [App\Http\Controllers\DentalController::class, 'dental_update'])->name('den.dental_update'); //
-    
-    Route::match(['get', 'post'], 'dental_assistant', [App\Http\Controllers\DentalController::class, 'dental_assistant'])->name('den.dental_assistant'); //
+  //********************* */ DENTAL  ***********************************
+  Route::match(['get', 'post'], 'dental_db', [App\Http\Controllers\DentalController::class, 'dental_db'])->name('den.dental_db'); //
+  Route::match(['get', 'post'], 'dental', [App\Http\Controllers\DentalController::class, 'dental'])->name('den.dental'); //
+  Route::match(['get', 'post'], 'dental_detail/{id}', [App\Http\Controllers\DentalController::class, 'dental_detail'])->name('den.dental_detail'); //
+  Route::match(['get', 'post'], 'dental_save', [App\Http\Controllers\DentalController::class, 'dental_save'])->name('den.dental_save'); //
+  Route::match(['get', 'post'], 'dental_edit/{id}', [App\Http\Controllers\DentalController::class, 'dental_edit'])->name('den.dental_edit'); //
+  Route::match(['get', 'post'], 'dental_update', [App\Http\Controllers\DentalController::class, 'dental_update'])->name('den.dental_update'); //
 
-    Route::match(['get', 'post'], 'dental_assis/{id}', [App\Http\Controllers\DentalController::class, 'dental_assis'])->name('den.dental_assis'); //
-    Route::match(['get', 'post'], 'dental_doctor/{id}', [App\Http\Controllers\DentalController::class, 'dental_doctor'])->name('den.dental_doctor'); //
+  Route::match(['get', 'post'], 'dental_assistant', [App\Http\Controllers\DentalController::class, 'dental_assistant'])->name('den.dental_assistant'); //
 
-    Route::match(['get', 'post'], 'dental_calendar', [App\Http\Controllers\DentalController::class, 'dental_calendar'])->name('den.dental_calendar'); //
-    Route::match(['get', 'post'], 'dental_calendarsave', [App\Http\Controllers\DentalController::class, 'dental_calendarsave'])->name('den.dental_calendarsave'); //
-    Route::match(['get', 'post'], 'dental_appointment_add', [App\Http\Controllers\DentalController::class, 'dental_appointment_add'])->name('den.dental_appointment_add'); //เพิ่มรายการนัดหมาย
-    Route::match(['get', 'post'], 'dental_appointment_save', [App\Http\Controllers\DentalController::class, 'dental_appointment_save'])->name('den.dental_appointment_save');
+  Route::match(['get', 'post'], 'dental_assis/{id}', [App\Http\Controllers\DentalController::class, 'dental_assis'])->name('den.dental_assis'); //
+  Route::match(['get', 'post'], 'dental_doctor/{id}', [App\Http\Controllers\DentalController::class, 'dental_doctor'])->name('den.dental_doctor'); //
 
-    Route::match(['get', 'post'], 'dental_setting_type', [App\Http\Controllers\DentalController::class, 'dental_setting_type'])->name('den.dental_setting_type'); // ตั้งค่าประเภทนัดหมาย
-    Route::match(['get', 'post'], 'dental_setting_type_add', [App\Http\Controllers\DentalController::class, 'dental_setting_type_add'])->name('den.dental_setting_type_add'); //หน้าเพิ่มประเภทนัดหมาย
-    Route::match(['get', 'post'], 'dental_setting_type_save', [App\Http\Controllers\DentalController::class, 'dental_setting_type_save'])->name('den.dental_setting_type_save');
-    Route::match(['get', 'post'], 'dental_setting_type_edit/{id}', [App\Http\Controllers\DentalController::class, 'dental_setting_type_edit'])->name('den.dental_setting_type_edit');
-    Route::match(['get', 'post'], 'dental_setting_type_update', [App\Http\Controllers\DentalController::class, 'dental_setting_type_update'])->name('den.dental_setting_type_update');//อัพเดท
-    Route::match(['get', 'post'], 'dental_setting_type_delete/{id}', [App\Http\Controllers\DentalController::class, 'dental_setting_type_delete'])->name('den.dental_setting_type_delete');
-    
-    Route::match(['get', 'post'], 'dental_switchactive', [App\Http\Controllers\DentalController::class, 'dental_switchactive'])->name('den.dental_switchactive'); // switchactive
+  Route::match(['get', 'post'], 'dental_calendar', [App\Http\Controllers\DentalController::class, 'dental_calendar'])->name('den.dental_calendar'); //
+  Route::match(['get', 'post'], 'dental_calendarsave', [App\Http\Controllers\DentalController::class, 'dental_calendarsave'])->name('den.dental_calendarsave'); //
+  Route::match(['get', 'post'], 'dental_appointment_add', [App\Http\Controllers\DentalController::class, 'dental_appointment_add'])->name('den.dental_appointment_add'); //เพิ่มรายการนัดหมาย
+  Route::match(['get', 'post'], 'dental_appointment_save', [App\Http\Controllers\DentalController::class, 'dental_appointment_save'])->name('den.dental_appointment_save');
 
-    Route::match(['get', 'post'], 'dental_detail_patient', [App\Http\Controllers\DentalController::class, 'dental_detail_patient'])->name('den.dental_detail_patient'); //
-    Route::match(['get', 'post'], 'dental_detail_patient_cid', [App\Http\Controllers\DentalController::class, 'dental_detail_patient_cid'])->name('den.dental_detail_patient_cid'); //
-    Route::match(['get', 'post'], 'dental_detail_patient_tel', [App\Http\Controllers\DentalController::class, 'dental_detail_patient_tel'])->name('den.dental_detail_patient_tel'); //
+  Route::match(['get', 'post'], 'dental_setting_type', [App\Http\Controllers\DentalController::class, 'dental_setting_type'])->name('den.dental_setting_type'); // ตั้งค่าประเภทนัดหมาย
+  Route::match(['get', 'post'], 'dental_setting_type_add', [App\Http\Controllers\DentalController::class, 'dental_setting_type_add'])->name('den.dental_setting_type_add'); //หน้าเพิ่มประเภทนัดหมาย
+  Route::match(['get', 'post'], 'dental_setting_type_save', [App\Http\Controllers\DentalController::class, 'dental_setting_type_save'])->name('den.dental_setting_type_save');
+  Route::match(['get', 'post'], 'dental_setting_type_edit/{id}', [App\Http\Controllers\DentalController::class, 'dental_setting_type_edit'])->name('den.dental_setting_type_edit');
+  Route::match(['get', 'post'], 'dental_setting_type_update', [App\Http\Controllers\DentalController::class, 'dental_setting_type_update'])->name('den.dental_setting_type_update');//อัพเดท
+  Route::match(['get', 'post'], 'dental_setting_type_delete/{id}', [App\Http\Controllers\DentalController::class, 'dental_setting_type_delete'])->name('den.dental_setting_type_delete');
+
+  Route::match(['get', 'post'], 'dental_switchactive', [App\Http\Controllers\DentalController::class, 'dental_switchactive'])->name('den.dental_switchactive'); // switchactive
+
+  Route::match(['get', 'post'], 'dental_detail_patient', [App\Http\Controllers\DentalController::class, 'dental_detail_patient'])->name('den.dental_detail_patient'); //
+  Route::match(['get', 'post'], 'dental_detail_patient_cid', [App\Http\Controllers\DentalController::class, 'dental_detail_patient_cid'])->name('den.dental_detail_patient_cid'); //
+  Route::match(['get', 'post'], 'dental_detail_patient_tel', [App\Http\Controllers\DentalController::class, 'dental_detail_patient_tel'])->name('den.dental_detail_patient_tel'); //
 
 });

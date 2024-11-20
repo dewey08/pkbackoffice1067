@@ -87,12 +87,7 @@ if (Auth::check()) {
 
         <div class="main-card card">
             <div class="card-header" >
-                {{-- <h4 class="card-title"  style="color:rgba(21, 177, 60, 0.871)">รายระเอียดผลวิเคราะห์คุณภาพน้ำทิ้ง</h4>                
-                <div class="btn-actions-pane-right">
-                    <div class="nav">
-                        <a href="{{ url('env_water_add_pond') }}" class="btn btn-outline-success">เพิ่มข้อมูล</a>                        
-                    </div>
-                </div> --}}
+                
                 <form action="{{ route('env.env_water') }}" method="GET">
                     @csrf
                 <div class="row"> 
