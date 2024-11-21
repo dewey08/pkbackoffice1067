@@ -85,15 +85,36 @@ if (Auth::check()) {
 
         <div class="main-card mb-3 card">
             <div class="card-header">
-                <h4 class="card-title"  style="color:rgba(21, 177, 60, 0.871)">รายระเอียดข้อมูลขยะ</h4>   
-                <div class="btn-actions-pane-right">
-                    <div class="nav">
-                        <div class="col-md-12 text-end">
-                            <a href="{{ url('env_trash_add') }}" class="mb-2 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">เพิ่มข้อมูล</a>
-                            {{-- <a href="{{ url('dental_appointment_add') }}" class="mb-1 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">เพิ่มข้อมูลนัดหมาย</a> --}}
+                <form action="{{ route('env.env_trash') }}" method="GET">
+                    @csrf
+                    <div class="row"> 
+                    <div class="col-md-4">
+                        <h4 class="card-title"  style="color:rgba(21, 177, 60, 0.871)">รายระเอียดข้อมูลขยะ</h4>   
+                    </div>
+                    <div class="col"></div>
+                    <div class="col-md-1 text-end">วันที่</div>
+                    <div class="col-md-4 text-center">
+                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
+                                data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                    data-date-language="th-th" value="{{ $startdate }}" required/>
+                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                    data-date-language="th-th" value="{{ $enddate }}" required/> 
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa-solid fa-magnifying-glass me-2"></i>
+                                        ค้นหา
+                                    </button> 
+                                    
+                </form>
                         </div>
                     </div>
+                    <div class="col-md-1 text-end">
+                        <a href="{{ url('env_trash_add') }}" class="btn btn-outline-success">เพิ่มข้อมูล</a> 
+                    </div>
                 </div>
+                
             </div>
            
             <div class="card-body">
@@ -101,7 +122,7 @@ if (Auth::check()) {
                     <div class="tab-pane active" id="tab-eg2-0" role="tabpanel">
                         <p>
                              
-                            <form action="{{ route('env.env_trash') }}" method="POST">
+                            {{-- <form action="{{ route('env.env_trash') }}" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-1 text-end">วันที่</div>
@@ -121,7 +142,7 @@ if (Auth::check()) {
                                             <i class="fa-solid fa-magnifying-glass me-2"></i>ค้นหา
                                         </button>                         
                                     </div>
-                            </form> 
+                            </form>  --}}
                             {{-- <div class="table-responsive mt-3"> --}}
                                 <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example2">
                                     <thead>

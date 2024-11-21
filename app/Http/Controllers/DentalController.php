@@ -654,9 +654,6 @@ class DentalController extends Controller
     {
         $hn                 =  $request->dent_hn;
         
-        $data_users = User::where('id','=',$request->dent_doctor)->first();
-        $name = $data_users->fname.' '.$data_users->lname;
-
         if ($hn != '') {
             $data_show          = Patient::where('hn',$hn)->first();        
             $data_cid           = $data_show->cid;
@@ -671,11 +668,12 @@ class DentalController extends Controller
             $appointment_name   = $data_type->appointment_name;
 
             $data_users         = User::where('id','=',$request->dent_doctor)->first();
-            $dent_doctor        = $data_users->dent_doctor;
-            $dent_doctor_name   = $data_users->dent_doctor_name;
+            $dent_doctor_name   = $data_users->fname.'  '.$data_users->lname;
+           
             
             $data_ptname        = $data_show->pname.''.$data_show->fname.'  '.$data_show->lname;
             $data_hometel       = $data_show->hometel;
+
             if ($data_hometel =='') {
                 $data_hometel_  = '';
             } else {
@@ -692,7 +690,8 @@ class DentalController extends Controller
                 'dent_time'             => $request->dent_time,
                 'appointment_id'        => $appointment_id,
                 'appointment_name'      => $appointment_name, 
-                'dent_doctor'           => $request->dent_doctor, 
+                'dent_doctor'           => $request->dent_doctor,
+                'dent_doctor_name'      => $dent_doctor_name, 
                 'user_save'             => Auth::user()->id
             ]);
             return response()->json([ 
@@ -880,8 +879,8 @@ class DentalController extends Controller
     // ************************* Report  *************************
     public function dental_report_appointment(Request $request)
     {
-        $datestart               = $request->startdate;
-        $dateend                 = $request->enddate;
+        $startdate               = $request->startdate;
+        $enddate                 = $request->enddate;
         $datenow                 = date('Y-m-d');
         $data['date_now']        = date('Y-m-d');
         $data['m']               = date('H');
@@ -903,30 +902,23 @@ class DentalController extends Controller
 
         $data_appointment = DB::table('dent_appointment_type')->where('status','=','Y')->get();
 
-        if ($datestart == '') {
-                $datashow  = DB::connection('mysql')->select('
-                    SELECT * FROM dent_appointment 
-            ');
-        } else {
-            if ($data['appointment_id'] != '') {
-                $datashow = DB::connection('mysql')->select('
-                    
-                
-                ');
-            } else {
-                $datashow = DB::connection('mysql')->select('
-                    
-                
-                ');
-            }
-        }
+
+        $datashow = DB::connection('mysql')->select(            
+            'SELECT * FROM dent_appointment 
+                where dent_date = "'.$datenow.'" 
+                limit 20
+        ');
+
+        
+
+        
 
         $data['dent_appointment_type']  = DB::table('dent_appointment_type')->get();
             
         
         return view('dent.dental_report_appointment',$data,[
-            'datestart'     => $datestart,
-            'dateend'       => $dateend, 
+            'startdate'     => $startdate,
+            'enddate'       => $enddate, 
             'datashow'      => $datashow,
             'den_app'       => $data_appointment,
         ]);

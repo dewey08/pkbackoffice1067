@@ -83,21 +83,22 @@ if (Auth::check()) {
                         <div class="col"></div>
                         <div class="col-md-2">
                             <select name="appointment_id" id="appointment_id" class="form-control" style="width: 100%" required>
-                                <option value="">-เลือกประเภทการนัด-</option>
+                                <option class="text-center" value="">-เลือกประเภทการนัด-</option>
                                 @foreach ($den_app as $item_app)                                    
                                         <option value="{{$item_app->appointment_id}}">{{$item_app->appointment_name}}</option>                                       
                                 @endforeach
-        
                             </select>
                         </div>
+
                         <div class="col-md-4">
-                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                <input type="text" class="form-control" name="datestart" id="datepicker" placeholder="Start Date"
-                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" data-date-language="th-th" value="{{ $datestart }}" required />
-                                <input type="text" class="form-control" name="dateend" placeholder="End Date" id="datepicker2"
-                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" data-date-language="th-th" value="{{ $dateend }}" required />
+                            <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" data-date-language="th-th" value="{{ $startdate }}" required />
+                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" data-date-language="th-th" value="{{ $enddate }}" required />
+                                
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fa-solid fa-magnifying-glass me-2"></i>
+                                    <img src="{{ asset('images/Search02.png') }}" class="ms-2 me-2" height="23px" width="23px"> 
                                     ค้นหา
                                 </button>
                             </div> 
@@ -105,11 +106,7 @@ if (Auth::check()) {
                         <div class="col"></div>
                     </div>
                 </form>                           
-                {{-- <div class="btn-actions-pane-right">
-                    <div class="col-md-12 text-end">
-                        <a href="{{ url('dental_setting_type_add') }}" class="mb-1 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">เพิ่มข้อมูล</a>
-                    </div>
-                </div> --}}
+                
             </div>
 
             <div class="card-body">
@@ -120,21 +117,21 @@ if (Auth::check()) {
                                 @csrf
                             </form>  
                             <div class="table-responsive mt-3">
-                                <div class="col-md-4">  
+                                <div class="col-md-12 text-center" >  
                                     <h4 style="color:rgb(206, 29, 147)">รายงานการนัดคนไข้ แยกประเภทการนัด</h4>  
                                 </div>
                                 <table class="table table-sm table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%; id="example2">
                                     <thead>
                                         <tr>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 16px;" width="5%">ลำดับ</th>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 16px;" width="10%">HN</th>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 16px;" width="10%">เลขบัตรประชาชน</th> 
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 16px;" width="10%">ชื่อ - นามสกุล</th>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 16px;" width="10%">เบอร์โทร</th>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 16px;" width="10%">วันที่นัด</th>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 16px;" width="10%">เวลานัด</th>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 16px;" width="10%">ประเภทการนัด</th>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 16px;" width="10%">ชื่อทันตแพทย์</th> 
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="5%">ลำดับ</th>
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">HN</th>
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">เลขบัตรประชาชน</th> 
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">ชื่อ - นามสกุล</th>
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">เบอร์โทร</th>
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">วันที่นัด</th>
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">เวลานัด</th>
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">ประเภทการนัด</th>
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">ชื่อทันตแพทย์</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -149,7 +146,7 @@ if (Auth::check()) {
                                                 <td class="text-center"width="2%">{{DateThai($item->dent_date)}}</td>
                                                 <td class="text-center"width="3%">{{$item->dent_time}}</td> 
                                                 <td class="text-center"width="5%">{{$item->appointment_name}}</td>
-                                                <td class="text-center"width="1%">{{$item->dent_doctor}}</td> 
+                                                <td class="text-center"width="1%">{{$item->dent_doctor_name}}</td> 
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -163,8 +160,6 @@ if (Auth::check()) {
             
         </div>
 </div> 
-
- 
       
 @endsection
 @section('footer')

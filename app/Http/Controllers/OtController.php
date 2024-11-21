@@ -406,33 +406,33 @@ class OtController extends Controller
     }
 
     public function profile_edit(Request $request,$id)
-{   
-    $data['q'] = $request->query('q');
-    $query = User::select('users.*')
-    // ->leftjoin('store_manager','store_manager.store_id','=','users.store_id')
-    ->where(function ($query) use ($data){
-        $query->where('pname','like','%'.$data['q'].'%');
-        $query->orwhere('fname','like','%'.$data['q'].'%');
-        $query->orwhere('lname','like','%'.$data['q'].'%');
-        $query->orwhere('tel','like','%'.$data['q'].'%');
-        $query->orwhere('username','like','%'.$data['q'].'%');
-    });
-    $data['users'] = $query->orderBy('id','DESC')->get();
-    $data['department'] = Department::get();
-    $data['department_sub'] = Departmentsub::get();
-    $data['department_sub_sub'] = Departmentsubsub::get();
-    $data['position'] = Position::get();
-    $data['status'] = Status::get();
-    $data['users_prefix'] = Users_prefix::get();
-    $data['users_kind_type'] = Users_kind_type::get();
-    $data['users_group'] = Users_group::get();
+    {   
+        $data['q'] = $request->query('q');
+        $query = User::select('users.*')
+        // ->leftjoin('store_manager','store_manager.store_id','=','users.store_id')
+        ->where(function ($query) use ($data){
+            $query->where('pname','like','%'.$data['q'].'%');
+            $query->orwhere('fname','like','%'.$data['q'].'%');
+            $query->orwhere('lname','like','%'.$data['q'].'%');
+            $query->orwhere('tel','like','%'.$data['q'].'%');
+            $query->orwhere('username','like','%'.$data['q'].'%');
+        });
+        $data['users'] = $query->orderBy('id','DESC')->get();
+        $data['department'] = Department::get();
+        $data['department_sub'] = Departmentsub::get();
+        $data['department_sub_sub'] = Departmentsubsub::get();
+        $data['position'] = Position::get();
+        $data['status'] = Status::get();
+        $data['users_prefix'] = Users_prefix::get();
+        $data['users_kind_type'] = Users_kind_type::get();
+        $data['users_group'] = Users_group::get();
 
-    $dataedit = User::where('id','=',$id)->first();
+        $dataedit = User::where('id','=',$id)->first();
 
-    return view('ot.profile_edit',$data,[
-        'dataedits'=>$dataedit
-    ]);
-}
+        return view('ot.profile_edit',$data,[
+            'dataedits'=>$dataedit
+        ]);
+    }
     public function profile_update(Request $request)
     {
         $date =  date('Y');
