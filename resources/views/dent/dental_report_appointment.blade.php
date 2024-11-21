@@ -90,12 +90,12 @@ if (Auth::check()) {
                             </select>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-4">                            
                             <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                                 <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
                                     data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" data-date-language="th-th" value="{{ $startdate }}" required />
                                 <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" data-date-language="th-th" value="{{ $enddate }}" required />
+                                    data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" data-date-language="th-th" value="{{ $enddate }}"/>
                                 
                                 <button type="submit" class="btn btn-primary">
                                     <img src="{{ asset('images/Search02.png') }}" class="ms-2 me-2" height="23px" width="23px"> 
@@ -183,7 +183,7 @@ if (Auth::check()) {
                 })
        }
 </script>
-{{-- <script>
+<script>
     
     $(document).ready(function() {
         // $("#overlay").fadeIn(300);　
@@ -207,65 +207,65 @@ if (Auth::check()) {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
         });
-        $('#HR_DEPARTMENT_ID').select2({
-                placeholder: "--เลือก--",
-                allowClear: true
-            });
-        $('#HR_DEPARTMENT_SUB_ID').select2({
-                placeholder: "--เลือก--",
-                allowClear: true
-            });
-        $('#HR_DEPARTMENT_SUB_SUB_ID').select2({
-            placeholder: "--เลือก--",
-            allowClear: true
-        });
+        // $('#HR_DEPARTMENT_ID').select2({
+        //         placeholder: "--เลือก--",
+        //         allowClear: true
+        //     });
+        // $('#HR_DEPARTMENT_SUB_ID').select2({
+        //         placeholder: "--เลือก--",
+        //         allowClear: true
+        //     });
+        // $('#HR_DEPARTMENT_SUB_SUB_ID').select2({
+        //     placeholder: "--เลือก--",
+        //     allowClear: true
+        // });
 
-        $("#spinner-div").hide(); //Request is complete so hide spinner
+        // $("#spinner-div").hide(); //Request is complete so hide spinner
 
-        $('#Savetime').click(function() {
-            var startdate = $('#datepicker').val();
-            var enddate = $('#datepicker2').val();
-            var HR_DEPARTMENT_SUB_ID = $('#HR_DEPARTMENT_SUB_ID').val();
-            var HR_DEPARTMENT_SUB_SUB_ID = $('#HR_DEPARTMENT_SUB_SUB_ID').val(); 
-            $.ajax({
-                url: "{{ route('t.time_index_excel') }}",
-                type: "POST",
-                dataType: 'json',
-                data: {
-                    startdate,
-                    enddate,
-                    HR_DEPARTMENT_SUB_ID,
-                    HR_DEPARTMENT_SUB_SUB_ID
-                },
-                success: function(data) {
-                    if (data.status == 200) { 
-                        Swal.fire({
-                            title: 'บันทึกข้อมูลสำเร็จ',
-                            text: "You Insert data success",
-                            icon: 'success',
-                            showCancelButton: false,
-                            confirmButtonColor: '#06D177',
-                            confirmButtonText: 'เรียบร้อย'
-                        }).then((result) => {
-                            if (result
-                                .isConfirmed) {
-                                console.log(
-                                    data);
+        // $('#Savetime').click(function() {
+        //     var startdate = $('#datepicker').val();
+        //     var enddate = $('#datepicker2').val();
+        //     var HR_DEPARTMENT_SUB_ID = $('#HR_DEPARTMENT_SUB_ID').val();
+        //     var HR_DEPARTMENT_SUB_SUB_ID = $('#HR_DEPARTMENT_SUB_SUB_ID').val(); 
+        //     $.ajax({
+        //         url: "{{ route('t.time_index_excel') }}",
+        //         type: "POST",
+        //         dataType: 'json',
+        //         data: {
+        //             startdate,
+        //             enddate,
+        //             HR_DEPARTMENT_SUB_ID,
+        //             HR_DEPARTMENT_SUB_SUB_ID
+        //         },
+        //         success: function(data) {
+        //             if (data.status == 200) { 
+        //                 Swal.fire({
+        //                     title: 'บันทึกข้อมูลสำเร็จ',
+        //                     text: "You Insert data success",
+        //                     icon: 'success',
+        //                     showCancelButton: false,
+        //                     confirmButtonColor: '#06D177',
+        //                     confirmButtonText: 'เรียบร้อย'
+        //                 }).then((result) => {
+        //                     if (result
+        //                         .isConfirmed) {
+        //                         console.log(
+        //                             data);
 
-                                window.location
-                                    .reload();
-                            }
-                        })
-                    } else {
+        //                         window.location
+        //                             .reload();
+        //                     }
+        //                 })
+        //             } else {
 
-                    }
+        //             }
 
-                },
-            });
-        });  
+        //         },
+        //     });
+        // });  
     });
 </script>
-<script>
+{{-- <script>
     $('.department').change(function () {
             if ($(this).val() != '') {
                     var select = $(this).val();

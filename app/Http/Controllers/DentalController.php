@@ -881,6 +881,7 @@ class DentalController extends Controller
     {
         $startdate               = $request->startdate;
         $enddate                 = $request->enddate;
+        $appointment_id          = $request->appointment_id;
         $datenow                 = date('Y-m-d');
         $data['date_now']        = date('Y-m-d');
         $data['m']               = date('H');
@@ -902,16 +903,18 @@ class DentalController extends Controller
 
         $data_appointment = DB::table('dent_appointment_type')->where('status','=','Y')->get();
 
-
-        $datashow = DB::connection('mysql')->select(            
-            'SELECT * FROM dent_appointment 
-                where dent_date = "'.$datenow.'" 
-                limit 20
-        ');
-
-        
-
-        
+        if ($startdate != '') {
+            $datashow = DB::connection('mysql')->select(            
+                'SELECT * FROM dent_appointment 
+                    WHERE dent_date BETWEEN "'.$startdate.'"  AND  "'.$enddate.'"  AND appointment_id ="'.$appointment_id.'"
+            ');
+        } else {
+            $datashow = DB::connection('mysql')->select(            
+                'SELECT * FROM dent_appointment 
+                    WHERE dent_date = "'.$datenow.'"   
+                  
+            ');
+        }
 
         $data['dent_appointment_type']  = DB::table('dent_appointment_type')->get();
             
