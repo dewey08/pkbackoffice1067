@@ -280,7 +280,7 @@ class Account802Controller extends Controller
         $datenow = date('Y-m-d');
         $months = date('m');
         $year = date('Y');
-        $newday = date('Y-m-d', strtotime($datenow . ' -30 Day')); //ย้อนหลัง 30 วัน
+        $newday = date('Y-m-d', strtotime($datenow . ' -15 Day')); //ย้อนหลัง 30 วัน
         $startdate = $request->startdate;
         $enddate   = $request->enddate;
         
@@ -372,16 +372,20 @@ class Account802Controller extends Controller
                     GROUP BY i.an
                 
             ');
-    
+            $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+            $bg_yearnow    = $bgs_year->leave_year_id;
             foreach ($acc_debtor as $key => $value) {
                         $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050102.802')->count();
                         if ($check > 0) {
                             Acc_debtor::where('an', $value->an)->where('account_code','1102050102.802')->update([
                                 'pdx'            => $value->icd10,
-                                'debit_total'    => $value->income
+                                'icd10'          => $value->icd10,
+                                'debit_total'    => $value->income,
+                                'bg_yearnow'     => $bg_yearnow,
                             ]);
                         } else {
                             Acc_debtor::insert([
+                                'bg_yearnow'         => $bg_yearnow,
                                 'hn'                 => $value->hn,
                                 'an'                 => $value->an,
                                 'vn'                 => $value->vn,
@@ -550,6 +554,7 @@ class Account802Controller extends Controller
                  # code...
                  } else {
                      acc_1102050102_802::insert([
+                            'bg_yearnow'         => $value->bg_yearnow,
                              'vn'                => $value->vn,
                              'hn'                => $value->hn,
                              'an'                => $value->an,

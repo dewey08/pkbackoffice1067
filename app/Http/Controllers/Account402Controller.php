@@ -296,16 +296,14 @@ class Account402Controller extends Controller
         $newday = date('Y-m-d', strtotime($datenow . ' -30 Day')); //ย้อนหลัง 1 สัปดาห์
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
-            $startdate = '';
-            $enddate = '';
+            // $startdate = '';
+            // $enddate = '';
             $acc_debtor = DB::select('
                 SELECT * from acc_debtor  
                 WHERE account_code="1102050101.402"
-                AND dchdate BETWEEN "' . $newday . '" AND "' . $datenow . '"
-            
+                AND dchdate BETWEEN "' . $newday . '" AND "' . $datenow . '"            
                 group by an
-                order by dchdate DESC;
-
+                order by dchdate DESC
             ');
             $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="OFC_402"'); 
             $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="OFC_402"'); 
@@ -357,7 +355,7 @@ class Account402Controller extends Controller
             $data['count_no'] = Acc_debtor::where('approval_code','<>','')->where('account_code','=','1102050101.402')->whereBetween('dchdate', [$startdate, $enddate])->count();
             $data['count_null'] = Acc_debtor::where('approval_code','=',Null)->where('account_code','=','1102050101.402')->whereBetween('dchdate', [$startdate, $enddate])->count();
             $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.402')->whereBetween('dchdate', [$startdate, $enddate])->count();
-            $data['count_noclaim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.402')->whereBetween('dchdate', [$startdate, $enddate])->count();
+            $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050101.402')->whereBetween('dchdate', [$startdate, $enddate])->count();
         }
 
         $data_activeclaim        = Acc_function::where('pang','1102050101.402')->first();
@@ -372,7 +370,11 @@ class Account402Controller extends Controller
     }
     function account_402_claimswitch(Request $request)
     {  
-        Acc_function::where('pang','1102050101.402')->update(['claim_active'=> $request->onoff]);  
+   
+        Acc_function::where('pang','1102050101.402')->update(['claim_active'=> $request->onoff]); 
+        return response()->json([
+            'status'    => '200'
+        ]); 
     }
     public function account_402_checksit(Request $request)
     {
@@ -470,7 +472,7 @@ class Account402Controller extends Controller
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                 ,(SELECT SUM(sum_price) FROM opitemrece WHERE an = a.an AND icode IN(SELECT icode FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.4022" AND icode IS NOT NULL)) as fokliad
-                ,ptt.max_debt_money,i.rw,i.adjrw,i.adjrw*9000 as total_adjrw_income,di.icd10 as DIAG
+                ,ptt.max_debt_money,i.rw,i.adjrw,i.adjrw*9000 as total_adjrw_income,di.icd10  
                 
                 from ipt i
                 left join an_stat a on a.an=i.an
@@ -522,9 +524,16 @@ class Account402Controller extends Controller
             if ($value->debit >0) {
                
                 $check = Acc_debtor::where('an', $value->an)->where('account_code','1102050101.402')->count();
-                if ($check == 0) {
+                if ($check > 0) {
+                    Acc_debtor::where('vn', $value->vn)->update([
+                        'pdx'                => $value->icd10,
+                        'icd10'              => $value->icd10,  
+                        'debit_total'        => $value->income,
+                        'bg_yearnow'         => $bg_yearnow,
+                    ]);
+                }else{
                     Acc_debtor::insert([
-                        'bg_yearnow'         => $value->bg_yearnow,
+                        'bg_yearnow'         => $bg_yearnow,
                         'hn'                 => $value->hn,
                         'an'                 => $value->an,
                         'vn'                 => $value->vn,
@@ -547,7 +556,7 @@ class Account402Controller extends Controller
                         'debit_instument'    => $value->debit_instument,
                         'debit_toa'          => $value->debit_toa,
                         'debit_refer'        => $value->debit_refer,
-                        'debit_total'        => $value->debit - $value->fokliad,
+                        'debit_total'        => $value->income - $value->fokliad,
                         'max_debt_amount'    => $value->max_debt_money,
                         'fokliad'            => $value->fokliad,
                         'pdx'                => $value->DIAG,
@@ -1660,7 +1669,7 @@ class Account402Controller extends Controller
             ');
            
             foreach ($data_dru_ as $va_14) {
-                if ($va_14->AMOUNT < 1) {
+                if (($va_14->AMOUNT*$va_14->DRUGPRIC) < 1) {
                     # code...
                 } else {
                     D_dru::insert([ 
@@ -1673,7 +1682,7 @@ class Account402Controller extends Controller
                         'DID'            => $va_14->DID,
                         'DIDNAME'        => $va_14->DIDNAME, 
                         'AMOUNT'         => $va_14->AMOUNT,
-                        'DRUGPRICE'       => $va_14->DRUGPRIC,
+                        'DRUGPRICE'      => $va_14->DRUGPRIC,
                         'DRUGCOST'       => $va_14->DRUGCOST,
                         'DIDSTD'         => $va_14->DIDSTD,
                         'UNIT'           => $va_14->UNIT,

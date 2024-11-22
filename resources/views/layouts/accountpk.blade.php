@@ -314,8 +314,8 @@ if (Auth::check()) {
     {{-- <body data-topbar="dark" data-layout="horizontal"> --}}
     <div id="layout-wrapper">
         
-        <header id="page-topbar" style="background-color: rgb(252, 76, 105)">
-      
+        {{-- <header id="page-topbar" style="background-color: rgb(252, 76, 105)"> --}}
+        <header id="page-topbar" style="background-color: #f47fbd">
             <div class="navbar-header">
                 <div class="d-flex">
                     <!-- LOGO -->
@@ -389,8 +389,8 @@ if (Auth::check()) {
                 </div>
             </div>
         </header>
-     
-        <div class="topnav">
+        {{-- <div class="topnav" style="color: #e8f8d8"> --}}
+        <div class="topnav" style="background-color: #e8f8d8">
             <div class="container-fluid">
                 <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
 
@@ -1251,10 +1251,10 @@ if (Auth::check()) {
                     @yield('content') 
             </div>
 
-            <footer class="footer">
+            <footer class="footer" style="background-color: #ffb9de">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-sm-6" style="color:#fd1b5f">
+                        <div class="col-sm-6" style="color:#ffffff;font-size:17px;">
                             <script>
                                 document.write(new Date().getFullYear())
                             </script> © โรงพยาบาลภูเขียวเฉลิมพระเกียรติ
@@ -1262,7 +1262,7 @@ if (Auth::check()) {
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
                                 {{-- Created with <i class="mdi mdi-heart text-danger"></i> by --}}
-                                <p style="color:#fd1b5f">Created with <i class="mdi mdi-heart text-danger"></i> by ประดิษฐ์ ระหา - กลุ่มงานสุขภาพดิจิทัล</p>
+                                <p style="color:#ffffff;font-size:17px;">Created with <i class="mdi mdi-heart text-danger"></i> by ประดิษฐ์ ระหา - กลุ่มงานสุขภาพดิจิทัล</p>
                                 
                             </div>
                         </div>

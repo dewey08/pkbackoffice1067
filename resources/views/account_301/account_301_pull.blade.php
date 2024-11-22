@@ -106,8 +106,11 @@
                     <input type="text" class="form-control-sm cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
                         <button type="submit" class="ladda-button btn-pill btn btn-sm btn-info cardacc" data-style="expand-left">
-                            <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
-                            <span class="ladda-spinner"></span>
+                            <span class="ladda-label">
+                                {{-- <i class="fa-solid fa-magnifying-glass text-white me-2"></i> --}}
+                                <img src="{{ asset('images/Search02.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
+                                ค้นหา</span>
+                            {{-- <span class="ladda-spinner"></span> --}}
                         </button>
                 {{-- <button type="button" class="btn-icon btn-rounded btn-shadow btn-dashed btn btn-outline-primary" id="Pulldata">
                     <i class="fa-solid fa-file-circle-plus text-primary me-2"></i>
@@ -116,8 +119,11 @@
 
             </form>
                 <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary cardacc" data-style="expand-left" id="Pulldata">
-                    <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
-                    <span class="ladda-spinner"></span>
+                    <span class="ladda-label"> 
+                        {{-- <i class="fa-solid fa-file-circle-plus text-white me-2"></i> --}}
+                        <img src="{{ asset('images/pull_datawhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
+                        ดึงข้อมูล</span>
+                    {{-- <span class="ladda-spinner"></span> --}}
                 </button>  
                 </div>  
             </div>
@@ -127,61 +133,53 @@
         
         <div class="row">
             <div class="col-xl-12">
-                <div class="card card_audit_4c">
+                <div class="card card_audit_4c" style="background-color: rgb(246, 235, 247)">
                     <div class="card-body">
                        
                       
                         <div class="row">
                             <div class="col-md-6">
                                  <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-warning input_new Claim" data-url="{{url('account_301_claim')}}">
-                                    <i class="fa-solid fa-spinner me-2"></i>
+                                    <img src="{{ asset('images/loading_white.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                    ประมวลผล
                                </button>
                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm input_new text-white Updateprescb" style="background-color: #07dfc2" data-url="{{url('account_301_prescb_update')}}">
-                                    <i class="fa-solid fa-pen-to-square me-2 text-white"></i>
+                                    {{-- <i class="fa-solid fa-pen-to-square me-2 text-white"></i> --}}
+                                    <img src="{{ asset('images/update_white.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                     Update Prescb
                                 </button>
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-sm input_new text-white Updatesvpid" style="background-color: #f82185" data-url="{{url('account_301_svpid_update')}}">
-                                    <i class="fa-solid fa-pen-to-square me-2 text-white"></i>
+                                    {{-- <i class="fa-solid fa-pen-to-square me-2 text-white"></i> --}}
+                                    <img src="{{ asset('images/update_white.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                     Update SvPID
                                 </button>
                                 <a href="{{url('account_301_export')}}" class="ladda-button me-2 btn-pill btn btn-sm input_new text-white" style="background-color: #07a1df">
-                                    <i class="fa-solid fa-file-export text-white me-2"></i>
+                                    {{-- <i class="fa-solid fa-file-export text-white me-2"></i> --}}
+                                    <img src="{{ asset('images/export_white.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                     Export
                                 </a>
                                <a href="{{url('account_301_zip')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new">
-                                        <i class="fa-regular fa-file-zipper text-white me-2"></i> 
+                                <img src="{{ asset('images/zipwhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                     Zip
                                 </a> 
-                                {{-- <a href="{{url('account_401_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new">
-                                        <i class="fa-regular fa-file-zipper text-white me-2"></i> 
-                                    Zip
-                                </a> --}}
-                                {{-- <h4 class="card-title" style="color:rgb(10, 151, 85)">Detail Account ผัง 1102050101.301</h4>  --}}
-                                {{-- <p class="card-title-desc">รายละเอียดตั้งลูกหนี้</p> --}}
+                                
                             </div>  
                             <div class="col"></div>
                             <div class="col-md-3 text-end mb-2">
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-info btn-sm input_new Check_sit" data-url="{{url('account_301_checksit')}}">
-                                    <i class="fa-solid fa-user me-2"></i>
+                                    <img src="{{ asset('images/Check_sitwhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                     ตรวจสอบสิทธิ์ 
                                 </button>
-                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-info cardacc" id="Check_sit">
-                                    <i class="fa-solid fa-user me-2"></i>
-                                    ตรวจสอบสิทธิ์
-                                </button> --}}
+                            
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary cardacc Savestamp" data-url="{{url('account_301_stam')}}">
-                                    <i class="fa-solid fa-file-waveform me-2"></i>
+                                    <img src="{{ asset('images/Stam_white.png') }}" class="me-2 ms-2" height="18px" width="18px">
                                     ตั้งลูกหนี้
                                 </button>
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger cardacc Destroystamp" data-url="{{url('account_301_destroy_all')}}">
-                                    <i class="fa-solid fa-trash-can me-2"></i>
+                                    <img src="{{ asset('images/removewhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                     ลบ
                                 </button>
-                                {{-- <button type="button" class="btn-rounded btn-icon btn-shadow btn-dashed btn btn-outline-info Savestamp" data-url="{{url('account_301_stam')}}">
-                                    <i class="fa-solid fa-file-waveform me-2"></i>
-                                    ตั้งลูกหนี้
-                                </button> --}}
+                                
                             </div>
                         </div>
 

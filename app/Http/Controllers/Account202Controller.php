@@ -47,6 +47,78 @@ use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
 use App\Models\Acc_stm_ucs_excel;
 use App\Models\Acc_ucep24;
+use App\Models\D_ins;
+use App\Models\D_pat;
+use App\Models\D_opd;
+use App\Models\D_orf;
+use App\Models\D_odx;
+use App\Models\D_cht;
+use App\Models\D_cha;
+use App\Models\D_oop; 
+use App\Models\D_adp;
+use App\Models\D_dru;
+use App\Models\D_idx;
+use App\Models\D_iop;
+use App\Models\D_ipd;
+use App\Models\D_aer;
+use App\Models\D_irf;
+
+use App\Models\Dapi_ins;
+use App\Models\Dapi_pat;
+use App\Models\Dapi_opd;
+use App\Models\Dapi_orf;
+use App\Models\Dapi_odx;
+use App\Models\Dapi_cht;
+use App\Models\Dapi_cha;
+use App\Models\Dapi_oop; 
+use App\Models\Dapi_adp;
+use App\Models\Dapi_dru;
+use App\Models\Dapi_idx;
+use App\Models\Dapi_iop;
+use App\Models\Dapi_ipd;
+use App\Models\Dapi_aer;
+use App\Models\Dapi_irf;
+use App\Models\Dapi_lvd;
+
+use App\Models\Acc_function;
+
+use App\Models\D_apiofc_ins;
+use App\Models\D_apiofc_iop;
+use App\Models\D_apiofc_adp;
+use App\Models\D_apiofc_aer;
+use App\Models\D_apiofc_cha;
+use App\Models\D_apiofc_cht;
+use App\Models\D_apiofc_dru;
+use App\Models\D_apiofc_idx;  
+use App\Models\D_apiofc_pat;
+use App\Models\D_apiofc_ipd;
+use App\Models\D_apiofc_irf;
+use App\Models\D_apiofc_ldv;
+use App\Models\D_apiofc_odx;
+use App\Models\D_apiofc_oop;
+use App\Models\D_apiofc_opd;
+use App\Models\D_apiofc_orf;
+
+use App\Models\Fdh_sesion;
+use App\Models\Fdh_ins;
+use App\Models\Fdh_pat;
+use App\Models\Fdh_opd;
+use App\Models\Fdh_orf;
+use App\Models\Fdh_odx;
+use App\Models\Fdh_cht;
+use App\Models\Fdh_cha;
+use App\Models\Fdh_oop; 
+use App\Models\Fdh_adp;
+use App\Models\Fdh_dru;
+use App\Models\Fdh_idx;
+use App\Models\Fdh_iop;
+use App\Models\Fdh_ipd;
+use App\Models\Fdh_aer;
+use App\Models\Fdh_irf;
+use App\Models\Acc_ofc_dateconfig;
+use App\Models\Acc_ucep_24;
+use App\Models\Acc_db_202;
+
 use PDF;
 use setasign\Fpdi\Fpdi;
 use App\Models\Budget_year;
@@ -62,18 +134,14 @@ use SoapClient;
 // use File;
 // use SplFileObject;
 use Arr;
-// use Storage;
-use GuzzleHttp\Client;
-
+use CURLFILE;
+use GuzzleHttp\Client; 
 use App\Imports\ImportAcc_stm_ti;
 use App\Imports\ImportAcc_stm_tiexcel_import;
 use App\Imports\ImportAcc_stm_ofcexcel_import;
 use App\Imports\ImportAcc_stm_lgoexcel_import;
 use App\Models\Acc_1102050101_217_stam;
-use App\Models\Acc_opitemrece_stm;
-use App\Models\Acc_ucep_24;
-use App\Models\Acc_db_202;
-
+use App\Models\Acc_opitemrece_stm; 
 use SplFileObject;
 use PHPExcel;
 use PHPExcel_IOFactory;
@@ -82,7 +150,14 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
-use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\IOFactory; 
+use App\Models\D_ofc_repexcel;
+use App\Models\D_ofc_rep; 
+use ZipArchive;  
+use Illuminate\Support\Facades\Redirect;
+use PhpParser\Node\Stmt\If_;
+use Stevebauman\Location\Facades\Location; 
+use Illuminate\Filesystem\Filesystem;
 
 date_default_timezone_set("Asia/Bangkok");
 
@@ -92,46 +167,136 @@ class Account202Controller extends Controller
      // *************************** 202 ********************************************
      public function account_pkucs202_pull(Request $request)
      {
-         $datenow = date('Y-m-d');
-         $months = date('m');
-         $year = date('Y');
-         // dd($year);
-         $startdate = $request->startdate;
-         $enddate = $request->enddate;
+        $datenow   = date('Y-m-d');
+        $months    = date('m');
+        $year      = date('Y');
+        $newday    = date('Y-m-d', strtotime($datenow . ' -2 Day')); //ย้อนหลัง 1 สัปดาห์
+        $startdate = $request->startdate;
+        $enddate   = $request->enddate;
          if ($startdate == '') {
              // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
              $acc_debtor = DB::select('
                  SELECT a.* 
                  from acc_debtor a 
                  WHERE account_code="1102050101.202" 
-                 AND stamp = "N" 
+                 AND a.dchdate BETWEEN "' . $newday . '" AND "' . $datenow . '"
                  AND a.debit_total > 0
                  group by a.an
-                 order by vstdate desc;
+                 order by dchdate desc;
  
              ');
-            //  left join check_sit_auto c on c.an = a.an
+             $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.202')->whereBetween('dchdate', [$newday, $datenow])->count();
+             $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050101.202')->whereBetween('dchdate', [$newday, $datenow])->count();
          } else {
-             $acc_debtor = DB::select('
-                 SELECT 
-                 a.acc_debtor_id,a.an,a.vn,a.hn,a.cid,a.ptname,a.pttype,a.dchdate,a.income,a.debit_total,a.debit_instument,a.debit_drug,a.debit_toa,a.debit_refer,a.debit_ucep 
-                 from acc_debtor a               
-                 
-                 WHERE a.account_code="1102050101.202" and a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
-                 AND a.stamp = "N" AND a.debit_total > 0
+             $acc_debtor = DB::select(
+                'SELECT *
+                 from acc_debtor a  
+                 WHERE a.account_code="1102050101.202" AND a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"               
+                 AND a.debit_total > 0
                  group by a.an
-                 order by a.dchdate desc;
-                 
+                 order by a.dchdate desc; 
              ');
-          
+             $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.202')->whereBetween('dchdate', [$startdate, $enddate])->count();
+             $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050101.202')->whereBetween('dchdate', [$startdate, $enddate])->count();
+            //  a.acc_debtor_id,a.an,a.vn,a.hn,a.cid,a.ptname,a.pttype,a.dchdate,a.income,a.debit_total,a.debit_instument,a.debit_drug,a.debit_toa,a.debit_refer,a.debit_ucep 
          }
+         $data_activeclaim        = Acc_function::where('pang','1102050101.202')->first();
+         $data['activeclaim']     = $data_activeclaim->claim_active;
+         $data['acc_function_id'] = $data_activeclaim->acc_function_id;
  
- 
-         return view('account_202.account_pkucs202_pull',[
+         return view('account_202.account_pkucs202_pull',$data,[
              'startdate'     =>     $startdate,
              'enddate'       =>     $enddate,
              'acc_debtor'      =>     $acc_debtor,
          ]);
+     }
+     function account_202_switch(Request $request)
+     {  
+         // $id = $request->idfunc;
+         Acc_function::where('pang','1102050101.202')->update(['claim_active'=> $request->onoff]); 
+         return response()->json([
+             'status'    => '200'
+         ]);
+     }
+     public function account_202_checksit(Request $request)
+     {
+         $datestart = $request->datestart;
+         $dateend   = $request->dateend;
+         $date      = date('Y-m-d');
+         $id        = $request->ids;
+         // $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050101.401" AND stamp = "N" GROUP BY vn');
+         $data_sitss = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+         $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+         foreach ($token_data as $key => $value) { 
+             $cid_    = $value->cid;
+             $token_  = $value->token;
+         }
+         foreach ($data_sitss as $key => $item) {
+             $pids = $item->cid;
+             $vn   = $item->vn; 
+             $an   = $item->an; 
+                 
+                     $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+                         array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
+                         );
+                         $params = array(
+                             'sequence' => array(
+                                 "user_person_id"   => "$cid_",
+                                 "smctoken"         => "$token_",
+                                 // "user_person_id" => "$value->cid",
+                                 // "smctoken"       => "$value->token",
+                                 "person_id"        => "$pids"
+                         )
+                     );
+                     $contents = $client->__soapCall('searchCurrentByPID',$params);
+                     foreach ($contents as $v) {
+                         @$status = $v->status ;
+                         @$maininscl = $v->maininscl;
+                         @$startdate = $v->startdate;
+                         @$hmain = $v->hmain ;
+                         @$subinscl = $v->subinscl ;
+                         @$person_id_nhso = $v->person_id;
+ 
+                         @$hmain_op = $v->hmain_op;  //"10978"
+                         @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+                         @$hsub = $v->hsub;    //"04047"
+                         @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+                         @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+ 
+                         IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+                             $date = date("Y-m-d");
+                           
+                             Acc_debtor::where('an', $an)
+                             ->update([
+                                 'status'         => 'จำหน่าย/เสียชีวิต',
+                                 'maininscl'      => @$maininscl,
+                                 'pttype_spsch'   => @$subinscl,
+                                 'hmain'          => @$hmain,
+                                 'subinscl'       => @$subinscl, 
+                             ]);
+                             
+                         }elseif(@$maininscl !="" || @$subinscl !=""){
+                            Acc_debtor::where('an', $an)
+                            ->update([
+                                'status'         => @$status,
+                                'maininscl'      => @$maininscl,
+                                'pttype_spsch'   => @$subinscl,
+                                'hmain'          => @$hmain,
+                                'subinscl'       => @$subinscl,
+                            
+                            ]); 
+                                     
+                         }
+ 
+                     }
+            
+         }
+ 
+         return response()->json([
+ 
+            'status'    => '200'
+        ]);
+ 
      }
      public function account_pkucs202_search(Request $request)
      {
@@ -666,7 +831,7 @@ class Account202Controller extends Controller
                                         # code...
                                     } else { 
                                         Acc_debtor::insert([
-                                            'bg_yearnow'         => $value->bg_yearnow,
+                                            'bg_yearnow'         => $bg_yearnow,
                                             'hn'                 => $value->hn,
                                             'an'                 => $value->an,
                                             'vn'                 => $value->vn,
@@ -706,7 +871,7 @@ class Account202Controller extends Controller
                                    
                                 if ($value->debit > 0) {                                       
                                     Acc_debtor::insert([
-                                        'bg_yearnow'         => $value->bg_yearnow,
+                                        'bg_yearnow'         => $bg_yearnow,
                                         'hn'                 => $value->hn,
                                         'an'                 => $value->an,
                                         'vn'                 => $value->vn,
@@ -750,6 +915,7 @@ class Account202Controller extends Controller
                                 if ($value->debit < '1') {                                     
                                 } else {
                                     Acc_debtor::insert([
+                                        'bg_yearnow'         => $bg_yearnow,
                                         'hn'                 => $value->hn,
                                         'an'                 => $value->an,
                                         'vn'                 => $value->vn,

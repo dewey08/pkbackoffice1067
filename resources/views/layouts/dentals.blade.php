@@ -599,14 +599,15 @@
             <footer class="footer" style="background-color: #f1a8d4">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-6"style="color:#ffffff;font-size:17px;">
                             <script>
                                 document.write(new Date().getFullYear())
                             </script> © โรงพยาบาลภูเขียวเฉลิมพระเกียรติ
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICE
+                                <p style="color:#ffffff;font-size:17px;">Created with <i class="mdi mdi-heart text-danger"></i> by ประดิษฐ์ ระหา - กลุ่มงานสุขภาพดิจิทัล</p>
+                                {{-- Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICE --}}
                             </div>
                         </div>
                     </div>

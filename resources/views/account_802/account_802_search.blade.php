@@ -87,23 +87,28 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Detail</h4>
+                        <h4 class="mb-sm-0" style="color:rgb(247, 31, 95)">Detail Account ผัง 1102050102.802</h4>
                         <form action="{{ route('acc.account_802_search') }}" method="GET">
                             @csrf
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                                            <input type="text" class="form-control inputacc" name="startdate" id="datepicker" placeholder="Start Date"
+                                            <input type="text" class="form-control-sm cardacc" name="startdate" id="datepicker" placeholder="Start Date"
                                                 data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                                 data-date-language="th-th" value="{{ $startdate }}" required/>
-                                            <input type="text" class="form-control inputacc" name="enddate" placeholder="End Date" id="datepicker2"
+                                            <input type="text" class="form-control-sm cardacc" name="enddate" placeholder="End Date" id="datepicker2"
                                                 data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                                                 data-date-language="th-th" value="{{ $enddate }}" required/>
-                                               
-                                            <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
+                                                <button type="submit" class="ladda-button btn-pill btn btn-sm btn-info cardacc" data-style="expand-left">
+                                                    <span class="ladda-label"> 
+                                                        <img src="{{ asset('images/Search02.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
+                                                        ค้นหา</span> 
+                                                </button>
+
+                                            {{-- <button type="submit" class="ladda-button btn-pill btn btn-primary cardacc" data-style="expand-left">
                                                 <span class="ladda-label"> <i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
                                                 <span class="ladda-spinner"></span>
-                                            </button> 
+                                            </button>  --}}
                                         </div> 
                                     </ol>
                                 </div>
@@ -125,7 +130,7 @@
                     <div class="card-body">  
                         <div class="table-responsive"> 
 
-                        <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                        <table id="datatable-buttons" class="table table-sm table-striped table-bordered dt-responsive nowrap"
                         style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                             {{-- <table id="example" class="table table-striped table-bordered "
                             style="border-collapse: collapse; border-spacing: 0; width: 100%;"> --}}
@@ -194,16 +199,16 @@
                             </tbody>
                                         <tr style="background-color: #f3fca1">
                                             <td colspan="6" class="text-end" style="background-color: #ff9d9d"></td>
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total1,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total2,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total3,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f58d73">{{ number_format($total4,2)}}</td>                                             
+                                            <td class="text-end" style="background-color: #f58d73;color:#0971b6">{{ number_format($total1,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73;color:#0971b6">{{ number_format($total2,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73;color:#0971b6">{{ number_format($total3,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f58d73;color:#0971b6">{{ number_format($total4,2)}}</td>                                             
                                             {{-- <td class="text-end" style="background-color: #ace5fc">{{ number_format($total5,2)}}</td>  --}}
-                                            <td class="text-end" style="background-color: #e09be9">{{ number_format($total6,2)}}</td> 
-                                            <td class="text-end" style="background-color: #f5a382">{{ number_format($total7,2)}}</td> 
-                                            <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total8,2)}}</td>  
+                                            <td class="text-end" style="background-color: #e09be9;color:#0971b6">{{ number_format($total6,2)}}</td> 
+                                            <td class="text-end" style="background-color: #f5a382;color:#0971b6">{{ number_format($total7,2)}}</td> 
+                                            <td class="text-end" style="background-color: #bbf0e3;color:#0971b6">{{ number_format($total8,2)}}</td>  
                                             {{-- <td class="text-end" style="background-color: #bbf0e3">{{ number_format($total9,2)}}</td>   --}}
-                                            <td class="text-end" style="background-color: #ff9d9d"></td> 
+                                            <td class="text-end" style="background-color: #ff9d9d;color:#0971b6"></td> 
                                         </tr>  
                         </table>
                     </div>

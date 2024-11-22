@@ -93,13 +93,19 @@
                     <input type="text" class="form-control-sm cardacc" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
                         data-date-language="th-th" value="{{ $enddate }}"/>  
                         <button type="submit" class="ladda-button btn-pill btn btn-sm btn-info cardacc" data-style="expand-left">
-                            <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
-                            <span class="ladda-spinner"></span>
+                            <span class="ladda-label">
+                                {{-- <i class="fa-solid fa-magnifying-glass text-white me-2"></i> --}}
+                                <img src="{{ asset('images/Search02.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
+                                ค้นหา</span>
+                            {{-- <span class="ladda-spinner"></span> --}}
                         </button>
                     </form>
                         <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-primary cardacc" data-style="expand-left" id="Pulldata">
-                            <span class="ladda-label"> <i class="fa-solid fa-file-circle-plus text-white me-2"></i>ดึงข้อมูล</span>
-                            <span class="ladda-spinner"></span>
+                            <span class="ladda-label"> 
+                                {{-- <i class="fa-solid fa-file-circle-plus text-white me-2"></i> --}}
+                                <img src="{{ asset('images/pull_datawhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
+                                ดึงข้อมูล</span>
+                            {{-- <span class="ladda-spinner"></span> --}}
                         </button> 
             </div> 
         </div>
@@ -121,44 +127,33 @@
                                 <button class="ladda-button me-2 btn-pill btn btn-danger btn-sm input_new" onclick="uncheck()">Uncheck</button>
                               @endif 
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-warning input_new Claim" data-url="{{url('account_401_claim')}}">
-                                    <i class="fa-solid fa-spinner me-2"></i>
+                                    <img src="{{ asset('images/loading_white.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                    ประมวลผล
                                </button>
                                <a href="{{url('account_401_claim_zip')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new">
-                                        <i class="fa-regular fa-file-zipper text-white me-2"></i> 
+                                <img src="{{ asset('images/zipwhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                     Zip
                                 </a> 
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-sm input_new" id="Apinhso" style="background-color: rgb(241, 7, 136);color:#ffffff">
-                                    <i class="fa-solid fa-cloud-arrow-up text-white me-2"></i>
+                                    <img src="{{ asset('images/Apiwhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                     API NHSO
                                 </button>
                             </div>
                            
                             <div class="col"></div>
-                            <div class="col-md-5 text-end">
-                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-info btn-sm input_new" id="Check_sit">
-                                    <i class="fa-solid fa-user me-2"></i>
-                                    ตรวจสอบสิทธิ์ 
-                                </button> --}}
+                            <div class="col-md-4 text-end">
+                            
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-info btn-sm input_new Check_sit" data-url="{{url('account_401_checksit')}}">
-                                    <i class="fa-solid fa-user me-2"></i>
+                                    <img src="{{ asset('images/Check_sitwhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                     ตรวจสอบสิทธิ์ 
                                 </button>
-                                {{-- <button type="button" class="ladda-button me-2 btn-pill btn btn-success cardacc" id="SenddataAPI">
-                                    <i class="fa-solid fa-upload me-2"></i>
-                                    ส่ง New Eclaim
-                                </button> --}}
-                                {{-- <a href="{{url('account_401_claim_export')}}" class="ladda-button me-2 btn-pill btn btn-success cardacc">
-                                    <i class="fa-solid fa-file-export text-white me-2"></i>
-                                    Export Txt
-                                </a>    --}}
-                            
+                                
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-primary btn-sm input_new Savestamp" data-url="{{url('account_401_stam')}}">
-                                    <i class="fa-solid fa-file-waveform me-2"></i>
+                                    <img src="{{ asset('images/Stam_white.png') }}" class="me-2 ms-2" height="18px" width="18px">
                                     ตั้งลูกหนี้
                                 </button>
                                 <button type="button" class="ladda-button me-2 btn-pill btn btn-danger btn-sm input_new Destroystamp" data-url="{{url('account_401_destroy_all')}}">
-                                    <i class="fa-solid fa-trash-can me-2"></i>
+                                    <img src="{{ asset('images/removewhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                     ลบ
                                 </button> 
                                
@@ -1471,6 +1466,7 @@
                 } else {
 
                     Swal.fire({
+                        position: "top-end",
                         title: 'Are you sure?',
                         text: "ต้องการตรวจสอบสอทธิ์ใช่ไหม!",
                         icon: 'warning',
@@ -1498,6 +1494,7 @@
                                                         $(this).parents("tr").remove();
                                                     });
                                                     Swal.fire({
+                                                        position: "top-end",
                                                         title: 'เช็คสิทธิ์สำเร็จ',
                                                         text: "You Check sit success",
                                                         icon: 'success',

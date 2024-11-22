@@ -551,7 +551,7 @@ class Account209Controller extends Controller
         $startdate = $request->startdate;
         $enddate = $request->enddate;
         $date = date('Y-m-d'); 
-        $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
+        $new_day = date('Y-m-d', strtotime($date . ' -2 day')); //ย้อนหลัง 2 วัน
         $data['users'] = User::get();
         if ($startdate =='') {
            $datashow = DB::select(' 
