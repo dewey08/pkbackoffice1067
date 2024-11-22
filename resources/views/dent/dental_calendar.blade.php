@@ -111,11 +111,9 @@ $count_service = StaticController::count_service();
                     </div>
 
                     <div class="card-body">
-                        {{-- <div class="card bg-info p-1 mx-0 shadow-lg"> --}}
+                        
                         <div class="card">
-                            {{-- <div class="panel-header text-left px-3 py-2 text-white">
-                                ลงบันทึกโอที<span class="fw-3 fs-18 text-white bg-sl-r2 px-2 radius-5"> </span>
-                            </div> --}}
+                            
                             <div class="panel-body bg-white">
 
                                 <div id='calendar'></div>
@@ -131,7 +129,7 @@ $count_service = StaticController::count_service();
         </div>
     </div>
     <!-- Insert -->
-    <div class="modal fade" id="dentalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="dentalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -196,7 +194,7 @@ $count_service = StaticController::count_service();
 
             </div>
         </div>
-    </div>
+    </div> --}}
     
     </div>
 
@@ -222,7 +220,7 @@ $count_service = StaticController::count_service();
 
             $(function() {
 
-                var otservicess = @json($events);
+                var showcalendar = @json($events);
 
                 $('#calendar').fullCalendar({
                     // timeZone: 'Asia/Bangkok',                    
@@ -238,124 +236,121 @@ $count_service = StaticController::count_service();
                     selectable: true,
                     selectHelper: true,
                     
-                    events: otservicess,
+                    events: showcalendar,
                     select: function(start, end, allDays) {
                         $('#dentalModal').modal('toggle');
                         
 
-                        var start_date = moment(start).format('YYYY-MM-DD HH:mm',
-                            'Asia/Bangkok')
-                        var end_date = moment(end).format('YYYY-MM-DD HH:mm', 'Asia/Bangkok');
+                        var start_date = moment(start).format('YYYY-MM-DD HH:mm','Asia/Bangkok')
+                        var end_date = moment(end).format('YYYY-MM-DD HH:mm', 'Asia/Bangkok');                        
 
-                        
+                        // $('#saveBtn').click(function() {
 
-                        $('#saveBtn').click(function() {
-
-                            var ot_one_detail    = $('#ot_one_detail').val();
-                            var ot_one_starttime = $('#ot_one_starttime').val();
-                            var ot_one_endtime   = $('#ot_one_endtime').val();
-                            var start_date       = moment(start).format('YYYY-MM-DD', 'UTC');
-                            var end_date         = moment(end).format('YYYY-MM-DD');
-                            var signature        = $('#signature').val();
-                            var user_id          = $('#user_id').val();
+                        //     var ot_one_detail    = $('#ot_one_detail').val();
+                        //     var ot_one_starttime = $('#ot_one_starttime').val();
+                        //     var ot_one_endtime   = $('#ot_one_endtime').val();
+                        //     var start_date       = moment(start).format('YYYY-MM-DD', 'UTC');
+                        //     var end_date         = moment(end).format('YYYY-MM-DD');
+                        //     var signature        = $('#signature').val();
+                        //     var user_id          = $('#user_id').val();
                             
-                            $.ajax({
-                                url: "{{ route('den.dental_calendarsave') }}",
-                                type: "POST",
-                                dataType: 'json',
-                                data: {
-                                    ot_one_detail,
-                                    ot_one_starttime,
-                                    ot_one_endtime,
-                                    start_date,
-                                    end_date,
-                                    signature,
-                                    user_id
+                        //     $.ajax({
+                        //         url: "{{ route('den.dental_calendarsave') }}",
+                        //         type: "POST",
+                        //         dataType: 'json',
+                        //         data: {
+                        //             ot_one_detail,
+                        //             ot_one_starttime,
+                        //             ot_one_endtime,
+                        //             start_date,
+                        //             end_date,
+                        //             signature,
+                        //             user_id
 
-                                },
-                                success: function(data) {
+                        //         },
+                        //         success: function(data) {
 
-                                    if (data.status == 200) {
-                                        Swal.fire({
-                                            title: 'บันทึกข้อมูลสำเร็จ',
-                                            text: "You Insert data success",
-                                            icon: 'success',
-                                            showCancelButton: false,
-                                            confirmButtonColor: '#06D177',
-                                            confirmButtonText: 'เรียบร้อย'
-                                        }).then((result) => {
-                                            if (result
-                                                .isConfirmed) {
-                                                console.log(
-                                                    data);
-                                                $('#calendar')
-                                                    .fullCalendar(
-                                                        'renderEvent', {
-                                                            'title': data.title,
-                                                            'start': data .start,
-                                                            'end': data .end,
-                                                            'color': data .color
-                                                        });
-                                                window.location.reload();
-                                            }
-                                        })
-                                    } else {
+                        //             if (data.status == 200) {
+                        //                 Swal.fire({
+                        //                     title: 'บันทึกข้อมูลสำเร็จ',
+                        //                     text: "You Insert data success",
+                        //                     icon: 'success',
+                        //                     showCancelButton: false,
+                        //                     confirmButtonColor: '#06D177',
+                        //                     confirmButtonText: 'เรียบร้อย'
+                        //                 }).then((result) => {
+                        //                     if (result
+                        //                         .isConfirmed) {
+                        //                         console.log(
+                        //                             data);
+                        //                         $('#calendar')
+                        //                             .fullCalendar(
+                        //                                 'renderEvent', {
+                        //                                     'title': data.title,
+                        //                                     'start': data .start,
+                        //                                     'end': data .end,
+                        //                                     'color': data .color
+                        //                                 });
+                        //                         window.location.reload();
+                        //                     }
+                        //                 })
+                        //             } else {
                                         
-                                    }
+                        //             }
 
-                                    // if (data.status == 100) {
-                                    //     Swal.fire({
-                                    //         title: 'วันนี้ได้ลงไปเรียบร้อยแล้ว',
-                                    //         text: "You have data success",
-                                    //         icon: 'warning',
-                                    //         showCancelButton: false,
-                                    //         confirmButtonColor: '#ff0606',
-                                    //         // cancelButtonColor: '#d33',
-                                    //         confirmButtonText: 'Close'
-                                    //     }).then((result) => {
-                                    //         if (result
-                                    //             .isConfirmed) {
-                                    //             window.location
-                                    //                 .reload();
-                                    //         }
-                                    //     })
+                        //             // if (data.status == 100) {
+                        //             //     Swal.fire({
+                        //             //         title: 'วันนี้ได้ลงไปเรียบร้อยแล้ว',
+                        //             //         text: "You have data success",
+                        //             //         icon: 'warning',
+                        //             //         showCancelButton: false,
+                        //             //         confirmButtonColor: '#ff0606',
+                        //             //         // cancelButtonColor: '#d33',
+                        //             //         confirmButtonText: 'Close'
+                        //             //     }).then((result) => {
+                        //             //         if (result
+                        //             //             .isConfirmed) {
+                        //             //             window.location
+                        //             //                 .reload();
+                        //             //         }
+                        //             //     })
 
-                                    // } else {
+                        //             // } else {
                                         
-                                    //     Swal.fire({
-                                    //         title: 'บันทึกข้อมูลสำเร็จ',
-                                    //         text: "You Insert data success",
-                                    //         icon: 'success',
-                                    //         showCancelButton: false,
-                                    //         confirmButtonColor: '#06D177',
-                                    //         confirmButtonText: 'เรียบร้อย'
-                                    //     }).then((result) => {
-                                    //         if (result
-                                    //             .isConfirmed) {
-                                    //             console.log(
-                                    //                 data);
-                                    //             $('#calendar')
-                                    //                 .fullCalendar(
-                                    //                     'renderEvent', {
-                                    //                         'title': data
-                                    //                             .title,
-                                    //                         'start': data
-                                    //                             .start,
-                                    //                         'end': data
-                                    //                             .end,
-                                    //                         'color': data
-                                    //                             .color
-                                    //                     });
-                                    //             window.location
-                                    //                 .reload();
-                                    //         }
-                                    //     })
-                                    // }
+                        //             //     Swal.fire({
+                        //             //         title: 'บันทึกข้อมูลสำเร็จ',
+                        //             //         text: "You Insert data success",
+                        //             //         icon: 'success',
+                        //             //         showCancelButton: false,
+                        //             //         confirmButtonColor: '#06D177',
+                        //             //         confirmButtonText: 'เรียบร้อย'
+                        //             //     }).then((result) => {
+                        //             //         if (result
+                        //             //             .isConfirmed) {
+                        //             //             console.log(
+                        //             //                 data);
+                        //             //             $('#calendar')
+                        //             //                 .fullCalendar(
+                        //             //                     'renderEvent', {
+                        //             //                         'title': data
+                        //             //                             .title,
+                        //             //                         'start': data
+                        //             //                             .start,
+                        //             //                         'end': data
+                        //             //                             .end,
+                        //             //                         'color': data
+                        //             //                             .color
+                        //             //                     });
+                        //             //             window.location
+                        //             //                 .reload();
+                        //             //         }
+                        //             //     })
+                        //             // }
                                    
 
-                                },
-                            });
-                        });
+                        //         },
+                        //     });
+                        // });
 
                     },
                     
@@ -367,7 +362,7 @@ $count_service = StaticController::count_service();
                                 
                     },
                 });
-                $('.fc-event').css('font-size', '10px');
+                $('.fc-event').css('font-size', '12px');
                 
             });
 
