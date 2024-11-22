@@ -44,7 +44,7 @@ use App\Models\Department_sub_sub;
 use App\Models\Article;
 use App\Models\Land;
 use App\Models\Building;
-use App\Models\Product_budget;
+use App\Models\User_permiss;
 use App\Models\Product_method;
 use App\Models\Product_buy;
 use App\Models\Building_level;
@@ -225,7 +225,8 @@ class StaticController extends Controller
   }
   public static function per_nurse($iduser)
   {
-    $per_nurse =  User::where('id','=',$iduser)->where('per_nurse','=','on')->count();   
+    // $per_nurse =  User::where('id','=',$iduser)->where('per_nurse','=','on')->count();   
+    $per_nurse =  User::where('id','=',$iduser)->where('dep_id','=','5')->count(); 
     return $per_nurse;
   }
   public static function per_config($iduser)
@@ -242,6 +243,26 @@ class StaticController extends Controller
   {
     $per_den =  User::where('id','=',$iduser)->where('per_den','=','on')->count();   
     return $per_den;
+  }
+  public static function per_accb01($iduser)
+  {
+    $per_accb01 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACCB01')->count();   
+    return $per_accb01;
+  }
+  public static function pre_audit($iduser)
+  {
+    $pre_audit =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','AUDITVET01')->count();   
+    return $pre_audit;
+  }
+  public static function timeot($iduser)
+  {
+    $timeot =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','TIMEOT01')->count();   
+    return $timeot;
+  }
+  public static function pediatrics($iduser)
+  {
+    $pediatrics =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','PEDIA01')->count();   
+    return $pediatrics;
   }
 
 
