@@ -145,7 +145,7 @@ if (Auth::check()) {
                                                 <td class="text-center"width="5%">{{$item->dent_tel}}</td>
                                                 <td class="text-center"width="2%">{{DateThai($item->dent_date)}}</td>
                                                 <td class="text-center"width="3%">{{$item->dent_time}}</td> 
-                                                <td class="text-center"width="5%">{{$item->appointment_name}}</td>
+                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{$item->appointment_name}}</td>
                                                 <td class="text-center"width="1%">{{$item->dent_doctor_name}}</td> 
                                             </tr>
                                         @endforeach
