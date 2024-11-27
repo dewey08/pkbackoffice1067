@@ -173,7 +173,7 @@ class WhController extends Controller
                 LEFT JOIN wh_unit_pack d ON d.wh_unit_id = a.pro_id
                 LEFT JOIN wh_plan e ON e.pro_id = a.pro_id
             WHERE e.plan_store = "'.$id.'"
-            GROUP BY a.pro_id
+            GROUP BY a.pro_id 
         ');
         // a.active ="Y" 
         $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
@@ -520,7 +520,7 @@ class WhController extends Controller
         // $year                = date('Y')+ 543;
         // $ynew          = substr($request->bg_yearnow,2,2); 
         Wh_recieve::insert([
-            'dent_hn'              => $request->dent_hn,
+            'year'                 => $request->bg_yearnow,
             'recieve_date'         => $request->recieve_date,
             'recieve_time'         => $request->recieve_time, 
             'recieve_no'           => $request->recieve_no,
@@ -625,18 +625,28 @@ class WhController extends Controller
         $data['supplies_name']      = $data_supplies->supplies_name;
         $data['supplies_tax']       = $data_supplies->supplies_tax;
 
-        $data['wh_product']         = DB::select(
-            'SELECT a.pro_id,a.pro_code,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price,a.active
-                ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name,f.stock_list_name
+        // $data['wh_product']         = DB::select(
+        //     'SELECT a.pro_id,a.pro_code,a.pro_num,a.pro_year,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name,e.stock_qty,e.stock_rep,e.stock_pay,e.stock_total,e.stock_price,a.active
+        //         ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name,f.stock_list_name
 
-                FROM wh_stock e
-                LEFT JOIN wh_product a ON a.pro_id = e.pro_id
+        //         FROM wh_stock e
+        //         LEFT JOIN wh_product a ON a.pro_id = e.pro_id
+        //         LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
+        //         LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
+        //         LEFT JOIN wh_unit_pack d ON d.wh_unit_id = a.pro_id
+        //         LEFT JOIN wh_stock_list f ON f.stock_list_id = e.stock_list_id
+        //     WHERE a.active ="Y" 
+        //     AND e.stock_year ="'.$bg_yearnow.'"
+        //     GROUP BY a.pro_id
+        // ');
+        $data['wh_product']         = DB::select(
+            'SELECT a.*,c.wh_unit_name,b.wh_type_name
+                FROM wh_product a 
                 LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
-                LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
-                LEFT JOIN wh_unit_pack d ON d.wh_unit_id = a.pro_id
-                LEFT JOIN wh_stock_list f ON f.stock_list_id = e.stock_list_id
-            WHERE a.active ="Y" AND e.stock_year ="'.$bg_yearnow.'"
-            GROUP BY e.pro_id
+                LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id 
+            WHERE a.active ="Y" 
+            AND a.pro_year ="'.$bg_yearnow.'"
+            GROUP BY a.pro_id
         ');
         $data['wh_recieve_sub']      = DB::select('SELECT * FROM wh_recieve_sub WHERE wh_recieve_id = "'.$id.'" ORDER BY wh_recieve_sub_id DESC');
         $year                        = substr(date("Y"),2) + 43;
@@ -1090,20 +1100,39 @@ class WhController extends Controller
                 ORDER BY r.wh_request_id DESC LIMIT 50
             ');
         } else {
-            $data['wh_request']         = DB::select(
-                'SELECT r.wh_request_id,r.year,r.request_date,r.request_time,r.repin_date,r.request_no,r.stock_list_id,r.active
-                ,s.stock_list_name
-                ,(SELECT DEPARTMENT_SUB_SUB_NAME FROM department_sub_sub WHERE DEPARTMENT_SUB_SUB_ID = r.stock_list_subid) as DEPARTMENT_SUB_SUB_NAME
-                ,r.total_price
-                ,r.request_po,concat(u.fname," ",u.lname) as ptname 
-                ,(SELECT concat(uu.fname," ",uu.lname) FROM users uu LEFT JOIN wh_stock_export w ON w.user_export_send = uu.id WHERE wh_request_id = r.wh_request_id) as ptname_send
-                ,(SELECT concat(uuu.fname," ",uuu.lname) FROM users uuu LEFT JOIN wh_stock_export ww ON ww.user_export_rep = uuu.id WHERE wh_request_id = r.wh_request_id) as ptname_rep           
-                FROM wh_request r 
-                LEFT JOIN wh_stock_list s ON s.stock_list_id = r.stock_list_id 
-                LEFT JOIN users u ON u.id = r.user_request  
-                WHERE r.year ="'.$bg_yearnow.'" AND r.request_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND r.stock_list_id  = "'.$stock_listid.'"   
-                ORDER BY r.wh_request_id DESC
-            ');
+            if ($stock_listid != '') {
+                $data['wh_request']         = DB::select(
+                    'SELECT r.wh_request_id,r.year,r.request_date,r.request_time,r.repin_date,r.request_no,r.stock_list_id,r.active
+                    ,s.stock_list_name
+                    ,(SELECT DEPARTMENT_SUB_SUB_NAME FROM department_sub_sub WHERE DEPARTMENT_SUB_SUB_ID = r.stock_list_subid) as DEPARTMENT_SUB_SUB_NAME
+                    ,r.total_price
+                    ,r.request_po,concat(u.fname," ",u.lname) as ptname 
+                    ,(SELECT concat(uu.fname," ",uu.lname) FROM users uu LEFT JOIN wh_stock_export w ON w.user_export_send = uu.id WHERE wh_request_id = r.wh_request_id) as ptname_send
+                    ,(SELECT concat(uuu.fname," ",uuu.lname) FROM users uuu LEFT JOIN wh_stock_export ww ON ww.user_export_rep = uuu.id WHERE wh_request_id = r.wh_request_id) as ptname_rep           
+                    FROM wh_request r 
+                    LEFT JOIN wh_stock_list s ON s.stock_list_id = r.stock_list_id 
+                    LEFT JOIN users u ON u.id = r.user_request  
+                    WHERE r.year ="'.$bg_yearnow.'" AND r.request_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND r.stock_list_subid  = "'.$stock_listid.'"   
+                    ORDER BY r.wh_request_id DESC
+                ');
+            } else {
+                $data['wh_request']         = DB::select(
+                    'SELECT r.wh_request_id,r.year,r.request_date,r.request_time,r.repin_date,r.request_no,r.stock_list_id,r.active
+                    ,s.stock_list_name
+                    ,(SELECT DEPARTMENT_SUB_SUB_NAME FROM department_sub_sub WHERE DEPARTMENT_SUB_SUB_ID = r.stock_list_subid) as DEPARTMENT_SUB_SUB_NAME
+                    ,r.total_price
+                    ,r.request_po,concat(u.fname," ",u.lname) as ptname 
+                    ,(SELECT concat(uu.fname," ",uu.lname) FROM users uu LEFT JOIN wh_stock_export w ON w.user_export_send = uu.id WHERE wh_request_id = r.wh_request_id) as ptname_send
+                    ,(SELECT concat(uuu.fname," ",uuu.lname) FROM users uuu LEFT JOIN wh_stock_export ww ON ww.user_export_rep = uuu.id WHERE wh_request_id = r.wh_request_id) as ptname_rep           
+                    FROM wh_request r 
+                    LEFT JOIN wh_stock_list s ON s.stock_list_id = r.stock_list_id 
+                    LEFT JOIN users u ON u.id = r.user_request  
+                    WHERE r.year ="'.$bg_yearnow.'" AND r.request_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"  
+                    ORDER BY r.wh_request_id DESC
+                ');
+            }
+            
+           
         } 
        
         return view('wh.wh_pay',$data,[
@@ -1405,32 +1434,32 @@ class WhController extends Controller
         // WHERE a.stock_list_id ="'.$stock_list_id.'"
         $output = '
                 <table class="table-bordered table-striped table-vcenter" style="width: 100%;">
-                <thead style="background-color: rgb(43, 86, 136)">
-                    <tr>
-                        <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" width="20%">รหัส</td>                
-                        <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" >รายการวัสดุ</td>
-                          <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" >ราคา</td>
-                        <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" >LOT</td>
-                        <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" width="12%">คงเหลือ</td>        
-                        <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" width="12%">จ่าย</td>                  
-                        <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" width="6%">เลือก</td>
-                    </tr>
-                </thead>
-                <tbody id="myTable">';
+                    <thead style="background-color: rgb(43, 86, 136)">
+                        <tr>
+                            <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" width="20%">รหัส</td>                
+                            <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" >รายการวัสดุ</td>
+                            <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" >ราคา</td>
+                            <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" >LOT</td>
+                            <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" width="12%">คงเหลือ</td>        
+                            <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" width="12%">จ่าย</td>                  
+                            <td style="text-align: center;border: 1px solid black;font-size: 13px;color:white;" width="6%">เลือก</td>
+                        </tr>
+                    </thead>
+                    <tbody id="myTable">';
                         foreach ($detailstocks as $item) {
                                 
-                    $output .= '  
-                        <tr height="20">
-                            <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;">' . $item->pro_code . '</td>
-                            <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;" align="left" >' . $item->pro_name . '</td>
-                            <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;" align="center" >' . $item->one_price . '</td>
-                              <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;" align="center" >' . $item->lot_no . '</td>
-                            <td class="text-font" style="border: 1px solid black;padding-right:10px;font-size: 13px;" align="right" >' . $item->qty-$item->pay . '</td>
-                            <td class="text-font" style="border: 1px solid black;padding-right:10px;font-size: 13px;" align="right" ><input class="form-control form-control-sm" name="qty_pay'.$item->wh_recieve_sub_id.'" id="qty_pay'.$item->wh_recieve_sub_id.'" type="text"></td>
-                            <td class="text-font" style="border: 1px solid black;" align="center" >
-                            <button type="button" class="btn btn-outline-primary btn-sm"  style="font-family: \'Kanit\', sans-serif; font-size: 13px;font-weight:normal;" onclick="selectsupreq('.$item->wh_recieve_sub_id.','.$count.')">เลือก</button></td> 
-                        </tr>';
-                     }
+                        $output .= '  
+                            <tr height="20">
+                                <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;">' . $item->pro_code . '</td>
+                                <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;" align="left" >' . $item->pro_name . '</td>
+                                <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;" align="center" >' . $item->one_price . '</td>
+                                <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;" align="center" >' . $item->lot_no . '</td>
+                                <td class="text-font" style="border: 1px solid black;padding-right:10px;font-size: 13px;" align="right" >' . $item->qty-$item->pay . '</td>
+                                <td class="text-font" style="border: 1px solid black;padding-right:10px;font-size: 13px;" align="right" ><input class="form-control form-control-sm" name="qty_pay'.$item->wh_recieve_sub_id.'" id="qty_pay'.$item->wh_recieve_sub_id.'" type="text"></td>
+                                <td class="text-font" style="border: 1px solid black;" align="center" >
+                                <button type="button" class="btn btn-outline-primary btn-sm"  style="font-family: \'Kanit\', sans-serif; font-size: 13px;font-weight:normal;" onclick="selectsupreq('.$item->wh_recieve_sub_id.','.$count.')">เลือก</button></td> 
+                            </tr>';
+                        }
                     $output .= '</tbody>
                     </table>';
         echo $output;

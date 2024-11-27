@@ -280,6 +280,11 @@ class StaticController extends Controller
     $account_ar =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACCOUNTAR')->count();   
     return $account_ar;
   }
+  public static function fdh_new($iduser)
+  {
+    $fdh_new =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','FDH')->count();   
+    return $fdh_new;
+  }
 
 
 

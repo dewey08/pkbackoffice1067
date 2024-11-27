@@ -224,17 +224,18 @@ class WhUserController extends Controller
         $bg_yearnow    = $bgs_year->leave_year_id;
 
         $data['wh_stock_sub']         = DB::select(
-            'SELECT e.stock_list_subid,f.DEPARTMENT_SUB_SUB_NAME,a.pro_year,a.pro_id,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name 
+            'SELECT e.stock_list_subid,f.DEPARTMENT_SUB_SUB_NAME,a.pro_year,a.pro_id,a.pro_code,a.pro_name,b.wh_type_name,c.wh_unit_name,g.one_price 
                 ,(SELECT SUM(s.qty_pay) FROM wh_stock_dep_sub s LEFT JOIN wh_stock_dep sm ON sm.wh_stock_dep_id = s.wh_stock_dep_id WHERE s.pro_id = e.pro_id AND s.stock_sub_year ="'.$bg_yearnow.'" AND s.stock_list_subid ="'.$id.'" AND sm.active ="REPEXPORT") AS stock_rep
                 ,(SELECT SUM(s.one_price) FROM wh_stock_dep_sub s LEFT JOIN wh_stock_dep sm ON sm.wh_stock_dep_id = s.wh_stock_dep_id WHERE s.pro_id = e.pro_id AND s.stock_sub_year ="'.$bg_yearnow.'" AND s.stock_list_subid ="'.$id.'" AND sm.active ="REPEXPORT") AS sum_one_price
                 ,(SELECT SUM(s.total_price) FROM wh_stock_dep_sub s LEFT JOIN wh_stock_dep sm ON sm.wh_stock_dep_id = s.wh_stock_dep_id WHERE s.pro_id = e.pro_id AND s.stock_sub_year ="'.$bg_yearnow.'" AND s.stock_list_subid ="'.$id.'" AND sm.active ="REPEXPORT") AS sum_stock_price  
-                ,(SELECT SUM(qty) FROM wh_pay_sub WHERE pro_id = e.pro_id AND stock_list_subid = "148") as stock_pay
+                ,(SELECT SUM(qty) FROM wh_pay_sub WHERE pro_id = e.pro_id AND stock_list_subid = "'.$id.'") as stock_pay
                 ,a.active ,IFNULL(d.wh_unit_pack_qty,"1") as wh_unit_pack_qty ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name
                 FROM wh_stock_sub e
                 LEFT JOIN wh_product a ON a.pro_id = e.pro_id
                 LEFT JOIN wh_type b ON b.wh_type_id = a.pro_type
                 LEFT JOIN wh_unit c ON c.wh_unit_id = a.unit_id
                 LEFT JOIN wh_unit_pack d ON d.wh_unit_id = a.pro_id
+                LEFT JOIN wh_stock_dep_sub g ON g.pro_id = a.pro_id AND g.stock_list_subid = e.stock_list_subid
                 LEFT JOIN department_sub_sub f ON f.DEPARTMENT_SUB_SUB_ID = e.stock_list_subid
                 WHERE a.active ="Y" 
                 AND e.stock_list_subid ="'.$id.'" AND e.stock_year ="'.$bg_yearnow.'"
@@ -422,6 +423,8 @@ class WhUserController extends Controller
             ORDER BY pro_id ASC
         '); 
 
+        $PAGE_COUNT      = DB::table('wh_request_sub')->where('wh_request_id', '=', $id)->count();
+
         // $count_plan     = DB::select(
         //     'SELECT COUNT(a.air_list_num) as cplan
         //     FROM air_plan a 
@@ -436,25 +439,33 @@ class WhUserController extends Controller
         // $mo            = DB::table('air_plan_month')->where('air_plan_month',$month)->first();
         // $mo_name       = $mo->air_plan_name;
         // $customPaper = [0, 0, 297.00, 210.80];
-
-        $pdf = PDF::loadView('wh_user.wh_sub_main_rprint',$data,[            
-            // 'data_air' => $data_air, 
-            'bg_yearnow'   => $bg_yearnow,
-            'siguser'      => $siguser,
-            'sigrong'      => $sigrong, 
-            'position'     => $position,
-            'ptname'       => $ptname,
-            'po'           => $po,
-            'rong_bo'      => $rong_bo,
-            // 'mo_name'=>$mo_name           
-            ])->setPaper('a4', 'portrait');
-  
-        $dom_pdf = $pdf->getDomPDF();
-        $canvas = $dom_pdf ->get_canvas();
-        $canvas->page_text(510, 12, "Page {PAGE_NUM} of {PAGE_COUNT}", null, 10, array(255, 0, 0));
+        // try {
+            $pdf = PDF::loadView('wh_user.wh_sub_main_rprint',$data,[            
+                // 'data_air' => $data_air, 
+                'bg_yearnow'   => $bg_yearnow,
+                'siguser'      => $siguser,
+                'sigrong'      => $sigrong, 
+                'position'     => $position,
+                'ptname'       => $ptname,
+                'po'           => $po,
+                'rong_bo'      => $rong_bo,
+                // 'mo_name'=>$mo_name           
+                ])->setPaper('a4', 'portrait');
+        // $pdf->setOption('footer-right','Page [page]/[topage]');
+        // return $pdf->stream(); 
+        // $dom_pdf = $pdf->getDomPDF();
+        // $canvas = $dom_pdf->get_canvas();
+        // $canvas->page_text(0, 0, "Page {PAGE_NUM} of {PAGE_COUNT}", null, 10, array(0, 0, 0));
+        // $canvas->page_text(510, 12, "Page {PAGE_NUM} of $PAGE_COUNT", null, 10, array(255, 0, 0));
+        // $canvas->page_text(510, 12, "Page {PAGE_NUM} of {PAGE_COUNT}", null, 10, array(0, 0, 0));
             // ])->setPaper($customPaper, 'landscape');
+            // return $pdf->stream("Page".$PAGE_COUNT.".pdf"); 
+            return $pdf->stream(); 
 
-            return @$pdf->stream(); 
+        // } catch (\Throwable $th) {
+        //     report($th);
+        //     return back()->with('error');
+        // }
     }
 
     public function wh_request_add(Request $request)
@@ -520,6 +531,8 @@ class WhUserController extends Controller
         $data['department_sub_sub'] = Departmentsubsub::get();
         $data['position']           = Position::get();
         $data['status']             = Status::get(); 
+        $data['user']               = User::get(); 
+        
         $yy1                        = date('Y') + 543;
         $yy2                        = date('Y') + 542;
         $yy3                        = date('Y') + 541;
@@ -986,7 +999,8 @@ class WhUserController extends Controller
         // ');
         $data['wh_product']         = DB::select(
             'SELECT g.wh_stock_dep_sub_id,a.pro_id,a.pro_code,a.pro_year,a.pro_name,b.wh_type_name,c.wh_unit_name,a.active
-            ,SUM(g.qty_pay) as qty_reppay
+          
+            ,(SELECT SUM(qty_pay) FROM wh_stock_dep_sub WHERE stock_list_subid = e.stock_list_subid AND pro_id = e.pro_id) as qty_reppay
            ,"0" as qty_pay
             ,g.lot_no
             ,IFNULL(d.wh_unit_pack_name,c.wh_unit_name) as unit_name,f.DEPARTMENT_SUB_SUB_NAME            
@@ -1001,6 +1015,7 @@ class WhUserController extends Controller
             GROUP BY g.lot_no
             ORDER BY e.pro_id ASC 
         ');
+        // ,SUM(g.qty_pay) as qty_reppay
         // ,(SELECT qty FROM wh_pay_sub WHERE pro_id = e.pro_id AND lot_no = g.lot_no) as qty_pay
         $data['wh_pay_sub']      = DB::select(
             'SELECT a.*  
@@ -1116,75 +1131,49 @@ class WhUserController extends Controller
     // **************************** DATAIL *********************************
     public function wh_sub_main_detail(Request $request)
     {
-        $id       = $request->wh_request_id;
+        $id            = $request->wh_request_id;
+        // $data_sub      = DB::table('wh_request_sub')
+        // ->leftjoin('users', 'users.user_id', '=', 'wh_request_sub.user_id')
+        // ->where('wh_request_sub.wh_request_id',$id)->get();
+
+        $data_sub     = DB::select(
+            'SELECT a.*,concat(u.fname," ",u.lname) as ptname
+            FROM wh_request_sub a
+            LEFT JOIN users u ON u.id = a.user_id   
+            WHERE a.wh_request_id = "'.$id.'"  
+            GROUP BY a.pro_id
+            ORDER BY a.pro_id ASC
+        '); 
+  
+        
+        
+        $output = '
+        <table class="table-bordered table-striped table-vcenter" style="width: 100%;">
+            <thead style="background-color: #CCCCFF">
+                <tr>
+                    <td style="text-align: center;border: 1px solid black;font-size: 13px;color:#6495ED;" width="10%">ลำดับ</td>                
+                    <td style="text-align: center;border: 1px solid black;font-size: 13px;color:#6495ED;" >รายการวัสดุ</td>
+                    <td style="text-align: center;border: 1px solid black;font-size: 13px;color:#6495ED;" width="10%">จำนวน</td>
+                    <td style="text-align: center;border: 1px solid black;font-size: 13px;color:#6495ED;" width="10%">หน่วยนับ</td>               
+                    <td style="text-align: center;border: 1px solid black;font-size: 13px;color:#6495ED;" width="20%">ผู้เบิก</td>
+                </tr>
+            </thead>
+            <tbody id="myTable">';
+                foreach ($data_sub as $item) {
+                        
+                $output .= '  
+                    <tr height="20">
+                        <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;">' . $item->pro_code . '</td>
+                        <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;" align="left" >' . $item->pro_name . '</td>
+                        <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;" align="center" >' . $item->qty . '</td>
+                        <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;" align="center" >' . $item->unit_name . '</td>
+                        <td class="text-font" style="border: 1px solid black;padding-left:10px;font-size: 13px;" align="center" >' . $item->ptname . '</td>  
+                    </tr>';
+                }
+            $output .= '</tbody>
+            </table>';
+echo $output;
        
-        $data_sub = Wh_request::where('wh_request_id',$id)->first();    
-        $data_main        = DB::select(
-            'SELECT r.wh_request_id,r.year,r.request_date,r.repin_date,r.request_time,r.request_no,r.stock_list_id,r.active ,s.stock_list_name
-            ,(SELECT DEPARTMENT_SUB_SUB_NAME FROM department_sub_sub WHERE DEPARTMENT_SUB_SUB_ID = r.stock_list_subid) as DEPARTMENT_SUB_SUB_NAME
-            ,r.request_po,concat(u.fname," ",u.lname) as ptname ,r.total_price
-            ,(SELECT concat(uu.fname," ",uu.lname) FROM users uu LEFT JOIN wh_stock_export w ON w.user_export_send = uu.id WHERE wh_request_id = r.wh_request_id) as ptname_send
-            ,(SELECT concat(uuu.fname," ",uuu.lname) FROM users uuu LEFT JOIN wh_stock_export ww ON ww.user_export_rep = uuu.id WHERE wh_request_id = r.wh_request_id) as ptname_rep
-            FROM wh_request r 
-            LEFT JOIN wh_stock_list s ON s.stock_list_id = r.stock_list_id 
-            LEFT JOIN users u ON u.id = r.user_request  
-            WHERE r.wh_request_id ="'.$id.'"      
-            ORDER BY r.wh_request_id DESC
-        ');  
-        $data_sub         = DB::select(
-            'SELECT r.wh_request_id,r.year,r.request_date,r.repin_date,r.request_time,r.request_no,r.stock_list_id,r.active ,s.stock_list_name
-            ,(SELECT DEPARTMENT_SUB_SUB_NAME FROM department_sub_sub WHERE DEPARTMENT_SUB_SUB_ID = r.stock_list_subid) as DEPARTMENT_SUB_SUB_NAME
-            ,r.request_po,concat(u.fname," ",u.lname) as ptname ,r.total_price
-            ,(SELECT concat(uu.fname," ",uu.lname) FROM users uu LEFT JOIN wh_stock_export w ON w.user_export_send = uu.id WHERE wh_request_id = r.wh_request_id) as ptname_send
-            ,(SELECT concat(uuu.fname," ",uuu.lname) FROM users uuu LEFT JOIN wh_stock_export ww ON ww.user_export_rep = uuu.id WHERE wh_request_id = r.wh_request_id) as ptname_rep
-            FROM wh_request r 
-            LEFT JOIN wh_stock_list s ON s.stock_list_id = r.stock_list_id 
-            LEFT JOIN users u ON u.id = r.user_request  
-            WHERE r.wh_request_id ="'.$id.'"      
-            ORDER BY r.wh_request_id DESC
-        ');    
-        $output=' 
-            <div class="row">  
-             <div class="col-md-12">         
-                 <table class="table table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                    <thead>
-                        <tr>
-                            <th width="5%">ลำดับ</th>
-                            <th width="10%">วันที่</th>
-                            <th width="7%">เวลา</th>
-                            <th width="10%">เลขที่แจ้งซ่อม</th>
-                            <th width="10%">รหัสแอร์</th>
-                            <th>รายการ</th>
-                            <th width="7%">btu</th>
-                            <th width="8%">serial_no</th>
-                            <th>สถานที่ตั้ง</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                     ';
-                     $i = 1;
-                     foreach ($data_sub as $key => $value) {
-                        $output.=' 
-                        <tr>
-                            <td>'.$i++.'</td>
-                            <td>'.DateThai($value->repaire_date).'</td>
-                            <td>'.$value->repaire_time.'</td>
-                            <td>'.$value->air_repaire_no.'</td>
-                            <td>'.$value->air_list_num.'</td>
-                            <td>'.$value->air_list_name.'</td>
-                            <td>'.$value->btu.'</td>
-                            <td>'.$value->serial_no.'</td>
-                            <td>'.$value->air_location_name.'</td>
-                        </tr>';
-                     }
-                       
-                    $output.='
-                    </tbody> 
-                </table> 
-            </div>
-        </div>
-        ';
-        echo $output;        
     }
 
 

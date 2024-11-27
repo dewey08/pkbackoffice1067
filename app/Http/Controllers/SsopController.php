@@ -210,12 +210,13 @@ class SsopController extends Controller
     { 
         $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_ssop_main');
         $iduser = Auth::user()->id; 
-        // Ssop_billtran::truncate(); 
-        // Ssop_billitems::truncate();
-        // Ssop_dispensing::truncate();
-        // Ssop_dispenseditems::truncate();
-        // Ssop_opservices::truncate();
-        // Ssop_opdx::truncate();
+        Ssop_billtran::truncate(); 
+        Ssop_billitems::truncate();
+        Ssop_dispensing::truncate();
+        Ssop_dispenseditems::truncate();
+        Ssop_opservices::truncate();
+        Ssop_opdx::truncate();
+        D_ssop_main::truncate();
 
         foreach ($data_vn_1 as $key => $va1) {
             $ssop_billtran_ = DB::connection('mysql2')->select('  
