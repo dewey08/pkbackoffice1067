@@ -152,7 +152,7 @@
                                                 </div>
                                                 <div class="avatar ms-2"> 
                                                         <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
-                                                                <img src="{{ asset('images/user.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                                <img src="{{ asset('images/audit_new.png') }}" height="50px" width="50px" class="rounded-circle"> 
                                                         </button> 
                                                 </div>
                                             </div>
@@ -163,11 +163,7 @@
                         </div>
                     </a>
                 </div>
-
-            @endif
-           
-
-
+            @endif 
             @if ($countpesmiss_per != 0)   
                 <div class="col-xl-3 col-md-3">
                     <a href="{{ url('person/person_index') }}" target="_blank">
@@ -185,7 +181,7 @@
                                                         <button
                                                             class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
                                                         
-                                                                <img src="{{ asset('images/user.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                                <img src="{{ asset('images/person_new.png') }}" height="50px" width="50px" class="rounded-circle"> 
                                                         </button> 
                                                 </div>
                                             </div>
