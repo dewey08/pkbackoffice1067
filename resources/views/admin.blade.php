@@ -63,6 +63,7 @@ $per_den                  = StaticController::per_den($iduser);
 $pre_audit                = StaticController::pre_audit($iduser);
 $timeot                   = StaticController::timeot($iduser);
 $pediatrics               = StaticController::pediatrics($iduser);
+$account_ar               = StaticController::account_ar($iduser);
 
 ?>
 
@@ -551,8 +552,35 @@ $pediatrics               = StaticController::pediatrics($iduser);
                                             <div class="avatar"> 
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                        <img src="{{ asset('images/account.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                            {{-- <img src="{{ asset('images/accountnew.png') }}" height="40px" width="40px" class="rounded-circle me-3">  --}}
+                                                        <img src="{{ asset('images/account_new.png') }}" height="50px" width="50px" class="rounded-circle">  
+                                                    </button> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @endif  
+            @if ($account_ar != 0)  
+            <div class="col-xl-3 col-md-3">
+                <a href="{{ url('account_monitor_main') }}" target="_blank">
+                    <div class="main-card mb-2 card shadow-lg rounded-pill" style="background-color: #f47fbd">
+                        <div class="grid-menu-col">
+                            <div class="g-0 row">
+                                <div class="col-sm-12">
+                                    <div class="widget-chart widget-chart-hover rounded-pill">
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1">
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
+                                                    <h5 class="text-start mb-2">ACCOUNT-AR</h5> 
+                                            </div>
+                                            <div class="avatar"> 
+                                                    <button
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        <img src="{{ asset('images/account_ar.png') }}" height="50px" width="50px" class="rounded-circle">  
                                                     </button> 
                                             </div>
                                         </div>
@@ -564,7 +592,8 @@ $pediatrics               = StaticController::pediatrics($iduser);
                 </a>
             </div>
             @endif
-    
+
+
             @if ($countpermiss_p4p != 0)  
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('p4p') }}" target="_blank">

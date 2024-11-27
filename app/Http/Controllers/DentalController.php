@@ -477,37 +477,50 @@ class DentalController extends Controller
         $iddep =  Auth::user()->dep_subsubtrueid;
         $iduser = Auth::user()->id;
         $event = array();
-        $showcalendar = DB::table('dent_appointment')->get();
+        $otservicess = DB::table('ot_one')
+        ->leftjoin('users','users.id','=','ot_one.ot_one_nameid')
+        ->leftjoin('department_sub_sub','department_sub_sub.DEPARTMENT_SUB_SUB_ID','=','users.dep_subsubtrueid')
+        ->where('users.dep_subsubtrueid','=',$iddep)
+        ->where('users.id','=',$iduser)
+        ->get();
 
-        // $datashow = DB::connection('mysql15')->select(            
-        //     'SELECT * FROM car
-        // ');
+        $datashow = DB::connection('mysql15')->select(            
+            'SELECT * FROM car
+        ');
 
-        foreach ($showcalendar as $item) {
-            $dateend = $item->dent_date; //วันที่นัด
-            
-            $dent_time = $item->dent_time;  // เวลาที่นัด          
+        foreach ($otservicess as $item) {            
+            // $dateend = $item->car_service_length_backdate;
+            // $NewendDate = date ("Y-m-d", strtotime("1 day", strtotime($dateend)));
+            $dateend = $item->ot_one_date;
+            // $NewendDate = date ("Y-m-d", strtotime("1 day", strtotime($dateend)));
+            // $NewendDate = date("Y-m-d", strtotime($dateend) - 1);  //ลบออก 1 วัน  เพื่อโชว์ปฎิทิน
+            // $datestart=date('H:m');
+            $timestart = $item->ot_one_starttime;
+            $timeend = $item->ot_one_endtime;
 
-            $starttime = substr($dent_time, 0, 5); // ดึงแค่ช่วงเวลา
-            
-            $showtitle =' เวลา ' . $starttime .' น. ' . $item->dent_doctor_name; //ข้อความที่แสดงในปฏิทิน
-
+            $starttime = substr($timestart, 0, 5);
+            $endtime = substr($timeend, 0, 5);
+            $showtitle = $item->ot_one_fullname. ' => ' . $starttime . '-' . $endtime;
             
             // if ($item->ot_one_nameid == $iduser) {
-            //     $color = $item->color_ot;             
+                $color = $item->color_ot;             
 
             $event[] = [
-                'id' => $item->dent_appointment_id,
+                'id' => $item->ot_one_id,
                 'title' => $showtitle, 
                 'start' => $dateend,
-                // 'end' => $dateend,
-                // 'color' => $color
+                'end' => $dateend,
+                'color' => $color
             ];
         }
 
+
+
         return view('dent.dental_calendar',$data,[
                 'events'     =>  $event,
-             
+            // 'startdate'        => $startdate,
+            // 'enddate'          => $enddate,
+            // 'data_show'        => $data_show,  
         ]);
     }
 
@@ -614,7 +627,9 @@ class DentalController extends Controller
             'enddate'           => $dateend, 
             'users'             => $data,
             'appointment'       => $data_appointment,
-            
+            // 'datenow'           => $datenow,
+            // 'data_trash_type'  => $data_trash_type,
+            // 'billNos'          => $billNo,
         ]);       
 
         

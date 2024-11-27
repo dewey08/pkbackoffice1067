@@ -430,6 +430,9 @@ class MedicalgasController extends Controller
         $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+
         if ($startdate =='') {
             $datashow = DB::select(
                 'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
@@ -456,7 +459,7 @@ class MedicalgasController extends Controller
             '); 
         }
 
-        $data_                  = DB::table('gas_list')->where('gas_type','1')->first();
+        $data_                  = DB::table('gas_list')->where('gas_type','1')->where('gas_year',$bg_yearnow)->first();
         $data['gas_list_id']    = $data_->gas_list_id;
         $data['gas_type']       = $data_->gas_type;
      
@@ -481,7 +484,7 @@ class MedicalgasController extends Controller
         $iduser        = Auth::user()->id;
         $name_         = User::where('id', '=',$iduser)->first();
         $name_check    = $name_->fname. '  '.$name_->lname;
-        $list      = DB::table('gas_list')->where('gas_list_id',$request->gas_list_id)->first();
+        $list      = DB::table('gas_list')->where('gas_list_id',$request->gas_list_id)->where('gas_year',$bg_yearnow)->first();
 
         Gas_check::insert([
             'check_year'           =>  $bg_yearnow,
@@ -756,7 +759,10 @@ class MedicalgasController extends Controller
     {
         if ($request->ajax()) {
             if ($request->action == 'Edit') {
-                $idgas         = Gas_list::where('gas_list_num', $request->gas_list_num)->first();
+                $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+                $bg_yearnow    = $bgs_year->leave_year_id;
+
+                $idgas         = Gas_list::where('gas_list_num', $request->gas_list_num)->where('gas_year',$bg_yearnow)->first();
                 $gas_list_id   = $idgas->gas_list_id; 
                 $gas_list_num  = $idgas->gas_list_num; 
                 $gas_list_name = $idgas->gas_list_name; 
@@ -771,8 +777,7 @@ class MedicalgasController extends Controller
                 $check         = Gas_check::where('gas_list_id', $gas_list_id)->where('check_date', $date)->count();
                 $iduser        = Auth::user()->id;
 
-                $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
-                $bg_yearnow    = $bgs_year->leave_year_id;
+               
 
                 $body_    = $request->gas_check_body;
                 if ($body_ == '0') {
@@ -1118,7 +1123,7 @@ class MedicalgasController extends Controller
                 FROM gas_check b
                 LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
                 LEFT JOIN users p ON p.id = b.user_id 
-                WHERE b.check_date BETWEEN "'.$datenow.'" AND "'.$datenow.'" AND b.gas_type IN("3","4") AND a.gas_year = "'.$bg_yearnow.'"
+                WHERE b.check_date BETWEEN "'.$newweek.'" AND "'.$datenow.'" AND b.gas_type IN("3","4") AND a.gas_year = "'.$bg_yearnow.'"
                 ORDER BY b.gas_check_id DESC 
             '); 
         } else {
@@ -1287,10 +1292,13 @@ class MedicalgasController extends Controller
                 ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
                 ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
                 ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname,b.pariman_value,b.pressure_value,a.active
+                ,b.oxygen_check,b.nitrous_oxide_check,b.pneumatic_air_check,b.vacuum_check
+                ,c.location_name,c.detail,c.class
                 FROM gas_check b
                 LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+                LEFT JOIN gas_dot_control c ON c.gas_list_id = b.gas_list_id
                 LEFT JOIN users p ON p.id = b.user_id 
-                WHERE b.check_date BETWEEN "'.$datenow.'" AND "'.$datenow.'" AND b.gas_type IN("6","7","8","9") AND a.gas_year = "'.$bg_yearnow.'"
+                WHERE b.check_date BETWEEN "'.$newweek.'" AND "'.$datenow.'" AND b.gas_type IN("6","7","8","9") AND a.gas_year = "'.$bg_yearnow.'"
                 ORDER BY b.gas_check_id DESC 
             '); 
         } else {
@@ -1299,8 +1307,11 @@ class MedicalgasController extends Controller
                 ,b.check_year,b.check_date,b.check_time,b.gas_check_body,b.gas_check_body_name,b.gas_check_valve,b.gas_check_valve_name
                 ,b.gas_check_pressure,b.gas_check_pressure_name,b.gas_check_pressure_min,b.gas_check_pressure_max,b.standard_value
                 ,b.standard_value_min,b.standard_value_max,concat(p.fname," ",p.lname) as ptname ,b.pariman_value,b.pressure_value,a.active
+                ,b.oxygen_check,b.nitrous_oxide_check,b.pneumatic_air_check,b.vacuum_check
+                ,c.location_name,c.detail,c.class
                 FROM gas_check b
                 LEFT JOIN gas_list a ON a.gas_list_id = b.gas_list_id
+                LEFT JOIN gas_dot_control c ON c.gas_list_id = b.gas_list_id
                 LEFT JOIN users p ON p.id = b.user_id 
                 WHERE b.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND b.gas_type IN("6","7","8","9") AND a.gas_year = "'.$bg_yearnow.'"
                 ORDER BY b.gas_check_id DESC  
@@ -1323,6 +1334,8 @@ class MedicalgasController extends Controller
         $newweek   = date('Y-m-d', strtotime($datenow . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate   = date('Y-m-d', strtotime($datenow . ' -1 months')); //ย้อนหลัง 1 เดือน
         $newyear   = date('Y-m-d', strtotime($datenow . ' -1 year')); //ย้อนหลัง 1 ปี 
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
         if ($startdate =='') {
             $datashow = DB::select(
                 'SELECT a.gas_list_num,a.gas_list_name,a.detail,a.size
@@ -1355,7 +1368,7 @@ class MedicalgasController extends Controller
         $m             = date('H');
         $data['mm']    = date('H:m:s');
         $datefull = date('Y-m-d H:m:s');
-        $data['gas_list_group'] = $datashow = DB::select('SELECT gas_list_id,dot,dot_name,location_name,detail,class FROM gas_list WHERE dot IS NOT NULL GROUP BY dot');
+        $data['gas_list_group'] = $datashow = DB::select('SELECT gas_list_id,dot,dot_name,location_name,detail,class FROM gas_list WHERE dot IS NOT NULL AND gas_year ="'.$bg_yearnow.'" GROUP BY dot');
      
         return view('support_prs.gas.gas_control_add',$data,[
             'startdate'     => $startdate,
@@ -1367,7 +1380,10 @@ class MedicalgasController extends Controller
     {
         Gas_dot_control::truncate();
         $id = $request->dot;
-        $data_  = DB::table('gas_list')->where('gas_list_id',$id)->first();
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
+
+        $data_  = DB::table('gas_list')->where('gas_list_id',$id)->where('gas_year',$bg_yearnow)->first();
                 
             Gas_dot_control::insert([
                 'dot'               => $data_->dot,

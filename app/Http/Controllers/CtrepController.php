@@ -43,7 +43,7 @@ use App\Models\Book_type;
 use App\Models\Book_import_fam;
 use App\Models\Book_signature;
 use App\Models\Bookrep;
-use App\Models\Book_objective;
+use App\Models\A_ct_date;
 
 use App\Models\D_apiofc_ins;
 use App\Models\D_apiofc_iop;
@@ -123,20 +123,18 @@ class CtrepController extends Controller
     public function ct_rep(Request $request)
     {
         $startdate = $request->startdate;
-        $enddate = $request->enddate; 
- 
-        $date = date('Y-m-d');
-        $y = date('Y') + 543;
-        $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 2 เดือน
-        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y')+1;
-        $yearold = date('Y');
-        $start = (''.$yearold.'-10-01');
-        $end = (''.$yearnew.'-09-30'); 
+        $enddate   = $request->enddate;  
+        $date      = date('Y-m-d');
+        $y         = date('Y') + 543;
+        $newweek   = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 2 เดือน
+        $newyear   = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew   = date('Y')+1;
+        $yearold   = date('Y');
+        $start     = (''.$yearold.'-10-01');
+        $end       = (''.$yearnew.'-09-30'); 
         
-        if ($startdate != '') {  
-                 
+        if ($startdate != '') {                   
                 // $data['datashow'] = DB::connection('mysql')->select('SELECT * FROM a_ct WHERE vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" ORDER BY vstdate DESC'); 
                 $data['datashow'] = DB::connection('mysql')->select('
                     SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,request_date,ptname,xray_list,confirm_all,department,department_code
@@ -145,15 +143,26 @@ class CtrepController extends Controller
                     WHERE request_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
                     GROUP BY vn
                     ORDER BY request_date DESC
-                ');  
+                '); 
+                A_ct_date::truncate(); 
+
+                A_ct_date::insert([
+                    'startdate'   => $startdate,
+                    'enddate'     => $enddate,
+                ]);
         } else { 
+                $data_date         = A_ct_date::where('a_ct_date_id','=','1')->first();
+                $startdate         = $data_date->startdate;
+                $enddate           = $data_date->enddate;
+
                 $data['datashow'] = DB::connection('mysql')->select(
                     'SELECT a_ct_scan_id,vn,hn,cid,order_date,order_time,order_date_time,request_date,ptname,xray_list,confirm_all,department,department_code
                     ,department_name,pttype,ptty_spsch,xray_order_number,xray_price,total_price,department_list,priority_name,STMdoc,user_id,active,pdx,cc,an
-                    FROM a_ct_scan                                    
+                    FROM a_ct_scan  
+                    WHERE request_date BETWEEN "' . $startdate . '" AND "' . $enddate . '"                                   
                     GROUP BY vn
                     ORDER BY request_date DESC
-                    LIMIT 200
+                     
                 ');  
         }   
         // WHERE request_date BETWEEN "2024-07-01" AND "2024-07-05"      
@@ -171,8 +180,8 @@ class CtrepController extends Controller
             $startdate = $request->startdate;
             $enddate = $request->enddate;
          
-                $data_ct_new = DB::connection('mysql2')->select(' 
-                    SELECT  
+                $data_ct_new = DB::connection('mysql2')->select(
+                    'SELECT  
                         IFNULL(i.vn ,x.vn) vn
                         ,x.an,x.hn,x.request_date,x.report_date,p.cid
                         ,concat(p.pname," ",p.fname," ",p.lname) as ptname,v.pdx,os.cc
@@ -268,8 +277,8 @@ class CtrepController extends Controller
                         ]); 
                     }                    
                 } 
-                $data_ct_visit = DB::connection('mysql2')->select('
-                    SELECT o.vn,o.an,o.hn,o.vstdate,concat(p.pname," ",p.fname," ",p.lname) as ptname,concat(s.name," ",s.strength," ",s.units) as xray_list ,o.qty,o.paidst,o.unitprice,o.sum_price,op.cc
+                $data_ct_visit = DB::connection('mysql2')->select(
+                    'SELECT o.vn,o.an,o.hn,o.vstdate,concat(p.pname," ",p.fname," ",p.lname) as ptname,concat(s.name," ",s.strength," ",s.units) as xray_list ,o.qty,o.paidst,o.unitprice,o.sum_price,op.cc
                     FROM opitemrece o  
                     LEFT OUTER JOIN s_drugitems s on s.icode=o.icode  
                     LEFT OUTER JOIN patient p on p.hn=o.hn  
@@ -315,8 +324,8 @@ class CtrepController extends Controller
                 }
                $updatehcode = DB::connection('mysql')->select('SELECT vn,an,request_date FROM a_ct_scan WHERE request_date BETWEEN "' . $startdate . '" AND "' . $enddate . '" AND hospcode IS NULL');
                foreach ($updatehcode as $key => $val_up) {
-                    $data_ct_new_ = DB::connection('mysql2')->select(' 
-                        SELECT v.vn,h.hospcode,ro.icd10 as referin_no,h.name as hospmain
+                    $data_ct_new_ = DB::connection('mysql2')->select(
+                        'SELECT v.vn,h.hospcode,ro.icd10 as referin_no,h.name as hospmain
                         FROM vn_stat v
                         LEFT OUTER JOIN hospcode h on h.hospcode = v.hospmain 
                         LEFT OUTER JOIN referin ro on ro.vn = v.vn 
@@ -589,8 +598,11 @@ class CtrepController extends Controller
                     # code...
                 } 
             } 
+
             A_ct_excel::truncate();  
-            return redirect()->route('ct.ct_rep_import'); 
+            return back();
+            // return redirect()->route('ct.ct_rep_import'); 
+
     }  
     public function ct_rep_sync(Request $request)
     { 

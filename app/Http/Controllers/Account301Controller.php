@@ -234,8 +234,8 @@ class Account301Controller extends Controller
                 group by a.vn
                 order by a.vstdate desc
             ');
-            $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.301')->whereBetween('vstdate', [$newday, $datenow])->count();
-            $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050101.301')->whereBetween('vstdate', [$newday, $datenow])->count();
+            $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.301')->whereBetween('vstdate', [$startdate, $enddate])->count();
+            $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050101.301')->whereBetween('vstdate', [$startdate, $enddate])->count();
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$startdate, $enddate])->get();
         }
         // left join checksit_hos c on c.vn = a.vn
@@ -469,7 +469,6 @@ class Account301Controller extends Controller
         }
 
         return response()->json([
-
            'status'    => '200'
        ]);
 
@@ -800,41 +799,43 @@ class Account301Controller extends Controller
                     AND op.paidst="02"
                     AND pt.pttype ="A7"   
             ');
-            foreach ($ssop_dispenseditems_ as $key => $value4) {           
-                $add4= new Ssop_dispenseditems();
-                $add4->DispID         = $value4->DispID ; 
-                $add4->PrdCat         = $value4->PrdCat; 
-                $add4->HospDrgID      = $value4->HospDrgID;
-                $add4->DrgID          = $value4->DrgID;
-                $add4->dfsText        = $value4->dfsText;
-                
-    
-                if ($value4->Packsize == '') {
-                    $add4->Packsize = "Unit";
-                } else {
-                    $add4->Packsize = $value4->Packsize;
-                }
-                if ($value4->sigCode == '') {
-                    $add4->sigCode = "0004";
-                } else {
-                    $add4->sigCode = $value4->sigCode;
-                }
-                if ($value4->sigText == '') {
-                    $add4->sigText = "ใช้ตามแพทย์สั่ง";
-                } else {
-                    $add4->sigText = $value4->sigText;
-                }
-                
-                $add4->Quantity      = $value4->Quantity;
-                $add4->UnitPrice     = $value4->UnitPrice;
-                $add4->ChargeAmt     = $value4->ChargeAmt;
-                $add4->ReimbPrice    = $value4->ReimbPrice;
-                $add4->ReimbAmt      = $value4->ReimbAmt;
-                $add4->PrdSeCode     = $value4->PrdSeCode; 
-                $add4->Claimcont     = $value4->Claimcont; 
-                $add4->ClaimCat      = $value4->ClaimCat; 
-                $add4->paidst        = $value4->paidst;  
-                $add4->save();
+            foreach ($ssop_dispenseditems_ as $key => $value4) {   
+                // if ($value4->PrdCat == '') { 
+                // } else {
+                    $add4= new Ssop_dispenseditems();
+                    $add4->DispID         = $value4->DispID ; 
+                    $add4->PrdCat         = $value4->PrdCat; 
+                    $add4->HospDrgID      = $value4->HospDrgID;
+                    $add4->DrgID          = $value4->DrgID;
+                    $add4->dfsText        = $value4->dfsText;    
+                    if ($value4->Packsize == '') {
+                        $add4->Packsize = "Unit";
+                    } else {
+                        $add4->Packsize = $value4->Packsize;
+                    }
+                    if ($value4->sigCode == '') {
+                        $add4->sigCode = "0004";
+                    } else {
+                        $add4->sigCode = $value4->sigCode;
+                    }
+                    if ($value4->sigText == '') {
+                        $add4->sigText = "ใช้ตามแพทย์สั่ง";
+                    } else {
+                        $add4->sigText = $value4->sigText;
+                    }                
+                    $add4->Quantity      = $value4->Quantity;
+                    $add4->UnitPrice     = $value4->UnitPrice;
+                    $add4->ChargeAmt     = $value4->ChargeAmt;
+                    $add4->ReimbPrice    = $value4->ReimbPrice;
+                    $add4->ReimbAmt      = $value4->ReimbAmt;
+                    $add4->PrdSeCode     = $value4->PrdSeCode; 
+                    $add4->Claimcont     = $value4->Claimcont; 
+                    $add4->ClaimCat      = $value4->ClaimCat; 
+                    $add4->paidst        = $value4->paidst;  
+                    $add4->save();
+                // }
+                        
+               
             } 
 
             $ssop_opservices_ = DB::connection('mysql2')->select(

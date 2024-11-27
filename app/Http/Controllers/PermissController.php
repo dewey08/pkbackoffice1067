@@ -20,7 +20,7 @@ use App\Models\Products_request_sub;
 use App\Models\Products;
 use App\Models\Products_type;
 use App\Models\Product_group;
-use App\Models\Product_unit;
+use App\Models\User_permiss;
 use App\Models\Products_category;
 use App\Models\Leave_leader;
 use App\Models\Leave_leader_sub;
@@ -42,9 +42,13 @@ public function permiss_liss(Request $request,$id)
     $dataedit = User::leftjoin('users_prefix','users_prefix.prefix_code','=','users.pname')->leftjoin('permiss_setting','permiss_setting.permiss_setting_userid','=','users.id')
     ->where('users.id','=',$id)->first();
 
+    $data['count_vet']  = DB::table('user_permiss')->where('user_id','=',$id)->where('user_permiss_num','=','AUDITVET01')->count();
+    $data['count_fdh']     = DB::table('user_permiss')->where('user_id','=',$id)->where('user_permiss_num','=','FDH')->count();
+    $data['count_accb']    = DB::table('user_permiss')->where('user_id','=',$id)->where('user_permiss_num','=','ACCB01')->count();
+    // dd($dataedit_new);
     return view('setting.permiss_liss',$data,[
-       'dataedits'    =>   $dataedit ,
-    //    'ids'    =>   $id 
+       'dataedits'       => $dataedit,
+    //    'dataedit_new'    => $dataedit_new 
     ]);
 }
 public function permiss_save(Request $request)
@@ -94,9 +98,68 @@ public function permiss_save(Request $request)
         $update->per_cctv                = $request->input('per_cctv');
         $update->per_fire                = $request->input('per_fire');
         $update->per_air                 = $request->input('per_air');
-
         $update->save(); 
 
+        $audit  = $request->input('AUDITVET01');
+        $count = DB::table('user_permiss')->where('user_id','=',$id)->where('user_permiss_num','=','AUDITVET01')->count(); 
+        if ($count > 0) { 
+            if ($audit == '' || $audit == null) {
+                User_permiss::where('user_id','=',$id)->where('user_permiss_num','=','AUDITVET01')->delete();
+            }
+        } else {
+            if ($audit == '' || $audit == null) { 
+                User_permiss::where('user_id','=',$id)->where('user_permiss_num','=','AUDITVET01')->delete();
+            } else {
+                User_permiss::insert([
+                    'user_permiss_num'   => 'AUDITVET01',
+                    'user_permiss_name'  => 'Pre-Audit'
+                ]);
+                
+            }
+           
+        }
+
+        $audit2  = $request->input('FDH');
+        $count2 = DB::table('user_permiss')->where('user_id','=',$id)->where('user_permiss_num','=','FDH')->count(); 
+        if ($count2 > 0) { 
+            if ($audit2 == '' || $audit2 == null) {
+                User_permiss::where('user_id','=',$id)->where('user_permiss_num','=','FDH')->delete();
+            }
+        } else {
+            if ($audit2 == '' || $audit2 == null) { 
+                User_permiss::where('user_id','=',$id)->where('user_permiss_num','=','FDH')->delete();
+            } else {
+                User_permiss::insert([
+                    'user_permiss_num'   => 'FDH',
+                    'user_permiss_name'  => 'FDH'
+                ]);
+                
+            }
+           
+        }
+
+        $audit3  = $request->input('ACCB01');
+        $count3 = DB::table('user_permiss')->where('user_id','=',$id)->where('user_permiss_num','=','ACCB01')->count(); 
+        if ($count3 > 0) { 
+            if ($audit3 == '' || $audit3 == null) {
+                User_permiss::where('user_id','=',$id)->where('user_permiss_num','=','ACCB01')->delete();
+            }
+        } else {
+            if ($audit3 == '' || $audit3 == null) { 
+                User_permiss::where('user_id','=',$id)->where('user_permiss_num','=','ACCB01')->delete();
+            } else {
+                User_permiss::insert([
+                    'user_permiss_num'   => 'ACCB01',
+                    'user_permiss_name'  => 'บัญชี'
+                ]);
+                
+            }
+           
+        }
+           
+        // $update_new = User_permiss::find($id);
+        // $update_new->permiss_person          = $request->input('permiss_person'); 
+        // $update_new->save(); 
         // dd($request->id);
         // dd($request->permiss_setting_name);
         // Permiss_setting
@@ -126,9 +189,7 @@ public function permiss_save(Request $request)
             // }
         // }
         
-        
-       
- 
+         
 
         return response()->json([
             'status'     => '200'

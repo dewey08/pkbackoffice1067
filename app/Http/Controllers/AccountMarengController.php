@@ -42,7 +42,7 @@ use App\Models\Acc_stm_ti_totalhead;
 use App\Models\Acc_stm_ti_excel;
 use App\Models\Acc_stm_ofc;
 use App\Models\acc_stm_ofcexcel;
-use App\Models\Acc_stm_lgo;
+use App\Models\Acc_mareng;
 use App\Models\Acc_stm_lgoexcel;
 use App\Models\Check_sit_auto;
 use App\Models\Acc_stm_ucs_excel;
@@ -80,7 +80,7 @@ use App\Models\Dapi_irf;
 use App\Models\Dapi_lvd;
 
 use App\Models\Acc_function;
-use App\Models\Fdh_sesion;
+
 use App\Models\D_apiofc_ins;
 use App\Models\D_apiofc_iop;
 use App\Models\D_apiofc_adp;
@@ -98,6 +98,7 @@ use App\Models\D_apiofc_oop;
 use App\Models\D_apiofc_opd;
 use App\Models\D_apiofc_orf;
 
+use App\Models\Fdh_sesion;
 use App\Models\Fdh_ins;
 use App\Models\Fdh_pat;
 use App\Models\Fdh_opd;
@@ -130,7 +131,7 @@ use SoapClient;
 // use File;
 // use SplFileObject;
 use Arr;
-// use Storage;
+use CURLFILE;
 use GuzzleHttp\Client; 
 use App\Imports\ImportAcc_stm_ti;
 use App\Imports\ImportAcc_stm_tiexcel_import;
@@ -159,301 +160,190 @@ use Illuminate\Filesystem\Filesystem;
 date_default_timezone_set("Asia/Bangkok");
 
 
-class Account401Controller extends Controller
+class AccountMarengController extends Controller
  {
-        
+     
     // public function account_401_dash(Request $request)
     // {
-    //     $startdate = $request->startdate;
-    //     $enddate = $request->enddate;
-    //     $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
-    //     $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+    //     $budget_year        = $request->budget_year;
+    //     $acc_trimart_id = $request->acc_trimart_id;
+    //     $dabudget_year      = DB::table('budget_year')->where('active','=',true)->get();
+    //     $leave_month_year   = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
     //     $date = date('Y-m-d');
     //     $y = date('Y') + 543;
     //     $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
     //     $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
     //     $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-    //     $yearnew = date('Y')+1;
-    //     $yearold = date('Y')-1;
-    //     $start = (''.$yearold.'-10-01');
-    //     $end = (''.$yearnew.'-09-30'); 
-    //     // dd($start);
-    //     if ($startdate == '') {
+    //     $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+    //     $data['bg_yearnow']    = $bgs_year->leave_year_id;
+        
+    //     if ($budget_year == '') {
+    //         $yearnew     = date('Y');
+    //         $year_old    = date('Y')-1; 
+    //         // $startdate   = (''.$year_old.'-10-01');
+    //         // $enddate     = (''.$yearnew.'-09-30'); 
+    //         $bg           = DB::table('budget_year')->where('years_now','Y')->first();
+    //         $startdate    = $bg->date_begin;
+    //         $enddate      = $bg->date_end;
+    //         // dd($startdate);
     //         $datashow = DB::select('
-    //             SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-    //                 ,count(distinct a.hn) as hn
-    //                 ,count(distinct a.vn) as vn
-    //                 ,sum(a.paid_money) as paid_money
-    //                 ,sum(a.income) as income
-    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
-    //                 FROM acc_debtor a
-    //                 left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-    //                 WHERE a.vstdate between "'.$start.'" and "'.$end.'"
-    //                 and account_code="1102050101.401"
-    //                 and income <> 0
-    //                 group by month(a.vstdate) order by a.vstdate desc limit 2;
-    //         ');
-    //     } else {
-    //         $datashow = DB::select('
-    //             SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-    //                 ,count(distinct a.hn) as hn
-    //                 ,count(distinct a.vn) as vn
-    //                 ,sum(a.paid_money) as paid_money
-    //                 ,sum(a.income) as income
-    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
+    //                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+    //                 ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn ,count(distinct a.an) as an
+    //                 ,sum(a.income) as income ,sum(a.paid_money) as paid_money
+    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money)-sum(a.fokliad) as debit402,sum(a.fokliad) as sumfokliad
+                    
     //                 FROM acc_debtor a
     //                 left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
     //                 WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
     //                 and account_code="1102050101.401"
-    //                 and income <>0
-                    
+    //                 group by month(a.vstdate)                     
+    //                 order by a.vstdate desc;
+    //         ');  
+    //     } else {
+          
+    //         $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
+    //         $startdate    = $bg->date_begin;
+    //         $enddate      = $bg->date_end; 
+    //         // dd($startdate);
+    //         $datashow = DB::select('
+    //                 SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
+    //                 ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn
+    //                 ,count(distinct a.an) as an ,sum(a.income) as income 
+    //                 ,sum(a.paid_money) as paid_money
+    //                 ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
+    //                 FROM acc_debtor a
+    //                 left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
+    //                 WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
+    //                 and account_code="1102050101.401" 
+    //                 group by month(a.vstdate)                    
+    //                 order by a.vstdate desc;
     //         ');
     //     }
-
-    //     return view('account_401.account_401_dash',[
-    //         'startdate'        => $startdate,
-    //         'enddate'          => $enddate,
-    //         'leave_month_year' => $leave_month_year,
-    //         'datashow'         => $datashow,
-    //         'newyear'          => $newyear,
-    //         'date'             => $date,
+    //     // dd($startdate);
+    //     return view('account_401.account_401_dash',$data,[
+    //         'startdate'         =>  $startdate,
+    //         'enddate'           =>  $enddate, 
+    //         'leave_month_year'  =>  $leave_month_year, 
+    //         'datashow'          =>  $datashow,
+    //         'dabudget_year'     =>  $dabudget_year,
+    //         'budget_year'       =>  $budget_year,
+    //         'y'                 =>  $y, 
     //     ]);
-    // }
-    public function account_401_dash_old(Request $request)
-    { 
-           $budget_year   = $request->budget_year; 
-           $datenow       = date("Y-m-d");
-           $y             = date('Y') + 543;
-           $dabudget_year = DB::table('budget_year')->where('active','=',true)->get(); 
-           $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-           $date = date('Y-m-d'); 
-           $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-           $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-           $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-           
-           $months_now = date('m');
-           $year_now = date('Y');  
-           if ($budget_year == '') {  
-               $yearnew = date('Y');
-               $year_old = date('Y')-1;
-               $months_old  = ('10');
-               $startdate = (''.$year_old.'-10-01');
-               $enddate = (''.$yearnew.'-09-30'); 
-               $datashow = DB::select(' 
-                       SELECT MONTH(a.vstdate) as months,YEAR(a.vstdate) as years
-                       ,count(DISTINCT a.vn) as total_an,l.MONTH_NAME
-                       ,sum(a.debit_total) as tung_looknee  
-                       FROM acc_1102050101_401 a 
-                       LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.vstdate)
-                       WHERE a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                       AND a.account_code ="1102050101.401"
-                       GROUP BY months ORDER BY a.vstdate DESC
-               ');    
-           } else {
-               $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
-               $startdate    = $bg->date_begin;
-               $enddate      = $bg->date_end; 
-               $datashow = DB::select(' 
-                       SELECT MONTH(a.vstdate) as months,YEAR(a.vstdate) as years
-                       ,count(DISTINCT a.vn) as total_an,l.MONTH_NAME
-                       ,sum(a.debit_total) as tung_looknee  
-                       FROM acc_1102050101_401 a 
-                       LEFT OUTER JOIN leave_month l on l.MONTH_ID = month(a.vstdate)
-                       WHERE a.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                       AND a.account_code ="1102050101.401"
-                       GROUP BY months ORDER BY a.vstdate DESC 
-               ');  
-           }
-       
-            return view('account_401.account_401_dash',[
-                'startdate'        =>  $startdate,
-                'enddate'          =>  $enddate, 
-                'datashow'         =>  $datashow,
-                'dabudget_year'    =>  $dabudget_year,
-                'budget_year'      =>  $budget_year,
-                'y'                =>  $y,
-            ]);
-    }
-    public function account_401_dash(Request $request)
-    {
-        $budget_year        = $request->budget_year;
-        $acc_trimart_id = $request->acc_trimart_id;
-        $dabudget_year      = DB::table('budget_year')->where('active','=',true)->get();
-        $leave_month_year   = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-        $date = date('Y-m-d');
-        $y = date('Y') + 543;
-        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
-        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-         
-        if ($budget_year == '') {
-            $yearnew     = date('Y');
-            $year_old    = date('Y')-1; 
-            $startdate   = (''.$year_old.'-10-01');
-            $enddate     = (''.$yearnew.'-09-30'); 
-            // dd($startdate);
-            $datashow = DB::select('
-                    SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn ,count(distinct a.an) as an
-                    ,sum(a.income) as income ,sum(a.paid_money) as paid_money
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money)-sum(a.fokliad) as debit402,sum(a.fokliad) as sumfokliad
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050101.401"
-                    group by month(a.vstdate)                     
-                    order by a.vstdate desc;
-            ');  
-        } else {
-          
-            $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
-            $startdate    = $bg->date_begin;
-            $enddate      = $bg->date_end; 
-            // dd($startdate);
-            $datashow = DB::select('
-                    SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
-                    ,count(distinct a.hn) as hn ,count(distinct a.vn) as vn
-                    ,count(distinct a.an) as an ,sum(a.income) as income ,sum(a.paid_money) as paid_money
-                    ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total ,sum(a.debit) as debit
-                    FROM acc_debtor a
-                    left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
-                    WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050101.401" 
-                    group by month(a.vstdate)                    
-                    order by a.vstdate desc;
-            ');
-        }
-        // dd($startdate);
-        return view('account_401.account_401_dash',[
-            'startdate'         =>  $startdate,
-            'enddate'           =>  $enddate, 
-            'leave_month_year'  =>  $leave_month_year, 
-            'datashow'          =>  $datashow,
-            'dabudget_year'     =>  $dabudget_year,
-            'budget_year'       =>  $budget_year,
-            'y'                 =>  $y, 
-        ]);
 
-        // return view('account_304.account_304_dash',[
-        //     'startdate'        => $startdate,
-        //     'enddate'          => $enddate,
-        //     'leave_month_year' => $leave_month_year,
-        //     'data_trimart'     => $data_trimart,
-        //     'newyear'          => $newyear,
-        //     'date'             => $date,
-        //     'trimart'          => $trimart,
-        // ]);
-    }
-    public function account_401_pull(Request $request)
+    //     // return view('account_304.account_304_dash',[
+    //     //     'startdate'        => $startdate,
+    //     //     'enddate'          => $enddate,
+    //     //     'leave_month_year' => $leave_month_year,
+    //     //     'data_trimart'     => $data_trimart,
+    //     //     'newyear'          => $newyear,
+    //     //     'date'             => $date,
+    //     //     'trimart'          => $trimart,
+    //     // ]);
+    // }
+   
+    public function acc_mareng_pull(Request $request)
     {
         $datenow = date('Y-m-d');
         $months = date('m');
         $year = date('Y');
-        $newday = date('Y-m-d', strtotime($datenow . ' -5 Day')); //ย้อนหลัง 1 สัปดาห์
+        $newday = date('Y-m-d', strtotime($datenow . ' -1 Day')); //ย้อนหลัง 1 สัปดาห์
         $startdate = $request->startdate;
         $enddate   = $request->enddate;
-        if ($startdate == '') {
-            // $data_date_ = Acc_ofc_dateconfig::where('acc_ofc_dateconfig_id','=','1')->first();
-            // $startdate = $data_date_->startdate;
-            // $enddate = $data_date_->enddate;
-
-            $startdate = '';
-            $enddate = '';
+        if ($startdate == '') { 
                 $acc_debtor = DB::select(' 
                         SELECT * 
                         from acc_debtor a 
-                        WHERE a.account_code="1102050101.401" 
+                        WHERE a.account_code="1102050101.201" 
                         AND vstdate BETWEEN "' . $newday . '" AND "' . $datenow . '"
                         AND a.debit_total > 0
                         GROUP BY a.vn
                         order by a.vn DESC; 
                 '); 
                 
-                $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="OFC_401"'); 
-                $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="OFC_401"'); 
-                $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop WHERE d_anaconda_id ="OFC_401"');
-                $data['data_odx'] = DB::connection('mysql')->select('SELECT * from d_odx WHERE d_anaconda_id ="OFC_401"');
-                $data['data_idx'] = DB::connection('mysql')->select('SELECT * from d_idx WHERE d_anaconda_id ="OFC_401"');
-                $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from d_ipd WHERE d_anaconda_id ="OFC_401"');
-                $data['data_irf'] = DB::connection('mysql')->select('SELECT * from d_irf WHERE d_anaconda_id ="OFC_401"');
-                $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer WHERE d_anaconda_id ="OFC_401"');
-                $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop WHERE d_anaconda_id ="OFC_401"');
-                $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp WHERE d_anaconda_id ="OFC_401"');
-                $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat WHERE d_anaconda_id ="OFC_401"');
-                $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht WHERE d_anaconda_id ="OFC_401"');
-                $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha WHERE d_anaconda_id ="OFC_401"');
-                $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins WHERE d_anaconda_id ="OFC_401"');
-                $data['data_dru'] = DB::connection('mysql')->select('SELECT * from d_dru WHERE d_anaconda_id ="OFC_401"');
-                $data['count_no'] = Acc_debtor::where('approval_code','<>','')->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$newday, $datenow])->count();
-                $data['count_null'] = Acc_debtor::where('approval_code','=',Null)->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$newday, $datenow])->count();
-                $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$newday, $datenow])->count();
-                $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$newday, $datenow])->count();
+                $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="MARENG"'); 
+                $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="MARENG"'); 
+                $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop WHERE d_anaconda_id ="MARENG"');
+                $data['data_odx'] = DB::connection('mysql')->select('SELECT * from d_odx WHERE d_anaconda_id ="MARENG"');
+                $data['data_idx'] = DB::connection('mysql')->select('SELECT * from d_idx WHERE d_anaconda_id ="MARENG"');
+                $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from d_ipd WHERE d_anaconda_id ="MARENG"');
+                $data['data_irf'] = DB::connection('mysql')->select('SELECT * from d_irf WHERE d_anaconda_id ="MARENG"');
+                $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer WHERE d_anaconda_id ="MARENG"');
+                $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop WHERE d_anaconda_id ="MARENG"');
+                $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp WHERE d_anaconda_id ="MARENG"');
+                $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat WHERE d_anaconda_id ="MARENG"');
+                $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht WHERE d_anaconda_id ="MARENG"');
+                $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha WHERE d_anaconda_id ="MARENG"');
+                $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins WHERE d_anaconda_id ="MARENG"');
+                $data['data_dru'] = DB::connection('mysql')->select('SELECT * from d_dru WHERE d_anaconda_id ="MARENG"');
+                $data['count_no'] = Acc_debtor::where('approval_code','<>','')->where('account_code','=','1102050101.201')->whereBetween('vstdate', [$newday, $datenow])->count();
+                $data['count_null'] = Acc_debtor::where('approval_code','=',Null)->where('account_code','=','1102050101.201')->whereBetween('vstdate', [$newday, $datenow])->count();
+                $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.201')->whereBetween('vstdate', [$newday, $datenow])->count();
+                $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050101.201')->whereBetween('vstdate', [$newday, $datenow])->count();
         } else {
        
                 $acc_debtor = DB::select(' 
                         SELECT * 
                         from acc_debtor a 
-                        WHERE a.account_code="1102050101.401" 
+                        WHERE a.account_code="1102050101.201" 
                         AND vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                         AND a.debit_total > 0
                         GROUP BY a.vn
                         order by a.vn DESC; 
                 '); 
                 
-                $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="OFC_401"'); 
-                $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="OFC_401"'); 
-                $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop WHERE d_anaconda_id ="OFC_401"');
-                $data['data_odx'] = DB::connection('mysql')->select('SELECT * from d_odx WHERE d_anaconda_id ="OFC_401"');
-                $data['data_idx'] = DB::connection('mysql')->select('SELECT * from d_idx WHERE d_anaconda_id ="OFC_401"');
-                $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from d_ipd WHERE d_anaconda_id ="OFC_401"');
-                $data['data_irf'] = DB::connection('mysql')->select('SELECT * from d_irf WHERE d_anaconda_id ="OFC_401"');
-                $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer WHERE d_anaconda_id ="OFC_401"');
-                $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop WHERE d_anaconda_id ="OFC_401"');
-                $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp WHERE d_anaconda_id ="OFC_401"');
-                $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat WHERE d_anaconda_id ="OFC_401"');
-                $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht WHERE d_anaconda_id ="OFC_401"');
-                $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha WHERE d_anaconda_id ="OFC_401"');
-                $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins WHERE d_anaconda_id ="OFC_401"');
-                $data['data_dru'] = DB::connection('mysql')->select('SELECT * from d_dru WHERE d_anaconda_id ="OFC_401"');
-                $data['count_no'] = Acc_debtor::where('approval_code','<>','')->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$startdate, $enddate])->count();
-                $data['count_null'] = Acc_debtor::where('approval_code','=',Null)->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$startdate, $enddate])->count();
-                $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$startdate, $enddate])->count();
-                $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050101.401')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                $data['data_opd'] = DB::connection('mysql')->select('SELECT * from d_opd WHERE d_anaconda_id ="MARENG"'); 
+                $data['data_orf'] = DB::connection('mysql')->select('SELECT * from d_orf WHERE d_anaconda_id ="MARENG"'); 
+                $data['data_oop'] = DB::connection('mysql')->select('SELECT * from d_oop WHERE d_anaconda_id ="MARENG"');
+                $data['data_odx'] = DB::connection('mysql')->select('SELECT * from d_odx WHERE d_anaconda_id ="MARENG"');
+                $data['data_idx'] = DB::connection('mysql')->select('SELECT * from d_idx WHERE d_anaconda_id ="MARENG"');
+                $data['data_ipd'] = DB::connection('mysql')->select('SELECT * from d_ipd WHERE d_anaconda_id ="MARENG"');
+                $data['data_irf'] = DB::connection('mysql')->select('SELECT * from d_irf WHERE d_anaconda_id ="MARENG"');
+                $data['data_aer'] = DB::connection('mysql')->select('SELECT * from d_aer WHERE d_anaconda_id ="MARENG"');
+                $data['data_iop'] = DB::connection('mysql')->select('SELECT * from d_iop WHERE d_anaconda_id ="MARENG"');
+                $data['data_adp'] = DB::connection('mysql')->select('SELECT * from d_adp WHERE d_anaconda_id ="MARENG"');
+                $data['data_pat'] = DB::connection('mysql')->select('SELECT * from d_pat WHERE d_anaconda_id ="MARENG"');
+                $data['data_cht'] = DB::connection('mysql')->select('SELECT * from d_cht WHERE d_anaconda_id ="MARENG"');
+                $data['data_cha'] = DB::connection('mysql')->select('SELECT * from d_cha WHERE d_anaconda_id ="MARENG"');
+                $data['data_ins'] = DB::connection('mysql')->select('SELECT * from d_ins WHERE d_anaconda_id ="MARENG"');
+                $data['data_dru'] = DB::connection('mysql')->select('SELECT * from d_dru WHERE d_anaconda_id ="MARENG"');
+                $data['count_no'] = Acc_debtor::where('approval_code','<>','')->where('account_code','=','1102050101.201')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                $data['count_null'] = Acc_debtor::where('approval_code','=',Null)->where('account_code','=','1102050101.201')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.201')->whereBetween('vstdate', [$startdate, $enddate])->count();
+                $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050101.201')->whereBetween('vstdate', [$startdate, $enddate])->count();
         }
         
         // $data_activeclaim        = Acc_function::where('pang','1102050101.401')->get();
-        $data_activeclaim        = Acc_function::where('pang','1102050101.401')->first();
+        $data_activeclaim        = Acc_function::where('pang','1102050101.201')->first();
         $data['activeclaim']     = $data_activeclaim->claim_active;
         $data['acc_function_id'] = $data_activeclaim->acc_function_id;
 
-        return view('account_401.account_401_pull',$data,[
+        return view('account_claim.acc_mareng_pull',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
             'acc_debtor'    =>     $acc_debtor,
         ]);
     }
-    function account_401_claimswitch(Request $request)
-    {  
-        // $id = $request->idfunc;
-        Acc_function::where('pang','1102050101.401')->update(['claim_active'=> $request->onoff]); 
-        return response()->json([
-            'status'    => '200'
-        ]);
-    }
-
-    public function account_401_pulldata(Request $request)
+    // function account_401_claimswitch(Request $request)
+    // {  
+    //     // $id = $request->idfunc;
+    //     Acc_function::where('pang','1102050101.401')->update(['claim_active'=> $request->onoff]); 
+    //     return response()->json([
+    //         'status'    => '200'
+    //     ]);
+    // }
+    public function acc_mareng_pulldata(Request $request)
     {
         $datenow = date('Y-m-d');
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         Acc_ofc_dateconfig::truncate();
-        $acc_debtor = DB::connection('mysql2')->select(' 
-            SELECT o.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
+        $acc_debtor = DB::connection('mysql2')->select(
+            'SELECT o.vn,o.an,o.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname
                 ,o.vstdate,o.vsttime
                 ,v.hospmain,"" regdate,"" dchdate,op.income as income_group  
                 ,ptt.pttype_eclaim_id,vp.pttype
-                ,e.code as acc_code
+                ,"17" as acc_code
                 ,"1102050101.401" as account_code
                 ,"เบิกจ่ายตรงกรมบัญชีกลาง" as account_name
                 ,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money 
@@ -484,25 +374,13 @@ class Account401Controller extends Controller
                 and (o.an="" or o.an is null) AND pt.cid IS NOT NULL
                 GROUP BY v.vn
         ');
-        // AND vp.pttype IN(SELECT pttype from pkbackoffice.acc_setpang_type WHERE pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.401"))
-        // AND vp.pttype IN("O1","O2","O3","O4","O5")
-        // ,e.ar_opd as account_code
-        // ,e.name as account_name
+        // Acc_mareng
+        $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
+        $bg_yearnow    = $bgs_year->leave_year_id;
 
             foreach ($acc_debtor as $key => $value) {
-                        $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.401')->count();
-                        // ->whereBetween('vstdate', [$startdate, $enddate])
-                    
-                        // $starttime = substr($vst, 0, 5);
-                        // $day = substr($value->vstdate,0,2);
-                        // $mo = substr($value->vstdate,3,2);
-                        // $year = substr($value->vstdate,7,4);
-                        
-                        // $vsttime = substr($value->vstdate,12,8);
-                        $hm = substr($value->vsttime,0,5);
-                        // $hh = substr($value->vstdate,12,2);
-                        // $mm = substr($value->vstdate,15,2);
-                        // $vstdate = $year.'-'.$mo.'-'.$day;
+                        $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.201')->count();                        
+                        $hm = substr($value->vsttime,0,5); 
 
                         if ($check > 0) {
                             Acc_debtor::where('vn', $value->vn)->update([
@@ -511,9 +389,11 @@ class Account401Controller extends Controller
                                 'approval_code'      => $value->approval_code,
                                 'price_ofc'          => $value->price_ofc,
                                 'debit_total'        => $value->debit,
+                                'bg_yearnow'         => $bg_yearnow,
                             ]);
                         }else{
                             Acc_debtor::insert([
+                                'bg_yearnow'         => $bg_yearnow,
                                 'hn'                 => $value->hn,
                                 'an'                 => $value->an,
                                 'vn'                 => $value->vn,
@@ -550,348 +430,106 @@ class Account401Controller extends Controller
                             
                         } 
             }
-            Acc_ofc_dateconfig::insert([
-                'startdate'   => $startdate,
-                'enddate'     => $enddate,
-            ]);
+            // Acc_ofc_dateconfig::insert([
+            //     'startdate'   => $startdate,
+            //     'enddate'     => $enddate,
+            // ]);
 
             return response()->json([
 
                 'status'    => '200'
             ]);
     }
-    public function account_401_checksit(Request $request)
-    {
-        $datestart = $request->datestart;
-        $dateend = $request->dateend;
-        $date = date('Y-m-d');
-        
-        $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050101.401" AND stamp = "N" GROUP BY vn');
- 
-        $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
-        foreach ($token_data as $key => $value) { 
-            $cid_    = $value->cid;
-            $token_  = $value->token;
-        }
-        foreach ($data_sitss as $key => $item) {
-            $pids = $item->cid;
-            $vn   = $item->vn; 
-            $an   = $item->an; 
+    // public function account_401_checksit(Request $request)
+    // {
+    //     $datestart = $request->datestart;
+    //     $dateend   = $request->dateend;
+    //     $date      = date('Y-m-d');
+    //     $id        = $request->ids;
+    //     // $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050101.401" AND stamp = "N" GROUP BY vn');
+    //     $data_sitss = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
+    //     $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
+    //     foreach ($token_data as $key => $value) { 
+    //         $cid_    = $value->cid;
+    //         $token_  = $value->token;
+    //     }
+    //     foreach ($data_sitss as $key => $item) {
+    //         $pids = $item->cid;
+    //         $vn   = $item->vn; 
+    //         $an   = $item->an; 
                 
-                    $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
-                        array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
-                        );
-                        $params = array(
-                            'sequence' => array(
-                                "user_person_id"   => "$cid_",
-                                "smctoken"         => "$token_",
-                                // "user_person_id" => "$value->cid",
-                                // "smctoken"       => "$value->token",
-                                "person_id"        => "$pids"
-                        )
-                    );
-                    $contents = $client->__soapCall('searchCurrentByPID',$params);
-                    foreach ($contents as $v) {
-                        @$status = $v->status ;
-                        @$maininscl = $v->maininscl;
-                        @$startdate = $v->startdate;
-                        @$hmain = $v->hmain ;
-                        @$subinscl = $v->subinscl ;
-                        @$person_id_nhso = $v->person_id;
+    //                 $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
+    //                     array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
+    //                     );
+    //                     $params = array(
+    //                         'sequence' => array(
+    //                             "user_person_id"   => "$cid_",
+    //                             "smctoken"         => "$token_",
+    //                             // "user_person_id" => "$value->cid",
+    //                             // "smctoken"       => "$value->token",
+    //                             "person_id"        => "$pids"
+    //                     )
+    //                 );
+    //                 $contents = $client->__soapCall('searchCurrentByPID',$params);
+    //                 foreach ($contents as $v) {
+    //                     @$status = $v->status ;
+    //                     @$maininscl = $v->maininscl;
+    //                     @$startdate = $v->startdate;
+    //                     @$hmain = $v->hmain ;
+    //                     @$subinscl = $v->subinscl ;
+    //                     @$person_id_nhso = $v->person_id;
 
-                        @$hmain_op = $v->hmain_op;  //"10978"
-                        @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
-                        @$hsub = $v->hsub;    //"04047"
-                        @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
-                        @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
+    //                     @$hmain_op = $v->hmain_op;  //"10978"
+    //                     @$hmain_op_name = $v->hmain_op_name;  //"รพ.ภูเขียวเฉลิมพระเกียรติ"
+    //                     @$hsub = $v->hsub;    //"04047"
+    //                     @$hsub_name = $v->hsub_name;   //"รพ.สต.แดงสว่าง"
+    //                     @$subinscl_name = $v->subinscl_name ; //"ช่วงอายุ 12-59 ปี"
 
-                        IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
-                            $date = date("Y-m-d");
+    //                     IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
+    //                         $date = date("Y-m-d");
                           
-                            Acc_debtor::where('vn', $vn)
-                            ->update([
-                                'status'         => 'จำหน่าย/เสียชีวิต',
-                                'maininscl'      => @$maininscl,
-                                'pttype_spsch'   => @$subinscl,
-                                'hmain'          => @$hmain,
-                                'subinscl'       => @$subinscl, 
-                            ]);
+    //                         Acc_debtor::where('vn', $vn)
+    //                         ->update([
+    //                             'status'         => 'จำหน่าย/เสียชีวิต',
+    //                             'maininscl'      => @$maininscl,
+    //                             'pttype_spsch'   => @$subinscl,
+    //                             'hmain'          => @$hmain,
+    //                             'subinscl'       => @$subinscl, 
+    //                         ]);
                             
-                        }elseif(@$maininscl !="" || @$subinscl !=""){
-                           Acc_debtor::where('vn', $vn)
-                           ->update([
-                               'status'         => @$status,
-                               'maininscl'      => @$maininscl,
-                               'pttype_spsch'   => @$subinscl,
-                               'hmain'          => @$hmain,
-                               'subinscl'       => @$subinscl,
+    //                     }elseif(@$maininscl !="" || @$subinscl !=""){
+    //                        Acc_debtor::where('vn', $vn)
+    //                        ->update([
+    //                            'status'         => @$status,
+    //                            'maininscl'      => @$maininscl,
+    //                            'pttype_spsch'   => @$subinscl,
+    //                            'hmain'          => @$hmain,
+    //                            'subinscl'       => @$subinscl,
                            
-                           ]); 
+    //                        ]); 
                                     
-                        }
+    //                     }
 
-                    }
+    //                 }
            
-        }
+    //     }
 
-        return response()->json([
+    //     return response()->json([
 
-           'status'    => '200'
-       ]);
+    //        'status'    => '200'
+    //    ]);
 
-    }
-
-    public function account_401_stam(Request $request)
-    {
-        $id = $request->ids;
-        $iduser = Auth::user()->id;
-        $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
-            Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))
-                    ->update([
-                        'stamp' => 'Y'
-                    ]);
-        foreach ($data as $key => $value) {
-                $date = date('Y-m-d H:m:s');
-             $check = Acc_1102050101_401::where('vn', $value->vn)->count();
-                // $check = Acc_debtor::where('vn', $value->vn)
-                // ->where('debit_total','=','0')
-                // ->count();
-                if ($check > 0) {
-                # code...
-                } else {
-                    Acc_1102050101_401::insert([
-                            'vn'                => $value->vn,
-                            'hn'                => $value->hn,
-                            'an'                => $value->an,
-                            'cid'               => $value->cid,
-                            'ptname'            => $value->ptname,
-                            'vstdate'           => $value->vstdate,
-                            'vsttime'           => $value->vsttime,
-                            'hm'                => $value->hm,
-                            'regdate'           => $value->regdate,
-                            'dchdate'           => $value->dchdate,
-                            'pttype'            => $value->pttype,
-                            'pttype_nhso'       => $value->pttype_spsch,
-                            'acc_code'          => $value->acc_code,
-                            'account_code'      => $value->account_code,
-                            'income'            => $value->income,
-                            'income_group'      => $value->income_group,
-                            'uc_money'          => $value->uc_money,
-                            'discount_money'    => $value->discount_money,
-                            'rcpt_money'        => $value->rcpt_money,
-                            'debit'             => $value->debit,
-                            'debit_drug'        => $value->debit_drug,
-                            'debit_instument'   => $value->debit_instument,
-                            'debit_refer'       => $value->debit_refer,
-                            'debit_toa'         => $value->debit_toa,
-                            'debit_total'       => $value->debit_total,
-                            'max_debt_amount'   => $value->max_debt_amount,
-                            'acc_debtor_userid' => $iduser
-                    ]);
-                }
-
-        }
-        return response()->json([
-            'status'    => '200'
-        ]);
-    }
-    public function account_401_destroy_all(Request $request)
-    {
-        $id = $request->ids;
-        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();               
-        return response()->json([
-            'status'    => '200'
-        ]);
-    }
-
-    public function account_401_detail(Request $request,$months,$year)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        // dd($id);
-        $data['users'] = User::get();
-
-        $data = DB::select('
-        SELECT *
-            from acc_1102050101_401 U1
-            WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-            GROUP BY U1.vn
-        ');
-        // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-        return view('account_401.account_401_detail', $data, [ 
-            'data'          =>     $data,
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate
-        ]);
-    }
-    public function account_401_search(Request $request)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $date = date('Y-m-d'); 
-        $new_day = date('Y-m-d', strtotime($date . ' -7 day')); //ย้อนหลัง 1 วัน
-        $data['users'] = User::get();
-        if ($startdate =='') {
-           $datashow = DB::select(' 
-               SELECT * from acc_1102050101_401 a 
-             
-               WHERE a.vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
-              
-               GROUP BY a.vn
-           ');
-        //    LEFT OUTER JOIN d_fdh d ON d.vn = a.vn
-        } else {
-           $datashow = DB::select(' 
-               SELECT * from acc_1102050101_401 a
-             
-               WHERE a.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
-               
-               GROUP BY a.vn
-           ');
-        }
-         
-       
-        return view('account_401.account_401_search', $data, [
-            'startdate'     => $startdate,
-            'enddate'       => $enddate,
-            'datashow'      => $datashow,
-            'startdate'     => $startdate,
-            'enddate'       => $enddate
-        ]);
-    }
-    public function account_401_stm(Request $request,$months,$year)
-    {
-        $datenow = date('Y-m-d');
-        
-        $data['users'] = User::get();
-
-        // $datashow = DB::select('
-        //     SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc 
-        //         from acc_1102050101_401 U1
-        //         LEFT JOIN acc_stm_ofc U2 on U2.hn = U1.hn AND U2.vstdate = U1.vstdate 
-        //         WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'" 
-        //         AND U2.pricereq_all is not null 
-        //         group by U1.vn
-        // ');
-        $datashow = DB::select('
-            SELECT a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,a.pttype
-            ,a.income_group,a.stm_money,a.stm_total,a.STMdoc                
-            FROM acc_1102050101_401 a              
-            WHERE month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'" 
-            AND a.stm_money IS NOT NULL
-            GROUP BY a.vn
-        ');
-       
-        return view('account_401.account_401_stm', $data, [ 
-            'datashow'      =>     $datashow,
-            'months'        =>     $months,
-            'year'          =>     $year
-        ]);
-    }
-    public function account_401_stmnull(Request $request,$months,$year)
-    {
-        $datenow = date('Y-m-d'); 
-        $data['users'] = User::get();
- 
-        $datashow = DB::connection('mysql')->select('  
-            SELECT a.vn,a.an,a.hn,a.cid,a.ptname,a.vstdate,a.dchdate,a.debit_total,a.pttype
-            ,a.income_group,a.stm_money,a.stm_total,a.STMdoc                
-            FROM acc_1102050101_401 a              
-            WHERE month(a.vstdate) = "'.$months.'" and year(a.vstdate) = "'.$year.'" 
-            AND a.stm_money IS NULL
-            GROUP BY a.vn
-        ');
-       
-        return view('account_401.account_401_stmnull',[ 
-            'datashow'          =>     $datashow,
-            'months'        =>     $months,
-            'year'          =>     $year
-        ]);
-    }
-    public function account_401_yok(Request $request,$months,$year)
-    {
-        $datenow = date('Y-m-d');        
-        $data['users'] = User::get();
-        $data = DB::select('
-            SELECT *
-                from acc_1102050101_401 U1            
-                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
-                AND U1.stm_money IS NULL
-                GROUP BY U1.vn
-        '); 
-        // U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date      
-        return view('account_401.account_401_yok', $data, [ 
-            'data'          =>     $data,
-            'months'        =>     $months,
-            'year'          =>     $year
-        ]);
-    }
-
-    public function account_401_detail_date(Request $request,$startdate,$enddate)
-    {
-        $datenow = date('Y-m-d');
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        // dd($id);
-        $data['users'] = User::get();
-
-        $data = DB::select('
-        SELECT *
-            from acc_1102050101_401 U1
-            WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'" 
-            GROUP BY U1.vn
-        ');
-        // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-        return view('account_401.account_401_detail_date', $data, [ 
-            'data'          =>     $data,
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate
-        ]);
-    }
-    public function account_401_stm_date(Request $request,$startdate,$enddate)
-    {
-        $datenow = date('Y-m-d');
-        
-        $data['users'] = User::get();
-
-        $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.pricereq_all,U2.STMdoc 
-                from acc_1102050101_401 U1
-                LEFT JOIN acc_stm_ofc U2 on U2.hn = U1.hn AND U2.vstdate = U1.vstdate 
-                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
-                AND U2.pricereq_all is not null 
-                group by U1.vn
-        ');
-       
-        return view('account_401.account_401_stm_date', $data, [ 
-            'datashow'         =>     $datashow,
-            'startdate'        =>     $startdate,
-            'enddate'          =>     $enddate
-        ]);
-    }
-    public function account_401_stmnull_date(Request $request,$startdate,$enddate)
-    {
-        $datenow = date('Y-m-d');
-        
-        $data['users'] = User::get();
-
-        $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.income,U1.rcpt_money,U1.debit_total,U2.pricereq_all ,U2.STMdoc
-                from acc_1102050101_401 U1
-                LEFT JOIN acc_stm_ofc U2 on U2.hn = U1.hn AND U2.vstdate = U1.vstdate  
-                WHERE U1.vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
-                AND U2.pricereq_all is null
-                group by U1.vn 
-        ');
-       
-        return view('account_401.account_401_stmnull_date',[ 
-            'datashow'         =>     $datashow,
-            'startdate'        =>     $startdate,
-            'enddate'          =>     $enddate
-        ]);
-    }
+    // }  
+      
+    // public function account_401_destroy_all(Request $request)
+    // {
+    //     $id = $request->ids;
+    //     Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();               
+    //     return response()->json([
+    //         'status'    => '200'
+    //     ]);
+    // }
+  
 
     // *************** CLAIM **********************
     public function account_401_claim(Request $request)
@@ -939,7 +577,7 @@ class Account401Controller extends Controller
 
         $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
         // $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
-        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))
+                Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))
                 ->update([
                     'active_claim' => 'Y'
                 ]);
@@ -1618,6 +1256,7 @@ class Account401Controller extends Controller
                         'AN'                   => $va_22->AN,
                         'DATEOPD'              => $va_22->DATEOPD,
                         'TYPE'                 => $va_22->TYPE,
+                        // 'TYPE'                 => '19',
                         'CODE'                 => $va_22->billcode,
                         'QTY'                  => $va_22->QTY,
                         'RATE'                 => $va_22->RATE,
@@ -1651,7 +1290,7 @@ class Account401Controller extends Controller
                 //D_dru OK
                  $data_dru_ = DB::connection('mysql2')->select('
                     SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
-                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,v.qty AMOUNT ,round(v.unitprice,2) DRUGPRICE
+                    ,d.icode DID ,concat(d.`name`," ",d.strength," ",d.units) DIDNAME ,sum(v.qty) AMOUNT,round(v.unitprice,2) DRUGPRICE
                     ,"0.00" DRUGCOST ,d.did DIDSTD ,d.units UNIT ,concat(d.packqty,"x",d.units) UNIT_PACK ,v.vn SEQ
                     ,if(v.income="17",oo.presc_reason,"") as DRUGREMARK,"" PA_NO ,"" TOTCOPAY ,if(v.item_type="H","2","1") USE_STATUS
                     ,"" TOTAL ,"" as SIGCODE ,"" as SIGTEXT ,"" PROVIDER,v.vstdate
@@ -2336,193 +1975,7 @@ class Account401Controller extends Controller
          return response()->json([
              'status'    => '200'
          ]);
-    } 
-    public function account_401_send_api(Request $request)
-    {  
-        $iduser = Auth::user()->id;
-        // $data_token_ = DB::connection('mysql')->select('SELECT new_eclaim_token FROM api_neweclaim WHERE user_id = "'.$iduser.'" AND active_mini="E"');  
-        // foreach ($data_token_ as $key => $val_to) {
-        //     // $username     = $val_to->api_neweclaim_user;
-        //     // $password     = $val_to->api_neweclaim_pass;
-        //     $token_        = $val_to->new_eclaim_token;
-        // } 
-        $username        = '6508634296688';
-        $password        = 'd12345';        
-        $response = Http::withHeaders([ 
-            'User-Agent:<platform>/<version> <10978>',
-            'Accept' => 'application/json',
-        ])->post('https://nhsoapi.nhso.go.th/FMU/ecimp/v1/auth', [
-            'username'    =>  $username ,
-            'password'    =>  $password 
-        ]);  
-        $token = $response->json('token');
-        dd($token);  
-        $data_table = array("dapi_ins","dapi_pat","dapi_opd","dapi_orf","dapi_odx","dapi_oop","dapi_ipd","dapi_irf","dapi_idx","dapi_iop","dapi_cht","dapi_cha","dapi_aer","dapi_adp","dapi_lvd","dapi_dru");
-        // dd($data_table);
-        foreach ($data_table as $key => $val_t) {  
-            $data_all_ = DB::connection('mysql')->select('SELECT * FROM '.$val_t.'');                  
-                foreach ($data_all_ as $val_field) { 
-                        $blob[] = $val_field->blob;
-                        $size[] = $val_field->size;  
-                 }     
-            } 
-            // dd($blob[5]);
-            
-
-            $postData_send = [
-                "fileType" => "txt",
-                "maininscl" => "OFC",
-                "importDup" => false, //นำเข้าซ้ำ กรณีพบข้อมูลยังไม่ส่งเบิกชดเชย 
-                "assignToMe" => false,  //กำหนดข้อมูลให้แสดงผลเฉพาะผู้นำเข้าเท่านั้น    
-                "dataTypes" => ["OP","IP"],
-                "opRefer" => false,                 
-                    "file" => [ 
-                        "ins" => [
-                            "blobName"  => "INS.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[0],
-                            "size"      => $size[0],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"pat" => [
-                            "blobName"  => "PAT.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[1],
-                            "size"      => $size[1],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"opd" => [
-                            "blobName"  => "OPD.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[2],
-                            "size"      => $size[2],
-                            "encoding"  => "UTF-8"
-                        ] 
-                        ,"orf" => [
-                            "blobName"  => "ORF.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[3],
-                            "size"      => $size[3],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"odx" => [
-                            "blobName"  => "ODX.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[4],
-                            "size"      => $size[4],
-                            "encoding"  => "UTF-8"
-                        ]  
-                        ,"oop" => [
-                            "blobName"  => "OOP.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[5],
-                            "size"      => $size[5],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"ipd" => [
-                            "blobName"  => "IPD.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[6],
-                            "size"      => $size[6],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"irf" => [
-                            "blobName"  => "IRF.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[7],
-                            "size"      => $size[7],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"idx" => [
-                            "blobName"  => "IDX.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[8],
-                            "size"      => $size[8],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"iop" => [
-                            "blobName"  => "IOP.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[9],
-                            "size"      => $size[9],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"cht" => [
-                            "blobName"  => "CHT.txt",
-                            "blobType"  => "text",
-                            "blob"      => $blob[10],
-                            "size"      => $size[10],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"cha" => [
-                            "blobName"  => "CHA.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[11],
-                            "size"      => $size[11],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"aer" => [
-                            "blobName"  => "AER.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[12],
-                            "size"      => $size[12],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"adp" => [
-                            "blobName"  => "ADP.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[13],
-                            "size"      => $size[13],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"lvd" => [
-                            "blobName"  => "LVD.txt",
-                            "blobType"  => "text/plain",
-                            "blob"      => $blob[14],
-                            "size"      => $size[14],
-                            "encoding"  => "UTF-8"
-                        ]
-                        ,"dru" => [
-                            "blobName" => "DRU.txt",
-                            "blobType" => "text/plain",
-                            "blob"     => $blob[15],
-                            "size"     => $size[15],
-                            "encoding" => "UTF-8"
-                        ]                        
-                        ,"lab" => null
-                    ] 
-            ];        
-            // dd($postData_send);
-            $headers_api  = [
-                'Authorization' => 'Bearer '.$token,
-                'Content-Type: application/json',            
-                'User-Agent:<platform>/<version><10978>'                     
-            ];
-            // dd($headers_api);
-
-            $api_send = curl_init();
-            curl_setopt($api_send, CURLOPT_URL,"https://nhsoapi.nhso.go.th/FMU/ecimp/v1/send");
-            curl_setopt($api_send, CURLOPT_POST, 1);
-            curl_setopt($api_send, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($api_send, CURLOPT_POSTFIELDS, json_encode($postData_send, JSON_UNESCAPED_SLASHES));
-            curl_setopt($api_send, CURLOPT_HTTPHEADER, $headers_api);  
-            $server_output     = curl_exec ($api_send);
-            // dd($server_output);
-            $statusCode = curl_getinfo($api_send, CURLINFO_HTTP_CODE);            
-            $content = $server_output;
-            $result = json_decode($content, true);
-            dd($result);
-          
-            @$status = $result['status'];
-          
-            @$message = $result['message'];
-         
-           
-            // dd($message);
-        return response()->json([
-            'status'    => '200'
-        ]);
-    }
+    }    
     public function account_401_claim_export(Request $request)
     {
         $sss_date_now = date("Y-m-d");
@@ -3048,281 +2501,7 @@ class Account401Controller extends Controller
       
     }
 
-    // **************** REP  *****************************
-    public function account_401_rep(Request $request)
-    {
-        $startdate = $request->startdate;
-        $enddate = $request->enddate;
-        $data['users'] = User::get(); 
-        $countc = DB::table('d_ofc_repexcel')->count();
-        $datashow = DB::table('d_ofc_repexcel')->get();
-
-
-        return view('account_401.account_401_rep',[
-            'startdate'     =>     $startdate,
-            'enddate'       =>     $enddate, 
-            'datashow'      =>     $datashow,
-            'countc'        =>     $countc
-        ]);
-    }
-
-    function account_401_repsave (Request $request)
-    { 
-        // $this->validate($request, [
-        //     'file' => 'required|file|mimes:xls,xlsx'
-        // ]);
-        $the_file = $request->file('file'); 
-        $file_ = $request->file('file')->getClientOriginalName(); //ชื่อไฟล์
-        // dd($file_);
-            // try{                
-                // Cheet 2  originalName
-                // $spreadsheet = IOFactory::createReader($the_file);
-                // $spreadsheet = IOFactory::load($the_file->getRealPath()); 
-                $spreadsheet = IOFactory::load($the_file); 
-                $sheet        = $spreadsheet->setActiveSheetIndex(0);
-                $row_limit    = $sheet->getHighestDataRow();
-                // $column_limit = $sheet->getHighestDataColumn();
-                $row_range    = range( 8, $row_limit );
-                // $column_range = range( 'AO', $column_limit );
-                $startcount = 8;
-                $data = array();
-                foreach ($row_range as $row ) {
-                    $vst = $sheet->getCell( 'I' . $row )->getValue();  
-                    $day = substr($vst,0,2);
-                    $mo = substr($vst,3,2);
-                    $year = substr($vst,6,4);
-                    $vstdate = $year.'-'.$mo.'-'.$day;
-
-                    $reg = $sheet->getCell( 'J' . $row )->getValue(); 
-                    $regday = substr($reg, 0, 2);
-                    $regmo = substr($reg, 3, 2);
-                    $regyear = substr($reg, 6, 4);
-                    $dchdate = $regyear.'-'.$regmo.'-'.$regday;
-
-                    $k = $sheet->getCell( 'K' . $row )->getValue();
-                    $del_k = str_replace(",","",$k);
-                    $l= $sheet->getCell( 'L' . $row )->getValue();
-                    $del_l = str_replace(",","",$l);
-
-                    $ad = $sheet->getCell( 'AD' . $row )->getValue();
-                    $del_ad = str_replace(",","",$ad);
-                    $ae = $sheet->getCell( 'AE' . $row )->getValue();
-                    $del_ae = str_replace(",","",$ae);
-                    $af = $sheet->getCell( 'AF' . $row )->getValue();
-                    $del_af = str_replace(",","",$af);
-                    $ag = $sheet->getCell( 'AG' . $row )->getValue();
-                    $del_ag = str_replace(",","",$ag);
-                    $ah = $sheet->getCell( 'AH' . $row )->getValue();
-                    $del_ah = str_replace(",","",$ah);
-                    $ai = $sheet->getCell( 'AI' . $row )->getValue();
-                    $del_ai = str_replace(",","",$ai); 
-                    $an= $sheet->getCell( 'AN' . $row )->getValue();
-                    $del_an = str_replace(",","",$an);
-                    $ao = $sheet->getCell( 'AO' . $row )->getValue();
-                    $del_ao = str_replace(",","",$ao);
-                    $ap = $sheet->getCell( 'AP' . $row )->getValue();
-                    $del_ap = str_replace(",","",$ap);
-                    $aq = $sheet->getCell( 'AQ' . $row )->getValue();
-                    $del_aq = str_replace(",","",$aq);
-                    $ar = $sheet->getCell( 'AR' . $row )->getValue();
-                    $del_ar = str_replace(",","",$ar);                  
-                    $as = $sheet->getCell( 'AS' . $row )->getValue();
-                    $del_as = str_replace(",","",$as);
-                    $at = $sheet->getCell( 'AT' . $row )->getValue();
-                    $del_at = str_replace(",","",$at);
-                    $au = $sheet->getCell( 'AU' . $row )->getValue();
-                    $del_au = str_replace(",","",$au);
-                    $av = $sheet->getCell( 'AV' . $row )->getValue();
-                    $del_av = str_replace(",","",$av);
-                    
-                    $data[] = [
-                        'a'                   =>$sheet->getCell( 'A' . $row )->getValue(),
-                        'b'                   =>$sheet->getCell( 'B' . $row )->getValue(),
-                        'c'                   =>$sheet->getCell( 'C' . $row )->getValue(),
-                        'd'                   =>$sheet->getCell( 'D' . $row )->getValue(),
-                        'e'                   =>$sheet->getCell( 'E' . $row )->getValue(),
-                        'f'                   =>$sheet->getCell( 'F' . $row )->getValue(),
-                        'g'                   =>$sheet->getCell( 'G' . $row )->getValue(), 
-                        'h'                   =>$sheet->getCell( 'H' . $row )->getValue(),
-                        'i'                   =>$vstdate,
-                        'j'                   =>$dchdate,  
-                        'k'                   =>$del_k,
-                        'l'                   =>$del_l,  
-                        'm'                   =>$sheet->getCell( 'M' . $row )->getValue(),
-                        'n'                   =>$sheet->getCell( 'N' . $row )->getValue(),
-                        'o'                   =>$sheet->getCell( 'O' . $row )->getValue(),
-                        'p'                   =>$sheet->getCell( 'P' . $row )->getValue(),
-                        'q'                   =>$sheet->getCell( 'Q' . $row )->getValue(), 
-                        'r'                   =>$sheet->getCell( 'R' . $row )->getValue(), 
-                        's'                   =>$sheet->getCell( 'S' . $row )->getValue(), 
-                        't'                   =>$sheet->getCell( 'T' . $row )->getValue(), 
-                        'u'                   =>$sheet->getCell( 'U' . $row )->getValue(), 
-                        'v'                   =>$sheet->getCell( 'V' . $row )->getValue(), 
-                        'w'                   =>$sheet->getCell( 'W' . $row )->getValue(), 
-                        'x'                   =>$sheet->getCell( 'X' . $row )->getValue(), 
-                        'y'                   =>$sheet->getCell( 'Y' . $row )->getValue(), 
-                        'z'                   =>$sheet->getCell( 'Z' . $row )->getValue(), 
-                        'aa'                  =>$sheet->getCell( 'AA' . $row )->getValue(), 
-                        'ab'                  =>$sheet->getCell( 'AB' . $row )->getValue(), 
-                        'ac'                  =>$sheet->getCell( 'AC' . $row )->getValue(), 
-
-                        'ad'                  =>$del_ad, 
-                        'ae'                  =>$del_ae, 
-                        'af'                  =>$del_af, 
-                        'ag'                  =>$del_ag, 
-                        'ah'                  =>$del_ah, 
-                        'ai'                  =>$del_ai, 
-
-                        'ak'                  =>$sheet->getCell( 'AK' . $row )->getValue(), 
-                        'al'                  =>$sheet->getCell( 'AL' . $row )->getValue(), 
-                        'am'                  =>$sheet->getCell( 'AM' . $row )->getValue(), 
-                        'an'                  =>$del_an,
-                        'ao'                  =>$del_ao,
-                        'ap'                  =>$del_ap,
-                        'aq'                  =>$del_aq,
-                        'ar'                  =>$del_ar,
-                        'as'                  =>$del_as, 
-                        'at'                  =>$del_at, 
-                        'au'                  =>$del_au, 
-                        'av'                  =>$del_av, 
-                        'aw'                  =>$sheet->getCell( 'AW' . $row )->getValue(), 
-                        'ax'                  =>$sheet->getCell( 'AX' . $row )->getValue(), 
-                        'ay'                  =>$sheet->getCell( 'AY' . $row )->getValue(), 
-                        'az'                  =>$sheet->getCell( 'AZ' . $row )->getValue(), 
-                        'ba'                  =>$sheet->getCell( 'BA' . $row )->getValue(), 
-                        'bb'                  =>$sheet->getCell( 'BB' . $row )->getValue(),
-                        'bc'                  =>$sheet->getCell( 'BC' . $row )->getValue(),  
-                        'STMdoc'              =>$file_ 
-                    ];
-                    $startcount++; 
-
-                }
-             
-                foreach (array_chunk($data,500) as $t)  
-                { 
-                    DB::table('d_ofc_repexcel')->insert($t);
-                }
- 
-                // $the_file->delete('public/File_eclaim/'.$file_); 
-                // $the_file->storeAs('Import/',$file_);   // ย้าย ไฟล์   
-                // Storage::delete('File_eclaim/'.$file_);   // ลบไฟล์  
-                // ลบไฟล์   
-                // if(file_exists(public_path('File_eclaim/'.$file_))){
-                //     unlink(public_path('File_eclaim/'.$file_));
-                //     // Storage::delete('File_eclaim/'.$file_);   // ลบไฟล์  
-                // }else{
-                //     dd('File does not exists.');
-                // }
-                
-                
-            // } catch (Exception $e) {
-            //     $error_code = $e->errorInfo[1];
-            //     return back()->withErrors('There was a problem uploading the data!');
-            // }
-            // return redirect()->back();
-            return redirect()->route('acc.account_401_rep');
-            // return response()->json([
-            //     'status'    => '200',
-            // ]);
-    }
-    public function account_401_repsend(Request $request)
-    {
-
-        try{
-            $data_ = DB::connection('mysql')->select('SELECT * FROM d_ofc_repexcel');
-                foreach ($data_ as $key => $value) {
-                    if ($value->b != '') {
-                        $check = D_ofc_rep::where('rep_a','=',$value->a)->where('no_b','=',$value->b)->count();
-                        if ($check > 0) {
-                        } else {
-                            D_ofc_rep::insert([
-                                'rep_a'                   =>$value->a,
-                                'no_b'                    =>$value->b,
-                                'tranid_c'                =>$value->c,
-                                'hn_d'                    =>$value->d,
-                                'an_e'                    =>$value->e,
-                                'pid_f'                   =>$value->f,
-                                'ptname_g'                =>$value->g, 
-                                'type_h'                  =>$value->h,
-                                'vstdate_i'               =>$value->i,
-                                'dchdate_j'               =>$value->j,  
-                                'price1_k'                =>$value->k,
-                                'pp_spsch_l'              =>$value->l,
-                                'errorcode_m'             =>$value->m,
-                                'kongtoon_n'              =>$value->n,
-                                'typeservice_o'           =>$value->o,
-                                'refer_p'                 =>$value->p,
-                                'pttype_have_q'           =>$value->q, 
-                                'pttype_true_r'           =>$value->r, 
-                                'mian_pttype_s'           =>$value->s, 
-                                'secon_pttype_t'          =>$value->t, 
-                                'href_u'                  =>$value->u, 
-                                'HCODE_v'                 =>$value->v, 
-                                'prov1_w'                 =>$value->w, 
-                                'code_dep_x'              =>$value->x, 
-                                'name_dep_y'              =>$value->y, 
-                                'proj_z'                  =>$value->z, 
-                                'pa_aa'                   =>$value->aa, 
-                                'drg_ab'                  =>$value->ab, 
-                                'rw_ac'                   =>$value->ac, 
-                                'income_ad'               =>$value->ad, 
-                                'pp_gep_ae'               =>$value->ae, 
-                                'claim_true_af'           =>$value->af, 
-                                'claim_false_ag'          =>$value->ag, 
-                                'cash_money_ah'           =>$value->ah, 
-                                'pay_ai'                  =>$value->ai, 
-                                'ps_aj'                   =>$value->aj, 
-                                'ps_percent_ak'           =>$value->ak, 
-                                'ccuf_al'                 =>$value->al,
-                                'AdjRW_am'                =>$value->am,
-                                'plb_an'                  =>$value->an,
-                                'IPCS_ao'                 =>$value->ao,
-                                'IPCS_ORS_ap'             =>$value->ap,
-                                'OPCS_aq'                 =>$value->aq,
-                                'PACS_ar'                 =>$value->ar, 
-                                'INSTCS_as'               =>$value->as, 
-                                'OTCS_at'                 =>$value->at, 
-                                'PP_au'                   =>$value->au, 
-                                'DRUG_av'                 =>$value->av, 
-                                'IPCS_aw'                 =>$value->aw,
-                                'OPCS_AX'                 =>$value->ax,
-                                'PACS_ay'                 =>$value->ay, 
-                                'INSTCS_az'               =>$value->az, 
-                                'OTCS_ba'                 =>$value->ba,
-                                'ORS_bb'                  =>$value->bb, 
-                                'VA_bc'                   =>$value->bc, 
-                                'STMdoc'                  =>$value->STMdoc
-                            ]);                            
-                        } 
-
-                        $checks = Acc_debtor::where('hn', $value->d)->where('vstdate', $value->i)->where('account_code','1102050101.401')->count();
-                        if ($checks > 0) {
-                            Acc_debtor::where('hn', $value->d)->where('vstdate', $value->i)->where('account_code','1102050101.401')->update(
-                                [
-                                    'rep_error'    => $value->m,
-                                    'rep_pay'      => $value->af,
-                                    'rep_nopay'    => $value->ag,
-                                    'rep_doc'       => $value->STMdoc
-                                ]
-                            );
-                        }
-
-
-                    }
-
-
-                }
-            } catch (Exception $e) {
-                $error_code = $e->errorInfo[1];
-                return back()->withErrors('There was a problem uploading the data!');
-            }
-            D_ofc_repexcel::truncate();
-
-            return response()->json([
-                'status'    => '200',
-            ]);
-        // return redirect()->back();
-    }
+    
  
     
 

@@ -559,7 +559,7 @@ class Account402Controller extends Controller
                         'debit_total'        => $value->income - $value->fokliad,
                         'max_debt_amount'    => $value->max_debt_money,
                         'fokliad'            => $value->fokliad,
-                        'pdx'                => $value->DIAG,
+                        'pdx'                => $value->icd10,
                         'rw'                 => $value->rw,
                         'adjrw'              => $value->adjrw,
                         'total_adjrw_income' => $value->total_adjrw_income,
@@ -1575,7 +1575,7 @@ class Account402Controller extends Controller
                     JOIN nondrugitems n on n.icode = v.icode 
                     LEFT OUTER JOIN ipt i on i.an = v.an
                     AND i.an is not NULL 
-                    WHERE i.vn IN("'.$va1->vn.'") AND v.income IN("11") AND n.nhso_adp_code IN("72999") LIMIT 1) a 
+                    WHERE i.vn IN("'.$va1->vn.'") AND v.income IN("11") AND n.billcode IN("72999") LIMIT 1) a 
                     GROUP BY an,CODE,rate
                         UNION
                     SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
@@ -1589,7 +1589,7 @@ class Account402Controller extends Controller
                     FROM opitemrece v
                     JOIN nondrugitems n on n.icode = v.icode 
                     LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
-                    WHERE vv.vn IN("'.$va1->vn.'") AND v.income IN("11") AND n.nhso_adp_code IN("72999")
+                    WHERE vv.vn IN("'.$va1->vn.'") AND v.income IN("11") AND n.billcode IN("72999")
                     AND v.an is NULL LIMIT 1) b 
                     GROUP BY seq,CODE,rate;
             '); 

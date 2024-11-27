@@ -104,66 +104,54 @@ class PreauditController extends Controller
         $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate     = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-      
+   
         if ($startdate == '') {
-          
-            // $data['fdh_mini_dataset'] = DB::connection('mysql10')->select(
-            //     'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
-            //     ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
-            //     from ovst c
-            //     LEFT JOIN visit_pttype vp ON vp.vn = c.vn
-            //     LEFT JOIN vn_stat v ON v.vn = c.vn
-            //     LEFT JOIN patient p ON p.hn = v.hn
-            //     LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            //     WHERE c.vstdate BETWEEN "'.$date.'" AND "'.$date.'" 
-            //     AND vp.claim_code is null
-            //     AND c.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-                
-            //     AND v.pdx NOT IN("Z000") AND p.cid IS NOT NULL
-            //     GROUP BY c.vn 
-            // ');
-            // $date_old      = DB::table('visit_import_date')->where('visit_import_date_id','1')->first();
-            // if ($date_old == null || $date_old == '') {
-            //     $startdate_    = '';
-            //     $enddate_      = '';
-            // } else {
-            //     $startdate_    = $date_old->startdate;
-            //     $enddate_      = $date_old->enddate;
-            // }    
-                               
-
+           
             $data['authen_excel'] = DB::connection('mysql10')->select(
-                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,IFNULL(vp.claim_code,vp.auth_code) as claim_code,v.income
+                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,IFNULL(vp.auth_code,vp.auth_code) as claim_code,v.income
                 ,v.income-v.discount_money-v.rcpt_money as debit
                 FROM vn_stat v
                 LEFT JOIN visit_pttype vp ON vp.vn = v.vn
                 LEFT JOIN patient p ON p.hn = v.hn
-                WHERE v.vstdate = "'.$date.'" AND (vp.auth_code IS NULL OR vp.auth_code ="") 
-          
-                AND v.pttype NOT IN("10","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","l5","l6")  
+                WHERE v.vstdate = "'.$date.'" AND (vp.auth_code IS NULL OR vp.auth_code ="")           
+                AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","O1","O2","O3","O4","O5","O6")  
                 GROUP BY v.vn  
             ');
-            // AND v.pttype NOT IN("10","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")  
-            // WHERE v.vstdate = "'.$date.'" AND (vp.auth_code IS NULL OR vp.auth_code ="") 
 
-            // $data['authen_excel_date'] = DB::connection('mysql2')->select(
-            //     'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,vp.claim_code
-            //     FROM vn_stat v
-            //     JOIN visit_pttype vp
-            //     JOIN patient p on p.hn=v.hn
-            //     WHERE v.vstdate BETWEEN "'.$startdate_.'" AND "'.$enddate_.'" AND (vp.claim_code IS NULL OR vp.claim_code ="")  
-            //     GROUP BY v.vn  
-            // ');
+            $data['staff_new'] = DB::connection('mysql10')->select(
+                'SELECT c.staff,od.`name` as staff_name,COUNT(DISTINCT c.vn) as countvn,MONTH(c.vstdate) as month,YEAR(c.vstdate) as year,DAY(c.vstdate) as day 
+                FROM ovst c
+                LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+                LEFT JOIN vn_stat v ON v.vn = c.vn
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                LEFT JOIN opduser od on od.loginname = c.staff
+                WHERE c.vstdate = "'.$date.'"
+                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","O1","O2","O3","O4","O5","O6") 
+                AND v.pdx NOT IN("Z000","Z108") 
+                AND od.name IS NOT NULL
+                GROUP BY c.staff 
+                ORDER BY countvn DESC
+            ');
+            // ,COUNT(vp.auth_code) as Authen
+            // ,(SELECT COUNT(auth_code) FROM visit_pttype WHERE vn = c.vn AND auth_code IS NULL) as Noauthen
+            // ,COUNT(c.vn)-COUNT(vp.auth_code) as Noauthen
+            // AND c.main_dep NOT IN("011","036","107","078","020") 
         } else {
-          
-            // Visit_import_date::insert([
-            //     'startdate'  => $startdate,
-            //     'enddate'    => $enddate,
-            // ]);
-
-            $date_befir  = Authen_date::where('authen_id','=','1')->first();
-            $startdate   = $date_befir->startdate;
-            $enddate     = $date_befir->enddate;
+            
+            // $date_befir  = Authen_date::where('authen_id','=','1')->first();
+            // $startdate   = $date_befir->startdate;
+            // $enddate     = $date_befir->enddate;
+            // $months                     = date('H');
+            // $authen_time                = date('H:m:s');
+            // $data['datefull']           = date('Y-m-d H:m:s');
+            // $data['monthsnew']          = substr($months,1,2); 
+            // $datenow        = date('Y-m-d');
+            // Authen_date::insert([
+            //     'authen_date'     => $datenow, 
+            //     'authen_time'     => $authen_time,
+            //     'startdate'       => $startdate,
+            //     'enddate'         => $enddate, 
+            // ]); 
             
             $data_vn_1 = DB::connection('mysql2')->select(
                 'SELECT v.vn,p.hn,p.cid,v.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
@@ -176,16 +164,11 @@ class PreauditController extends Controller
                 LEFT JOIN pttype pt on pt.pttype=v.pttype
                 LEFT JOIN opduser op on op.loginname = o.staff
                 WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                AND v.pttype NOT IN("10","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","l5","l6")   
-                AND p.cid IS NOT NULL AND (vs.auth_code IS NULL OR vs.auth_code ="")   
-                
+                AND o.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","O1","O2","O3","O4","O5","O6")  
+                AND p.cid IS NOT NULL AND (vs.auth_code IS NULL OR vs.auth_code ="")    
                 GROUP BY o.vn 
             ');
-            // AND p.nationality ="99"
-            // AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-            // AND p.birthday <> "'.$startdate.'" 
-            // AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-            // AND (vp.claim_code IS NULL OR vp.claim_code ="")
+           
             foreach ($data_vn_1 as $key => $value_1) {                
                 $check = Visit_pttype_import::where('vn', $value_1->vn)->count();
                     if ($check > 0) {   
@@ -208,46 +191,76 @@ class PreauditController extends Controller
                         ]);
                     }
                
-            }
-            
-      
-            // $data['authen_excel'] = DB::connection('mysql')->select(
-            //     'SELECT *
-            //     FROM visit_pttype_import 
-            //     WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND claimcode IS NULL
-            //     GROUP BY vn 
-            //     ORDER BY claimcode DESC 
-            // ');
+            }    
             $data['authen_excel'] = DB::connection('mysql10')->select(
-                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,IFNULL(vp.claim_code,vp.auth_code) as claim_code
+                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,IFNULL(vp.auth_code,vp.auth_code) as claim_code,v.income
+                ,v.income-v.discount_money-v.rcpt_money as debit
                 FROM vn_stat v
-                JOIN visit_pttype vp
-                JOIN patient p on p.hn=v.hn
-                WHERE v.vstdate = "'.$date.'" AND (vp.auth_code IS NULL OR vp.auth_code ="") AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7") 
+                LEFT JOIN visit_pttype vp ON vp.vn = v.vn
+                LEFT JOIN patient p ON p.hn = v.hn
+                WHERE v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND (vp.auth_code IS NULL OR vp.auth_code ="")           
+                AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","O1","O2","O3","O4","O5","O6")  
                 GROUP BY v.vn  
             ');
-            $data['authen_excel_date'] = DB::connection('mysql10')->select(
-                'SELECT vp.vn,v.hn,v.cid,v.vstdate,v.pttype ,concat(p.pname,p.fname," ",p.lname) as ptname,IFNULL(vp.claim_code,vp.auth_code) as claim_code
-                FROM vn_stat v
-                JOIN visit_pttype vp
-                JOIN patient p on p.hn=v.hn
-                WHERE v.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND (vp.auth_code IS NULL OR vp.auth_code ="")  
-                GROUP BY v.vn  
-            ');
+
+            $data['staff_new'] = DB::connection('mysql10')->select(
+                'SELECT c.staff,od.`name` as staff_name,COUNT(DISTINCT c.vn) as countvn,MONTH(c.vstdate) as month,YEAR(c.vstdate) as year,DAY(c.vstdate) as day 
+                FROM ovst c
+                LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+                LEFT JOIN vn_stat v ON v.vn = c.vn
+                LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+                LEFT JOIN opduser od on od.loginname = c.staff
+                WHERE c.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","O1","O2","O3","O4","O5","O6") 
+                AND v.pdx NOT IN("Z000","Z108") 
+                AND od.name IS NOT NULL
+                GROUP BY c.staff 
+                ORDER BY countvn DESC
+            ');                   
+            
         }
 
      
 
         return view('audit.authen_excel',$data, [
             'startdate'        => $startdate,
-            'enddate'          => $enddate, 
+            'enddate'          => $enddate,
+            'date'             => $date, 
         ]);
+    }
+    public function authen_excel_detail(Request $request,$staff,$day,$month,$year)
+    {
+        $date = date('Y-m-d');
+        $y = date('Y');
+        $m = date('m');
+ 
+        $data_sit = DB::connection('mysql10')->select(
+            'SELECT c.vn,c.hn,p.cid,c.vstdate,c.vsttime,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.auth_code,"" as claimtype,v.hospmain
+            ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
+            from ovst c
+            LEFT JOIN visit_pttype vp ON vp.vn = c.vn
+            LEFT JOIN vn_stat v ON v.vn = c.vn
+            LEFT JOIN patient p ON p.hn = v.hn
+            LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
+            WHERE DAY(c.vstdate) = "'.$day.'" AND MONTH(c.vstdate) = "'.$month.'" AND YEAR(c.vstdate) = "'.$year.'" AND c.staff = "'.$staff.'" 
+            AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","O1","O2","O3","O4","O5","O6")
+      
+            AND v.pdx NOT IN("Z000","Z108")
+            AND (vp.auth_code IS NULL OR vp.auth_code = "") 
+            GROUP BY c.vn 
+        ');
+
+        return view('audit.authen_excel_detail',[
+            'data_sit'       => $data_sit,
+            // 'data_year3'       => $data_year3,
+        ] );
     }
     public function authen_excel_process(Request $request)
     { 
-        $startdate   = $request->startdate;
-        $enddate     = $request->enddate;
+        $startdate   = $request->datepicker;
+        $enddate     = $request->datepicker2;
         Authen_date::truncate();
+        Visit_pttype_import::truncate(); 
 
         $data_vn_1 = DB::connection('mysql2')->select(
             'SELECT v.vn,p.hn,p.cid,v.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
@@ -267,7 +280,7 @@ class PreauditController extends Controller
         // AND (vs.auth_code IS NULL OR vs.auth_code ="")  
         // AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")    
         // AND v.income > 0 
-        Visit_pttype_import::truncate();     
+            
         foreach ($data_vn_1 as $key => $value_1) {    
             Visit_pttype_import::insert([
                 'vn'         => $value_1->vn, 
@@ -374,7 +387,8 @@ class PreauditController extends Controller
                 return back()->withErrors('There was a problem uploading the data!');
             }  
 
-            $data_authen_excel = DB::connection('mysql')->select('SELECT * FROM visit_pttype_import_excel WHERE claimtype = "PG0060001" AND repauthen <> "ENDPOINT"');
+            // $data_authen_excel = DB::connection('mysql')->select('SELECT * FROM visit_pttype_import_excel WHERE claimtype = "PG0060001" AND repauthen <> "ENDPOINT"');
+            $data_authen_excel = DB::connection('mysql')->select('SELECT * FROM visit_pttype_import_excel WHERE claimtype = "PG0060001" AND repauthen = "AUTHENCODE"');
             // AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%")
             // AND repauthen <> "ENDPOINT"  
             foreach ($data_authen_excel as $key => $value) {
@@ -387,6 +401,19 @@ class PreauditController extends Controller
                     ]); 
                 } 
             } 
+
+            $data_authen_excel_2 = DB::connection('mysql')->select('SELECT * FROM visit_pttype_import_excel WHERE claimtype = "PG0060001" AND repauthen ="" AND authentication IN("ตรวจสอบสิทธิด้วยเลขประจำตัวประชาชน13หลัก","ตรวจสอบสิทธิด้วย Smart Card")'); 
+            foreach ($data_authen_excel_2 as $key => $value_2) {
+                $check_2 = Visit_pttype_import::where('pid', $value_2->cid)->where('vstdate', $value_2->vstdate)->whereNotIn('pttype', ['M1','M2','M3','M4','M5','O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->count();
+                if ($check_2 > 0) {
+                    Visit_pttype_import::where('pid', $value_2->cid)->where('vstdate', $value_2->vstdate)->whereNotIn('pttype',['M1','M2','M3','M4','M5','O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->update([  
+                        'cid'           => $value_2->cid,
+                        'claimcode'     => $value_2->claimcode,
+                        'claimtype'     => $value_2->claimtype,  
+                    ]); 
+                } 
+            } 
+
             $data_authen_excel_ti = DB::connection('mysql')->select('SELECT * FROM Visit_pttype_import_excel WHERE claimtype = "PG0130001" AND repauthen <> "ENDPOINT"');
             // AND (mainpttype LIKE "%WEL%" OR mainpttype LIKE "%UCS%") 
             // AND repauthen <> "ENDPOINT"
@@ -413,7 +440,7 @@ class PreauditController extends Controller
         $data_authen_excel = DB::connection('mysql')->select('SELECT * FROM visit_pttype_import WHERE claimtype = "PG0060001" AND vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"');
         foreach ($data_authen_excel as $key => $value) {
             Visit_pttype::where('vn', $value->vn)->whereNotIn('pttype',['O1','O2','O3','O4','O5','L1','L2','L3','L4','L5'])->update([   
-                'claim_code'     => $value->claimcode,  
+                // 'claim_code'     => $value->claimcode,  
                 'auth_code'      => $value->claimcode, 
             ]);  
         }
@@ -424,7 +451,7 @@ class PreauditController extends Controller
         ');
         foreach ($data_authen_excel_ti as $key => $valueti) {
             Visit_pttype::where('vn', $valueti->vn)->whereIn('pttype',['M1','M2','M3','M4','M5'])->update([   
-                'claim_code'     => $valueti->claimcode,  
+                // 'claim_code'     => $valueti->claimcode,  
                 'auth_code'      => $valueti->claimcode, 
             ]);  
         }
@@ -441,42 +468,70 @@ class PreauditController extends Controller
     public function pre_audit(Request $request)
     {
         $startdate = $request->startdate;
-        $enddate = $request->enddate;
+        $enddate   = $request->enddate;
  
-        $date = date('Y-m-d');
-        $y = date('Y') + 543;
-        $yy = date('Y');
-        $m = date('m');
-        $newweek = date('Y-m-d', strtotime($date . ' -3 week')); //ย้อนหลัง 3 สัปดาห์
-        $newDate = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 3 เดือน
-        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-        $yearnew = date('Y')+1;
-        $yearold = date('Y')-1;
-        $start = (''.$yearold.'-10-01');
-        $end = (''.$yearnew.'-09-30'); 
+        $date      = date('Y-m-d');
+        $y         = date('Y') + 543;
+        $yy        = date('Y');
+        $m         = date('m');
+        $newweek   = date('Y-m-d', strtotime($date . ' -3 week')); //ย้อนหลัง 3 สัปดาห์
+        $newDate   = date('Y-m-d', strtotime($date . ' -1 months')); //ย้อนหลัง 3 เดือน
+        $newyear   = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
+        $yearnew   = date('Y')+1;
+        $yearold   = date('Y')-1;
+        // $start = (''.$yearold.'-10-01');
+        // $end = (''.$yearnew.'-09-30'); 
+       
+
         if ($startdate == '') { 
-            $data['fdh_ofc']    = DB::connection('mysql')->select(
-                'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
-                    ,count(DISTINCT vn) as countvn
-                    ,count(DISTINCT authen) as countauthen
-                    ,count(DISTINCT vn)-count(DISTINCT authen) as count_no_approve,sum(debit) as sum_total 
-                    FROM d_fdh WHERE vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
-                    AND projectcode ="OFC" AND debit > 0
-                    AND an IS NULL
-                    GROUP BY month(vstdate)
-            ');  
+            // $data['fdh_ofc']    = DB::connection('mysql')->select(
+            //     'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
+            //         ,count(DISTINCT vn) as countvn
+            //         ,count(DISTINCT authen) as countauthen
+            //         ,count(DISTINCT vn)-count(DISTINCT authen) as count_no_approve,sum(debit) as sum_total 
+            //         FROM d_fdh WHERE vstdate BETWEEN "'.$start.'" AND "'.$end.'" 
+            //         AND projectcode ="OFC" AND debit > 0
+            //         AND an IS NULL
+            //         GROUP BY month(vstdate)
+            // '); 
+            $bgs_year       = DB::table('budget_year')->where('years_now','Y')->first();
+            $bg_yearnow     = $bgs_year->leave_year_id;
+            $startdate      = $bgs_year->date_begin; 
+            $enddate        = $bgs_year->date_end; 
+            $data['fdh_ofc']    = DB::connection('mysql2')->select(
+                'SELECT year(o.vstdate) as years ,month(o.vstdate) as months
+                    ,count(DISTINCT o.vn) as countvn
+                    ,SUM(v.income) as total_price
+                    FROM ovst o
+                    LEFT OUTER JOIN vn_stat v ON v.vn = o.vn
+                    WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND o.pttype IN("O1","O2","O3","O4","O5","O6") 
+                    AND o.an IS NULL 
+                    GROUP BY month(o.vstdate) 
+            ');   
             $data['fdh_ofc_m']    = DB::connection('mysql')->select('SELECT * FROM d_fdh WHERE month(vstdate) ="'.$m.'" AND projectcode ="OFC" AND debit > 0 AND authen IS NULL AND an IS NULL GROUP BY vn'); 
             // ,(SELECT sum(debit) FROM d_fdh WHERE month(vstdate)= "'.$newDate.'" AND "'.$date.'" AND authen IS NULL AND projectcode ="OFC") as no_total
             // ,(SELECT sum(debit) FROM d_fdh WHERE vstdate BETWEEN "'.$newDate.'" AND "'.$date.'" AND authen IS NOT NULL AND projectcode ="OFC") as sum_total            
             
         } else {
-            $data['fdh_ofc']    = DB::connection('mysql')->select(
-                'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
-                    ,count(DISTINCT vn) as countvn,count(DISTINCT authen) as countauthen,count(DISTINCT vn)-count(DISTINCT authen) as count_no_approve ,sum(debit) as sum_total  
-                    FROM d_fdh WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND projectcode ="OFC" AND debit > 0 
-                    AND an IS NULL
-                    GROUP BY month(vstdate)
-            '); 
+            $data['fdh_ofc']    = DB::connection('mysql2')->select(
+                'SELECT year(o.vstdate) as years ,month(o.vstdate) as months
+                    ,count(DISTINCT o.vn) as countvn
+                    ,SUM(v.income) as total_price
+                    FROM ovst o
+                    LEFT OUTER JOIN vn_stat v ON v.vn = o.vn
+                    WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                    AND o.pttype IN("O1","O2","O3","O4","O5","O6") 
+                    AND o.an IS NULL 
+                    GROUP BY month(o.vstdate) 
+            ');  
+            // $data['fdh_ofc']    = DB::connection('mysql')->select(
+            //     'SELECT year(vstdate) as years ,month(vstdate) as months,year(vstdate) as days 
+            //         ,count(DISTINCT vn) as countvn,count(DISTINCT authen) as countauthen,count(DISTINCT vn)-count(DISTINCT authen) as count_no_approve ,sum(debit) as sum_total  
+            //         FROM d_fdh WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND projectcode ="OFC" AND debit > 0 
+            //         AND an IS NULL
+            //         GROUP BY month(vstdate)
+            // '); 
             // ,(SELECT sum(debit) FROM d_fdh WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND authen IS NULL AND projectcode ="OFC") as no_total
             // ,(SELECT sum(debit) FROM d_fdh WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND authen IS NOT NULL AND projectcode ="OFC") as sum_total  
                        
@@ -696,11 +751,12 @@ class PreauditController extends Controller
             $enddate      = $bg->date_end;
             
             $data['fdh_ofc'] = DB::connection('mysql10')->select(
-                    'SELECT year(o.vstdate) as years ,month(o.vstdate) as months,count(DISTINCT o.vn) as countvn ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as sum_total,sum(v.income) as tt
+                    'SELECT year(o.vstdate) as years ,month(o.vstdate) as months,count(DISTINCT o.vn) as countvn 
+                    ,sum(v.income)-sum(v.discount_money)-sum(v.rcpt_money) as sum_total,sum(v.income) as tt
                             FROM vn_stat v 
                             LEFT OUTER JOIN ovst o ON v.vn=o.vn  
                         WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                        AND v.pttype in("O1","O2","O3","O4","O5")                
+                        AND v.pttype in("O1","O2","O3","O4","O5","O6")                
                         AND o.an is null 
                         GROUP BY month(o.vstdate)
                 ');  
@@ -713,7 +769,7 @@ class PreauditController extends Controller
                         FROM vn_stat v 
                         LEFT OUTER JOIN ovst o ON v.vn=o.vn  
                     WHERE o.vstdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
-                    AND v.pttype in("O1","O2","O3","O4","O5")                
+                    AND v.pttype in("O1","O2","O3","O4","O5","O6")                
                     AND o.an is null 
                     GROUP BY month(o.vstdate)
             '); 
@@ -791,7 +847,7 @@ class PreauditController extends Controller
             LEFT OUTER JOIN ktb_edc_transaction k on k.vn = v.vn 
             LEFT OUTER JOIN patient pt ON v.hn = pt.hn        
             WHERE month(v.vstdate) = "'.$month.'" AND year(v.vstdate) = "'.$year.'"  
-            AND v.pttype IN("O1","O2","O3","O4","O5")
+            AND v.pttype IN("O1","O2","O3","O4","O5","O6")
             AND rd.sss_approval_code IS NULL 
             AND k.approval_code IS NULL 
             AND v.income > 0  

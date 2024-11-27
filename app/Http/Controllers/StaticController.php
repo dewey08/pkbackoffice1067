@@ -241,7 +241,7 @@ class StaticController extends Controller
   }
   public static function per_den($iduser)
   {
-    $per_den =  User::where('id','=',$iduser)->where('per_den','=','on')->count();   
+    $per_den =  User::where('id','=',$iduser)->where('permiss_dental','=','on')->count();   
     return $per_den;
   }
   public static function per_accb01($iduser)
@@ -263,6 +263,22 @@ class StaticController extends Controller
   {
     $pediatrics =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','PEDIA01')->count();   
     return $pediatrics;
+  }
+
+  public static function reportacc($iduser)
+  {
+    $pediatrics =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','PEDIA01')->count();   
+    return $pediatrics;
+  }
+  // public static function pediatrics($iduser)
+  // {
+  //   $pediatrics =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','PEDIA01')->count();   
+  //   return $pediatrics;
+  // }
+  public static function account_ar($iduser)
+  {
+    $account_ar =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACCOUNTAR')->count();   
+    return $account_ar;
   }
 
 

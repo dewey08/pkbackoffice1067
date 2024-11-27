@@ -556,7 +556,8 @@ class FireController extends Controller
                 FROM fire_check c
                 LEFT JOIN users s ON s.id = c.user_id
                 WHERE c.check_date BETWEEN "'.$newDate.'" AND "'.$date.'"
-                GROUP BY c.check_date,c.fire_num                
+                GROUP BY c.check_date,c.fire_num     
+                ORDER BY c.check_date DESC         
                 '); 
         } else {
             $datashow = DB::select(
@@ -564,7 +565,8 @@ class FireController extends Controller
                 FROM fire_check c
                 LEFT JOIN users s ON s.id = c.user_id
                 WHERE c.check_date BETWEEN "'.$startdate.'" AND "'.$enddate.'"
-                GROUP BY c.check_date,c.fire_num                
+                GROUP BY c.check_date,c.fire_num  
+                ORDER BY c.check_date DESC               
             ');  
         }
          
@@ -1136,6 +1138,7 @@ class FireController extends Controller
             'count_red_allactive'     =>  $count_red_allactive,
             'count_green_allactive'   =>  $count_green_allactive,
             'chart_location'          =>  $chart_location,
+            'y'                       =>  $y,
         ]);
     }
     public function fire_stock_month(Request $request)
@@ -1451,6 +1454,8 @@ class FireController extends Controller
             $datashow                   = DB::select('SELECT * from fire_pramuan ORDER BY fire_pramuan_id ASC'); 
             $data['product_brand']      = DB::table('product_brand')->get();
             $data['medical_typecat']    = DB::table('medical_typecat')->get();
+            $bgs_year                   = DB::table('budget_year')->where('years_now','Y')->first();
+            $bg_yearnow                 = $bgs_year->leave_year_id;
             // dd($months);
             // Fire_countcheck::truncate();
             // $check_d = DB::connection('mysql')->select('SELECT COUNT(DISTINCT fire_num) as fire_num FROM fire_report WHERE months = "'.$months.'" AND years = "'.$years.'"');
@@ -1552,14 +1557,24 @@ class FireController extends Controller
             //     AND r.years = "'.$years.'" 
             //     GROUP BY r.fire_id ORDER BY r.fire_num ASC
             // ');    
-
+            $data_date         = DB::select('SELECT * FROM fire_check ORDER BY check_date DESC LIMIT 1');  
+            foreach ($data_date as $key => $value) {
+                $data['last_date'] = $value->check_date;
+                $data['check_time'] = $value->check_time;
+            }
             $data['data_show'] = DB::select(
                 'SELECT f.fire_id,f.fire_num,f.fire_size,f.fire_color,f.fire_location,f.fire_name,fc.check_date 
                 FROM fire f  
                 LEFT JOIN fire_check fc ON fc.fire_id = f.fire_id 
-                WHERE fc.check_date IS NULL ORDER BY f.fire_id ASC
+                
+                WHERE f.fire_year = "'.$bg_yearnow.'"
+                GROUP BY f.fire_num
+               ORDER BY f.fire_id ASC 
             ');   
-
+            // fc.check_date,
+            // WHERE MONTH(fc.check_date) = "'.$months.'" AND 
+            // ORDER BY f.fire_id ASC
+            // WHERE fc.check_date IS NULL 
             // f.active = "N"
         return view('support_prs.fire.fire_insert_all',$data, [
             // 'dataprint_main'  =>  $dataprint_main, 
