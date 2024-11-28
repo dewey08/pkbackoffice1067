@@ -135,7 +135,18 @@
                                 <div class="col-md-2 text-end">ผู้เบิก</div>
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <input type="text" class="form-control-sm input_border" id="user_request" name="user_request" value="{{$data_edit->fname}} {{$data_edit->lname}}" style="font-size:13px;width: 100%" readonly>
+                                        {{-- <input type="text" class="form-control-sm input_border" id="user_request" name="user_request" value="{{$data_edit->fname}} {{$data_edit->lname}}" style="font-size:13px;width: 100%" readonly> --}}
+                                   
+                                    <select name="user_request" id="user_request"  class="custom-select custom-select-sm" style="width: 100%">
+                                        @foreach ($user as $item)
+                                        @if ($data_edit->user_request == $item->id)
+                                        <option value="{{$item->id}}" selected>{{$item->fname}}  {{$item->lname}} </option>
+                                        @else
+                                        <option value="{{$item->id}}">{{$item->fname}}  {{$item->lname}} </option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                  
                                     </div>
                                 </div> 
                             </div>

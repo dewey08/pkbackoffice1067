@@ -117,6 +117,44 @@
         .is-hide {
             display: none;
         }
+
+        /* ********************************* Modal ********************************* */
+
+        .modal-dialog {
+            max-width: 90%;
+        }
+        .modal-dialog-slideout {
+            min-height: 100%;
+            margin:auto 90 0 0 90;   /*  ซ้าย ขวา */
+            background: #fff;
+        }
+        .modal.fade .modal-dialog.modal-dialog-slideout {
+            -webkit-transform: translate(100%, 0)scale(30);
+            transform: translate(100%, 0)scale(5);
+        }
+        .modal.fade.show .modal-dialog.modal-dialog-slideout {
+            -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+            display: flex;
+            align-items: stretch;
+            -webkit-box-align: stretch;
+            height: 100%;
+        }
+        .modal.fade.show .modal-dialog.modal-dialog-slideout .modal-body {
+            overflow-y: auto;
+            overflow-x: hidden; 
+        }
+        .modal-dialog-slideout .modal-content {
+            border: 0;
+        }
+        .modal-dialog-slideout .modal-header,
+        .modal-dialog-slideout .modal-footer {
+            height: 4rem;
+            display: block;
+        }
+        .datepicker {
+            z-index: 2051 !important;
+        }
     </style>
 
 <div class="tabs-animation">
@@ -137,44 +175,50 @@
         <form action="{{ URL('wh_sub_main_rp') }}" method="GET">
             @csrf
         <div class="row mt-5 mb-3">  
-            <div class="col-md-5">  
-                <button type="button" class="ladda-button btn-pill btn btn-white card_prs_4">
-                    <i class="fa-regular fa-rectangle-list me-2 ms-2"></i>รายละเอียดการขอเบิก
+            <div class="col-md-4">  
+                <button type="button" class="ladda-button btn-pill btn btn-sm btn-white card_prs_4">
+                    {{-- <i class="fa-regular fa-rectangle-list me-2 ms-2"></i> --}}
+                    <img src="{{ asset('images/datail.png') }}" class="me-2" height="23px" width="23px"> 
+                    รายละเอียดการขอเบิก
                 </button> 
-                <a href="{{url('wh_sub_main')}}" class="ladda-button btn-pill btn card_prs_4" style="color:rgb(255, 84, 149)">
-                    <i class="fa-solid fa-clipboard-check me-2 ms-2" style="color:rgb(255, 84, 149)"></i> คลัง {{$stock_name}}  
+                <a href="{{url('wh_sub_main')}}" class="ladda-button btn-pill btn btn-sm card_prs_4" style="color:rgb(255, 84, 149)">
+                    {{-- <i class="fa-solid fa-clipboard-check me-2 ms-2" style="color:rgb(255, 84, 149)"></i> --}}
+                    <img src="{{ asset('images/store_sub.png') }}" class="me-2" height="23px" width="23px"> 
+                    
+                    คลัง {{$stock_name}}  
                 </a>
+                {{-- style="background-color: #ffffff" --}}
+                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm card_prs_4 showDocument" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="คู่มือการใช้งาน">
+                    <img src="{{ asset('images/document_new.png') }}" class="me-2 ms-2" height="23px" width="23px"> 
+                </button>
             </div>
-            {{-- <div class="col"></div>   --}}
-            {{-- <div class="col-md-1 text-end mt-2"><p style="font-size: 12px">วันที่</p></div> --}}
-            <div class="col-md-5 text-center">
+            <div class="col"></div> 
+            <div class="col-md-3 text-end">  
+         
                 <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                         <input type="text" class="form-control-sm card_prs_4" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' style="font-size: 12px"
                             data-provide="datepicker" data-date-autoclose="true" autocomplete="off" data-date-language="th-th" value="{{ $startdate }}" required />
                         <input type="text" class="form-control-sm card_prs_4" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' style="font-size: 12px"
                             data-provide="datepicker" data-date-autoclose="true" autocomplete="off" data-date-language="th-th" value="{{ $enddate }}" />
                         <button type="submit" class="ladda-button btn-pill btn btn-sm btn-info card_prs_4" data-style="expand-left">
-                            <span class="ladda-label"><i class="fa-solid fa-magnifying-glass text-white me-2"></i>ค้นหา</span>
-                            <span class="ladda-spinner"></span>
+                            {{-- <span class="ladda-label"> --}}
+                                {{-- <i class="fa-solid fa-magnifying-glass text-white me-2"></i> --}}
+                                <img src="{{ asset('images/Search02.png') }}" class="ms-2 me-2" height="23px" width="23px"> 
+                                
+                                ค้นหา</span>
+                            {{-- <span class="ladda-spinner"></span> --}}
                         </button>
                   
-                        {{-- <a href="{{url('wh_sub_main')}}" class="ladda-button btn-pill btn btn-warning card_prs_4">
-                            <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> คลัง {{$stock_name}}  
-                        </a> --}}
-                        
-                            {{-- <a href="{{URL('wh_sub_main_add')}}" class="ladda-button btn-pill btn btn-sm btn-primary card_prs_4"> --}}
-                            {{-- <a href="javascript:void(0);" class="ladda-button btn-pill btn btn-sm btn-primary card_prs_4" data-bs-toggle="modal" data-bs-target="#Request"> --}}
-                                {{-- <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> สร้างใบเบิกพัสดุ   --}}
-                            {{-- </a>  --}}
-                       
+                     
                 </div>      
             </div> 
-        </form>
-            <div class="col-md-2 text-end">
+      
+            <div class="col-md-1 text-end">
                 @if ($wh_count > 0)                      
                 @else                        
-                    <a href="{{URL('wh_request_add')}}" class="ladda-button btn-pill btn btn-sm btn-primary card_prs_4"> 
-                        <i class="fa-solid fa-clipboard-check text-white me-2"></i> สร้างใบเบิก 
+                    <a href="{{URL('wh_request_add')}}" class="ladda-button btn-pill btn btn-sm card_prs_4">  
+                        <img src="{{ asset('images/recieve_store.png') }}" class="me-2" height="23px" width="23px"> 
+                        สร้างใบเบิก 
                     </a> 
                 @endif
             </div>
@@ -189,8 +233,8 @@
                         <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เปิดบิล  
                     </a> 
             </div> --}}
-        </div>
-        
+        {{-- </div> --}}
+    </form>  
         <div class="row">
             <div class="col-md-12">     
                 <div class="card card_prs_4" style="background-color: rgb(238, 252, 255)">
@@ -221,6 +265,7 @@
                                         </tr> 
                                     </thead>
                                     <tbody>
+
                                         <?php $i = 0;$total1 = 0; $total2 = 0;$total3 = 0;$total4 = 0;$total5 = 0;$total6 = 0;$total7 = 0;$total8 = 0;$total9 = 0; ?>
                                         @foreach ($wh_request as $item)
                                         <?php $i++ ?>
@@ -259,7 +304,7 @@
                                             <td class="text-center" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname}}</td> 
                                             <td class="text-center" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname_send}}</td> 
                                             <td class="text-start" style="color:rgb(3, 93, 145)" width="8%">{{$item->ptname_rep}}</td> 
-                                            <td class="text-center" width="5%">                                                       
+                                            <td class="text-center" width="10%">                                                       
                                                 
                                                     {{-- <a href="{{url('wh_request_edit/'.$item->wh_request_id)}}">
                                                         <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:20px"></i>
@@ -270,19 +315,23 @@
                                                     </a> --}}
                                                     
                                                     @if ($item->active == 'ALLOCATE')
-                                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="กำลังดำเนินการ"
-                                                        <i class="fa-solid fa-spinner text-success" style="font-size:18px"></i>
+                                                        <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="กำลังดำเนินการ">
+                                                        {{-- <i class="fa-solid fa-spinner text-success" style="font-size:18px"></i> --}}
+                                                        <img src="{{ asset('images/Shop_Sign.png') }}" height="23px" width="23px"> 
                                                     </a> 
                                                     @elseif ($item->active == 'CONFIRM')
                                                         <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="รอยืนยันการจ่ายพัสดุ">
                                                         {{-- <i class="fa-solid fa-check text-success"></i> --}}
-                                                         <i class="fa-solid fa-hourglass-half text-success" style="font-size:18px"></i>
+                                                         {{-- <i class="fa-solid fa-hourglass-half text-success" style="font-size:18px"></i> --}}
+                                                         <img src="{{ asset('images/wait_store.png') }}" height="23px" width="23px"> 
                                                     </a> 
                                                         {{-- <i class="fa-solid fa-hand-point-up text-primary"></i> --}}
                                                         @elseif ($item->active == 'CONFIRMSEND')
                                                         <a href="javascript:void(0)" onclick="wh_approve_stock({{ $item->wh_request_id }})"
                                                             data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            data-bs-custom-class="custom-tooltip" title="ยืนยันการรับพัสดุเข้า"><i class="fa-solid fa-hand-point-up text-primary ms-2" style="color: #0776c0;font-size:18px"></i> 
+                                                            data-bs-custom-class="custom-tooltip" title="ยืนยันการรับพัสดุเข้า">
+                                                            {{-- <i class="fa-solid fa-hand-point-up text-primary ms-2" style="color: #0776c0;font-size:18px"></i>  --}}
+                                                            <img src="{{ asset('images/recievein_store.png') }}" height="23px" width="23px"> 
                                                         </a> 
                                                         {{-- CONFIRMSEND --}}
                                                     @elseif ($item->active == 'REPEXPORT')
@@ -294,104 +343,103 @@
                                                         </button> --}}
                                                     @else
                                                     
-                                                        <a href="{{URL('wh_request_edit/'.$item->wh_request_id)}}">
-                                                            <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:18px"></i>
+                                                        <a href="{{URL('wh_request_edit/'.$item->wh_request_id)}}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="แก้ไขใบเบิกวัสดุ">
+                                                          
+                                                            <img src="{{ asset('images/Edit_Pen.png') }}" height="23px" width="23px"> 
                                                         </a>
-                                                        {{-- <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#EditRequest{{$item->wh_request_id}}">
-                                                            <i class="fa-solid fa-file-pen" style="color: #f76e13;font-size:18px"></i>
-                                                        </a> --}}
-                                                        <a href="{{url('wh_request_addsub/'.$item->wh_request_id)}}" target="_blank">
-                                                            <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:18px"></i>
+                                                    
+                                                        <a href="{{url('wh_request_addsub/'.$item->wh_request_id)}}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มรายการวัสดุ">
+                                                        
+                                                            <img src="{{ asset('images/Add_product.png') }}" class="ms-2" height="23px" width="23px"> 
                                                         </a> 
                                                     @endif  
-                                                        <a class="btn detailModal" style="background: transparent" value="{{ $item->wh_request_id }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="รายละเอียด"> 
-                                                            <i class="fa-solid fa-list-check" style="color: #079ecc;font-size:18px"></i>
-                                                        </a> 
-                                                        <a href="{{url('wh_sub_main_rprint/'.$item->wh_request_id)}}" target="_blank">
-                                                            <i class="fa-solid fa-print" style="color: #fa3a73;font-size:18px"></i>
+                                                        <button type="button" class="btn detailModal" value="{{$item->wh_request_id }}" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="รายละเอียด"> 
+                                                         
+                                                            <img src="{{ asset('images/datail.png') }}" height="23px" width="23px"> 
+                                                        </button> 
+                                                        <a href="{{url('wh_sub_main_rprint/'.$item->wh_request_id)}}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="พิมพ์ใบเบิกวัสดุ">
+                                                     
+                                                            <img src="{{ asset('images/Printer.png') }}" class="me-2" height="23px" width="23px"> 
                                                         </a> 
                                                 
                                                 
                                             </td>                                                    
                                         </tr>
-
-                                            <!--  Modal content EditRequest -->
-                                            <div class="modal fade" id="EditRequest{{$item->wh_request_id}}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-lg">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" id="myExtraLargeModalLabel" style="color:rgb(236, 105, 18)">แก้ไขใบเบิกพัสดุ </h4>
-                                                            {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+                                        <!--  Modal content EditRequest -->
+                                        <div class="modal fade" id="EditRequest{{$item->wh_request_id}}" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="myExtraLargeModalLabel" style="color:rgb(236, 105, 18)">แก้ไขใบเบิกพัสดุ </h4>
+                                                        {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-md-3 text-end d12font">เลขที่บิล</div>
+                                                            <div class="col-md-8">
+                                                                <div class="form-group text-center">
+                                                                    <input type="text" class="form-control-sm input_border d12font" id="edit_request_no" name="edit_request_no" value="{{$item->request_no}}" style="width: 100%" readonly>
+                                                                </div>
+                                                            </div>
+                                                            
                                                         </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <div class="col-md-3 text-end d12font">เลขที่บิล</div>
-                                                                <div class="col-md-8">
-                                                                    <div class="form-group text-center">
-                                                                        <input type="text" class="form-control-sm input_border d12font" id="edit_request_no" name="edit_request_no" value="{{$item->request_no}}" style="width: 100%" readonly>
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                            </div>
-                                                            <div class="row mt-2">
-                                                                <div class="col-md-3 text-end d12font">วันที่เบิกพัสดุ</div>
-                                                                <div class="col-md-4 text-start">
-                                                                    <div class="form-group"> 
-                                                                        {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                                                                            <input type="text" class="form-control form-control-sm cardacc" name="startdate" id="edit_datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
-                                                                                data-date-language="th-th" value="{{$item->request_date}}" required/>
-                                                                                
-                                                                        </div>  --}}
-                                                                        <input type="date" class="form-control-sm input_border d12font" id="edit_request_date" name="request_date" value="{{$item->request_date}}">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-1 text-end d12font">เวลา</div>
-                                                                <div class="col-md-4 text-start">
-                                                                    <div class="form-group">
-                                                                        <input type="time" class="form-control-sm input_border d12font" id="edit_request_time" name="edit_request_time" value="{{$item->request_time}}">
-                                                                    </div>
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-3 text-end d12font">วันที่เบิกพัสดุ</div>
+                                                            <div class="col-md-4 text-start">
+                                                                <div class="form-group"> 
+                                                                    {{-- <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                                                        <input type="text" class="form-control form-control-sm cardacc" name="startdate" id="edit_datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off"
+                                                                            data-date-language="th-th" value="{{$item->request_date}}" required/>
+                                                                            
+                                                                    </div>  --}}
+                                                                    <input type="date" class="form-control-sm input_border d12font" id="edit_request_date" name="request_date" value="{{$item->request_date}}">
                                                                 </div>
                                                             </div>
-                                                            <div class="row mt-2">
-                                                                <div class="col-md-3 text-end d12font">คลังที่ต้องการเบิก</div>
-                                                                <div class="col-md-8">
-                                                                    <select name="editstock_list_id" id="editstock_list_id"  class="form-control-sm input_border d12font" style="width: 100%">
-                                                                            <option value="">--เลือก--</option>
-                                                                            @foreach ($wh_stock_list as $item_sup)
-                                                                            @if ($item->stock_list_id == $item_sup->stock_list_id)
-                                                                                <option value="{{$item_sup->stock_list_id}}" selected>{{$item_sup->stock_list_name}}</option>
-                                                                            @else
-                                                                                <option value="{{$item_sup->stock_list_id}}">{{$item_sup->stock_list_name}}</option>
-                                                                            @endif
-                                                                                
-                                                                            @endforeach
-                                                                    </select>
-                                                                </div> 
-                                                            </div>
-
-                                                            <input type="hidden" id="edit_bg_yearnow" name="edit_bg_yearnow" value="{{$item->year}}">
-                                                            <input type="hidden" id="edit_wh_request_id" name="edit_wh_request_id" value="{{$item->wh_request_id}}">
-
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <div class="col-md-12 text-center">
+                                                            <div class="col-md-1 text-end d12font">เวลา</div>
+                                                            <div class="col-md-4 text-start">
                                                                 <div class="form-group">
-                                                                    <button type="button" id="UpdateRequest" class="ladda-button me-2 btn-pill btn btn-sm btn-success card_prs_4" >
-                                                                        <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
-                                                                        บันทึก
-                                                                    </button>
-                                                                    <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger card_prs_4" data-bs-dismiss="modal">
-                                                                        <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>Close</button>
-
+                                                                    <input type="time" class="form-control-sm input_border d12font" id="edit_request_time" name="edit_request_time" value="{{$item->request_time}}">
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-3 text-end d12font">คลังที่ต้องการเบิก</div>
+                                                            <div class="col-md-8">
+                                                                <select name="editstock_list_id" id="editstock_list_id"  class="form-control-sm input_border d12font" style="width: 100%">
+                                                                        <option value="">--เลือก--</option>
+                                                                        @foreach ($wh_stock_list as $item_sup)
+                                                                        @if ($item->stock_list_id == $item_sup->stock_list_id)
+                                                                            <option value="{{$item_sup->stock_list_id}}" selected>{{$item_sup->stock_list_name}}</option>
+                                                                        @else
+                                                                            <option value="{{$item_sup->stock_list_id}}">{{$item_sup->stock_list_name}}</option>
+                                                                        @endif
+                                                                            
+                                                                        @endforeach
+                                                                </select>
+                                                            </div> 
+                                                        </div>
+
+                                                        <input type="hidden" id="edit_bg_yearnow" name="edit_bg_yearnow" value="{{$item->year}}">
+                                                        <input type="hidden" id="edit_wh_request_id" name="edit_wh_request_id" value="{{$item->wh_request_id}}">
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <div class="col-md-12 text-center">
+                                                            <div class="form-group">
+                                                                <button type="button" id="UpdateRequest" class="ladda-button me-2 btn-pill btn btn-sm btn-success card_prs_4" >
+                                                                    <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
+                                                                    บันทึก
+                                                                </button>
+                                                                <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger card_prs_4" data-bs-dismiss="modal">
+                                                                    <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>Close</button>
+
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                        
-                                            
+                                        </div>
+ 
                                         @endforeach                                                
                                     </tbody>
                                     
@@ -504,6 +552,76 @@
                 </div>
             </div>
         </div>
+
+         <!-- Update Modal -->
+     <div class="modal fade" id="showDocumentModal"  tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-slideout" role="document">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <div class="row"> 
+                        <div class="col-md-8">
+                            <h4 class="modal-title" id="editModalLabel" style="color:rgb(248, 28, 83)">คู่มือการใช้งาน</h4>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="form-group"> 
+                                <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-danger" data-bs-dismiss="modal">
+                                    <i class="fa-solid fa-xmark me-2"></i>Close
+                                </button> 
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-body"> 
+                    <img src="{{ asset('images/doc/doc_01.png') }}" class="rounded" alt="Image" width="auto" height="700px"> 
+                    <br><br><br> 
+                    <hr style="color: red;border: blueviolet">
+                    <hr style="color: red;border: blueviolet">
+                    <br><br><br> 
+                    <img src="{{ asset('images/doc/doc_02.png') }}" class="rounded" alt="Image" width="auto" height="700px">
+                    <br><br><br>
+                    <hr style="color: red;border: blueviolet">
+                    <hr style="color: red;border: blueviolet">
+        
+                    <img src="{{ asset('images/doc/doc_03.png') }}" class="rounded" alt="Image" width="auto" height="700px">
+                    <br><br><br>
+
+                    <hr style="color: red;border: blueviolet">
+                    <hr style="color: red;border: blueviolet">
+        
+                    <img src="{{ asset('images/doc/doc_04.png') }}" class="rounded" alt="Image" width="auto" height="700px">
+                    <br><br><br>
+
+                    <hr style="color: red;border: blueviolet">
+                    <hr style="color: red;border: blueviolet">
+        
+                    <img src="{{ asset('images/doc/doc_05.png') }}" class="rounded" alt="Image" width="auto" height="700px">
+                    <br><br><br>
+
+                    <hr style="color: red;border: blueviolet">
+                    <hr style="color: red;border: blueviolet">
+        
+                    <img src="{{ asset('images/doc/doc_06.png') }}" class="rounded" alt="Image" width="auto" height="700px">
+                    <br><br><br>
+
+                    <hr style="color: red;border: blueviolet">
+                    <hr style="color: red;border: blueviolet">
+        
+                    <img src="{{ asset('images/doc/doc_07.png') }}" class="rounded" alt="Image" width="auto" height="700px">
+                    <br><br><br>
+
+                    <hr style="color: red;border: blueviolet">
+                    <hr style="color: red;border: blueviolet">
+        
+                    <img src="{{ asset('images/doc/doc_08.png') }}" class="rounded" alt="Image" width="auto" height="700px">
+                    <br><br><br>
+                    
+                </div>              
+                <div class="modal-footer">                   
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
  
@@ -669,6 +787,7 @@
         $(document).on('click', '.detailModal', function() {
                 var wh_request_id = $(this).val(); 
                 // var maintenance_list_num = '2';
+                // alert(wh_request_id);
                 $('#detailModal').modal('show');           
                 $.ajax({
                     type: "GET",
@@ -678,7 +797,12 @@
                         $('#detail_showModal').html(result);
                     },
                 });
-            });
+        });
+
+        $(document).on('click', '.showDocument', function() { 
+                $('#showDocumentModal').modal('show');    
+        });
+
          
     </script>
   

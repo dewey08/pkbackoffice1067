@@ -106,8 +106,9 @@ $count_service = StaticController::count_service();
                         <div class="btn-actions-pane-right">
                             <div class="col-md-12 text-end">
                                 <a href="{{ url('dental_appointment_add') }}" class="mb-1 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">เพิ่มข้อมูลนัดหมาย</a>
+                                <a href="{{ url('dental_appointment_edit') }}" class="mb-1 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">แก้ไขข้อมูลการนัด</a>
                             </div>
-                        </div>
+                        </div>                        
                     </div>
 
                     <div class="card-body">
@@ -116,7 +117,7 @@ $count_service = StaticController::count_service();
                             
                             <div class="panel-body bg-white">
 
-                                <div id='calendar'></div>
+                                <div id='calendar'> </div>
 
                             </div>
                             
@@ -127,74 +128,7 @@ $count_service = StaticController::count_service();
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Insert -->
-    {{-- <div class="modal fade" id="dentalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
-                        ลงเวลาโอที
-                    </h5>
-                    <button class="btn btn-info btn-sm" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        <i class="fa-solid fa-circle-info text-white"></i>
-                        รายละเอียด
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- Collapsed content -->
-                    <div class="collapse mt-1 mb-2" id="collapseExample">
-                        <div class="row">
-                            <div class="col-md-2 mt-3">
-                                <label for="ot_one_detail">เหตุผล </label>
-                            </div>
-                            <div class="col-md-10 mt-3">
-                                <div class="form-outline">
-                                    <input id="ot_one_detail" type="text" class="form-control input-rounded"
-                                        name="ot_one_detail">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-2 mt-3">
-                                <label for="ot_one_starttime">ตั้งแต่เวลา </label>
-                            </div>
-                            <div class="col-md-4 mt-3">
-                                <div class="form-group">
-                                    <input id="ot_one_starttime" type="time" class="form-control input-rounded" name="ot_one_starttime">
-                                </div>
-                            </div>
-                            <div class="col-md-2 mt-3">
-                                <label for="ot_one_endtime">ถึงเวลา </label>
-                            </div>
-                            <div class="col-md-4 mt-3">
-                                <div class="form-group">
-                                    <input id="ot_one_endtime" type="time" class="form-control input-rounded"
-                                        name="ot_one_endtime">
-                                </div>
-                            </div>
-                        </div>
-
-                        <input type="hidden" id="user_id" name="user_id" value=" {{ Auth::user()->id }}">
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="saveBtn" class="btn btn-info btn-sm me-2">
-                        <i class="fa-solid fa-circle-check text-white me-2"></i>
-                        บันทึกข้อมูล
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm me-2" data-bs-dismiss="modal" id="closebtn">
-                        <i class="fa-solid fa-xmark me-2"></i>
-                        ปิด
-                    </button>
-                </div>
-
-            </div>
-        </div>
-    </div> --}}
+    </div> 
     
     </div>
 

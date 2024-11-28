@@ -129,7 +129,7 @@
                                                     }
                                                 ?>
                                                 @if ($count_check < 1 || $countproid == '')  
-                                                <option value="{{$item_sup->wh_stock_dep_sub_id}}">{{$item_sup->pro_code}} || {{$item_sup->pro_name}} || {{$item_sup->wh_unit_name}} || LOT {{$item_sup->lot_no}} || {{$item_sup->qty_reppay-$countproid}}</option>
+                                                <option value="{{$item_sup->wh_stock_dep_sub_id}}">{{$item_sup->pro_code}} || {{$item_sup->pro_name}} || {{$item_sup->wh_unit_name}} || LOT {{$item_sup->lot_no}} || => จำนวนคลังคงเหลือ {{$item_sup->qty_reppay-$countproid}}</option>
                                                @else                                                    
                                                 @endif 
                                             @endforeach

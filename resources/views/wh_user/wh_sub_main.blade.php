@@ -91,15 +91,18 @@
                 <p class="card-title-desc">หน่วยงาน {{$stock_bigname}} ประจำปีงบประมาณ {{$bg_yearnow}}</p>
             </div>
             <div class="col"></div>  
-            <div class="col-md-3 text-end"> 
-                {{-- <a href="{{url('wh_sub_main_rp')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-primary input_new mb-2" target="_blank">
-                    <i class="fa-solid fa-clipboard-check text-white me-2 ms-2"></i> เบิกพัสดุ  
-                </a> --}}
-                <a href="{{url('wh_sub_main_rp')}}" class="ladda-button btn-pill btn card_prs_4" style="color:rgb(12, 96, 207)" target="_blank">
-                    <i class="fa-solid fa-clipboard-check me-2 ms-2" style="color:rgb(12, 96, 207)"></i> เบิกพัสดุ
+            <div class="col-md-3 text-end">  
+                <a href="{{url('wh_sub_report')}}" class="ladda-button btn-pill btn card_prs_4" style="color:rgb(3, 165, 124)" target="_blank"> 
+                    <img src="{{ asset('images/report_new2.png') }}" class="me-2" height="23px" width="23px"> 
+                     รายงานคลัง{{$stock_name}}
                 </a>
-                <a href="{{url('wh_sub_main_pay')}}" class="ladda-button btn-pill btn card_prs_4" style="color:rgb(255, 84, 149)" target="_blank">
-                    <i class="fa-solid fa-clipboard-check me-2 ms-2" style="color:rgb(255, 84, 149)"></i> ตัดจ่าย
+                <a href="{{url('wh_sub_main_rp')}}" class="ladda-button btn-pill btn card_prs_4" style="color:rgb(12, 96, 207)" target="_blank"> 
+                    <img src="{{ asset('images/recieve_store.png') }}" class="me-2" height="23px" width="23px"> 
+                     เบิกพัสดุ
+                </a>
+                <a href="{{url('wh_sub_main_pay')}}" class="ladda-button btn-pill btn card_prs_4" style="color:rgb(255, 84, 149)" target="_blank"> 
+                    <img src="{{ asset('images/pay_store.png') }}" class="me-2" height="23px" width="23px"> 
+                    ตัดจ่าย
                 </a>
         </div>
         </div>
@@ -125,6 +128,7 @@
                                                     <th class="text-center" style="background-color: rgb(250, 242, 187);font-size: 11px;" width="10%">รับเข้า</th> 
                                                     <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 11px;" width="10%">จ่ายออก</th> 
                                                     <th class="text-center" style="background-color: rgb(174, 236, 245);font-size: 11px;" width="10%">คงเหลือ</th>  
+                                                    <th class="text-center" style="background-color: rgb(255, 228, 234);font-size: 11px;" width="10%">ราคา</th> 
                                                     <th class="text-center" style="background-color: rgb(255, 228, 234);font-size: 11px;" width="10%">ราคารวม</th> 
                                                 </tr> 
                                             </thead>
@@ -152,19 +156,23 @@
                                                         {{$item->stock_pay}}
                                                         @endif 
                                                     </td>
-                                                    
+                                                    @php
+                                                        // $price_rep   = $item->stock_rep * $item->one_price;
+                                                        // $price_pay   = $item->stock_pay * $item->one_price;
+                                                        $total_price = ($item->stock_rep-$item->stock_pay) * $item->one_price;
+                                                    @endphp
                                                     <td class="text-center" style="color:rgb(3, 93, 145)" width="10%">{{$item->stock_rep-$item->stock_pay}} </td> 
-                                                    <td class="text-end" width="10%" style="color:rgb(3, 155, 104)" width="10%">{{number_format($item->sum_stock_price, 2)}}</td> 
-                                                    
+                                                    <td class="text-end" width="10%" style="color:rgb(3, 155, 104)" width="10%">{{number_format($item->one_price, 2)}}</td> 
+                                                    <td class="text-end" width="10%" style="color:rgb(3, 155, 104)" width="10%">{{number_format($total_price, 2)}}</td> 
                                                 </tr>
                                                 <?php
                                                     // $total1 = $total1 + $item->stock_qty;
                                                     $total2 = $total2 + $item->stock_rep;
                                                     $total3 = $total3 + $item->stock_pay;
                                                     $total4 = $total4 + $item->stock_rep-$item->stock_pay;
-                                                    // $total5 = $total5 + $item->sum_one_price;        
+                                                    $total5 = $total5 + $item->one_price;        
                                                     // $total6 = $total6 + ($item->sum_stock_price)*($item->stock_rep-$item->stock_pay);  
-                                                    $total6 = $total6 + $item->sum_stock_price;  
+                                                    $total6 = $total6 + $total_price;  
                                                 ?>  
                                                     
                                                 @endforeach                                                
@@ -172,11 +180,11 @@
                                             <tr style="background-color: #f3fca1">
                                                 <td colspan="4" class="text-end" style="background-color: #c7f2f8"></td>
                                                 {{-- <td class="text-center" style="background-color: #f58d73;color: #065ca3">{{number_format($total1,0)}}</td>  --}}
-                                                <td class="text-center" style="background-color: #faece9;color: #065ca3">{{number_format($total2,0)}}</td> 
-                                                <td class="text-center" style="background-color: #faece9;color: #f17006">{{number_format($total3,0)}}</td> 
-                                                <td class="text-center" style="background-color: #faece9;color: #065ca3">{{number_format($total4,0)}}</td>    
-                                                {{-- <td class="text-end" style="background-color: #276ed8;color: #1da7e7">{{number_format($total5,2)}}</td>   --}}
-                                                <td class="text-end" style="background-color: #faece9;color: #047a53">{{number_format($total6,2)}}</td> 
+                                                <td class="text-center" style="background-color: #faece9;color: #f71a51;font-size:17px;">{{number_format($total2,0)}}</td> 
+                                                <td class="text-center" style="background-color: #faece9;color: #f71a51;font-size:17px;">{{number_format($total3,0)}}</td> 
+                                                <td class="text-center" style="background-color: #faece9;color: #f71a51;font-size:17px;">{{number_format($total4,0)}}</td>    
+                                                <td class="text-end" style="background-color: #faece9;color: #f71a51;font-size:17px;"></td>  
+                                                <td class="text-end" style="background-color: #faece9;color: #f71a51;font-size:17px;">{{number_format($total6,2)}}</td> 
                                              
                                             </tr>  
                                         </table>

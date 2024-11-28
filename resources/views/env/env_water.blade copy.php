@@ -176,9 +176,7 @@ if (Auth::check()) {
                                             </tr>
                                             
                                             <!--  Modal content Update -->
-                                            <div class="modal fade" 
-                                                id="waterModal{{ $item->water_id }}" tabindex="-1"
-                                                aria-labelledby="waterModal" aria-hidden="true">
+                                            <div class="modal fade" id="waterModal{{ $item->water_id }}" tabindex="-1" aria-labelledby="waterModal" aria-hidden="true">
                                                 <div class="modal-dialog modal-xl">
                                                     <div class="modal-content">
                                                         <div class="modal-header">

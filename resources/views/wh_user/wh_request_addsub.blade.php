@@ -97,10 +97,14 @@
                         ตรวจรับ
                     </a>  --}}
                     <button type="button" id="UpdateData" class="ladda-button me-2 btn-pill btn btn-sm btn-success card_prs_4" >
-                        <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i>
+                        {{-- <i class="fa-solid fa-pen-to-square text-white me-2 ms-2"></i> --}}
+                        <img src="{{ asset('images/Savewhit.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                        บันทึก
                    </button>
-                   <a href="{{url('wh_sub_main_rp')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger card_prs_4"> <i class="fa-solid fa-xmark text-white me-2 ms-2"></i>ยกเลิก</a>
+                   <a href="{{url('wh_sub_main_rp')}}" class="ladda-button me-2 btn-pill btn btn-sm btn-danger card_prs_4"> 
+                    {{-- <i class="fa-solid fa-xmark text-white me-2 ms-2"></i> --}}
+                    <img src="{{ asset('images/back.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
+                    ยกเลิก</a>
                 </div>
             </div> 
 
@@ -147,10 +151,12 @@
                                           <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
                                    </button> --}}
                                    <button type="button" id="Addproduct" class="ladda-button me-2 btn-pill btn btn-sm btn-success input_new" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="เพิ่มรายการวัสดุลงใน List">
-                                        <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i>
+                                        {{-- <i class="fa-regular fa-square-plus text-white me-2 ms-2"></i> --}}
+                                        <img src="{{ asset('images/Addwhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                  </button>
                                    <button type="button" class="ladda-button me-2 btn-pill btn btn-sm btn-danger card_prs_4 Destroystamp" data-url="{{url('wh_request_destroy')}}">
-                                        <i class="fa-solid fa-trash-can text-white ms-2"></i> 
+                                        {{-- <i class="fa-solid fa-trash-can text-white ms-2"></i>  --}}
+                                        <img src="{{ asset('images/removewhite.png') }}" class="me-2 ms-2" height="18px" width="18px"> 
                                     </button>
                                 </div>
                                
