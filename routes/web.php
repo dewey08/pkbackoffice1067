@@ -3649,6 +3649,8 @@ Route::match(['get','post'],'env_trash_parameter_switchactive',[App\Http\Control
 
   Route::match(['get', 'post'], 'dental_calendar', [App\Http\Controllers\DentalController::class, 'dental_calendar'])->name('den.dental_calendar'); //
   Route::match(['get', 'post'], 'dental_calendarsave', [App\Http\Controllers\DentalController::class, 'dental_calendarsave'])->name('den.dental_calendarsave'); //
+
+  Route::match(['get', 'post'], 'dental_appointment', [App\Http\Controllers\DentalController::class, 'dental_appointment'])->name('den.dental_appointment');
   Route::match(['get', 'post'], 'dental_appointment_add', [App\Http\Controllers\DentalController::class, 'dental_appointment_add'])->name('den.dental_appointment_add'); //เพิ่มรายการนัดหมาย
   Route::match(['get', 'post'], 'dental_appointment_save', [App\Http\Controllers\DentalController::class, 'dental_appointment_save'])->name('den.dental_appointment_save');
 

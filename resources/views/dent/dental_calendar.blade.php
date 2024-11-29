@@ -106,7 +106,7 @@ $count_service = StaticController::count_service();
                         <div class="btn-actions-pane-right">
                             <div class="col-md-12 text-end">
                                 <a href="{{ url('dental_appointment_add') }}" class="mb-1 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">เพิ่มข้อมูลนัดหมาย</a>
-                                <a href="{{ url('dental_appointment_edit') }}" class="mb-1 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">แก้ไขข้อมูลการนัด</a>
+                                <a href="{{ url('dental_appointment') }}" class="mb-1 me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info">แก้ไขข้อมูลการนัด</a>
                             </div>
                         </div>                        
                     </div>

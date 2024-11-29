@@ -500,30 +500,7 @@ class EnvController extends Controller
             'data'             => $data,  
         ]);
 
-        // $startdate  = $request->datepicker;
-        // $enddate    = $request->datepicker2;
-      
-        // $data['department']         = Department::get();
-        // $data['department_sub']     = Departmentsub::get();
-        // $data['department_sub_sub'] = Departmentsubsub::get();
-        // $data['position']           = Position::get();
-        // $data['status']             = Status::get(); 
-        // $yy1                        = date('Y') + 543;
-        // $yy2                        = date('Y') + 542;
-        // $yy3                        = date('Y') + 541;
-        // // $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
-        // // $bg_yearnow    = $bgs_year->leave_year_id;
-        // $data['air_supplies']       = Air_supplies::where('active','=','Y')->get();        
         
-        // $data['wh_stock_list'] = DB::table('wh_stock_list')->where('stock_type','=','1')->get();
-        // $data_edit             = DB::table('wh_recieve')->where('wh_recieve_id','=',$id)->first();
-        // // $data['stock_name']    = $data_main->stock_list_name;
-
-        // return view('wh.wh_recieve_edit', $data,[
-        //     'startdate'  => $startdate,
-        //     'enddate'    => $enddate,
-        //     'data_edit'  => $data_edit,
-        // ]);
     }
     public function env_water_edittable(Request $request,$id)
     {
@@ -1372,7 +1349,7 @@ class EnvController extends Controller
             'startdate'        => $datestart,
             'enddate'          => $dateend,
             'water_parameter'  => $water_parameter, 
-            //'data_edit'        => $data_edit, 
+           
         ]);
     }
 
@@ -1405,7 +1382,6 @@ class EnvController extends Controller
             'water_parameter_name'                   => $request->water_parameter_name,
             'water_parameter_short_name'             => $request->water_parameter_short_name,
             'water_parameter_unit'                   => $request->water_parameter_unit,
-            //'water_parameter_icon'                 => $request->env_water_icon,
             'water_parameter_normal'                 => $request->water_parameter_normal,
             'water_parameter_results'                => $request->water_parameter_results, 
             'updated_at'                             => $datenow

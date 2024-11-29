@@ -557,6 +557,86 @@ class DentalController extends Controller
         }  
     }
 
+    public function dental_appointment (Request $request)
+    {
+        $startdate               = $request->startdate;
+        $enddate                 = $request->enddate;
+        $appointment_id          = $request->appointment_id;
+        // $datestart = $request->startdate;
+        // $dateend = $request->enddate;
+        $datenow             = date('Y-m-d');
+        $data['date_now']    = date('Y-m-d');
+        $data['m']           = date('H');
+        $data['mm']          = date('H:m:s');
+        
+        $iduser = Auth::user()->id;        
+        
+        $data['users'] = User::get();
+        $data['leave_month'] = DB::table('leave_month')->get();
+        $data['users_group'] = DB::table('users_group')->get();
+        $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
+        
+        // $data['dent_appointment_type'] = DB::table('dent_appointment_type')->where('status','=','Y')->get();
+
+        $date = date('Y-m-d');
+        $y = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -2 week')); //ย้อนหลัง 2 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี  
+
+        $data_appointment = DB::table('dent_appointment_type')->where('status','=','Y')->get();
+
+                
+        $data_show = DB::connection('mysql2')->select(            
+            'select count(distinct d.hn) 
+            from dtmain d
+            left outer join vn_stat v on v.vn=d.vn
+            where d.vstdate between "'.$newweek.'" and "'.$date.'"
+            and v.pt_subtype <> "2"
+        ');
+        
+        $data['doctor'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "2"
+            AND active = "Y"
+        ');
+        $data['helper'] = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "6" 
+            AND active = "Y"
+        ');
+
+        // $data['hn'] = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient GROUP BY hn limit 1000');
+        
+        $data_appointment = DB::table('dent_appointment_type')->where('status','=','Y')->get();
+
+        if ($startdate != '') {
+            $datashow = DB::connection('mysql')->select(            
+                'SELECT * FROM dent_appointment 
+                    WHERE dent_date BETWEEN "'.$startdate.'"  AND  "'.$enddate.'"  AND appointment_id ="'.$appointment_id.'"
+            ');
+        } else {
+            $datashow = DB::connection('mysql')->select(            
+                'SELECT * FROM dent_appointment  
+                  
+            ');
+        }
+               
+
+        return view('dent.dental_appointment', $data,[
+            'startdate'         => $startdate,
+            'enddate'           => $enddate, 
+            'users'             => $data,
+            'appointment'       => $data_appointment,
+            'datashow'          => $datashow,
+            
+        ]);       
+
+        
+    }
+
     public function dental_appointment_add (Request $request)
     {
         $datestart = $request->startdate;
@@ -689,6 +769,35 @@ class DentalController extends Controller
         }
 
       
+    }
+
+    public function dental_appointment_edit (Request $request,$id)
+    {
+        $datestart = $request->startdate;
+        $dateend = $request->enddate;
+        $iduser = Auth::user()->id;
+        $data['users'] = User::get();
+        $data['leave_month'] = DB::table('leave_month')->get();
+        $data['users_group'] = DB::table('users_group')->get();
+        $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
+
+        $dent_edit = DB::table('dent_appointment')->where('dent_appointment_id','=',$id)->first();
+ 
+        // $trash = DB::table('env_trash')->where('trash_id','=',$id)->first();
+        // $data['env_trash_sub']  = DB::table('env_trash_sub')->where('trash_id','=',$id)->get();
+
+        $data['dent_appointment_type']  = DB::table('dent_appointment_type')->get();
+  
+        // $data['trash_parameter']  = DB::table('env_trash_parameter')->get();
+        // $data_trash_sub = DB::table('env_trash_sub')->get();
+        // $data_trash_type = DB::table('env_trash_type')->get();
+        // $data['products_vendor'] = Products_vendor::get();
+
+        return view('dent.dental_appointment_edit', $data,[
+            'startdate'        => $datestart,
+            'enddate'          => $dateend, 
+            'dent_edit'        => $dent_edit, 
+        ]);
     }
 
     public function dental_setting_type (Request $request)
