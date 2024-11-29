@@ -111,20 +111,37 @@ $count_service = StaticController::count_service();
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <select id="dent_hn" name="dent_hn" class="form-control-sm d12font input_new" style="width: 100%" onchange="hnDent()">
+                                            <label for="">{{$dent_edit->dent_hn}}</label> 
+                                            {{-- <input type="text" class="form-control-sm input_border" id="dent_hn" name="dent_hn" value="{{ $dent_edit->dent_hn }}" style="width: 100%" readonly> --}}
+                                            {{-- <select id="dent_hn" name="dent_hn" class="form-control-sm d12font input_new" style="width: 100%" onchange="hnDent()">
                                                 <option value="">--เลือก--</option>
                                                 @foreach ($hn as $ph)
                                                     
                                                     <option value="{{ $ph->hn }}"> {{ $ph->hn }}</option> 
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
                                         </div>
+                                    </div>
+                                    <div class="col-md-1 text-end">
+                                        <label for="" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:13px">CID :</label>
+                                    </div>
+                                    <div class="col-md-2">       
+                                        <label for="">{{$dent_edit->dent_patient_cid}}</label>                   
+                                        {{-- <div id="show_detailpatient" ></div>  --}}
                                     </div>
                                     <div class="col-md-1 text-end">
                                         <label for="" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:13px">ข้อมูลคนไข้ :</label>
                                     </div>
-                                    <div class="col-md-6">                          
-                                        <div id="show_detailpatient" ></div>                                     
+                                    <div class="col-md-2">       
+                                        <label for="">{{$dent_edit->dent_patient_name}}</label>                   
+                                        {{-- <div id="show_detailpatient" ></div>  --}}
+                                    </div>
+                                    <div class="col-md-1 text-end">
+                                        <label for="" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:13px">เบอร์โทร :</label>
+                                    </div>
+                                    <div class="col-md-2">       
+                                        <label for="">{{$dent_edit->dent_tel}}</label>                   
+                                        {{-- <div id="show_detailpatient" ></div>  --}}
                                     </div>
                                                                         
                                 </div>
@@ -137,7 +154,7 @@ $count_service = StaticController::count_service();
                                         <div class="form-group">
                                             <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
                                                 <input type="text" class="form-control-sm input_new" name="datepicker" id="datepicker" placeholder="Start Date" data-date-autoclose="true" autocomplete="off"
-                                                data-date-language="th-th" value="{{ $date_now }}"/>
+                                                data-date-language="th-th" value="{{ $dent_edit->dent_date }}"/>
                                             </div>
                                         </div>
                                     </div>
@@ -147,7 +164,7 @@ $count_service = StaticController::count_service();
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <input type="time" id="dent_time" name="dent_time" class="form-control-sm input_new" placeholder="" value="{{$mm}}" style="width: 100%" />
+                                            <input type="time" id="dent_time" name="dent_time" class="form-control-sm input_new" placeholder="" value="{{ $dent_edit->dent_time }}" style="width: 100%" />
                                         </div>
                                     </div>
                                     
@@ -159,7 +176,7 @@ $count_service = StaticController::count_service();
                                                 <select id="dent_doctor" name="dent_doctor" class="form-control-sm d12font input_new" style="width: 100%">
                                                     <option value="">--เลือก--</option>
                                                     @foreach ($users as $ue)
-                                                        @if ($iduser == $ue->id)
+                                                        @if ($dent_edit->dent_doctor == $ue->id)
                                                         <option value="{{ $ue->id }}" selected> {{ $ue->fname }} {{ $ue->lname }}</option>
                                                         @else
                                                         <option value="{{ $ue->id }}"> {{ $ue->fname }} {{ $ue->lname }}</option>
@@ -179,24 +196,30 @@ $count_service = StaticController::count_service();
                                         <div class="form-group">
                                             <select id="appointment" name="appointment" class="form-control-sm d12font input_new" style="width: 100%">
                                                 <option value="">--เลือก--</option>
-                                                @foreach ($appointment as $ap)                                                    
-                                                    <option value="{{ $ap->appointment_id }}"> {{ $ap->appointment_name }}</option>                                                    
+                                                @foreach ($appointment as $ap)
+                                                @if ($dent_edit->appointment_id == $ap->appointment_id)
+                                                    <option value="{{ $ap->appointment_id }}"selected>{{ $ap->appointment_name }}</option>
+                                                @else
+                                                    <option value="{{ $ap->appointment_id }}"> {{ $ap->appointment_name }}</option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div> 
-                                    
+                                    </div>  
+
                                     <div class="col-md-1 text-end">
                                         <label for="dent_work">งาน :</label>
                                     </div>
                                     <div class="col-md-7">
                                         <div class="form-group">
                                             <div class="form-group">
-                                                <input id="dent_work" type="text" class="form-control-sm d12font input_new" name="dent_work" style="width: 100%">
+                                                <input id="dent_work" type="text" class="form-control-sm d12font input_new" name="dent_work" value="{{ $dent_edit->dent_work }}style="width: 100%">
                                             </div>
                                         </div>
                                     </div>
-                                </div>                             
+                                </div> 
+
+                                <input type="hidden" id="dent_appointment_id" name="dent_appointment_id" value="{{$dent_edit->dent_appointment_id}}">                            
 
                             </div>
                         </div>
@@ -210,14 +233,12 @@ $count_service = StaticController::count_service();
 
                         <div class="form-group">
 
-                            <button type="button" id="SaveData" class="btn btn-primary btn-sm">
-                                {{-- <i class="fa-solid fa-floppy-disk me-2"></i> --}}
+                            <button type="button" id="UpdateData" class="btn btn-primary btn-sm">
                                 <img src="{{ asset('images/Savewhit.png') }}" class="me-2 ms-2" height="18px" width="18px">
                                 บันทึกข้อมูล
                             </button>
 
-                            <a href="{{ url('dental_calendar') }}" class="btn btn-danger btn-sm">
-                                {{-- <i class="fa-solid fa-xmark me-2"></i> --}}
+                            <a href="{{ url('dental_appointment') }}" class="btn btn-danger btn-sm">
                                 <img src="{{ asset('images/back.png') }}" class="me-2 ms-2" height="18px" width="18px">
                                 ยกเลิก
                             </a>
@@ -259,9 +280,7 @@ $count_service = StaticController::count_service();
                 })
         }
     $(document).ready(function() {
-        // $("#overlay").fadeIn(300);　
-
-       
+        // $("#overlay").fadeIn(300);　       
 
         $('#datepicker').datepicker({
             format: 'yyyy-mm-dd'
@@ -299,82 +318,141 @@ $count_service = StaticController::count_service();
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
+
+        $('#UpdateData').click(function() {
+            var dent_hn             = $('#dent_hn').val(); 
+            var dent_date           = $('#dent_date').val(); 
+            var dent_time           = $('#dent_time').val();                  
+            var appointment_id      = $('#appointment_id').val();
+            var dent_doctor         = $('#dent_doctor').val();
+            var dent_work           = $('#dent_work').val();
+
+            Swal.fire({ position: "top-end",
+                    title: 'ต้องการแก้ไขข้อมูลใช่ไหม ?',
+                    text: "You Warn Add Bill No!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, Add it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $("#overlay").fadeIn(300);　
+                            $("#spinner").show(); //Load button clicked show spinner 
+                            
+                            $.ajax({
+                                url: "{{ route('den.dental_appointment_update') }}",
+                                type: "POST",
+                                dataType: 'json',
+                                data: {dent_hn,dent_date,dent_time,dent_work},
+                                // data: {recieve_no,recieve_date,recieve_time,vendor_id,stock_list_id,bg_yearnow,wh_recieve_id,recieve_po_sup},
+                                success: function(data) {
+                                    if (data.status == 200) { 
+                                        Swal.fire({ position: "top-end",
+                                            title: 'แก้ไขข้อมูลสำเร็จ',
+                                            text: "You Update data success",
+                                            icon: 'success',
+                                            showCancelButton: false,
+                                            confirmButtonColor: '#06D177',
+                                            confirmButtonText: 'เรียบร้อย'
+                                        }).then((result) => {
+                                            if (result
+                                                .isConfirmed) {
+                                                console.log(
+                                                    data);
+                                                // window.location.reload();
+                                                window.location="{{url('dental_appointment_edit')}}"; 
+                                                $('#spinner').hide();//Request is complete so hide spinner
+                                                    setTimeout(function(){
+                                                        $("#overlay").fadeOut(300);
+                                                    },500);
+                                            }
+                                        })
+                                    } else {
+                                        
+                                    }
+                                },
+                            });
+                            
+                        }
+            })
+        });
             
-            $('#SaveData').click(function() {
-                var dent_hn             = $('#dent_hn').val();                 
-                var dent_date           = $('#datepicker').val(); 
-                var dent_time           = $('#dent_time').val(); 
-                var appointment      = $('#appointment').val();
-                // var appointment_name    = $('#appointment_name').val();  
-                var dent_doctor         = $('#dent_doctor').val();
-                var dent_work      = $('#dent_work').val();                  
-// alert(dent_hn);
-                Swal.fire({ position: "center",
-                        title: 'ต้องการเพิ่มข้อมูลใช่ไหม ?',
-                        text: "You Warn Add Data !!!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'ตกลง, เพิ่มเลย!'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $("#overlay").fadeIn(300);　
-                                $("#spinner").show(); //Load button clicked show spinner 
+            // $('#SaveData').click(function() {
+            //     var dent_hn             = $('#dent_hn').val();                 
+            //     var dent_date           = $('#datepicker').val(); 
+            //     var dent_time           = $('#dent_time').val(); 
+            //     var appointment      = $('#appointment').val();
+            //     // var appointment_name    = $('#appointment_name').val();  
+            //     var dent_doctor         = $('#dent_doctor').val();
+            //     var dent_work      = $('#dent_work').val();                  
+
+            //     Swal.fire({ position: "center",
+            //             title: 'ต้องการเพิ่มข้อมูลใช่ไหม ?',
+            //             text: "You Warn Add Data !!!",
+            //             icon: 'warning',
+            //             showCancelButton: true,
+            //             confirmButtonColor: '#3085d6',
+            //             cancelButtonColor: '#d33',
+            //             confirmButtonText: 'ตกลง, เพิ่มเลย!'
+            //             }).then((result) => {
+            //                 if (result.isConfirmed) {
+            //                     $("#overlay").fadeIn(300);　
+            //                     $("#spinner").show(); //Load button clicked show spinner 
                                 
-                                $.ajax({
-                                    url: "{{ route('den.dental_appointment_save') }}",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {dent_hn,dent_date,dent_time,appointment,dent_doctor,dent_work},
-                                    success: function(data) {
-                                        if (data.status == 200) { 
-                                            Swal.fire({ position: "center",
-                                                title: 'เพิ่มข้อมูลสำเร็จ',
-                                                text: "คุณเพิ่มข้อมูลสำเร็จแล้ว",
-                                                icon: 'success',
-                                                showCancelButton: false,
-                                                confirmButtonColor: '#06D177',
-                                                confirmButtonText: 'เรียบร้อย'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    // window.location.reload();
-                                                    window.location = "{{url('dental_calendar')}}"; 
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-                                        } else {
-                                            Swal.fire({
-                                                icon: "error",
-                                                title: "Oops...บ่มี HN",
-                                                text: "ใส่ HN ก่อนแหน่จ้า!",
-                                                // footer: '<a href="#">Why do I have this issue?</a>'
-                                            }).then((result) => {
-                                                if (result
-                                                    .isConfirmed) {
-                                                    console.log(
-                                                        data);
-                                                    // window.location.reload();
-                                                    window.location = "{{url('dental_calendar')}}"; 
-                                                    $('#spinner').hide();//Request is complete so hide spinner
-                                                        setTimeout(function(){
-                                                            $("#overlay").fadeOut(300);
-                                                        },500);
-                                                }
-                                            })
-                                        }
-                                    },
-                                });
+            //                     $.ajax({
+            //                         url: "{{ route('den.dental_appointment_save') }}",
+            //                         type: "POST",
+            //                         dataType: 'json',
+            //                         data: {dent_hn,dent_date,dent_time,appointment,dent_doctor,dent_work},
+            //                         success: function(data) {
+            //                             if (data.status == 200) { 
+            //                                 Swal.fire({ position: "center",
+            //                                     title: 'เพิ่มข้อมูลสำเร็จ',
+            //                                     text: "คุณเพิ่มข้อมูลสำเร็จแล้ว",
+            //                                     icon: 'success',
+            //                                     showCancelButton: false,
+            //                                     confirmButtonColor: '#06D177',
+            //                                     confirmButtonText: 'เรียบร้อย'
+            //                                 }).then((result) => {
+            //                                     if (result
+            //                                         .isConfirmed) {
+            //                                         console.log(
+            //                                             data);
+            //                                         // window.location.reload();
+            //                                         window.location = "{{url('dental_calendar')}}"; 
+            //                                         $('#spinner').hide();//Request is complete so hide spinner
+            //                                             setTimeout(function(){
+            //                                                 $("#overlay").fadeOut(300);
+            //                                             },500);
+            //                                     }
+            //                                 })
+            //                             } else {
+            //                                 Swal.fire({
+            //                                     icon: "error",
+            //                                     title: "Oops...บ่มี HN",
+            //                                     text: "ใส่ HN ก่อนแหน่จ้า!",
+            //                                     // footer: '<a href="#">Why do I have this issue?</a>'
+            //                                 }).then((result) => {
+            //                                     if (result
+            //                                         .isConfirmed) {
+            //                                         console.log(
+            //                                             data);
+            //                                         // window.location.reload();
+            //                                         window.location = "{{url('dental_calendar')}}"; 
+            //                                         $('#spinner').hide();//Request is complete so hide spinner
+            //                                             setTimeout(function(){
+            //                                                 $("#overlay").fadeOut(300);
+            //                                             },500);
+            //                                     }
+            //                                 })
+            //                             }
+            //                         },
+            //                     });
                                 
-                            }
-                })
-            });
+            //                 }
+            //     })
+            // });
     });
 </script>
 

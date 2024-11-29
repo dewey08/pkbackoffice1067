@@ -213,103 +213,10 @@ if (Auth::check()) {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
         });
-        // $('#HR_DEPARTMENT_ID').select2({
-        //         placeholder: "--เลือก--",
-        //         allowClear: true
-        //     });
-        // $('#HR_DEPARTMENT_SUB_ID').select2({
-        //         placeholder: "--เลือก--",
-        //         allowClear: true
-        //     });
-        // $('#HR_DEPARTMENT_SUB_SUB_ID').select2({
-        //     placeholder: "--เลือก--",
-        //     allowClear: true
-        // });
-
-        // $("#spinner-div").hide(); //Request is complete so hide spinner
-
-        // $('#Savetime').click(function() {
-        //     var startdate = $('#datepicker').val();
-        //     var enddate = $('#datepicker2').val();
-        //     var HR_DEPARTMENT_SUB_ID = $('#HR_DEPARTMENT_SUB_ID').val();
-        //     var HR_DEPARTMENT_SUB_SUB_ID = $('#HR_DEPARTMENT_SUB_SUB_ID').val(); 
-        //     $.ajax({
-        //         url: "{{ route('t.time_index_excel') }}",
-        //         type: "POST",
-        //         dataType: 'json',
-        //         data: {
-        //             startdate,
-        //             enddate,
-        //             HR_DEPARTMENT_SUB_ID,
-        //             HR_DEPARTMENT_SUB_SUB_ID
-        //         },
-        //         success: function(data) {
-        //             if (data.status == 200) { 
-        //                 Swal.fire({
-        //                     title: 'บันทึกข้อมูลสำเร็จ',
-        //                     text: "You Insert data success",
-        //                     icon: 'success',
-        //                     showCancelButton: false,
-        //                     confirmButtonColor: '#06D177',
-        //                     confirmButtonText: 'เรียบร้อย'
-        //                 }).then((result) => {
-        //                     if (result
-        //                         .isConfirmed) {
-        //                         console.log(
-        //                             data);
-
-        //                         window.location
-        //                             .reload();
-        //                     }
-        //                 })
-        //             } else {
-
-        //             }
-
-        //         },
-        //     });
-        // });  
+        
     });
 </script>
-{{-- <script>
-    $('.department').change(function () {
-            if ($(this).val() != '') {
-                    var select = $(this).val();
-                    var _token = $('input[name="_token"]').val();
-                    $.ajax({
-                            url: "{{route('person.department')}}",
-                            method: "GET",
-                            data: {
-                                    select: select,
-                                    _token: _token
-                            },
-                            success: function (result) {
-                                    $('.department_sub').html(result);
-                            }
-                    })
-                    // console.log(select);
-            }
-    });
 
-    $('.department_sub').change(function () {
-            if ($(this).val() != '') {
-                    var select = $(this).val();
-                    var _token = $('input[name="_token"]').val();
-                    $.ajax({
-                            url: "{{route('person.departmenthsub')}}",
-                            method: "GET",
-                            data: {
-                                    select: select,
-                                    _token: _token
-                            },
-                            success: function (result) {
-                                    $('.department_sub_sub').html(result);
-                            }
-                    })
-                    // console.log(select);
-            }
-    });
-</script> --}}
 @endsection
  
  

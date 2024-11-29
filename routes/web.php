@@ -3655,6 +3655,7 @@ Route::match(['get','post'],'env_trash_parameter_switchactive',[App\Http\Control
   Route::match(['get', 'post'], 'dental_appointment_save', [App\Http\Controllers\DentalController::class, 'dental_appointment_save'])->name('den.dental_appointment_save');
 
   Route::match(['get', 'post'], 'dental_appointment_edit/{id}', [App\Http\Controllers\DentalController::class, 'dental_appointment_edit'])->name('den.dental_appointment_edit');
+  Route::match(['get', 'post'], 'dental_appointment_update', [App\Http\Controllers\DentalController::class, 'dental_appointment_update'])->name('den.dental_appointment_update');
 
   Route::match(['get', 'post'], 'dental_setting_type', [App\Http\Controllers\DentalController::class, 'dental_setting_type'])->name('den.dental_setting_type'); // ตั้งค่าประเภทนัดหมาย
   Route::match(['get', 'post'], 'dental_setting_type_add', [App\Http\Controllers\DentalController::class, 'dental_setting_type_add'])->name('den.dental_setting_type_add'); //หน้าเพิ่มประเภทนัดหมาย

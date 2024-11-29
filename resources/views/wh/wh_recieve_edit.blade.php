@@ -180,13 +180,13 @@
                                 <div class="col-md-4">
                                     <select name="stock_list_id" id="stock_list_id"  class="form-control-sm input_border" style="width: 100%">
                                         <option value="">--เลือก--</option>
-                                        @foreach ($wh_stock_list as $item_st)
-                                        @if ($data_edit->stock_list_id == $item_st->stock_list_id)
-                                            <option value="{{$item_st->stock_list_id}}" selected>{{$item_st->stock_list_name}}</option>
-                                        @else
-                                            <option value="{{$item_st->stock_list_id}}">{{$item_st->stock_list_name}}</option>
-                                        @endif 
-                                        @endforeach
+                                            @foreach ($wh_stock_list as $item_st)
+                                            @if ($data_edit->stock_list_id == $item_st->stock_list_id)
+                                                <option value="{{$item_st->stock_list_id}}" selected>{{$item_st->stock_list_name}}</option>
+                                            @else
+                                                <option value="{{$item_st->stock_list_id}}">{{$item_st->stock_list_name}}</option>
+                                            @endif 
+                                            @endforeach
                                 </select>
                                 </div>
                             </div>

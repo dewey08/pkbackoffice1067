@@ -89,8 +89,6 @@ date_default_timezone_set("Asia/Bangkok");
 
 class DentalController extends Controller
  {
-    // ***************** 301********************************
-
     public function dental(Request $request)
     {
         $startdate = $request->startdate;
@@ -586,7 +584,6 @@ class DentalController extends Controller
 
         $data_appointment = DB::table('dent_appointment_type')->where('status','=','Y')->get();
 
-                
         $data_show = DB::connection('mysql2')->select(            
             'select count(distinct d.hn) 
             from dtmain d
@@ -607,24 +604,12 @@ class DentalController extends Controller
             WHERE position_id = "6" 
             AND active = "Y"
         ');
-
-        // $data['hn'] = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient GROUP BY hn limit 1000');
         
+        $datashow = DB::connection('mysql')->select('SELECT * FROM dent_appointment');
+
         $data_appointment = DB::table('dent_appointment_type')->where('status','=','Y')->get();
-
-        if ($startdate != '') {
-            $datashow = DB::connection('mysql')->select(            
-                'SELECT * FROM dent_appointment 
-                    WHERE dent_date BETWEEN "'.$startdate.'"  AND  "'.$enddate.'"  AND appointment_id ="'.$appointment_id.'"
-            ');
-        } else {
-            $datashow = DB::connection('mysql')->select(            
-                'SELECT * FROM dent_appointment  
-                  
-            ');
-        }
-               
-
+        
+            
         return view('dent.dental_appointment', $data,[
             'startdate'         => $startdate,
             'enddate'           => $enddate, 
@@ -783,22 +768,76 @@ class DentalController extends Controller
 
         $dent_edit = DB::table('dent_appointment')->where('dent_appointment_id','=',$id)->first();
  
-        // $trash = DB::table('env_trash')->where('trash_id','=',$id)->first();
-        // $data['env_trash_sub']  = DB::table('env_trash_sub')->where('trash_id','=',$id)->get();
+
+        $data_appointment = DB::table('dent_appointment_type')->where('status','=','Y')->get();
 
         $data['dent_appointment_type']  = DB::table('dent_appointment_type')->get();
   
-        // $data['trash_parameter']  = DB::table('env_trash_parameter')->get();
-        // $data_trash_sub = DB::table('env_trash_sub')->get();
-        // $data_trash_type = DB::table('env_trash_type')->get();
-        // $data['products_vendor'] = Products_vendor::get();
 
-        return view('dent.dental_appointment_edit', $data,[
+
+        return view('dent.dental_appointment', $data,[
             'startdate'        => $datestart,
-            'enddate'          => $dateend, 
+            'enddate'          => $dateend,
+            'appointment'      => $data_appointment, 
             'dent_edit'        => $dent_edit, 
         ]);
     }
+
+    public function dental_appointment_update (Request $request) 
+    {
+        $id                     = $request->dent_appointment_id;
+        $hn                     =  $request->dent_hn;
+        if ($hn != '') {
+            $data_show          = Patient::where('hn',$hn)->first();        
+            $data_cid           = $data_show->cid;
+            if ($data_cid =='') {
+                $data_cid_ = '';
+            } else {
+                $data_cid_ = $data_cid;
+            }
+    
+            $data_type          = Dent_appointment_type::where('appointment_id',$request->appointment)->first();
+            $appointment_id     = $data_type->appointment_id;
+            $appointment_name   = $data_type->appointment_name;
+
+            $data_users         = User::where('id','=',$request->dent_doctor)->first();
+            $dent_doctor_name   = $data_users->fname.'  '.$data_users->lname;
+           
+            
+            $data_ptname        = $data_show->pname.''.$data_show->fname.'  '.$data_show->lname;
+            $data_hometel       = $data_show->hometel;
+
+            if ($data_hometel =='') {
+                $data_hometel_  = '';
+            } else {
+                $data_hometel_  = $data_hometel ;
+            }
+           
+            Dent_appointment::where('dent_appointment_id',$id)->update([
+                'dent_hn'               => $request->$hn,
+                'dent_patient_cid'      => $request->$data_cid_,
+                'dent_patient_name'     => $request->$data_ptname, 
+                'dent_tel'              => $request->$data_hometel_,
+                'dent_work'             => $request->dent_work,
+                'dent_date'             => $request->dent_date,
+                'dent_time'             => $request->dent_time,
+                'appointment_id'        => $appointment_id,
+                'appointment_name'      => $appointment_name, 
+                'dent_doctor'           => $request->$request->dent_doctor,
+                'dent_doctor_name'      => $dent_doctor_name, 
+                'user_save'             => Auth::user()->id
+            ]);
+            return response()->json([ 
+                'status'    => '200'
+            ]);
+        } else {
+            return response()->json([ 
+                'status'    => '100'
+            ]);
+        }
+
+      
+    }    
 
     public function dental_setting_type (Request $request)
     {
