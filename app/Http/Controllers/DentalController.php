@@ -680,6 +680,7 @@ class DentalController extends Controller
             'users'             => $data,
             'appointment'       => $data_appointment,
             
+            
         ]);       
 
         

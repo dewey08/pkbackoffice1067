@@ -23,7 +23,7 @@ use App\Models\Product_group;
 use App\Models\Product_unit;
 use App\Models\Products_category;
 use App\Models\Leave_leader;
-use App\Models\Leave_leader_sub;   
+use App\Models\Leave_leader_sub;
 use App\Models\Book_type;
 use App\Models\Book_import_fam;
 use App\Models\Book_signature;
@@ -73,217 +73,222 @@ use App\Models\Carservice_signature;
 use App\Models\Car_service_personjoin;
 
 class StaticController extends Controller
-{  
+{
   public static function idselect($id)
   {
-    $idselect =  Car_service::where('car_service_id','=',$id)->first(); 
-    $locate_list = $idselect->car_service_location;  
-    
+    $idselect =  Car_service::where('car_service_id','=',$id)->first();
+    $locate_list = $idselect->car_service_location;
+
     return $locate_list;
   }
   public static function count_car_service_po()
   {
-    $count =  Car_service::where('car_service_status','=','allocate')->orwhere('car_service_status','=','allocateall')->count();         
+    $count =  Car_service::where('car_service_status','=','allocate')->orwhere('car_service_status','=','allocateall')->count();
     return $count;
   }
   public static function count_car_service()
   {
-    $count =  Car_service::leftjoin('article_data','article_data.article_id','=','car_service.car_service_article_id')->where('article_data.article_car_type_id','!=',2)->where('car_service_status','=','request')->count();         
+    $count =  Car_service::leftjoin('article_data','article_data.article_id','=','car_service.car_service_article_id')->where('article_data.article_car_type_id','!=',2)->where('car_service_status','=','request')->count();
     return $count;
   }
   public static function count_car_service_ambu()
   {
-    $count =  Car_service::leftjoin('article_data','article_data.article_id','=','car_service.car_service_article_id')->where('article_data.article_car_type_id','=',2)->where('car_service_status','=','request')->count();         
+    $count =  Car_service::leftjoin('article_data','article_data.article_id','=','car_service.car_service_article_id')->where('article_data.article_car_type_id','=',2)->where('car_service_status','=','request')->count();
     return $count;
   }
 
 
   public static function countpesmiss_per($iduser)
   {
-    $percount =  User::where('id','=',$iduser)->where('permiss_person','=','on')->count();   
+    $percount =  User::where('id','=',$iduser)->where('permiss_person','=','on')->count();
     return $percount;
   }
   public static function countpesmiss_book($iduser)
   {
-    $bookcount =  User::where('id','=',$iduser)->where('permiss_book','=','on')->count();   
+    $bookcount =  User::where('id','=',$iduser)->where('permiss_book','=','on')->count();
     return $bookcount;
   }
   public static function countpesmiss_car($iduser)
   {
-    $bookcount =  User::where('id','=',$iduser)->where('permiss_car','=','on')->count();   
+    $bookcount =  User::where('id','=',$iduser)->where('permiss_car','=','on')->count();
     return $bookcount;
   }
   public static function countpesmiss_meetting($iduser)
   {
-    $meettingcount =  User::where('id','=',$iduser)->where('permiss_meetting','=','on')->count();   
+    $meettingcount =  User::where('id','=',$iduser)->where('permiss_meetting','=','on')->count();
     return $meettingcount;
   }
   public static function countpesmiss_repair($iduser)
   {
-    $repaircount =  User::where('id','=',$iduser)->where('permiss_repair','=','on')->count();   
+    $repaircount =  User::where('id','=',$iduser)->where('permiss_repair','=','on')->count();
     return $repaircount;
   }
   public static function countpesmiss_com($iduser)
   {
-    $comcount =  User::where('id','=',$iduser)->where('permiss_com','=','on')->count();   
+    $comcount =  User::where('id','=',$iduser)->where('permiss_com','=','on')->count();
     return $comcount;
   }
   public static function countpesmiss_medical($iduser)
   {
-    $medicalcount =  User::where('id','=',$iduser)->where('permiss_medical','=','on')->count();   
+    $medicalcount =  User::where('id','=',$iduser)->where('permiss_medical','=','on')->count();
     return $medicalcount;
   }
   public static function countpesmiss_hosing($iduser)
   {
-    $hosingcount =  User::where('id','=',$iduser)->where('permiss_hosing','=','on')->count();   
+    $hosingcount =  User::where('id','=',$iduser)->where('permiss_hosing','=','on')->count();
     return $hosingcount;
   }
   public static function countpesmiss_plan($iduser)
   {
-    $plancount =  User::where('id','=',$iduser)->where('permiss_plan','=','on')->count();   
+    $plancount =  User::where('id','=',$iduser)->where('permiss_plan','=','on')->count();
     return $plancount;
   }
   public static function countpesmiss_asset($iduser)
   {
-    $assetcount =  User::where('id','=',$iduser)->where('permiss_asset','=','on')->count();   
+    $assetcount =  User::where('id','=',$iduser)->where('permiss_asset','=','on')->count();
     return $assetcount;
   }
   public static function countpesmiss_supplies($iduser)
   {
-    $suppliescount =  User::where('id','=',$iduser)->where('permiss_supplies','=','on')->count();   
+    $suppliescount =  User::where('id','=',$iduser)->where('permiss_supplies','=','on')->count();
     return $suppliescount;
   }
   public static function countpesmiss_store($iduser)
   {
-    $storecount =  User::where('id','=',$iduser)->where('permiss_store','=','on')->count();   
+    $storecount =  User::where('id','=',$iduser)->where('permiss_store','=','on')->count();
     return $storecount;
   }
   public static function countpesmiss_store_dug($iduser)
   {
-    $store_dugcount =  User::where('id','=',$iduser)->where('permiss_store_dug','=','on')->count();   
+    $store_dugcount =  User::where('id','=',$iduser)->where('permiss_store_dug','=','on')->count();
     return $store_dugcount;
   }
   public static function countpesmiss_pay($iduser)
   {
-    $paycount =  User::where('id','=',$iduser)->where('permiss_pay','=','on')->count();   
+    $paycount =  User::where('id','=',$iduser)->where('permiss_pay','=','on')->count();
     return $paycount;
   }
   public static function countadmin($iduser)
   {
-    $adcount =  User::where('id','=',$iduser)->where('type','=','ADMIN')->count();   
+    $adcount =  User::where('id','=',$iduser)->where('type','=','ADMIN')->count();
     return $adcount;
   }
   public static function countpesmiss_money($iduser)
   {
-    $paycount =  User::where('id','=',$iduser)->where('permiss_money','=','on')->count();   
+    $paycount =  User::where('id','=',$iduser)->where('permiss_money','=','on')->count();
     return $paycount;
   }
   public static function permiss_report_all($iduser)
   {
-    $reportcount =  User::where('id','=',$iduser)->where('permiss_report_all','=','on')->count();   
+    $reportcount =  User::where('id','=',$iduser)->where('permiss_report_all','=','on')->count();
     return $reportcount;
   }
   public static function permiss_sot($iduser)
   {
-    $permiss_sotcount =  User::where('id','=',$iduser)->where('permiss_sot','=','on')->count();   
+    $permiss_sotcount =  User::where('id','=',$iduser)->where('permiss_sot','=','on')->count();
     return $permiss_sotcount;
   }
   public static function permiss_clinic_tb($iduser)
   {
-    $permiss_clinic_tbcount =  User::where('id','=',$iduser)->where('permiss_clinic_tb','=','on')->count();   
+    $permiss_clinic_tbcount =  User::where('id','=',$iduser)->where('permiss_clinic_tb','=','on')->count();
     return $permiss_clinic_tbcount;
   }
   public static function permiss_medicine_salt($iduser)
   {
-    $permiss_medicine_saltcount =  User::where('id','=',$iduser)->where('permiss_medicine_salt','=','on')->count();   
+    $permiss_medicine_saltcount =  User::where('id','=',$iduser)->where('permiss_medicine_salt','=','on')->count();
     return $permiss_medicine_saltcount;
   }
   public static function pesmiss_ct($iduser)
   {
-    $pesmiss_ctcount =  User::where('id','=',$iduser)->where('pesmiss_ct','=','on')->count();   
+    $pesmiss_ctcount =  User::where('id','=',$iduser)->where('pesmiss_ct','=','on')->count();
     return $pesmiss_ctcount;
   }
   public static function per_prs($iduser)
   {
-    $per_prscount =  User::where('id','=',$iduser)->where('per_prs','=','on')->count();   
+    $per_prscount =  User::where('id','=',$iduser)->where('per_prs','=','on')->count();
     return $per_prscount;
   }
   public static function per_cctv($iduser)
   {
-    $per_cctvcount =  User::where('id','=',$iduser)->where('per_cctv','=','on')->count();   
+    $per_cctvcount =  User::where('id','=',$iduser)->where('per_cctv','=','on')->count();
     return $per_cctvcount;
   }
   public static function per_fire($iduser)
   {
-    $per_firecount =  User::where('id','=',$iduser)->where('per_fire','=','on')->count();   
+    $per_firecount =  User::where('id','=',$iduser)->where('per_fire','=','on')->count();
     return $per_firecount;
   }
   public static function per_air($iduser)
   {
-    $per_aircount =  User::where('id','=',$iduser)->where('per_air','=','on')->count();   
+    $per_aircount =  User::where('id','=',$iduser)->where('per_air','=','on')->count();
     return $per_aircount;
   }
   public static function per_nurse($iduser)
   {
-    // $per_nurse =  User::where('id','=',$iduser)->where('per_nurse','=','on')->count();   
-    $per_nurse =  User::where('id','=',$iduser)->where('dep_id','=','5')->count(); 
+    // $per_nurse =  User::where('id','=',$iduser)->where('per_nurse','=','on')->count();
+    $per_nurse =  User::where('id','=',$iduser)->where('dep_id','=','5')->count();
     return $per_nurse;
   }
   public static function per_config($iduser)
   {
-    $per_config =  User::where('id','=',$iduser)->where('per_config','=','on')->count();   
+    $per_config =  User::where('id','=',$iduser)->where('per_config','=','on')->count();
     return $per_config;
   }
   public static function per_fdh($iduser)
   {
-    $per_fdh =  User::where('id','=',$iduser)->where('per_fdh','=','on')->count();   
+    $per_fdh =  User::where('id','=',$iduser)->where('per_fdh','=','on')->count();
     return $per_fdh;
   }
   public static function per_den($iduser)
   {
-    $per_den =  User::where('id','=',$iduser)->where('permiss_dental','=','on')->count();   
+    $per_den =  User::where('id','=',$iduser)->where('permiss_dental','=','on')->count();
     return $per_den;
   }
   public static function per_accb01($iduser)
   {
-    $per_accb01 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACCB01')->count();   
+    $per_accb01 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACCB01')->count();
     return $per_accb01;
   }
   public static function pre_audit($iduser)
   {
-    $pre_audit =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','AUDITVET01')->count();   
+    $pre_audit =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','AUDITVET01')->count();
     return $pre_audit;
   }
   public static function timeot($iduser)
   {
-    $timeot =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','TIMEOT01')->count();   
+    $timeot =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','TIMEOT01')->count();
     return $timeot;
   }
   public static function pediatrics($iduser)
   {
-    $pediatrics =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','PEDIA01')->count();   
+    $pediatrics =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','PEDIA01')->count();
     return $pediatrics;
   }
 
   public static function reportacc($iduser)
   {
-    $pediatrics =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','PEDIA01')->count();   
+    $pediatrics =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','PEDIA01')->count();
     return $pediatrics;
   }
   // public static function pediatrics($iduser)
   // {
-  //   $pediatrics =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','PEDIA01')->count();   
+  //   $pediatrics =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','PEDIA01')->count();
   //   return $pediatrics;
   // }
   public static function account_ar($iduser)
   {
-    $account_ar =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACCOUNTAR')->count();   
+    $account_ar =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACCOUNTAR')->count();
     return $account_ar;
   }
   public static function fdh_new($iduser)
   {
-    $fdh_new =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','FDH')->count();   
+    $fdh_new =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','FDH')->count();
     return $fdh_new;
+  }
+  public static function settting_admin($iduser)
+  {
+    $settting_admin =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ADMIN')->count();
+    return $settting_admin;
   }
 
 
@@ -294,142 +299,142 @@ class StaticController extends Controller
 
   public static function countpesmiss_claim($iduser)
   {
-    $claimcount =  User::where('id','=',$iduser)->where('permiss_claim','=','on')->count();   
+    $claimcount =  User::where('id','=',$iduser)->where('permiss_claim','=','on')->count();
     return $claimcount;
   }
 
   public static function countpermiss_gleave($iduser)
   {
-    $countgleave =  User::where('id','=',$iduser)->where('permiss_gleave','=','on')->count();   
+    $countgleave =  User::where('id','=',$iduser)->where('permiss_gleave','=','on')->count();
     return $countgleave;
   }
   public static function countpermiss_ot($iduser)
   {
-    $countot =  User::where('id','=',$iduser)->where('permiss_ot','=','on')->count();   
+    $countot =  User::where('id','=',$iduser)->where('permiss_ot','=','on')->count();
     return $countot;
   }
   public static function countpermiss_medicine($iduser)
   {
-    $countmedicine =  User::where('id','=',$iduser)->where('permiss_medicine','=','on')->count();   
+    $countmedicine =  User::where('id','=',$iduser)->where('permiss_medicine','=','on')->count();
     return $countmedicine;
   }
   public static function countpermiss_p4p($iduser)
   {
-    $comcountp4p =  User::where('id','=',$iduser)->where('permiss_p4p','=','on')->count();   
+    $comcountp4p =  User::where('id','=',$iduser)->where('permiss_p4p','=','on')->count();
     return $comcountp4p;
   }
   public static function countpermiss_time($iduser)
   {
-    $comcounttime =  User::where('id','=',$iduser)->where('permiss_time','=','on')->count();   
+    $comcounttime =  User::where('id','=',$iduser)->where('permiss_time','=','on')->count();
     return $comcounttime;
   }
 
   public static function countpermiss_env($iduser)
   {
-    $comcountenv =  User::where('id','=',$iduser)->where('permiss_env','=','on')->count();   
+    $comcountenv =  User::where('id','=',$iduser)->where('permiss_env','=','on')->count();
     return $comcountenv;
   }
   public static function permiss_setting($iduser)
   {
-    $envcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_ENV')->count();   
+    $envcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_ENV')->count();
     return $envcount;
   }
   public static function permiss_ware($iduser)
   {
-    $warecount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_WAREHOUSE')->count();   
+    $warecount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_WAREHOUSE')->count();
     return $warecount;
   }
   public static function permiss_account($iduser)
   {
-    $permiss_account=  User::where('id','=',$iduser)->where('permiss_account','=','on')->count();   
+    $permiss_account=  User::where('id','=',$iduser)->where('permiss_account','=','on')->count();
     return $permiss_account;
   }
   public static function permiss_setting_upstm($iduser)
   {
-    $permiss_setting_upstm=  User::where('id','=',$iduser)->where('permiss_setting_upstm','=','on')->count();   
+    $permiss_setting_upstm=  User::where('id','=',$iduser)->where('permiss_setting_upstm','=','on')->count();
     return $permiss_setting_upstm;
   }
   public static function permiss_setting_env($iduser)
   {
-    $permiss_setting_env=  User::where('id','=',$iduser)->where('permiss_setting_env','=','on')->count();   
+    $permiss_setting_env=  User::where('id','=',$iduser)->where('permiss_setting_env','=','on')->count();
     return $permiss_setting_env;
   }
   public static function permiss_ucs($iduser)
   {
-    $permiss_ucs=  User::where('id','=',$iduser)->where('permiss_ucs','=','on')->count();   
+    $permiss_ucs=  User::where('id','=',$iduser)->where('permiss_ucs','=','on')->count();
     return $permiss_ucs;
   }
   public static function permiss_sss($iduser)
   {
-    $permiss_sss=  User::where('id','=',$iduser)->where('permiss_sss','=','on')->count();   
+    $permiss_sss=  User::where('id','=',$iduser)->where('permiss_sss','=','on')->count();
     return $permiss_sss;
   }
   public static function permiss_ofc($iduser)
   {
-    $permiss_ofc=  User::where('id','=',$iduser)->where('permiss_ofc','=','on')->count();   
+    $permiss_ofc=  User::where('id','=',$iduser)->where('permiss_ofc','=','on')->count();
     return $permiss_ofc;
   }
   public static function permiss_lgo($iduser)
   {
-    $permiss_lgo=  User::where('id','=',$iduser)->where('permiss_lgo','=','on')->count();   
+    $permiss_lgo=  User::where('id','=',$iduser)->where('permiss_lgo','=','on')->count();
     return $permiss_lgo;
   }
   public static function permiss_prb($iduser)
   {
-    $permiss_prb=  User::where('id','=',$iduser)->where('permiss_prb','=','on')->count();   
+    $permiss_prb=  User::where('id','=',$iduser)->where('permiss_prb','=','on')->count();
     return $permiss_prb;
   }
 
   public static function permiss_ti($iduser)
   {
-    $permiss_ti=  User::where('id','=',$iduser)->where('permiss_ti','=','on')->count();   
+    $permiss_ti=  User::where('id','=',$iduser)->where('permiss_ti','=','on')->count();
     return $permiss_ti;
   }
   public static function permiss_rep_money($iduser)
   {
-    $permiss_rep_money=  User::where('id','=',$iduser)->where('permiss_rep_money','=','on')->count();   
+    $permiss_rep_money=  User::where('id','=',$iduser)->where('permiss_rep_money','=','on')->count();
     return $permiss_rep_money;
   }
- 
+
   // public static function permiss_account($iduser)
   // {
-  //   $accountcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_ACCOUNT')->count();   
+  //   $accountcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_ACCOUNT')->count();
   //   return $accountcount;
   // }
   // public static function permiss_ucs($iduser)
   // {
-  //   $ucscount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_UCS')->count();   
+  //   $ucscount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_UCS')->count();
   //   return $ucscount;
   // }
   // public static function permiss_sss($iduser)
   // {
-  //   $ssscount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_SSS')->count();   
+  //   $ssscount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_SSS')->count();
   //   return $ssscount;
   // }
   // public static function permiss_ofc($iduser)
   // {
-  //   $ofccount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_OFC')->count();   
+  //   $ofccount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_OFC')->count();
   //   return $ofccount;
   // }
   // public static function permiss_lgo($iduser)
   // {
-  //   $lgocount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_LGO')->count();   
+  //   $lgocount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_LGO')->count();
   //   return $lgocount;
   // }
   // public static function permiss_prb($iduser)
   // {
-  //   $prbcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_PRB')->count();   
+  //   $prbcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_PRB')->count();
   //   return $prbcount;
   // }
   // public static function permiss_ti($iduser)
   // {
-  //   $ticount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_TI')->count();   
+  //   $ticount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_TI')->count();
   //   return $ticount;
   // }
 
   public static function permiss_upstm($iduser)
   {
-    $upstmcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_UPSTM')->count();   
+    $upstmcount=  DB::table('permiss_setting')->where('permiss_setting_userid','=',$iduser)->where('permiss_setting_name','=','SET_UPSTM')->count();
     return $upstmcount;
   }
 
@@ -439,29 +444,29 @@ class StaticController extends Controller
 
   public static function orginfo()
   {
-    $org =  Orginfo::where('orginfo_id','=',1)->first();   
-    
+    $org =  Orginfo::where('orginfo_id','=',1)->first();
+
     return $org;
   }
   public static function orginfo_headep($iduser)
   {
-    $org_headep =  Orginfo::where('orginfo_manage_id','=',$iduser)->count();   
+    $org_headep =  Orginfo::where('orginfo_manage_id','=',$iduser)->count();
     // $org_headep = $iduser;
-    
+
     return $org_headep;
   }
   public static function orginfo_po($iduser)
   {
-    $org_po =  Orginfo::where('orginfo_id','=',1)->where('orginfo_po_id','=',$iduser)->count();   
-    
+    $org_po =  Orginfo::where('orginfo_id','=',1)->where('orginfo_po_id','=',$iduser)->count();
+
     return $org_po;
   }
   public static function countleader($iduser)
   {
-    $leader =  Leave_leader::where('leader_id','=',$iduser)->count();   
+    $leader =  Leave_leader::where('leader_id','=',$iduser)->count();
     return $leader;
   }
- 
+
     public static function checkuser($iduser)
     {
         $person = User::where('id','=',$iduser)->first();
@@ -470,91 +475,91 @@ class StaticController extends Controller
             $checkinfouser=  0;
          }else{
             $checkinfouser =  1;
-         }   
+         }
          return $checkinfouser;
     }
       //  public static function checkpo($iduser)
       //  {
       //   $count =  Permislist::where('PERSON_ID','=',$iduser)
       //                         ->where('PERMIS_ID','=','HORG')
-      //                         ->count();   
+      //                         ->count();
       //   return $count;
       //  }
     public static function checkhn($iduser)
     {
-      $count =  Leave_leader::where('leader_id','=',$iduser)->count();   
-      
+      $count =  Leave_leader::where('leader_id','=',$iduser)->count();
+
       return $count;
     }
 
     //หัวหน้าเห็นชอบขอซื้อขอจ้าง
     public static function checkhnshow($iduser)
     {
-      $count =  Leave_leader_sub::where('user_id','=',$iduser)->count();   
-      
+      $count =  Leave_leader_sub::where('user_id','=',$iduser)->count();
+
       return $count;
     }
 
     public static function count_suprephn($iduser)
     {
-      $count =  Products_request::where('request_hn_id','=',$iduser)->where('request_status','=','REQUEST')->count();   
-      
+      $count =  Products_request::where('request_hn_id','=',$iduser)->where('request_status','=','REQUEST')->count();
+
       return $count;
     }
     public static function count_article_car()
     {
-      $count =  Article::where('article_decline_id','=','6')->where('article_categoryid','=','26')->where('article_status_id','=','1')->count();         
+      $count =  Article::where('article_decline_id','=','6')->where('article_categoryid','=','26')->where('article_status_id','=','1')->count();
       return $count;
     }
-   
+
     public static function count_land()
     {
-      $count =  Land::count(); 
+      $count =  Land::count();
       return $count;
     }
     public static function count_building()
     {
-      $count =  Building::count(); 
+      $count =  Building::count();
       return $count;
     }
     public static function count_article()
     {
-      $count =  Article::count(); 
+      $count =  Article::count();
       return $count;
     }
     public static function count_level()
     {
-      $count =  Building_level::count(); 
+      $count =  Building_level::count();
       return $count;
     }
     public static function count_product()
     {
-      $count =  Products::where('product_groupid','=',1)->orwhere('product_groupid','=',2)->count(); 
+      $count =  Products::where('product_groupid','=',1)->orwhere('product_groupid','=',2)->count();
       return $count;
     }
     public static function count_service()
     {
-      $count =  Products::where('product_groupid','=',4)->count(); 
+      $count =  Products::where('product_groupid','=',4)->count();
       return $count;
     }
     public static function count_meettingroom()
     {
-      $count =  Building_level_room::where('room_type','!=','1')->count(); 
+      $count =  Building_level_room::where('room_type','!=','1')->count();
       return $count;
     }
     public static function count_hosing()
     {
-      $count =  Building::where('building_type_id','!=','1')->where('building_type_id','!=','5')->count(); 
+      $count =  Building::where('building_type_id','!=','1')->where('building_type_id','!=','5')->count();
       return $count;
     }
     public static function count_meettinservice()
     {
-      $count =  Meeting_service::where('meetting_status','=','REQUEST')->count(); 
+      $count =  Meeting_service::where('meetting_status','=','REQUEST')->count();
       return $count;
     }
     public static function count_bookrep_rong()
     {
-      $count =  Bookrep::where('bookrep_send_code','=','waitretire')->count(); 
+      $count =  Bookrep::where('bookrep_send_code','=','waitretire')->count();
       return $count;
     }
     public static function count_bookrep_po()
@@ -562,13 +567,13 @@ class StaticController extends Controller
       $count1 =  Bookrep::where('bookrep_send_code','=','retire')->count();  // เกษียณ
       $count2 =  Bookrep::where('bookrep_send_code','=','waitallows')->count();  //เสนอ ผอ.
       $count3 = $count1 + $count2;
-      
+
       return $count3;
     }
 
     public static function countsendbook_po($id)
     {
-      $adcount =  Bookrep::where('bookrep_id','=',$id)->where('bookrep_send_code','=','allows')->count();   
+      $adcount =  Bookrep::where('bookrep_id','=',$id)->where('bookrep_send_code','=','allows')->count();
       return $adcount;
     }
 
@@ -578,30 +583,30 @@ class StaticController extends Controller
 
     public static function count_marketproducts()
     {
-      $count =  Market_product::count(); 
+      $count =  Market_product::count();
       return $count;
     }
     public static function count_market_repproducts()
     {
-      $count =  Market_product_rep::count(); 
+      $count =  Market_product_rep::count();
       return $count;
     }
     public static function count_market_bill()
     {
-      $count =  Market_basket_bill::count(); 
+      $count =  Market_basket_bill::count();
       return $count;
     }
      //****************** ฟังก์ชั่น sum */
      public static function sumrecieve($id)
      {
           $sumrecieve  =  Market_product_repsub::where('request_sub_product_code','=',$id)->sum('request_sub_qty');
- 
+
          return $sumrecieve ;
      }
      public static function sumpay($id)
      {
           $sumpay  =  Clinic_pay_store::where('PAYDETAIL_DRUG_ID','=',$id)->sum('PAYDETAIL_DRUG_QTY');
- 
+
         return $sumpay ;
      }
 

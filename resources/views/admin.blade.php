@@ -2,7 +2,7 @@
 @section('title', 'PK-OFFICE || ผู้ดูแลระบบ')
 
 @section('content')
-   
+
 <?php
 if (Auth::check()) {
     $type = Auth::user()->type;
@@ -57,13 +57,15 @@ $per_cctv                 = StaticController::per_cctv($iduser);
 $per_fire                 = StaticController::per_fire($iduser);
 $per_air                  = StaticController::per_air($iduser);
 $per_nurse                = StaticController::per_nurse($iduser);
-// $per_config               = StaticController::per_config($iduser);
 $per_fdh                  = StaticController::per_fdh($iduser);
 $per_den                  = StaticController::per_den($iduser);
 $pre_audit                = StaticController::pre_audit($iduser);
 $timeot                   = StaticController::timeot($iduser);
 $pediatrics               = StaticController::pediatrics($iduser);
 $account_ar               = StaticController::account_ar($iduser);
+
+$per_config               = StaticController::per_config($iduser);
+$settting_admin           = StaticController::settting_admin($iduser);
 
 ?>
 
@@ -76,7 +78,7 @@ $account_ar               = StaticController::account_ar($iduser);
                border:solid #ccc 1px;
                cursor: pointer;
                }
-               #overlay{	
+               #overlay{
                position: fixed;
                top: 0;
                z-index: 100;
@@ -89,7 +91,7 @@ $account_ar               = StaticController::account_ar($iduser);
                height: 100%;
                display: flex;
                justify-content: center;
-               align-items: center;  
+               align-items: center;
                }
                .spinner {
                width: 250px;
@@ -100,8 +102,8 @@ $account_ar               = StaticController::account_ar($iduser);
                animation: sp-anime 0.8s infinite linear;
                }
                @keyframes sp-anime {
-               100% { 
-                   transform: rotate(360deg); 
+               100% {
+                   transform: rotate(360deg);
                }
                }
                .is-hide{
@@ -121,7 +123,7 @@ $account_ar               = StaticController::account_ar($iduser);
                     animation: float 2s ease-in-out infinite;
                 }
     </style>
- 
+
     <br>
 
     <div class="container-fluid mt-3 mb-4">
@@ -136,7 +138,7 @@ $account_ar               = StaticController::account_ar($iduser);
 
         <div class="row">
 
-            @if ($pre_audit !=0) 
+            @if ($pre_audit !=0)
                 <div class="col-xl-3 col-md-3">
                     <a href="{{ url('pre_audit') }}" target="_blank">
                         <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(250, 128, 124)">
@@ -146,13 +148,13 @@ $account_ar               = StaticController::account_ar($iduser);
                                         <div class="widget-chart widget-chart-hover rounded-pill">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                        <h5 class="text-start mb-2">PRE-AUDIT</h5> 
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                        <h5 class="text-start mb-2">PRE-AUDIT</h5>
                                                 </div>
-                                                <div class="avatar ms-2"> 
-                                                        <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
-                                                                <img src="{{ asset('images/user.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                        </button> 
+                                                <div class="avatar ms-2">
+                                                        <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                                <img src="{{ asset('images/Audit_news.png') }}" height="50px" width="50px" class="rounded-circle">
+                                                        </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -164,7 +166,7 @@ $account_ar               = StaticController::account_ar($iduser);
                 </div>
             @endif
 
-            @if ($countpesmiss_per != 0)   
+            @if ($countpesmiss_per != 0)
                 <div class="col-xl-3 col-md-3">
                     <a href="{{ url('person/person_index') }}" target="_blank">
                         <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(236, 188, 198)">
@@ -174,15 +176,15 @@ $account_ar               = StaticController::account_ar($iduser);
                                         <div class="widget-chart widget-chart-hover rounded-pill">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                        <h5 class="text-start mb-2">PERSONNEL</h5> 
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                        <h5 class="text-start mb-2">PERSONNEL</h5>
                                                 </div>
-                                                <div class="avatar ms-2"> 
+                                                <div class="avatar ms-2">
                                                         <button
                                                             class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                        
-                                                                <img src="{{ asset('images/user.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                        </button> 
+                                                            <img src="{{ asset('images/Person_new.png') }}" height="50px" width="50px" class="rounded-circle">
+                                                                {{-- <img src="{{ asset('images/user.png') }}" height="40px" width="40px" class="rounded-circle me-3">  --}}
+                                                        </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -192,36 +194,9 @@ $account_ar               = StaticController::account_ar($iduser);
                         </div>
                     </a>
                 </div>
-            @else
-                {{-- <div class="col-xl-3 col-md-3"> 
-                        <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(236, 188, 198)">
-                            <div class="grid-menu-col">
-                                <div class="g-0 row">
-                                    <div class="col-sm-12">
-                                        <div class="widget-chart widget-chart-hover rounded-pill">
-                                            <div class="d-flex">
-                                                <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                        <h5 class="text-start mb-2">PERSONNEL</h5> 
-                                                </div>
-                                                <div class="avatar ms-2"> 
-                                                        <button
-                                                            class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                        
-                                                                <img src="{{ asset('images/user.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                        </button> 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                
-                </div> --}}
             @endif
-    
-            @if ($countpermiss_ot != 0)  
+
+            @if ($countpermiss_ot != 0)
                 <div class="col-xl-3 col-md-3">
                     <a href="{{ url('otone') }}" target="_blank">
                         <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(199, 181, 240)">
@@ -231,15 +206,15 @@ $account_ar               = StaticController::account_ar($iduser);
                                         <div class="widget-chart widget-chart-hover rounded-pill">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                        <h5 class="text-start mb-2">OT</h5> 
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                        <h5 class="text-start mb-2">OT</h5>
                                                 </div>
-                                                <div class="avatar ms-2"> 
+                                                <div class="avatar ms-2">
                                                         <button
                                                             class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                            <img src="{{ asset('images/otnew.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                            
-                                                        </button> 
+                                                            <img src="{{ asset('images/Time-ot.png') }}" height="50px" width="50px" class="rounded-circle">
+
+                                                        </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -248,40 +223,40 @@ $account_ar               = StaticController::account_ar($iduser);
                             </div>
                         </div>
                     </a>
-                </div>             
+                </div>
             @endif
-    
-            @if ($timeot != 0)  
-            <div class="col-xl-3 col-md-3">
-                <a href="{{ url('time_dashboard') }}" target="_blank">
-                    <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(152, 226, 224)">
-                        <div class="grid-menu-col">
-                            <div class="g-0 row">
-                                <div class="col-sm-12">
-                                    <div class="widget-chart widget-chart-hover rounded-pill">
-                                        <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">TIME</h5> 
-                                            </div>
-                                            <div class="avatar ms-2"> 
-                                                    <button
-                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                        <img src="{{ asset('images/time.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                       
-                                                    </button> 
+
+            @if ($timeot != 0)
+                <div class="col-xl-3 col-md-3">
+                    <a href="{{ url('time_dashboard') }}" target="_blank">
+                        <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(152, 226, 224)">
+                            <div class="grid-menu-col">
+                                <div class="g-0 row">
+                                    <div class="col-sm-12">
+                                        <div class="widget-chart widget-chart-hover rounded-pill">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1">
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                        <h5 class="text-start mb-2">TIME</h5>
+                                                </div>
+                                                <div class="avatar ms-2">
+                                                        <button
+                                                            class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                            <img src="{{ asset('images/Time_Stopwatch.png') }}" height="50px" width="50px" class="rounded-circle">
+
+                                                        </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
             @endif
-    
-            {{-- @if ($countpesmiss_book != 0)  
+
+            {{-- @if ($countpesmiss_book != 0)
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(245, 176, 250)">
                     <div class="grid-menu-col">
@@ -297,8 +272,8 @@ $account_ar               = StaticController::account_ar($iduser);
                                             <a href="{{ url('book/bookmake_index') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                   
-                                                        <img src="{{ asset('images/document.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+
+                                                        <img src="{{ asset('images/document.png') }}" height="70px" width="70px" class="rounded-circle me-3">
                                                 </button>
                                             </a>
                                         </div>
@@ -310,8 +285,8 @@ $account_ar               = StaticController::account_ar($iduser);
                 </div>
             </div>
             @endif --}}
-            
-            @if ($countpesmiss_plan != 0)  
+
+            @if ($countpesmiss_plan != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('plan') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(247, 217, 217)">
@@ -321,15 +296,15 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">PLAN</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">PLAN</h5>
                                             </div>
-                                            <div class="avatar ms-2"> 
+                                            <div class="avatar ms-2">
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                               
-                                                            <img src="{{ asset('images/plan2.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                    </button> 
+                                                        <img src="{{ asset('images/plan_new.png') }}" height="50px" width="50px" class="rounded-circle">
+                                                            {{-- <img src="{{ asset('images/plan2.png') }}" height="40px" width="40px" class="rounded-circle me-3"> --}}
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
@@ -338,7 +313,7 @@ $account_ar               = StaticController::account_ar($iduser);
                         </div>
                     </div>
                 </a>
-            </div> 
+            </div>
             @endif
 
             {{-- <div class="col-xl-3 col-md-3">
@@ -371,8 +346,8 @@ $account_ar               = StaticController::account_ar($iduser);
                     </div>
                 </div>
             </div>  --}}
-             
-            {{-- @if ($countpesmiss_supplies != 0)  
+
+            {{-- @if ($countpesmiss_supplies != 0)
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(255, 222, 161)">
                     <div class="grid-menu-col">
@@ -389,8 +364,8 @@ $account_ar               = StaticController::account_ar($iduser);
                                         <div class="avatar ms-2">
                                             <a href="{{ url('supplies/supplies_index') }}" target="_blank">
                                                 <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
-                                                        <img src="{{ asset('images/list1.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        <img src="{{ asset('images/list1.png') }}" height="40px" width="40px" class="rounded-circle me-3">
                                                 </button>
                                             </a>
                                         </div>
@@ -402,8 +377,8 @@ $account_ar               = StaticController::account_ar($iduser);
                 </div>
             </div>
             @endif --}}
-    
-            {{-- @if ($countpesmiss_com != 0)  
+
+            {{-- @if ($countpesmiss_com != 0)
             <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(171, 175, 173)">
                     <div class="grid-menu-col">
@@ -421,8 +396,8 @@ $account_ar               = StaticController::account_ar($iduser);
                                             <a href="{{ url('computer/com_staff_calenda') }}" target="_blank">
                                                 <button
                                                     class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                   
-                                                        <img src="{{ asset('images/computer.png') }}" height="70px" width="70px" class="rounded-circle me-3"> 
+
+                                                        <img src="{{ asset('images/computer.png') }}" height="70px" width="70px" class="rounded-circle me-3">
                                                 </button>
                                             </a>
                                         </div>
@@ -434,8 +409,8 @@ $account_ar               = StaticController::account_ar($iduser);
                 </div>
             </div>
             @endif --}}
-    
-            @if ($countpesmiss_medical != 0)  
+
+            @if ($countpesmiss_medical != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('medical/med_calenda') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(170, 167, 250)">
@@ -445,15 +420,15 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">MEDICAL</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">MEDICAL</h5>
                                             </div>
-                                            <div class="avatar"> 
+                                            <div class="avatar">
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                       
-                                                            <img src="{{ asset('images/medical.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                    </button> 
+                                                        <img src="{{ asset('images/medical_new1.png') }}" height="50px" width="50px" class="rounded-circle">
+                                                            {{-- <img src="{{ asset('images/medical.png') }}" height="40px" width="40px" class="rounded-circle me-3"> --}}
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
@@ -464,11 +439,10 @@ $account_ar               = StaticController::account_ar($iduser);
                 </a>
             </div>
             @endif
-    
-             @if ($countpesmiss_store != 0)  
+
+             @if ($countpesmiss_store != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('wh_dashboard') }}" target="_blank">
-                {{-- <a href="{{ url('warehouse/warehouse_index') }}" target="_blank"> --}}
                     <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(252, 101, 1)">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
@@ -476,29 +450,16 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">WAREHOUSE</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">WAREHOUSE</h5>
                                             </div>
-                                            <div class="avatar"> 
-                                                <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                      
-                                                        <img src="{{ asset('images/store.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                </button> 
+                                            <div class="avatar">
+                                                <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        <img src="{{ asset('images/Store_new.png') }}" height="50px" width="50px" class="rounded-circle">
+                                                </button>
                                             </div>
                                         </div>
-                                        {{-- <div class="d-flex">
-                                            <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">WAREHOUSE</h5> 
-                                            </div>
-                                            <div class="avatar"> 
-                                                    <button
-                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                         
-                                                            <img src="{{ asset('images/store.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                    </button>
-                                                </a>
-                                            </div>
-                                        </div> --}}
+
                                     </div>
                                 </div>
                             </div>
@@ -507,8 +468,8 @@ $account_ar               = StaticController::account_ar($iduser);
                 </a>
             </div>
             @endif
-    
-            @if ($countpesmiss_money != 0)  
+
+            @if ($countpesmiss_money != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('account_info') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(255, 83, 120)">
@@ -518,13 +479,14 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">FINANCE</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">FINANCE</h5>
                                             </div>
-                                            <div class="avatar"> 
-                                                <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                      
-                                                        <img src="{{ asset('images/finace.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                </button> 
+                                            <div class="avatar">
+                                                <button class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        {{-- <img src="{{ asset('images/finace.png') }}" height="40px" width="40px" class="rounded-circle me-3">  --}}
+                                                        <img src="{{ asset('images/finance.png') }}" height="50px" width="50px" class="rounded-circle">
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -535,8 +497,8 @@ $account_ar               = StaticController::account_ar($iduser);
                 </a>
             </div>
             @endif
-    
-            @if ($permiss_account != 0)  
+
+            @if ($permiss_account != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('account_monitor_main') }}" target="_blank">
                     <div class="main-card mb-2 card shadow-lg rounded-pill" style="background-color: rgb(247, 32, 103)">
@@ -546,14 +508,14 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">ACCOUNT</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">ACCOUNT</h5>
                                             </div>
-                                            <div class="avatar"> 
+                                            <div class="avatar">
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                        <img src="{{ asset('images/account_new.png') }}" height="50px" width="50px" class="rounded-circle">  
-                                                    </button> 
+                                                        <img src="{{ asset('images/account_new.png') }}" height="50px" width="50px" class="rounded-circle">
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
@@ -563,8 +525,9 @@ $account_ar               = StaticController::account_ar($iduser);
                     </div>
                 </a>
             </div>
-            @endif  
-            @if ($account_ar != 0)  
+            @endif
+
+            @if ($account_ar != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('account_monitor_main') }}" target="_blank">
                     <div class="main-card mb-2 card shadow-lg rounded-pill" style="background-color: #f47fbd">
@@ -574,14 +537,14 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">ACCOUNT-AR</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">ACCOUNT-AR</h5>
                                             </div>
-                                            <div class="avatar"> 
+                                            <div class="avatar">
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                        <img src="{{ asset('images/account_ar.png') }}" height="50px" width="50px" class="rounded-circle">  
-                                                    </button> 
+                                                        <img src="{{ asset('images/account_ar.png') }}" height="50px" width="50px" class="rounded-circle">
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
@@ -594,7 +557,7 @@ $account_ar               = StaticController::account_ar($iduser);
             @endif
 
 
-            @if ($countpermiss_p4p != 0)  
+            @if ($countpermiss_p4p != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('p4p') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill"
@@ -606,19 +569,19 @@ $account_ar               = StaticController::account_ar($iduser);
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
                                                 <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                                
+
                                                     <h5 class="text-start">P 4 P</h5>
-                                              
+
                                             </div>
                                             <div class="avatar ms-2">
-                                              
+
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                       
-                                                        <img src="{{ asset('images/clipboard.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                        
+                                                        <img src="{{ asset('images/p4p.png') }}" height="40px" width="40px" class="rounded-circle me-3">
+                                                        {{-- <img src="{{ asset('images/clipboard.png') }}" height="40px" width="40px" class="rounded-circle me-3"> --}}
+
                                                     </button>
-                                         
+
                                             </div>
                                         </div>
                                     </div>
@@ -629,8 +592,8 @@ $account_ar               = StaticController::account_ar($iduser);
                 </a>
             </div>
             @endif
-     
-            @if ($countpermiss_env != 0)  
+
+            @if ($countpermiss_env != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('env_dashboard') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: #65d0c1">
@@ -640,16 +603,16 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">ENV</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">ENV</h5>
                                             </div>
-                                            <div class="avatar "> 
+                                            <div class="avatar ">
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                      
-                                                            <img src="{{ asset('images/env.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+
+                                                            <img src="{{ asset('images/env.png') }}" height="40px" width="40px" class="rounded-circle me-3">
                                                     </button>
-                                                    </span> 
+                                                    </span>
                                             </div>
                                         </div>
                                     </div>
@@ -660,8 +623,8 @@ $account_ar               = StaticController::account_ar($iduser);
                 </a>
             </div>
             @endif
-      
-            @if ($pediatrics != 0)  
+
+            @if ($pediatrics != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('prenatal_care_db') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(209, 180, 255)">
@@ -671,15 +634,15 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-12 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">PEDIATRICS</h5> 
+                                                <p class="text-start font-size-12 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">PEDIATRICS</h5>
                                             </div>
-                                            <div class="avatar ms-2"> 
+                                            <div class="avatar ms-2">
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                      
-                                                            <img src="{{ asset('images/pediatrics.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                    </button> 
+
+                                                            <img src="{{ asset('images/pediatrics.png') }}" height="40px" width="40px" class="rounded-circle me-3">
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
@@ -690,8 +653,8 @@ $account_ar               = StaticController::account_ar($iduser);
                 </a>
             </div>
             @endif
-    
-            @if ($permiss_medicine_salt != 0)  
+
+            @if ($permiss_medicine_salt != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('medicine_salt') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill"
@@ -702,16 +665,16 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">แพทย์แผนไทย</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">แพทย์แผนไทย</h5>
                                             </div>
-                                            <div class="avatar"> 
+                                            <div class="avatar">
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                
-                                                            <img src="{{ asset('images/thai_medical.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                        <img src="{{ asset('images/massage_new.png') }}" height="50px" width="50px" class="rounded-circle">
+                                                            {{-- <img src="{{ asset('images/thai_medical.png') }}" height="40px" width="40px" class="rounded-circle me-3"> --}}
                                                     </button>
-                                                    </span> 
+                                                    </span>
                                             </div>
                                         </div>
                                     </div>
@@ -720,10 +683,10 @@ $account_ar               = StaticController::account_ar($iduser);
                         </div>
                     </div>
                 </a>
-            </div> 
+            </div>
             @endif
-     
-            @if ($countpesmiss_claim != 0)  
+
+            @if ($countpesmiss_claim != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('pkclaim_info') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill" style="background-color: rgb(247, 198, 176)">
@@ -733,15 +696,15 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">CLAIM </h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">CLAIM </h5>
                                             </div>
-                                            <div class="avatar"> 
+                                            <div class="avatar">
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                     
-                                                            <img src="{{ asset('images/claim2.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                    </button> 
+                                                        <img src="{{ asset('images/claim_money.png') }}" height="50px" width="50px" class="rounded-circle">
+                                                            {{-- <img src="{{ asset('images/claim2.png') }}" height="40px" width="40px" class="rounded-circle me-3"> --}}
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
@@ -749,11 +712,11 @@ $account_ar               = StaticController::account_ar($iduser);
                             </div>
                         </div>
                     </div>
-                </a> 
-            </div> 
+                </a>
+            </div>
             @endif
-     
-            @if ($pesmiss_ct != 0)  
+
+            @if ($pesmiss_ct != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('ct_rep') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill"
@@ -764,27 +727,27 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">DIALYSIS CT</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">DIALYSIS CT</h5>
                                             </div>
-                                            <div class="avatar ms-2"> 
+                                            <div class="avatar ms-2">
                                                     <button
-                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
-                                                            
-                                                            <img src="{{ asset('images/ct_scan_2.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                    </button> 
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        <img src="{{ asset('images/Focus_Cross.png') }}" height="50px" width="50px" class="rounded-circle">
+                                                            {{-- <img src="{{ asset('images/ct_scan_2.png') }}" height="40px" width="40px" class="rounded-circle me-3"> --}}
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> 
-                </a> 
-            </div> 
+                    </div>
+                </a>
+            </div>
             @endif
-    
-            @if ($permiss_report_all != 0)  
+
+            @if ($permiss_report_all != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('report_db') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill"
@@ -795,28 +758,28 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">REPORT ALL</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">REPORT ALL</h5>
                                             </div>
-                                            <div class="avatar ms-2"> 
+                                            <div class="avatar ms-2">
                                                     <button
-                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
-                                                         
-                                                            <img src="{{ asset('images/report.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                    </button> 
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        <img src="{{ asset('images/report_news.png') }}" height="50px" width="50px" class="rounded-circle">
+                                                            {{-- <img src="{{ asset('images/report.png') }}" height="40px" width="40px" class="rounded-circle me-3"> --}}
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </a>
-            </div> 
+            </div>
             @endif
 
-            
-            @if ($permiss_sot != 0) 
+
+            @if ($permiss_sot != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('audiovisual_admin') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill"
@@ -827,14 +790,14 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">งานโสต</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">งานโสต</h5>
                                             </div>
-                                            <div class="avatar ms-2"> 
+                                            <div class="avatar ms-2">
                                                     <button
-                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill"> 
-                                                            
-                                                            <img src="{{ asset('images/camerasot.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+
+                                                            <img src="{{ asset('images/Sote_new.png') }}" height="50px" width="50px" class="rounded-circle">
                                                     </button>
                                                 {{-- </a> --}}
                                             </div>
@@ -843,12 +806,12 @@ $account_ar               = StaticController::account_ar($iduser);
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </a>
-            </div> 
+            </div>
             @endif
 
-            @if ($permiss_clinic_tb != 0) 
+            @if ($permiss_clinic_tb != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('tb_main') }}" target="_blank">
                     <div class="main-card mb-3 card shadow-lg rounded-pill"
@@ -859,26 +822,27 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">CLINIC TB</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">CLINIC TB</h5>
                                             </div>
-                                            <div class="avatar ms-2"> 
+                                            <div class="avatar ms-2">
                                                     <button
-                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                                                            <img src="{{ asset('images/protective.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                    </button> 
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        {{-- <img src="{{ asset('images/plan_new.png') }}" height="50px" width="50px" class="rounded-circle"> --}}
+                                                        <img src="{{ asset('images/clinic_tb.png') }}" height="40px" width="40px" class="rounded-circle me-3">
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> 
-                </a> 
-            </div> 
+                    </div>
+                </a>
+            </div>
             @endif
-          
-            @if ($per_den !=0) 
+
+            @if ($per_den !=0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('dental_db') }}" target="_blank">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
@@ -890,29 +854,29 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="d-flex">
                                         <div class="flex-grow-1">
                                             <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
-                                            
+
                                                 <h5 class="text-start mb-2">DENTAL</h5>
-                                       
+
                                         </div>
                                         <div class="avatar ms-2">
-                                           
+
                                                 <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                                                        <img src="{{ asset('images/dental.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        <img src="{{ asset('images/dental.png') }}" height="40px" width="40px" class="rounded-circle me-3">
                                                 </button>
-                                         
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
                 </a>
             </div>
             @endif
-     
-            @if ($per_prs != 0)  
+
+            @if ($per_prs != 0)
                 <div class="col-xl-3 col-md-6">
                     <a href="{{ url('support_main') }}" target="_blank">
                         <div class="main-card mb-3 card shadow-lg rounded-pill"
@@ -923,24 +887,25 @@ $account_ar               = StaticController::account_ar($iduser);
                                         <div class="widget-chart widget-chart-hover rounded-pill">
                                             <div class="d-flex">
                                                 <div class="flex-grow-1">
-                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                        <h6 class="text-start mb-2">ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ</h6>  
+                                                    <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                        <h6 class="text-start mb-2">ตรวจสอบและบำรุงรักษา ระบบสนับสนุนบริการสุขภาพ</h6>
                                                 </div>
-                                                <div class="avatar ms-2"> 
+                                                <div class="avatar ms-2">
                                                         <button
-                                                            class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                                                                <img src="{{ asset('images/support.png') }}" height="40px" width="40px" class="rounded-circle me-3"> 
-                                                        </button> 
+                                                            class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                            <img src="{{ asset('images/support_new2.png') }}" height="50px" width="50px" class="rounded-circle">
+                                                            {{-- <img src="{{ asset('images/support.png') }}" height="40px" width="40px" class="rounded-circle me-3"> --}}
+                                                        </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                     </a>
-                </div> 
-      
+                </div>
+
             @endif
             {{-- <div class="col-xl-3 col-md-3">
                 <div class="main-card mb-3 card shadow-lg rounded-pill"
@@ -959,8 +924,8 @@ $account_ar               = StaticController::account_ar($iduser);
                                         <div class="avatar ms-2">
                                             <a href="{{ url('cctv') }}" target="_blank">
                                                 <button
-                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                                                        <img src="{{ asset('images/cctv1.png') }}" height="70px" width="90px" class="rounded-circle me-3"> 
+                                                    class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                        <img src="{{ asset('images/cctv1.png') }}" height="70px" width="90px" class="rounded-circle me-3">
                                                 </button>
                                             </a>
                                         </div>
@@ -969,7 +934,7 @@ $account_ar               = StaticController::account_ar($iduser);
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div> --}}
             @if ($per_fdh != 0)
             <div class="col-xl-3 col-md-3">
@@ -982,21 +947,21 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">FDH</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">FDH</h5>
                                             </div>
-                                            <div class="avatar ms-2"> 
+                                            <div class="avatar ms-2">
                                                     <button
-                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                                                            <img src="{{ asset('images/LOGO-FDH.png') }}" height="40px" width="80px" class="rounded-circle"> 
-                                                    </button> 
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                            <img src="{{ asset('images/LOGO-FDH.png') }}" height="40px" width="80px" class="rounded-circle">
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </a>
             </div>
             @endif
@@ -1012,26 +977,26 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">NURSE</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">NURSE</h5>
                                             </div>
-                                            <div class="avatar ms-2"> 
+                                            <div class="avatar ms-2">
                                                     <button
-                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">                                                         
-                                                            <img src="{{ asset('images/nurse.png') }}" height="40px" width="40px" class="rounded-circle"> 
-                                                    </button> 
+                                                        class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
+                                                            <img src="{{ asset('images/nurse.png') }}" height="40px" width="40px" class="rounded-circle">
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> 
-                </a> 
-            </div> 
+                    </div>
+                </a>
+            </div>
             @endif
 
-            {{-- @if ($permiss_account != 0)  
+            {{-- @if ($permiss_account != 0)
             <div class="col-xl-3 col-md-3">
                 <a href="{{ url('account_monitor_main') }}" target="_blank">
                     <div class="main-card mb-2 card shadow-lg rounded-pill" style="background-color: rgb(247, 32, 103)">
@@ -1041,14 +1006,14 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">ACCOUNT</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">ACCOUNT</h5>
                                             </div>
-                                            <div class="avatar"> 
+                                            <div class="avatar">
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                        <img src="{{ asset('images/account.png') }}" height="40px" width="40px" class="rounded-circle me-3">  
-                                                    </button> 
+                                                        <img src="{{ asset('images/account.png') }}" height="40px" width="40px" class="rounded-circle me-3">
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
@@ -1059,7 +1024,7 @@ $account_ar               = StaticController::account_ar($iduser);
                 </a>
             </div>
             @else
-            <div class="col-xl-3 col-md-3"> 
+            <div class="col-xl-3 col-md-3">
                     <div class="main-card mb-2 card shadow-lg rounded-pill" style="background-color: rgb(247, 32, 103)">
                         <div class="grid-menu-col">
                             <div class="g-0 row">
@@ -1067,25 +1032,25 @@ $account_ar               = StaticController::account_ar($iduser);
                                     <div class="widget-chart widget-chart-hover rounded-pill">
                                         <div class="d-flex">
                                             <div class="flex-grow-1">
-                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p> 
-                                                    <h5 class="text-start mb-2">ACCOUNT</h5> 
+                                                <p class="text-start font-size-13 mb-2">PK-OFFICE</p>
+                                                    <h5 class="text-start mb-2">ACCOUNT</h5>
                                             </div>
-                                            <div class="avatar"> 
+                                            <div class="avatar">
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
-                                                        <img src="{{ asset('images/account.png') }}" height="40px" width="40px" class="rounded-circle me-3">  
-                                                    </button> 
+                                                        <img src="{{ asset('images/account.png') }}" height="40px" width="40px" class="rounded-circle me-3">
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
             </div>
             @endif --}}
-            
- 
+
+
 
 
     </div>
