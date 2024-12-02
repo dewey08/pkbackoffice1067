@@ -768,6 +768,7 @@ class DentalController extends Controller
         $data['p4p_workgroupset'] = P4p_workgroupset::where('p4p_workgroupset_user','=',$iduser)->get();
 
         $dent_edit = DB::table('dent_appointment')->where('dent_appointment_id','=',$id)->first();
+        $datashow = DB::connection('mysql')->select('SELECT * FROM dent_appointment');
  
 
         $data_appointment = DB::table('dent_appointment_type')->where('status','=','Y')->get();
@@ -776,11 +777,12 @@ class DentalController extends Controller
   
 
 
-        return view('dent.dental_appointment', $data,[
+        return view('dent.dental_appointment_edit', $data,[
             'startdate'        => $datestart,
             'enddate'          => $dateend,
             'appointment'      => $data_appointment, 
             'dent_edit'        => $dent_edit, 
+            'datashow'          => $datashow,
         ]);
     }
 
