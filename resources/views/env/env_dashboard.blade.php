@@ -163,11 +163,11 @@
 
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
-                ['Year', 'บ่อปรับเสถียร', 'บ่อคลองวนเวียน', 'บ่อสัมผัสคลอลีน'],
-                ['2021', <?php echo $e1_count_21; ?>, <?php echo $e2_count_21; ?>, <?php echo $e3_count_21; ?>],
-                ['2022', <?php echo $e1_count_22; ?>, <?php echo $e2_count_22; ?>, <?php echo $e3_count_22; ?>],
-                ['2023', <?php echo $e1_count_23; ?>, <?php echo $e2_count_23; ?>, <?php echo $e3_count_23; ?>],
-                ['2024', <?php echo $e1_count_24; ?>, <?php echo $e2_count_24; ?>, <?php echo $e3_count_24; ?>]
+                ['Year', 'บ่อปรับเสถียร', 'บ่อคลองวนเวียน', 'บ่อสัมผัสคลอลีน', 'น้ำประปา'],
+                ['2021', <?php echo $e1_count_21; ?>, <?php echo $e2_count_21; ?>, <?php echo $e3_count_21; ?>, <?php echo $e4_count_25; ?>],
+                ['2022', <?php echo $e1_count_22; ?>, <?php echo $e2_count_22; ?>, <?php echo $e3_count_22; ?>, <?php echo $e4_count_26; ?>],
+                ['2023', <?php echo $e1_count_23; ?>, <?php echo $e2_count_23; ?>, <?php echo $e3_count_23; ?>, <?php echo $e4_count_27; ?>],
+                ['2024', <?php echo $e1_count_24; ?>, <?php echo $e2_count_24; ?>, <?php echo $e3_count_24; ?>, <?php echo $e4_count_28; ?>]
             ]);
 
             var options = {
