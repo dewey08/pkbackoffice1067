@@ -802,11 +802,8 @@ class DentalController extends Controller
             $data_type          = Dent_appointment_type::where('appointment_id',$request->appointment)->first();
             $appointment_id     = $data_type->appointment_id;
             $appointment_name   = $data_type->appointment_name;
-
             $data_users         = User::where('id','=',$request->dent_doctor)->first();
-            $dent_doctor_name   = $data_users->fname.'  '.$data_users->lname;
-           
-            
+            $dent_doctor_name   = $data_users->fname.'  '.$data_users->lname; 
             $data_ptname        = $data_show->pname.''.$data_show->fname.'  '.$data_show->lname;
             $data_hometel       = $data_show->hometel;
 

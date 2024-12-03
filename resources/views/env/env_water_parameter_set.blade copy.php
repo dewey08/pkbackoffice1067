@@ -143,7 +143,7 @@ if (Auth::check()) {
                         <thead>
                             <tr>
                                 <th class="text-center">ลำดับ</th>
-                                {{-- <th class="text-center">รหัสบ่อบำบัด</th> --}}
+                                <th class="text-center">รหัสบ่อบำบัด</th>
                                 <th class="text-center">ชื่อบ่อบำบัด</th>
                                 <th class="text-center">เพิ่มพารามิเตอร์</th>
                             </tr>
@@ -155,7 +155,7 @@ if (Auth::check()) {
                                 <?php $number++; ?>
                                 <tr id="#sid{{ $item->pond_id }}">
                                     <td class="text-center" width="5%">{{ $number }}</td>
-                                    {{-- <td class="text-center" width="10%" > {{$item->pond_id}} </td> --}}
+                                    <td class="text-center" width="10%" > {{$item->pond_id}} </td>
                                     <td >
                                         <?php
                                              $data_sub_ = DB::connection('mysql')->select('
@@ -165,12 +165,20 @@ if (Auth::check()) {
 
                                         ?>
                                         <div id="headingTwo" class="b-radius-0 card-header">
+                                            {{-- @if ($data_subcount == '0') --}}
                                                 <button type="button" data-bs-toggle="collapse"
                                                     data-bs-target="#collapseOne2{{ $item->pond_id }}" aria-expanded="false"
                                                     aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
-                                                    <h5 style="color: rgb(3, 174, 180)">{{ $item->pond_name }} <label for="" style="color: rgb(84, 65, 250)"> !! รายละเอียด คลิก !!</label></h5>
+                                                    <h5 style="color: rgba(207, 204, 204, 0.623)">{{ $item->pond_name }} <label for="" style="color: rgb(84, 65, 250)"> !! รายละเอียด คลิก !!</label></h5>
+                                                </button>
+                                            {{-- @else
+                                                <button type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#collapseOne2{{ $item->acc_setpang_id }}" aria-expanded="false"
+                                                    aria-controls="collapseTwo" class="text-start m-0 p-0 btn btn-link btn-block">
+                                                    <h5 >{{ $item->pangname }} <label for="" style="color: red"> !! รายละเอียด คลิก !!</label></h5>
                                                 </button>
 
+                                            @endif --}}
 
                                         </div>
 
@@ -200,6 +208,13 @@ if (Auth::check()) {
                                             Parameter
                                         </button>
                                     </td>
+                                    {{-- <td class="text-center" width="10%">
+                                        <button type="button" class="btn-icon btn-shadow btn-dashed btn btn-outline-success addparameterModal" data-bs-toggle="tooltip" data-bs-placement="left" title="เพิ่ม Parameter">
+                                            <i class="fa-solid fa-plus text-success"></i>
+                                            Parameter
+                                        </button>
+                                    </td> --}}
+
 
                                 </tr>
                             @endforeach
@@ -209,7 +224,86 @@ if (Auth::check()) {
                 </div>
             </div>
         </div>
+        {{-- <div class="card card_audit_4c">
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-eg2-0" role="tabpanel">
+                        <p>
+                            <form action="{{ route('t.time_nurs_dep') }}" method="POST">
+                                @csrf
 
+                            </form>
+                            <div class="table-responsive mt-3">
+                                <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example2">
+                                    <thead>
+                                        <tr>
+                                            <th>ลำดับ</th>
+                                            <th>รหัสบ่อ</th>
+                                            <th>ชื่อบ่อบำบบัด</th>
+                                            <th>พารามิเตอร์</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php $i = 1;
+                                        $date = date('Y');
+                                        ?>
+                                        @foreach ($datashow as $item)
+                                            <tr id="sid{{ $item->water_parameter_id }}">
+                                                <td class="text-center" width="3%">{{ $i++ }}</td>
+                                                <td class="p-2" width="18%">{{ $item->water_parameter_name }} </td>
+                                                <td class="p-2" width="5%">{{ $item->water_parameter_unit }}</td>
+                                                <td class="p-2" width="13%">{{ $item->water_parameter_results }}</td>
+                                                <td class="p-2" width="5%">{{ $item->water_parameter_icon }}</td>
+                                                <td class="p-2" width="5%">{{ $item->water_parameter_normal }}</td>
+                                                <td class="p-2" width="5%">
+                                                    @if($item-> water_parameter_active == 'TRUE' )
+                                                        <input type="checkbox" id="{{ $item-> water_parameter_id }}" name="{{ $item-> water_parameter_id }}" switch="none" onchange="switchactive({{ $item-> water_parameter_id }});" checked />
+                                                        @else
+                                                        <input type="checkbox" id="{{ $item-> water_parameter_id }}" name="{{ $item-> water_parameter_id }}" switch="none" onchange="switchactive({{ $item-> water_parameter_id }});" />
+                                                        @endif
+                                                        <label for="{{ $item-> water_parameter_id }}" data-on-label="On" data-off-label="Off"></label>
+                                                </td>
+                                                <td class="text-center" width="7%">
+                                                    <div class="btn-group">
+                                                        <button type="button"
+                                                            class="btn btn-outline-secondary btn-sm dropdown-toggle"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            ทำรายการ
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item text-warning"
+                                                                href="{{ url('env_water_parameter_edit/' . $item->water_parameter_id) }}"
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                data-bs-custom-class="custom-tooltip" title="แก้ไข">
+                                                                <i class="fa-solid fa-pen-to-square me-2"></i>
+                                                                <label for=""
+                                                                    style="color: rgb(252, 185, 0);font-size:13px">แก้ไข</label>
+                                                            </a>
+
+                                                            <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item text-danger" href="{{url('env_water_parameter_delete/'.$item->water_parameter_id)}}"
+
+                                                                data-bs-toggle="tooltip" data-bs-placement="left"
+                                                                data-bs-custom-class="custom-tooltip" title="ลบ">
+                                                                <i class="fa-solid fa-trash-can me-2 mb-1"></i>
+                                                                <label for="" style="color: rgb(255, 2, 2);font-size:13px">ลบ</label>
+                                                            </a>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div> --}}
 </div>
 
 <!-- Insert Modal -->
@@ -245,7 +339,7 @@ if (Auth::check()) {
             </div>
             <div class="modal-footer">
                 <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Savedata">
-                    <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>Save changes
+                    <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
                 </button>
             </div>
         </div>
@@ -296,11 +390,11 @@ if (Auth::check()) {
                     </div>
 
                 <input type="hidden" name="user_id" id="adduser_id">
-                {{-- <input type="hidden" name="editpond_sub_id" id="editpond_sub_id"> --}}
+                <input type="hidden" name="editpond_sub_id" id="editpond_sub_id">
             </div>
             <div class="modal-footer">
                 <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatetype">
-                    <i class="pe-7s-diskette btn-icon-wrapper me-2"></i>Save changes
+                    <i class="pe-7s-diskette btn-icon-wrapper"></i>Save changes
                 </button>
             </div>
         </div>
@@ -342,8 +436,8 @@ if (Auth::check()) {
             var editpond_id       = $('#editpond_id').val();
             var editpond_name     = $('#editpond_name').val();
             var editwater_parameter_id = $('#editwater_parameter_id').val();
-            // var editpond_sub_id   = $('#editpond_sub_id').val();
-            // editwater_parameter_id
+            var editpond_sub_id   = $('#editpond_sub_id').val();
+
             $.ajax({
                 url: "{{ route('env.env_parameter_save') }}",
                 type: "POST",
@@ -352,7 +446,7 @@ if (Auth::check()) {
                     editpond_id,
                     editpond_name,
                     editwater_parameter_id,
-                    // editpond_sub_id
+                    editpond_sub_id
                 },
                 success: function(data) {
                     if (data.status == 200) {
@@ -489,14 +583,11 @@ if (Auth::check()) {
             type: "GET",
             url: "{{ url('env_water_parameter_para_id') }}" + '/' + pondsub_id,
             success: function(response) {
-                // console.log(response.data_para.pond_sub_id);
-                // $('#editpond_id').val(response.data_para.pond_id)
-                // $('#editpond_name').val(response.data_para.pond_name)
-                // $('#editpond_sub_id').val(response.data_para.pond_sub_id)
-                // $('#editwater_parameter_id').val(response.data_para.water_parameter_id)
-
-                $('#editpond_id').val(response.data_main.pond_id)
-                $('#editpond_name').val(response.data_main.pond_name)
+                console.log(response.data_para.pond_sub_id);
+                $('#editpond_id').val(response.data_para.pond_id)
+                $('#editpond_name').val(response.data_para.pond_name)
+                $('#editpond_sub_id').val(response.data_para.pond_sub_id)
+                $('#editwater_parameter_id').val(response.data_para.water_parameter_id)
 
             },
         });

@@ -92,7 +92,7 @@ if (Auth::check()) {
                     @csrf
                     <div class="row"> 
                     <div class="col-md-4">
-                        <h4 class="card-title"  style="color:rgba(21, 177, 60, 0.871)">รายระเอียดผลวิเคราะห์คุณภาพน้ำทิ้ง</h4>   
+                        <h4 class="card-title"  style="color:rgba(21, 177, 60, 0.871)">รายละเอียดผลวิเคราะห์คุณภาพน้ำทิ้ง</h4>   
                     </div>
                     <div class="col"></div>
                     <div class="col-md-1 text-end">วันที่</div>
@@ -124,7 +124,7 @@ if (Auth::check()) {
                     <div class="tab-pane active" id="tab-eg2-0" role="tabpanel">
                                 <div class="row">
                                     <div class="card_audit_4">                                       
-                                            <!-- Nav tabs -->
+                                            <!-- Nav tabs แสดงรายการข้อมูลการตรวจแต่ละบ่อ -->
                                             <ul class="nav nav-tabs p-3" role="tablist">
                                                 <li class="nav-item">
                                                     <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab">
@@ -142,6 +142,12 @@ if (Auth::check()) {
                                                     <a class="nav-link" data-bs-toggle="tab" href="#messages" role="tab">
                                                         <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
                                                         <span class="d-none d-sm-block">บ่อสัมผัสคลอลีน</span>    
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" data-bs-toggle="tab" href="#waterpapa" role="tab">
+                                                        <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                                        <span class="d-none d-sm-block">น้ำประปา</span>    
                                                     </a>
                                                 </li>
                                             </ul>
@@ -246,16 +252,47 @@ if (Auth::check()) {
                                                                                 <a href="{{url('env_water_edit/'.$item3->water_id)}}">
                                                                                     <i class="fa-regular fa-pen-to-square fa-2xl" style="color: #FFD43B;"></i>
                                                                                 </a>
-                                                                                {{-- <a href="{{url('wh_recieve_addsub/'.$item->water_id)}}" target="_blank">
-                                                                                    <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
-                                                                                </a> --}}                                                                        
                                                                             </td> 
                                                                         </tr>
                                                                     @endforeach
                                                                 </tbody>
                                                             </table>
                                                         </p>
-                                                    </div>                                        
+                                                    </div>
+                                                    
+                                                    <div class="tab-pane" id="waterpapa" role="tabpanel">
+                                                        <p class="mb-0">
+                                                            <table id="example4" class="table table-striped">
+                                                                <thead class="table-light">
+                                                                    <tr>
+                                                                        <th class="text-center" width="1%" style="background-color: rgb(255, 251, 228);font-size: 14px;">ลำดับ</th>
+                                                                        <th class="text-center" width="2%" style="background-color: rgb(222, 201, 248);font-size: 14px;">วันที่บันทึก</th>
+                                                                        <th class="text-center" width="5%" style="background-color: rgb(222, 201, 248);font-size: 14px;">สถานที่เก็บตัวอย่าง</th>
+                                                                        <th class="text-center" width="3%" style="background-color: rgb(222, 201, 248);font-size: 14px;">ผู้บันทึก</th> 
+                                                                        <th class="text-center" width="5%" style="background-color: rgb(222, 201, 248);font-size: 14px;">หมายเหตุ</th>
+                                                                        <th class="text-center" width="1%" style="background-color: rgb(248, 252, 198);font-size: 14px;">คำสั่ง</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php $i = 1;$total1 = 0;  ?>
+                                                                    @foreach ($datashow_4 as $item4)                                                        
+                                                                        <tr>
+                                                                            <th class="text-center"width="1%">{{ $i++ }}</th>
+                                                                            <td class="text-center"width="2%">{{DateThai($item4->water_date)}}</td>
+                                                                            <td class="text-center"width="5%">{{$item4->water_location}}</td>
+                                                                            <td class="text-center"width="3%">{{$item4->water_user}}</td> 
+                                                                            <td class="text-center"width="5%">{{$item4->water_comment}}</td>
+                                                                            <td class="text-center"width="1%">
+                                                                                <a href="{{url('env_water_edit/'.$item4->water_id)}}">
+                                                                                    <i class="fa-regular fa-pen-to-square fa-2xl" style="color: #FFD43B;"></i>
+                                                                                </a>
+                                                                            </td> 
+                                                                        </tr>
+                                                                    @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </p>
+                                                    </div>
                                             </div>
                                             {{-- @endforeach --}}                                       
 

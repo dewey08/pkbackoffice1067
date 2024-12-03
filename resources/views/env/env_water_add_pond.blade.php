@@ -85,7 +85,7 @@ $datenow = date('Y-m-d');
     </div>
 
     <div class="row" >  
-        <div class="col"></div>
+        {{-- <div class="col"></div> --}}
 
         <div class="col-md-3 ">
             <div class="card card_audit_4 main-card mb-3 card shadow" style="height: 300px " >
@@ -139,7 +139,22 @@ $datenow = date('Y-m-d');
             </div>
         </div> 
 
-        <div class="col"></div>
+        <div class="col-md-3">
+            <div class="card card_audit_4 main-card mb-3 card shadow" style="height: 300px">                 
+                <div class="card card_audit_4 card-header">
+                    <div class="d-flex">
+                        <div class="card-body p-3">
+                            <label for=""> น้ำประปา </label>
+                        </div>
+                        <div class="ms-auto">
+                        </div>                                   
+                    </div>                            
+                </div>
+                <div class="member-img text-center">
+                    <a href="{{url('env_water_add_pond4/4')}}" target="_blank"> <img src="{{ asset('images/pond4.png') }}" height="150px" width="150px" class="rounded-circle me-3"> </a>
+                </div> 
+            </div>
+        </div>
 
     </div>
 </div>

@@ -327,14 +327,14 @@ $count_service = StaticController::count_service();
             var dent_doctor         = $('#dent_doctor').val();
             var dent_work           = $('#dent_work').val();
 
-            Swal.fire({ position: "top-end",
-                    title: 'ต้องการแก้ไขข้อมูลใช่ไหม ?',
-                    text: "You Warn Add Bill No!",
+            Swal.fire({ position: "top-center",
+                    title: 'ต้องการแก้ไขข้อมูลแม่นบ่ ?',
+                    // text: "You Warn Add Bill No!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, Add it!'
+                    confirmButtonText: 'แม่น !!!'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $("#overlay").fadeIn(300);　
@@ -345,10 +345,9 @@ $count_service = StaticController::count_service();
                                 type: "POST",
                                 dataType: 'json',
                                 data: {dent_hn,dent_date,dent_time,dent_work},
-                                // data: {recieve_no,recieve_date,recieve_time,vendor_id,stock_list_id,bg_yearnow,wh_recieve_id,recieve_po_sup},
                                 success: function(data) {
                                     if (data.status == 200) { 
-                                        Swal.fire({ position: "top-end",
+                                        Swal.fire({ position: "top-center",
                                             title: 'แก้ไขข้อมูลสำเร็จ',
                                             text: "You Update data success",
                                             icon: 'success',
@@ -361,7 +360,7 @@ $count_service = StaticController::count_service();
                                                 console.log(
                                                     data);
                                                 // window.location.reload();
-                                                window.location="{{url('dental_appointment_edit')}}"; 
+                                                window.location="{{url('dental_appointment')}}"; 
                                                 $('#spinner').hide();//Request is complete so hide spinner
                                                     setTimeout(function(){
                                                         $("#overlay").fadeOut(300);
