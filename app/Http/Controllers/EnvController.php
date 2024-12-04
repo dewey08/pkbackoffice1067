@@ -113,21 +113,25 @@ class EnvController extends Controller
     	$e1_count_22 = Env_water::where('pond_id','1')->where(DB::raw("Year(water_date)"),'2022')->get()->count();
     	$e1_count_23 = Env_water::where('pond_id','1')->where(DB::raw("Year(water_date)"),'2023')->get()->count();
         $e1_count_24 = Env_water::where('pond_id','1')->where(DB::raw("Year(water_date)"),'2024')->get()->count();
+       
 
     	$e2_count_21 = Env_water::where('pond_id','2')->where(DB::raw("Year(water_date)"),'2021')->get()->count();
     	$e2_count_22 = Env_water::where('pond_id','2')->where(DB::raw("Year(water_date)"),'2022')->get()->count();
     	$e2_count_23 = Env_water::where('pond_id','2')->where(DB::raw("Year(water_date)"),'2023')->get()->count();
         $e2_count_24 = Env_water::where('pond_id','2')->where(DB::raw("Year(water_date)"),'2024')->get()->count();
+        
 
     	$e3_count_21 = Env_water::where('pond_id','3')->where(DB::raw("Year(water_date)"),'2021')->get()->count();
     	$e3_count_22 = Env_water::where('pond_id','3')->where(DB::raw("Year(water_date)"),'2022')->get()->count();
     	$e3_count_23 = Env_water::where('pond_id','3')->where(DB::raw("Year(water_date)"),'2023')->get()->count();
         $e3_count_24 = Env_water::where('pond_id','3')->where(DB::raw("Year(water_date)"),'2024')->get()->count();
+        
 
-        $e4_count_25 = Env_water::where('pond_id','4')->where(DB::raw("Year(water_date)"),'2021')->get()->count();
-        $e4_count_26 = Env_water::where('pond_id','4')->where(DB::raw("Year(water_date)"),'2022')->get()->count();
-        $e4_count_27 = Env_water::where('pond_id','4')->where(DB::raw("Year(water_date)"),'2023')->get()->count();
-        $e4_count_28 = Env_water::where('pond_id','4')->where(DB::raw("Year(water_date)"),'2024')->get()->count();
+        $e4_count_21 = Env_water::where('pond_id','4')->where(DB::raw("Year(water_date)"),'2021')->get()->count();
+        $e4_count_22 = Env_water::where('pond_id','4')->where(DB::raw("Year(water_date)"),'2022')->get()->count();
+        $e4_count_23 = Env_water::where('pond_id','4')->where(DB::raw("Year(water_date)"),'2023')->get()->count();
+        $e4_count_24 = Env_water::where('pond_id','4')->where(DB::raw("Year(water_date)"),'2024')->get()->count();
+        
 
         $w7_1 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','1')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
         $w7_2 = Env_water::leftjoin('env_water_sub','env_water_sub.water_id','=','env_water.water_id')->where('env_water_sub.water_list_idd','2')->where(DB::raw("Year(env_water.water_date)"),'2022')->where('env_water_sub.status','=','ปกติ')->get()->count();
@@ -204,10 +208,10 @@ class EnvController extends Controller
         $tra_312 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','3')->where(DB::raw("Month(env_trash.trash_date)"),'12')->sum('env_trash_sub.trash_sub_qty');
 
         return view('env.env_dashboard',compact('dabyears',
-            'e1_count_21','e1_count_22','e1_count_23','e1_count_24'
+             'e1_count_21','e1_count_22','e1_count_23','e1_count_24'
             ,'e2_count_21','e2_count_22','e2_count_23','e2_count_24'
             ,'e3_count_21','e3_count_22','e3_count_23','e3_count_24'
-            ,'e4_count_25','e4_count_26','e4_count_27','e4_count_28'
+            ,'e4_count_21','e4_count_22','e4_count_23','e4_count_24'
 
             ,'w7_1','w7_2','w7_3','w7_4','w7_5','w7_6','w7_7','w7_8','w7_9','w7_10','w7_11','w7_12','w7_13','w7_14','w7_15','w7_16'
             ,'wm7_1','wm7_2','wm7_3','wm7_4','wm7_5','wm7_6','wm7_7','wm7_8','wm7_9','wm7_10','wm7_11','wm7_12','wm7_13','wm7_14','wm7_15','wm7_16'

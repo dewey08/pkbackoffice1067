@@ -85,14 +85,14 @@ if (Auth::check()) {
 
        
 
-        <div class="main-card card">
+        <div class="card card_prs_2">
             <div class="card-header" >
                 
                 <form action="{{ route('env.env_water') }}" method="GET">
                     @csrf
                     <div class="row"> 
                     <div class="col-md-4">
-                        <h4 class="card-title"  style="color:rgba(21, 177, 60, 0.871)">รายละเอียดผลวิเคราะห์คุณภาพน้ำทิ้ง</h4>   
+                        <h4 class="card-title"  style="color:#096825">รายละเอียดผลวิเคราะห์คุณภาพน้ำทิ้ง</h4>   
                     </div>
                     <div class="col"></div>
                     <div class="col-md-1 text-end">วันที่</div>
@@ -114,7 +114,7 @@ if (Auth::check()) {
                         </div>
                     </div>
                     <div class="col-md-1 text-end">
-                        <a href="{{ url('env_water_add_pond') }}" class="btn btn-outline-success">เพิ่มข้อมูล</a> 
+                        <a href="{{ url('env_water_add_pond') }}" class="btn btn-outline-success" >เพิ่มข้อมูล</a> 
                     </div>
                 </div>
             </div>
@@ -180,10 +180,7 @@ if (Auth::check()) {
                                                                             <td class="text-center"width="1%">
                                                                                 <a href="{{url('env_water_edit/'.$item1->water_id)}}">
                                                                                     <i class="fa-regular fa-pen-to-square fa-2xl" style="color: #FFD43B;"></i>
-                                                                                </a>
-                                                                                {{-- <a href="{{url('wh_recieve_addsub/'.$item->water_id)}}" target="_blank">
-                                                                                    <i class="fa-solid fa-cart-plus" style="color: #068fb9;font-size:20px"></i>
-                                                                                </a> --}}                                                                        
+                                                                                </a>                                                                      
                                                                             </td> 
                                                                         </tr>
                                                                     @endforeach

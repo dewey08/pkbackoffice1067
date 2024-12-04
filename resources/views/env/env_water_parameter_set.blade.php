@@ -124,8 +124,8 @@ if (Auth::check()) {
 
         <div class="row">
             <div class="col-md-3">
-                <h4 >Detail POND</h4>
-                <p >รายละเอียดั้งค่าบ่อบำบัด</p>
+                <h4 style="color:#096825">รายละเอียดั้งค่าบ่อบำบัด</h4>
+                <p ></p>
             </div>
             <div class="col"></div>
             <div class="col-md-2 text-end">
@@ -143,7 +143,6 @@ if (Auth::check()) {
                         <thead>
                             <tr>
                                 <th class="text-center">ลำดับ</th>
-                                {{-- <th class="text-center">รหัสบ่อบำบัด</th> --}}
                                 <th class="text-center">ชื่อบ่อบำบัด</th>
                                 <th class="text-center">เพิ่มพารามิเตอร์</th>
                             </tr>
@@ -155,7 +154,6 @@ if (Auth::check()) {
                                 <?php $number++; ?>
                                 <tr id="#sid{{ $item->pond_id }}">
                                     <td class="text-center" width="5%">{{ $number }}</td>
-                                    {{-- <td class="text-center" width="10%" > {{$item->pond_id}} </td> --}}
                                     <td >
                                         <?php
                                              $data_sub_ = DB::connection('mysql')->select('
@@ -223,15 +221,6 @@ if (Auth::check()) {
             </div>
             <div class="modal-body">
 
-                {{-- <div class="row">
-                    <div class="col-md-12">
-                        <label for="pond_id" class="form-label">รหัสบ่อบำบัด</label>
-                        <div class="input-group input-group-sm">
-                            <input type="text" class="form-control" id="pond_id" name="pond_id">
-                        </div>
-                    </div>
-                </div> --}}
-
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <label for="pond_name" class="form-label">ชื่อบ่อบำบัด</label>
@@ -296,7 +285,6 @@ if (Auth::check()) {
                     </div>
 
                 <input type="hidden" name="user_id" id="adduser_id">
-                {{-- <input type="hidden" name="editpond_sub_id" id="editpond_sub_id"> --}}
             </div>
             <div class="modal-footer">
                 <button type="button" class="me-2 btn-icon btn-shadow btn-dashed btn btn-outline-info" id="Updatetype">
@@ -444,8 +432,6 @@ if (Auth::check()) {
          $('#Savedata').click(function() {
             // var pond_id = $('#pond_id').val();
             var pond_name = $('#pond_name').val();
-            // var HR_DEPARTMENT_SUB_ID = $('#HR_DEPARTMENT_SUB_ID').val();
-            // var HR_DEPARTMENT_SUB_SUB_ID = $('#HR_DEPARTMENT_SUB_SUB_ID').val();
             $.ajax({
                 url: "{{ route('env.env_water_parameter_setsave') }}",
                 type: "POST",
@@ -489,11 +475,6 @@ if (Auth::check()) {
             type: "GET",
             url: "{{ url('env_water_parameter_para_id') }}" + '/' + pondsub_id,
             success: function(response) {
-                // console.log(response.data_para.pond_sub_id);
-                // $('#editpond_id').val(response.data_para.pond_id)
-                // $('#editpond_name').val(response.data_para.pond_name)
-                // $('#editpond_sub_id').val(response.data_para.pond_sub_id)
-                // $('#editwater_parameter_id').val(response.data_para.water_parameter_id)
 
                 $('#editpond_id').val(response.data_main.pond_id)
                 $('#editpond_name').val(response.data_main.pond_name)

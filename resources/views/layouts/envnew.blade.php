@@ -211,6 +211,13 @@
         border:solid 1px #ffc5ff;
         background-color: aliceblue;
     }    
+    .card_prs_2{ /* ขอบสี */
+        border-radius: 0em 0em 2em 2em;
+        box-shadow: 0 0 10px #65d0c1;
+        /* border-color: #0583cc */
+        border:solid 1px #65d0c1;
+        background-color: aliceblue;
+    }
     .card_audit_4c{ 
         border-radius: 2em 2em 2em 2em;
         box-shadow: 0 0 30px rgb(252, 101, 1);
@@ -463,7 +470,7 @@
                                 </div>
                             </li>
 
-                            <li class="nav-item dropdown">
+                            {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
                                     <img src="{{ asset('images/wh08.png') }}" height="27px" width="27px" >
                                     </i>รายงาน <div class="arrow-down"></div>
@@ -472,7 +479,7 @@
                                     <a href="{{ url('env_water_rep') }}" class="dropdown-item">รายงานระบบบ่อบำบัดน้ำเสีย</a> 
                                     <a href="{{ url('env_trash_rep') }}" class="dropdown-item">รายงานระบบบริหารจัดการขยะ</a> 
                                 </div>
-                            </li>
+                            </li> --}}
 
                             @if ($permiss_setting_env !=0)
                             <li class="nav-item dropdown">

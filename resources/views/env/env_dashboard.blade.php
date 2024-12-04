@@ -164,10 +164,11 @@
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
                 ['Year', 'บ่อปรับเสถียร', 'บ่อคลองวนเวียน', 'บ่อสัมผัสคลอลีน', 'น้ำประปา'],
-                ['2021', <?php echo $e1_count_21; ?>, <?php echo $e2_count_21; ?>, <?php echo $e3_count_21; ?>, <?php echo $e4_count_25; ?>],
-                ['2022', <?php echo $e1_count_22; ?>, <?php echo $e2_count_22; ?>, <?php echo $e3_count_22; ?>, <?php echo $e4_count_26; ?>],
-                ['2023', <?php echo $e1_count_23; ?>, <?php echo $e2_count_23; ?>, <?php echo $e3_count_23; ?>, <?php echo $e4_count_27; ?>],
-                ['2024', <?php echo $e1_count_24; ?>, <?php echo $e2_count_24; ?>, <?php echo $e3_count_24; ?>, <?php echo $e4_count_28; ?>]
+                ['2021', <?php echo $e1_count_21; ?>, <?php echo $e2_count_21; ?>, <?php echo $e3_count_21; ?>, <?php echo $e4_count_21; ?>],
+                ['2022', <?php echo $e1_count_22; ?>, <?php echo $e2_count_22; ?>, <?php echo $e3_count_22; ?>, <?php echo $e4_count_22; ?>],
+                ['2023', <?php echo $e1_count_23; ?>, <?php echo $e2_count_23; ?>, <?php echo $e3_count_23; ?>, <?php echo $e4_count_23; ?>],
+                ['2024', <?php echo $e1_count_24; ?>, <?php echo $e2_count_24; ?>, <?php echo $e3_count_24; ?>, <?php echo $e4_count_24; ?>]
+                
             ]);
 
             var options = {
@@ -265,18 +266,18 @@
         // Some raw data (not necessarily accurate)
         var data = google.visualization.arrayToDataTable([
           ['Month', 'ขยะทั่วไป(Kg)', 'ขยะติดเชื้อ(Kg)', 'ขยะเคมีบำบัด(Kg)'],
-          ['มกราคม',   <?php echo $tra_1; ?>,<?php echo $tra_21; ?>,<?php echo $tra_31; ?>],
-          ['กุมภาพันธุ์',  <?php echo $tra_2; ?>,<?php echo $tra_22; ?>,<?php echo $tra_32; ?>],
-          ['มีนาคม',   <?php echo $tra_3; ?>,<?php echo $tra_23; ?>,<?php echo $tra_33; ?>],
-          ['เมษายน',  <?php echo $tra_4; ?>,<?php echo $tra_24; ?>,<?php echo $tra_34; ?>],
-          ['พฤษภาคม', <?php echo $tra_5; ?>,<?php echo $tra_25; ?>,<?php echo $tra_35; ?>],
-          ['มิถุนายน',   <?php echo $tra_6; ?>,<?php echo $tra_26; ?>,<?php echo $tra_36; ?>],
-          ['กรกฎาคม',  <?php echo $tra_7; ?>,<?php echo $tra_27; ?>,<?php echo $tra_37; ?>],
-          ['สิงหาคม',   <?php echo $tra_8; ?>,<?php echo $tra_28; ?>,<?php echo $tra_38; ?>],
-          ['กันยายน',   <?php echo $tra_9; ?>,<?php echo $tra_29; ?>,<?php echo $tra_39; ?>],
-          ['ตุลาคม',    <?php echo $tra_10; ?>,<?php echo $tra_210; ?>,<?php echo $tra_310; ?>],
-          ['พฤษจิกายน', <?php echo $tra_11; ?>,<?php echo $tra_211; ?>,<?php echo $tra_311; ?>],
-          ['ธันวาคม',   <?php echo $tra_12; ?>,<?php echo $tra_212; ?>,<?php echo $tra_312; ?>],
+          ['ม.ค.',   <?php echo $tra_1; ?>,<?php echo $tra_21; ?>,<?php echo $tra_31; ?>],
+          ['ก.พ.',  <?php echo $tra_2; ?>,<?php echo $tra_22; ?>,<?php echo $tra_32; ?>],
+          ['มี.ค.',   <?php echo $tra_3; ?>,<?php echo $tra_23; ?>,<?php echo $tra_33; ?>],
+          ['เม.ย.',  <?php echo $tra_4; ?>,<?php echo $tra_24; ?>,<?php echo $tra_34; ?>],
+          ['พ.ค.', <?php echo $tra_5; ?>,<?php echo $tra_25; ?>,<?php echo $tra_35; ?>],
+          ['มิ.ย.',   <?php echo $tra_6; ?>,<?php echo $tra_26; ?>,<?php echo $tra_36; ?>],
+          ['ก.ค.',  <?php echo $tra_7; ?>,<?php echo $tra_27; ?>,<?php echo $tra_37; ?>],
+          ['ส.ค.',   <?php echo $tra_8; ?>,<?php echo $tra_28; ?>,<?php echo $tra_38; ?>],
+          ['ก.ย.',   <?php echo $tra_9; ?>,<?php echo $tra_29; ?>,<?php echo $tra_39; ?>],
+          ['ต.ค.',    <?php echo $tra_10; ?>,<?php echo $tra_210; ?>,<?php echo $tra_310; ?>],
+          ['พ.ย.', <?php echo $tra_11; ?>,<?php echo $tra_211; ?>,<?php echo $tra_311; ?>],
+          ['ธ.ค.',   <?php echo $tra_12; ?>,<?php echo $tra_212; ?>,<?php echo $tra_312; ?>],
         ]);
 
 

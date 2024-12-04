@@ -83,13 +83,13 @@ if (Auth::check()) {
 
        
 
-        <div class="main-card mb-3 card">
+        <div class="card card_prs_2">
             <div class="card-header">
                 <form action="{{ route('env.env_trash') }}" method="GET">
                     @csrf
                     <div class="row"> 
                     <div class="col-md-4">
-                        <h4 class="card-title"  style="color:rgba(21, 177, 60, 0.871)">รายระเอียดข้อมูลขยะ</h4>   
+                        <h4 class="card-title"  style="color:#096825">รายระเอียดข้อมูลขยะ</h4>   
                     </div>
                     <div class="col"></div>
                     <div class="col-md-1 text-end">วันที่</div>
