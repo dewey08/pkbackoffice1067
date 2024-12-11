@@ -112,6 +112,7 @@ $count_service = StaticController::count_service();
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="">{{$dent_edit->dent_hn}}</label> 
+                                            <input type="hidden" id="dent_hn" name="dent_hn" class="form-control" value="{{$dent_edit->dent_hn}}"/>
                                             {{-- <input type="text" class="form-control-sm input_border" id="dent_hn" name="dent_hn" value="{{ $dent_edit->dent_hn }}" style="width: 100%" readonly> --}}
                                             {{-- <select id="dent_hn" name="dent_hn" class="form-control-sm d12font input_new" style="width: 100%" onchange="hnDent()">
                                                 <option value="">--เลือก--</option>
@@ -213,7 +214,7 @@ $count_service = StaticController::count_service();
                                     <div class="col-md-7">
                                         <div class="form-group">
                                             <div class="form-group">
-                                                <input id="dent_work" type="text" class="form-control-sm d12font input_new" name="dent_work" value="{{ $dent_edit->dent_work }}style="width: 100%">
+                                                <input id="dent_work" type="text" class="form-control-sm d12font input_new" name="dent_work" value="{{ $dent_edit->dent_work }}" style="width: 100%">
                                             </div>
                                         </div>
                                     </div>
@@ -301,10 +302,10 @@ $count_service = StaticController::count_service();
             });
 
         // ช่องค้นหาHN
-            $('#dent_hn').select2({
-            placeholder: "--ค้นหา HN--",
-            allowClear: true
-            });
+            // $('#dent_hn').select2({
+            // placeholder: "--ค้นหา HN--",
+            // allowClear: true
+            // });
             
         // ช่องค้นหาประเภทการนัด
         $('#appointment').select2({
@@ -321,13 +322,15 @@ $count_service = StaticController::count_service();
 
         $('#UpdateData').click(function() {
             var dent_hn             = $('#dent_hn').val(); 
-            var dent_date           = $('#dent_date').val(); 
+            var dent_date           = $('#datepicker').val(); 
             var dent_time           = $('#dent_time').val();                  
-            var appointment_id      = $('#appointment_id').val();
+            var appointment_id      = $('#dent_appointment_id').val();
             var dent_doctor         = $('#dent_doctor').val();
             var dent_work           = $('#dent_work').val();
+            var appointment         = $('#appointment').val();
+            
 
-            Swal.fire({ position: "top-center",
+            Swal.fire({ 
                     title: 'ต้องการแก้ไขข้อมูลแม่นบ่ ?',
                     // text: "You Warn Add Bill No!",
                     icon: 'warning',
@@ -344,7 +347,7 @@ $count_service = StaticController::count_service();
                                 url: "{{ route('den.dental_appointment_update') }}",
                                 type: "POST",
                                 dataType: 'json',
-                                data: {dent_hn,dent_date,dent_time,dent_work},
+                                data: {dent_hn,dent_date,dent_time,dent_work,appointment_id,dent_doctor,appointment},
                                 success: function(data) {
                                     if (data.status == 200) { 
                                         Swal.fire({ position: "top-center",
@@ -368,6 +371,14 @@ $count_service = StaticController::count_service();
                                             }
                                         })
                                     } else {
+
+                                        Swal.fire({
+                                                title: "แก้ไขเรียบร้อย!",
+                                                // text: "You clicked the button!",
+                                                icon: "success"
+                                                });
+
+
                                         
                                     }
                                 },

@@ -591,7 +591,8 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICE
+                                <p style="color:#4b4a4a;font-size:17px;">Created with <i class="mdi mdi-heart text-danger"></i> เบญญดา ศิริวัลลภ - กลุ่มงานเทคโนโลยีสารสนเทศ</p>
+                                {{-- Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICE --}}
                             </div>
                         </div>
                     </div>

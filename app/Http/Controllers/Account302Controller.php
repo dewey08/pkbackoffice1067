@@ -53,7 +53,7 @@ use App\Models\D_orf;
 use App\Models\D_odx;
 use App\Models\D_cht;
 use App\Models\D_cha;
-use App\Models\D_oop; 
+use App\Models\D_oop;
 use App\Models\D_adp;
 use App\Models\D_dru;
 use App\Models\D_idx;
@@ -69,7 +69,7 @@ use App\Models\Dapi_orf;
 use App\Models\Dapi_odx;
 use App\Models\Dapi_cht;
 use App\Models\Dapi_cha;
-use App\Models\Dapi_oop; 
+use App\Models\Dapi_oop;
 use App\Models\Dapi_adp;
 use App\Models\Dapi_dru;
 use App\Models\Dapi_idx;
@@ -88,7 +88,7 @@ use App\Models\D_apiofc_aer;
 use App\Models\D_apiofc_cha;
 use App\Models\D_apiofc_cht;
 use App\Models\D_apiofc_dru;
-use App\Models\D_apiofc_idx;  
+use App\Models\D_apiofc_idx;
 use App\Models\D_apiofc_pat;
 use App\Models\D_apiofc_ipd;
 use App\Models\D_apiofc_irf;
@@ -116,7 +116,7 @@ use App\Models\Fdh_orf;
 use App\Models\Fdh_odx;
 use App\Models\Fdh_cht;
 use App\Models\Fdh_cha;
-use App\Models\Fdh_oop; 
+use App\Models\Fdh_oop;
 use App\Models\Fdh_adp;
 use App\Models\Fdh_dru;
 use App\Models\Fdh_idx;
@@ -158,13 +158,13 @@ use SoapClient;
 // use SplFileObject;
 use Arr;
 use CURLFILE;
-use GuzzleHttp\Client; 
+use GuzzleHttp\Client;
 use App\Imports\ImportAcc_stm_ti;
 use App\Imports\ImportAcc_stm_tiexcel_import;
 use App\Imports\ImportAcc_stm_ofcexcel_import;
 use App\Imports\ImportAcc_stm_lgoexcel_import;
 use App\Models\Acc_1102050101_217_stam;
-use App\Models\Acc_opitemrece_stm; 
+use App\Models\Acc_opitemrece_stm;
 use SplFileObject;
 use PHPExcel;
 use PHPExcel_IOFactory;
@@ -173,20 +173,20 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
-use PhpOffice\PhpSpreadsheet\IOFactory; 
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\D_ofc_repexcel;
-use App\Models\D_ofc_rep; 
-use ZipArchive;  
+use App\Models\D_ofc_rep;
+use ZipArchive;
 use Illuminate\Support\Facades\Redirect;
 use PhpParser\Node\Stmt\If_;
-use Stevebauman\Location\Facades\Location; 
+use Stevebauman\Location\Facades\Location;
 use Illuminate\Filesystem\Filesystem;
 
 date_default_timezone_set("Asia/Bangkok");
 
 
 class Account302Controller extends Controller
- { 
+ {
     // ***************** 302********************************
     public function account_302_dash(Request $request)
     {
@@ -203,7 +203,7 @@ class Account302Controller extends Controller
             $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
             $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
-        
+
             // $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
             if ($acc_trimart_id == '') {
                 $data_trimart = DB::table('acc_trimart')->where('active','Y')->limit(12)->orderBy('acc_trimart_id','desc')->get();
@@ -232,12 +232,12 @@ class Account302Controller extends Controller
         $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
-         
+
         if ($budget_year == '') {
             $yearnew     = date('Y');
-            $year_old    = date('Y')-1; 
+            $year_old    = date('Y')-1;
             $startdate   = (''.$year_old.'-10-01');
-            $enddate     = (''.$yearnew.'-09-30'); 
+            $enddate     = (''.$yearnew.'-09-30');
             // dd($startdate);
             $datashow = DB::select('
                     SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
@@ -249,14 +249,14 @@ class Account302Controller extends Controller
                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                     WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
                     and account_code="1102050101.304"
-                    group by month(a.dchdate)                     
+                    group by month(a.dchdate)
                     order by a.dchdate desc;
-            ');  
+            ');
         } else {
-          
+
             $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
             $startdate    = $bg->date_begin;
-            $enddate      = $bg->date_end; 
+            $enddate      = $bg->date_end;
             // dd($startdate);
             $datashow = DB::select('
                     SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
@@ -266,16 +266,16 @@ class Account302Controller extends Controller
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                     WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050101.304" 
-                    group by month(a.dchdate)                    
+                    and account_code="1102050101.304"
+                    group by month(a.dchdate)
                     order by a.dchdate desc;
             ');
         }
         // dd($startdate);
         return view('account_302.account_302_dash',[
             'startdate'         =>  $startdate,
-            'enddate'           =>  $enddate, 
-            'leave_month_year'  =>  $leave_month_year, 
+            'enddate'           =>  $enddate,
+            'leave_month_year'  =>  $leave_month_year,
             'datashow'          =>  $datashow,
             'dabudget_year'     =>  $dabudget_year,
             'budget_year'       =>  $budget_year,
@@ -296,12 +296,12 @@ class Account302Controller extends Controller
     public function account_302_dashsub(Request $request,$startdate,$enddate)
     {
         $datenow = date('Y-m-d');
-        
+
         $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
-        $date = date('Y-m-d'); 
+        $date = date('Y-m-d');
         // dd($end );
-       
+
             $datashow = DB::select('
                     SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME,l.MONTH_ID
                     ,count(distinct a.hn) as hn
@@ -317,7 +317,7 @@ class Account302Controller extends Controller
                     and account_code="1102050101.302"
                     group by month(a.dchdate) order by month(a.dchdate) desc;
             ');
-            
+
 
         return view('account_302.account_302_dashsub',[
             'startdate'          =>  $startdate,
@@ -328,21 +328,21 @@ class Account302Controller extends Controller
     }
     public function account_302_dashsubdetail(Request $request,$months,$year)
     {
-        $datenow = date('Y-m-d'); 
+        $datenow = date('Y-m-d');
         // dd($id);
         $data['users'] = User::get();
 
         $data = DB::select('
-        SELECT 
+        SELECT
             month(dchdate) as months,year(dchdate) as year
             ,an,vn,hn,cid,ptname,dchdate,pttype,debit_total
             from acc_1102050101_302
-        
-            WHERE month(dchdate) = "'.$months.'"  
+
+            WHERE month(dchdate) = "'.$months.'"
             AND year(dchdate) = "'.$year.'"
         ');
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-        return view('account_302.account_302_dashsubdetail', $data, [ 
+        return view('account_302.account_302_dashsubdetail', $data, [
             'data'          =>     $data,
             'year'          =>     $year,
             'months'        =>     $months
@@ -356,28 +356,28 @@ class Account302Controller extends Controller
         $newday = date('Y-m-d', strtotime($datenow . ' -2 Day')); //ย้อนหลัง 1 สัปดาห์
         $startdate = $request->startdate;
         $enddate   = $request->enddate;
-        if ($startdate == '') { 
+        if ($startdate == '') {
             $acc_debtor = DB::select(
-                'SELECT * 
-                    from acc_debtor a 
-                    WHERE a.account_code="1102050101.302" 
+                'SELECT *
+                    from acc_debtor a
+                    WHERE a.account_code="1102050101.302"
                     AND dchdate BETWEEN "' . $newday . '" AND "' . $datenow . '"
                     AND a.debit_total > 0
                     GROUP BY a.an
-                    order by a.an DESC; 
-            '); 
+                    order by a.an DESC;
+            ');
             $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.302')->whereBetween('dchdate', [$newday, $datenow])->count();
             $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050101.302')->whereBetween('dchdate', [$newday, $datenow])->count();
         } else {
             $acc_debtor = DB::select(
-                'SELECT * 
-                    from acc_debtor a 
-                    WHERE a.account_code="1102050101.302" 
+                'SELECT *
+                    from acc_debtor a
+                    WHERE a.account_code="1102050101.302"
                     AND dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                     AND a.debit_total > 0
                     GROUP BY a.an
-                    order by a.an DESC; 
-            '); 
+                    order by a.an DESC;
+            ');
             $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050101.302')->whereBetween('dchdate', [$startdate, $enddate])->count();
             $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050101.302')->whereBetween('dchdate', [$startdate, $enddate])->count();
         }
@@ -386,6 +386,13 @@ class Account302Controller extends Controller
         $data['activeclaim']     = $data_activeclaim->claim_active;
         $data['acc_function_id'] = $data_activeclaim->acc_function_id;
 
+        $data['d_aipadt']          = DB::connection('mysql')->select('SELECT * FROM d_aipadt');
+        $data['d_aipdx']           = DB::connection('mysql')->select('SELECT * FROM d_aipdx');
+        $data['d_aipop']           = DB::connection('mysql')->select('SELECT * FROM d_aipop');
+        $data['d_abillitems']      = DB::connection('mysql')->select('SELECT * FROM d_abillitems');
+        $data['d_adispensing']     = DB::connection('mysql')->select('SELECT * FROM d_adispensing');
+        $data['d_adispenseditems'] = DB::connection('mysql')->select('SELECT * FROM d_adispenseditems');
+        // D_aipadt
         return view('account_302.account_302_pull',$data,[
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate,
@@ -408,7 +415,7 @@ class Account302Controller extends Controller
                 ,ifnull(ec.ar_ipd,"") pang_debit
                 ,a.income as income ,a.uc_money,a.rcpt_money as cash_money,a.discount_money
                 ,a.income-a.rcpt_money-a.discount_money as looknee_money,di.icd10
-                
+
                 ,sum(if(op.icode ="3010058",sum_price,0)) as fokliad
                 ,sum(if(op.income="02",sum_price,0)) as debit_instument
                 ,sum(if(op.icode IN("1560016","1540073","1530005","1540048","1620015","1600012","1600015"),sum_price,0)) as debit_drug
@@ -424,7 +431,7 @@ class Account302Controller extends Controller
                 LEFT OUTER JOIN iptdiag di on di.an = ip.an
                 LEFT OUTER JOIN icd101 ic on ic.code = di.icd10
                 LEFT JOIN vn_stat v on v.vn = a.vn
-                WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"               
+                WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                 AND ipt.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.302")
                 GROUP BY a.an;
             ');
@@ -445,7 +452,7 @@ class Account302Controller extends Controller
                     if ($check > 0) {
                         Acc_debtor::where('vn', $value->vn)->update([
                             'pdx'                => $value->icd10,
-                            'icd10'              => $value->icd10,  
+                            'icd10'              => $value->icd10,
                             'debit_total'        => $value->looknee_money,
                             'bg_yearnow'         => $bg_yearnow,
                         ]);
@@ -515,7 +522,7 @@ class Account302Controller extends Controller
     //     $datestart = $request->datestart;
     //     $dateend = $request->dateend;
     //     $date = date('Y-m-d');
-        
+
     //     $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050101.302" AND stamp = "N" GROUP BY an');
     //    //  AND subinscl IS NULL
     //        //  LIMIT 30
@@ -523,16 +530,16 @@ class Account302Controller extends Controller
     //     // BETWEEN "2024-02-03" AND "2024-02-15"
     //     // $token_data = DB::connection('mysql')->select('SELECT cid,token FROM ssop_token');
     //     $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
-    //     foreach ($token_data as $key => $value) { 
+    //     foreach ($token_data as $key => $value) {
     //         $cid_    = $value->cid;
     //         $token_  = $value->token;
     //     }
     //     foreach ($data_sitss as $key => $item) {
     //         $pids = $item->cid;
-    //         $vn   = $item->vn; 
-    //         $an   = $item->an; 
+    //         $vn   = $item->vn;
+    //         $an   = $item->an;
     //             // $token_data = DB::connection('mysql10')->select('SELECT cid,token FROM hos.nhso_token where token <> ""');
-    //             // foreach ($token_data as $key => $value) { 
+    //             // foreach ($token_data as $key => $value) {
     //                 $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
     //                     array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
     //                     );
@@ -562,16 +569,16 @@ class Account302Controller extends Controller
 
     //                     IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
     //                         $date = date("Y-m-d");
-                          
+
     //                         Acc_debtor::where('an', $an)
     //                         ->update([
     //                             'status'         => 'จำหน่าย/เสียชีวิต',
     //                             'maininscl'      => @$maininscl,
     //                             'pttype_spsch'   => @$subinscl,
     //                             'hmain'          => @$hmain,
-    //                             'subinscl'       => @$subinscl, 
+    //                             'subinscl'       => @$subinscl,
     //                         ]);
-                            
+
     //                     }elseif(@$maininscl !="" || @$subinscl !=""){
     //                        Acc_debtor::where('an', $an)
     //                        ->update([
@@ -580,13 +587,13 @@ class Account302Controller extends Controller
     //                            'pttype_spsch'   => @$subinscl,
     //                            'hmain'          => @$hmain,
     //                            'subinscl'       => @$subinscl,
-                           
-    //                        ]); 
-                                    
+
+    //                        ]);
+
     //                     }
 
     //                 }
-           
+
     //     }
 
     //     return response()->json([
@@ -604,15 +611,15 @@ class Account302Controller extends Controller
         // $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050101.401" AND stamp = "N" GROUP BY vn');
         $data_sitss = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
         $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
-        foreach ($token_data as $key => $value) { 
+        foreach ($token_data as $key => $value) {
             $cid_    = $value->cid;
             $token_  = $value->token;
         }
         foreach ($data_sitss as $key => $item) {
             $pids = $item->cid;
-            $vn   = $item->vn; 
-            $an   = $item->an; 
-                
+            $vn   = $item->vn;
+            $an   = $item->an;
+
                     $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
                         array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
                         );
@@ -642,16 +649,16 @@ class Account302Controller extends Controller
 
                         IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
                             $date = date("Y-m-d");
-                          
+
                             Acc_debtor::where('an', $an)
                             ->update([
                                 'status'         => 'จำหน่าย/เสียชีวิต',
                                 'maininscl'      => @$maininscl,
                                 'pttype_spsch'   => @$subinscl,
                                 'hmain'          => @$hmain,
-                                'subinscl'       => @$subinscl, 
+                                'subinscl'       => @$subinscl,
                             ]);
-                            
+
                         }elseif(@$maininscl !="" || @$subinscl !=""){
                            Acc_debtor::where('an', $an)
                            ->update([
@@ -660,13 +667,13 @@ class Account302Controller extends Controller
                                'pttype_spsch'   => @$subinscl,
                                'hmain'          => @$hmain,
                                'subinscl'       => @$subinscl,
-                           
-                           ]); 
-                                    
+
+                           ]);
+
                         }
 
                     }
-           
+
         }
 
         return response()->json([
@@ -676,9 +683,9 @@ class Account302Controller extends Controller
 
     }
     function account_302_claimswitch(Request $request)
-    {  
+    {
         // $id = $request->idfunc;
-        Acc_function::where('pang','1102050101.302')->update(['claim_active'=> $request->onoff]); 
+        Acc_function::where('pang','1102050101.302')->update(['claim_active'=> $request->onoff]);
         return response()->json([
             'status'    => '200'
         ]);
@@ -694,7 +701,7 @@ class Account302Controller extends Controller
                     ]);
         foreach ($data as $key => $value) {
                 $date = date('Y-m-d H:m:s');
-             
+
                 $check = Acc_1102050101_302::where('an', $value->an)->count();
                 if ($check > 0) {
                 # code...
@@ -736,11 +743,11 @@ class Account302Controller extends Controller
     public function account_302_destroy_all(Request $request)
     {
         $id = $request->ids;
-        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();               
+        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();
         return response()->json([
             'status'    => '200'
         ]);
-    }   
+    }
     public function account_302_detail(Request $request,$startdate,$enddate)
     {
         $datenow = date('Y-m-d');
@@ -752,12 +759,12 @@ class Account302Controller extends Controller
         $data = DB::select('
         SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total
             from acc_1102050101_302 U1
-        
+
             WHERE U1.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
             GROUP BY U1.vn
         ');
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-        return view('account_302.account_302_detail', $data, [ 
+        return view('account_302.account_302_detail', $data, [
             'data'          =>     $data,
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate
@@ -767,36 +774,35 @@ class Account302Controller extends Controller
     {
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
-        $enddate = $request->enddate; 
+        $enddate = $request->enddate;
         $data['users'] = User::get();
 
         $data = DB::select('
         SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total
             from acc_1102050101_302 U1
-        
+
             WHERE U1.dchdate BETWEEN "'.$startdate.'" and "'.$enddate.'"
             GROUP BY U1.vn
-        '); 
-        return view('account_302.account_302_detail_date', $data, [ 
+        ');
+        return view('account_302.account_302_detail_date', $data, [
             'data'          =>     $data,
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate
         ]);
     }
+
+    // ************************** CLAIM ********************
+
+
     public function account_302_claim(Request $request)
-    { 
-        // $data_vn_1 = DB::connection('mysql')->select('SELECT vn,an from d_ssop_main');
-    
-        Ssop_billtran::truncate(); 
-        Ssop_billitems::truncate();
-        Ssop_dispensing::truncate();
-        Ssop_dispenseditems::truncate();
-        Ssop_opservices::truncate();
-        Ssop_opdx::truncate();
+    {
+        D_aipop::truncate();
+        D_aipdx::truncate();
         D_aipn_main::truncate();
         D_abillitems::truncate();
+        D_aipadt::truncate();
 
-        Fdh_sesion::where('d_anaconda_id', '=', 'SSS_IP')->delete(); 
+        Fdh_sesion::where('d_anaconda_id', '=', 'SSS_IP')->delete();
         $s_date_now  = date("Y-m-d");
         $s_time_now  = date("H:i:s");
         $id          = $request->ids;
@@ -804,21 +810,21 @@ class Account302Controller extends Controller
 
         $data_vn_1    = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
 
-        #ตัดขีด, ตัด : ออก
-        $pattern_date = '/-/i';
-        $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
-        $pattern_time = '/:/i';
-        $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
-        #ตัดขีด, ตัด : ออก
-        $folder_name = 'SSS_IP_' . $s_date_now_preg . '_' . $s_time_now_preg;
-        Fdh_sesion::insert([
-            'folder_name'      => $folder_name,
-            'd_anaconda_id'    => 'SSS_IP',
-            'date_save'        => $s_date_now,
-            'time_save'        => $s_time_now,
-            'userid'           => $iduser
-        ]);
-        
+        // #ตัดขีด, ตัด : ออก
+        // $pattern_date = '/-/i';
+        // $s_date_now_preg = preg_replace($pattern_date, '', $s_date_now);
+        // $pattern_time = '/:/i';
+        // $s_time_now_preg = preg_replace($pattern_time, '', $s_time_now);
+        // #ตัดขีด, ตัด : ออก
+        // $folder_name = 'SSS_IP_' . $s_date_now_preg . '_' . $s_time_now_preg;
+        // Fdh_sesion::insert([
+        //     'folder_name'      => $folder_name,
+        //     'd_anaconda_id'    => 'SSS_IP',
+        //     'date_save'        => $s_date_now,
+        //     'time_save'        => $s_time_now,
+        //     'userid'           => $iduser
+        // ]);
+
 
         foreach ($data_vn_1 as $key => $va1) {
 
@@ -829,7 +835,7 @@ class Account302Controller extends Controller
                         'dchdate'           => $va1->dchdate,
                         'debit'             => $va1->debit
                     ]);
-                    
+
                     //D_aipadt
                     $aipn_data = DB::connection('mysql2')->select(
                         'SELECT i.an,i.an as AN,i.hn as HN,"0" as IDTYPE ,pt.cid as PIDPAT
@@ -844,13 +850,13 @@ class Account302Controller extends Controller
                             LEFT OUTER JOIN an_stat a on a.an=i.an
                             LEFT OUTER JOIN spclty sp on sp.spclty=i.spclty
                             LEFT OUTER JOIN pttype ptt on ptt.pttype=i.pttype
-                            LEFT OUTER JOIN pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id 
+                            LEFT OUTER JOIN pttype_eclaim ec on ec.code=ptt.pttype_eclaim_id
                             LEFT OUTER JOIN opitemrece oo on oo.an=i.an
                             LEFT OUTER JOIN income inc on inc.income=oo.income
-                            LEFT OUTER JOIN s_drugitems d on d.icode=oo.icode 
-                            WHERE i.an IN("' . $va1->an . '")                   
+                            LEFT OUTER JOIN s_drugitems d on d.icode=oo.icode
+                            WHERE i.an IN("' . $va1->an . '")
                             AND ptt.pttype IN("A7","s7","14")
-                            group by i.an 
+                            group by i.an
                     ');
                     foreach ($aipn_data as $key => $value) {
                         D_aipadt::insert([
@@ -885,41 +891,42 @@ class Account302Controller extends Controller
 
                     //D_abillitems
                     $aipn_billitems = DB::connection('mysql2')->select(
-                        'SELECT  i.an,i.an as AN,"" as sequence,i.regdate as DTAdm_d,i.regtime as DTAdm_t,i.dchdate as ServDate,i.dchtime as ServTime 
-                            ,case 
+                        'SELECT  i.an,i.an as AN,"" as sequence,i.regdate as DTAdm_d,i.regtime as DTAdm_t,i.dchdate as ServDate,i.dchtime as ServTime
+                            ,case
                             when oo.item_type="H" then "04"
-                            else zero(inc.income) end BillGr                             
-                            ,inc.income as BillGrCS                                                             
-                            ,ifnull(case  
+                            else zero(inc.income) end BillGr
+                            ,inc.income as BillGrCS
+                            ,ifnull(case
                             when inc.income in (02) then d.nhso_adp_code
                             when inc.income in (03,04) then dd.billcode
                             when inc.income in (06,07) then d.nhso_adp_code
                             else d.nhso_adp_code end,"") CSCode
-                            ,ifnull(case  
+                            ,ifnull(case
                             when inc.income in (03,04) then dd.tmt_tmlt
                             when inc.income in (06,07) then dd.tmt_tmlt
                             else "" end,"") STDCode
-                            ,ifnull(case                 
+                            ,ifnull(case
                             when inc.income in (03,04) then "TMT"
                             when inc.income in (06,07) then "TMLT"
                             else "" end,"") CodeSys
                             ,oo.icode as LCCode,concat_ws("",d.name,d.strength) Descript,sum(oo.qty) as QTY,oo.UnitPrice as pricehos
                             ,dd.UnitPrice as pricecat,sum(oo.sum_price) ChargeAmt_,dd.tmt_tmlt,inc.income
-                            ,case 
+                            ,case
                             when oo.paidst in ("01","03") then "T"
                             else "D" end ClaimCat
-                            ,"0" as ClaimUP,"0" as ClaimAmt,i.dchdate,i.dchtime,sum(if(oo.paidst="04",sum_price,0)) Discount    
+                            ,"0" as ClaimUP,"0" as ClaimAmt,i.dchdate,i.dchtime,sum(if(oo.paidst="04",sum_price,0)) Discount
                             from ipt i
                             left outer join opitemrece oo on oo.an=i.an
                             left outer join an_stat a on a.an=i.an
                             left outer join patient pt on i.hn=pt.hn
-                            left outer join income inc on inc.income=oo.income                        
+                            left outer join income inc on inc.income=oo.income
                             left outer join s_drugitems d on oo.icode=d.icode
-                            left join claim.aipn_drugcat_labcat dd on dd.icode=oo.icode	
+                            left join claim.aipn_drugcat_labcat dd on dd.icode=oo.icode
                             left join claim.aipn_labcat_sks ls on ls.lccode=oo.icode
                             left join claim.aipn_drugcat_sks dks on dks.hospdcode=oo.icode
 
-                            WHERE i.an IN("' . $va1->an . '") and oo.qty<>0 and oo.UnitPrice<>0 and inc.income NOT IN ("02","22" )      
+                            WHERE i.an IN("'. $va1->an .'") and oo.qty<>0
+                            AND oo.UnitPrice<>0 AND inc.income NOT IN("02","22" )
                             group by oo.icode
                             order by i.an desc
                     ');
@@ -928,7 +935,7 @@ class Account302Controller extends Controller
                         // $codesys = $val_bill->BillGr;
                         $cs_ = $val_bill->BillGrCS;
                         $cs = $val_bill->CSCode;
-                        // $billcs = $val_bill->BillGrCS; 
+                        // $billcs = $val_bill->BillGrCS;
                         if ($cs_ == '03') {
                             $csys = $val_bill->CodeSys;
                         } elseif ($cs_ == '02') {
@@ -948,8 +955,6 @@ class Account302Controller extends Controller
                             $cs_code = '';
                         } elseif ($cs == 'XXXXXX') {
                             $cs_code = '';
-                            // }elseif ($cs == '04') {
-                            //     $cs_ = '';
                         } else {
                             $cs_code = $val_bill->CSCode;
                         }
@@ -981,12 +986,12 @@ class Account302Controller extends Controller
 
                     //D_aipop
                     $aipn_ipop = DB::connection('mysql2')->select(
-                        'SELECT i.an as AN,"" as sequence,"ICD9CM" as CodeSys,cc.icd9 as Code,icdname(cc.icd9) as Procterm,doctorlicense(cc.doctor) as DR                        
+                        'SELECT i.an as AN,"" as sequence,"ICD9CM" as CodeSys,cc.icd9 as Code,icdname(cc.icd9) as Procterm,doctorlicense(cc.doctor) as DR
                             ,date_format(if(opdate is null,caldatetime(regdate,regtime),caldatetime(opdate,optime)),"%Y-%m-%dT%T") as DateIn
                             ,date_format(if(enddate is null,caldatetime(regdate,regtime),caldatetime(enddate,endtime)),"%Y-%m-%dT%T") as DateOut ," " as Location
                             from ipt i
                             join iptoprt cc on cc.an=i.an
-                            WHERE i.an IN("' . $va1->an . '")  
+                            WHERE i.an IN("' . $va1->an . '")
                             group by cc.icd9
                     ');
                     $i = 1;
@@ -1020,9 +1025,9 @@ class Account302Controller extends Controller
                             join iptdiag dx on dx.an=i.an
                             join iptoprt cc on cc.an=i.an
                             left join icd101 aa on aa.code=dx.icd10
-                            WHERE i.an IN("' . $va1->an . '")  
+                            WHERE i.an IN("' . $va1->an . '")
                             group by dx.icd10
-                            order by diagtype,ipt_diag_id 
+                            order by diagtype,ipt_diag_id
                     ');
                     $j = 1;
                     foreach ($aipn_ipdx as $key => $val_ipdx) {
@@ -1068,9 +1073,40 @@ class Account302Controller extends Controller
         // ->update([
         //     'active_claim' => 'Y'
         // ]);
- 
+
         return response()->json([
             'status'    => '200'
+        ]);
+    }
+    public function account_302_destroy(Request $request)
+    {
+        $id = $request->ids2;
+        D_abillitems::whereIn('d_abillitems_id',explode(",",$id))->delete();
+
+        return response()->json([
+            'status'    => '200'
+        ]);
+
+    }
+    public function account_302_update(Request $request)
+    {
+        $id        = $request->input('d_aipop_id_edit');
+        $DateIn    = $request->input('DateIn');
+        $TimeIn    = $request->input('TimeIn');
+        $DateOut   = $request->input('DateOut');
+        $TimeOut   = $request->input('TimeOut');
+
+        $update = D_aipop::find($id);
+        $update->DateIn    = $DateIn.'T'.$TimeIn;
+        $update->DateOut   = $DateOut.'T'.$TimeOut;
+        $update->Date_In   = $DateIn;
+        $update->Date_Out  = $DateOut;
+        $update->Time_In   = $TimeIn;
+        $update->Time_Out  = $TimeOut;
+        $update->save();
+
+        return response()->json([
+            'status'     => '200',
         ]);
     }
     public function account_302_export(Request $request)
@@ -1104,7 +1140,7 @@ class Account302Controller extends Controller
         $add->aipn_session_filename = $folder;
         $add->aipn_session_ststus = "Send";
         $add->save();
-     
+
         mkdir('Export_AIPN/' . $folder, 0777, true);  //Web
         // mkdir('Export_AIPN/' . $foldertxt, 0777, true);  //Web
 
@@ -1118,11 +1154,11 @@ class Account302Controller extends Controller
         // $file_pat = "Export_aipn/" . $foldertxt . "/10978-AIPN-" . $an . '-' . $aipn_date_now_preg . '' . $aipn_time_now_preg . ".txt";
             // $file_pat = "Export_AIPN/" . $foldertxt . "/10978-AIPN-". $aipn_session_no. ".txt";
             // $objFopen_opd = fopen($file_pat, 'w');
-        foreach ($datamain as $key => $value_an) { 
+        foreach ($datamain as $key => $value_an) {
 
-            $file_pat = "Export_AIPN/".$folder."/10978-AIPN-".$value_an->an.'-'.$aipn_date_now_preg.'' . $aipn_time_now_preg .".xml";     
+            $file_pat = "Export_AIPN/".$folder."/10978-AIPN-".$value_an->an.'-'.$aipn_date_now_preg.'' . $aipn_time_now_preg .".xml";
             $objFopen_opd = fopen($file_pat, 'w');
-        // }
+         // }
             $opd_head = '<CIPN>';
             fwrite($objFopen_opd, $opd_head);
             $opd_head = "\n" . '<Header>';
@@ -1158,7 +1194,7 @@ class Account302Controller extends Controller
                     $audt = $val->DTAdm;
                     $indt = $val->DTDisch;
                 }
-            } 
+            }
             $opd_head = "\n" . '<AuthDT>' . $audt . '</AuthDT>';
             fwrite($objFopen_opd, $opd_head);
             $opd_head = "\n" . '<UPayPlan>80</UPayPlan>';
@@ -1181,14 +1217,14 @@ class Account302Controller extends Controller
             fwrite($objFopen_opd, $opd_head);
             $opd_head = "\n" . '</ClaimAuth>';
             fwrite($objFopen_opd, $opd_head);
-           
+
             $opd_head = "\n" . '<IPADT>';
             fwrite($objFopen_opd, $opd_head);
             $aipn_data = DB::connection('mysql')->select(
                 'SELECT AN,HN,IDTYPE,PIDPAT,TITLE,NAMEPAT,DOB,SEX,MARRIAGE,CHANGWAT,AMPHUR,NATION,AdmType,ifnull(AdmSource,"") as AdmSource
                     ,CONCAT(DTAdm_d,"T",DTAdm_t) as DTAdm,CONCAT(DTDisch_d,"T",DTDisch_t) as DTDisch ,LeaveDay,DischStat,DishType,AdmWt,DishWard,Dept
                     FROM d_aipadt WHERE AN ="'.$value_an->an.'" GROUP BY AN
-                '); 
+                ');
             foreach ($aipn_data as $key => $value2) {
                 $b1 = $value2->AN;
                 $b2 = $value2->HN;
@@ -1225,7 +1261,7 @@ class Account302Controller extends Controller
             }
             $opd_head = "\n" . '<IPDx Reccount="' . $ipdx_count . '">';
             fwrite($objFopen_opd, $opd_head);
-            $ipdx = DB::connection('mysql')->select('SELECT * FROM d_aipdx WHERE an ="'.$value_an->an.'" GROUP BY an');         
+            $ipdx = DB::connection('mysql')->select('SELECT * FROM d_aipdx WHERE an ="'.$value_an->an.'" GROUP BY an');
             foreach ($ipdx as $key => $value_ip) {
                 $s1 = $value_ip->sequence;
                 $s2 = $value_ip->DxType;
@@ -1237,7 +1273,7 @@ class Account302Controller extends Controller
                 $strText = "\n" . $s1 . "|" . $s2 . "|" . $s3 . "|" . $s4 . "|" . $s5 . "|" . $s6 . "|";
                 $ansitxt_ipdx = iconv('UTF-8', 'TIS-620', $strText);
                 fwrite($objFopen_opd, $ansitxt_ipdx);
-            }            
+            }
             $opd_head = "\n" . '</IPDx>';
             fwrite($objFopen_opd, $opd_head);
             $ipop_count_ = DB::connection('mysql')->select('SELECT COUNT(d_aipop_id) as iopcount FROM d_aipop WHERE an ="'.$value_an->an.'" GROUP BY an');
@@ -1247,7 +1283,7 @@ class Account302Controller extends Controller
             $opd_head = "\n" . '<IPOp Reccount="' . $ipop_count . '">';
             fwrite($objFopen_opd, $opd_head);
             $ipop = DB::connection('mysql')->select('SELECT sequence,CodeSys,Code,Procterm,DR,DateIn,DateOut,Location FROM d_aipop WHERE an ="'.$value_an->an.'" GROUP BY an');
-               
+
             foreach ($ipop as $key => $value_ipop) {
                 $s1 = $value_ipop->sequence;
                 $s2 = $value_ipop->CodeSys;
@@ -1275,7 +1311,7 @@ class Account302Controller extends Controller
             fwrite($objFopen_opd, $opd_head);
             $opd_head = "\n" . '<BillItems Reccount="' . $billitem_count . '">';
             fwrite($objFopen_opd, $opd_head);
-            $text_billitems_ = DB::connection('mysql')->select('SELECT * from d_abillitems WHERE AN ="'.$value_an->an.'"');     
+            $text_billitems_ = DB::connection('mysql')->select('SELECT * from d_abillitems WHERE AN ="'.$value_an->an.'"');
             foreach ($text_billitems_ as $key => $bitem) {
                 $t1 = $bitem->sequence;
                 $t2 = $bitem->ServDate;
@@ -1297,12 +1333,12 @@ class Account302Controller extends Controller
                 $t18 = $bitem->DateRev;
                 $t19 = $bitem->ClaimUP;
                 $t20 = $bitem->ClaimAmt;
- 
+
                 $strTextbill = "\n" . $t1 . "|" . $t2 . "|" . $t3 . "|" . $t4 . "|" . $t5 . "|" . $t6 . "|" . $t7 . "|" . $t8 . "|" . $t9 . "|" . $t10 . "|" . $t11 . "|" . $t12 . "|" . $t13 . "|" . $t14 . "|" . $t15 . "|" . $t16 . "|" . $t17 . "|" . $t18 . "|" . $t19 . "|" . $t20;
                 $ansitxt_bitemss = iconv('UTF-8', 'TIS-620', $strTextbill);
                 fwrite($objFopen_opd, $ansitxt_bitemss);
             }
-            $sum_billitems_ = DB::connection('mysql')->select('SELECT SUM(ChargeAmt) as Total from d_abillitems WHERE AN ="'.$value_an->an.'" GROUP BY AN');     
+            $sum_billitems_ = DB::connection('mysql')->select('SELECT SUM(ChargeAmt) as Total from d_abillitems WHERE AN ="'.$value_an->an.'" GROUP BY AN');
             foreach ($sum_billitems_ as $key => $value_sum) {
                 $sum_billitems = $value_sum->Total;
             }
@@ -1323,15 +1359,15 @@ class Account302Controller extends Controller
             $opd_head = "\n";
             fwrite($objFopen_opd, $opd_head);
             if($objFopen_opd){
-                echo "File BillTran writed."."<BR>";    
+                echo "File BillTran writed."."<BR>";
             }else{
                 echo "File BillTran can not write";
-            }    
+            }
             fclose($objFopen_opd);
-    
+
             $opd_head = "\n";
             $md5file = md5_file($file_pat,FALSE);
-            $mdup = strtoupper($md5file);      
+            $mdup = strtoupper($md5file);
             $objFopen_opd = fopen($file_pat, 'a');
             $opd_head = '<?EndNote HMAC="'.$mdup.'"?>';
             fwrite($objFopen_opd, $opd_head);
@@ -1343,11 +1379,11 @@ class Account302Controller extends Controller
                 echo "File BillDisp MD5 can not write";
             }
             fclose($objFopen_opd);
-             
+
 
         }
             // ********************HASH MD5********************
-        
+
             // $pathdir = "Export_AIPN/".$folder."/";
             // $zipcreated = $folder . ".zip";
             // $zip = new ZipArchive;
@@ -1361,7 +1397,7 @@ class Account302Controller extends Controller
             // }
             // return response()->download(public_path($zipcreated));
             // dd($zipcreated);
-            
+
             // $newzip = new ZipArchive;
             // if ($newzip->open($zipcreated, ZipArchive::CREATE) === TRUE) {
             //     $dir = opendir($pathdir);
@@ -1384,14 +1420,14 @@ class Account302Controller extends Controller
             //         foreach ($files as $file) {
             //             if (is_file($file)) {
             //             }
-            //         } 
-            //         // return redirect()->back(); 
+            //         }
+            //         // return redirect()->back();
             //         return redirect()->route('claim.aipn');
             //         // return response()->json([
             //         //     'status'    => '200'
             //         // ]);
             //     }
-            // } 
+            // }
     }
-   
+
  }

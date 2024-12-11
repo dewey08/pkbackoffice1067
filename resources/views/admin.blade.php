@@ -610,7 +610,7 @@ $settting_admin           = StaticController::settting_admin($iduser);
                                                     <button
                                                         class="btn-icon btn-shadow btn-dashed btn btn-outline-info avatar-title bg-white text-primary rounded-pill">
 
-                                                            <img src="{{ asset('images/ENV.png') }}" height="40px" width="40px" class="rounded-circle me-3">
+                                                            <img src="{{ asset('images/env.png') }}" height="40px" width="40px" class="rounded-circle me-3">
                                                     </button>
                                                     </span>
                                             </div>

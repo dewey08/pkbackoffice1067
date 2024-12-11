@@ -127,7 +127,7 @@ use SoapClient;
 use Arr;
 use GuzzleHttp\Client;
 use DateTime;
- 
+
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
@@ -145,7 +145,7 @@ class FdhController extends Controller
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
         if ($startdate == '') {
-            // $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="R" AND  vstdate BETWEEN "'.$newDate.'" and "'.$date.'" ORDER BY vn ASC'); 
+            // $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE active ="R" AND  vstdate BETWEEN "'.$newDate.'" and "'.$date.'" ORDER BY vn ASC');
             $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE vstdate BETWEEN "' . $newweek . '" and "' . $date . '" ORDER BY vn ASC');
         } else {
             $data['d_fdh']    = DB::connection('mysql')->select('SELECT * from d_fdh WHERE vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '" ORDER BY vn ASC');
@@ -179,24 +179,24 @@ class FdhController extends Controller
                                 ,v.vstdate,v.pttype,v.income,pt.hipdata_code,GROUP_CONCAT(DISTINCT ov.icd10 order by ov.diagtype) AS icd10,v.pdx
                                 ,v.income-v.rcpt_money-v.discount_money as debit
                                 FROM vn_stat v
-                                LEFT OUTER JOIN ovst o ON v.vn=o.vn 
+                                LEFT OUTER JOIN ovst o ON v.vn=o.vn
                                 LEFT OUTER JOIN patient p ON v.hn=p.hn
-                                LEFT OUTER JOIN ovstdiag ov ON v.vn=ov.vn 
-                                LEFT OUTER JOIN pttype pt ON v.pttype=pt.pttype 
-                                LEFT OUTER JOIN hospcode h on h.hospcode = v.hospmain 
-                                                    
-                            WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"  
-                            AND o.an is null 
-                            GROUP BY v.vn 
+                                LEFT OUTER JOIN ovstdiag ov ON v.vn=ov.vn
+                                LEFT OUTER JOIN pttype pt ON v.pttype=pt.pttype
+                                LEFT OUTER JOIN hospcode h on h.hospcode = v.hospmain
+
+                            WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"
+                            AND o.an is null
+                            GROUP BY v.vn
                     '
             );
-            // ,ca.claimcode as authen 
-            // LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = v.cid AND ca.vstdate = v.vstdate  
-            // LEFT OUTER JOIN ipt i on i.vn = v.vn              
+            // ,ca.claimcode as authen
+            // LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = v.cid AND ca.vstdate = v.vstdate
+            // LEFT OUTER JOIN ipt i on i.vn = v.vn
             foreach ($data_main_opd as $key => $value) {
                 $check_opd = D_fdh::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
-                    
+
                 } else {
                     D_fdh::insert([
                         'vn'           => $value->vn,
@@ -204,7 +204,7 @@ class FdhController extends Controller
                         'an'           => $value->an,
                         'cid'          => $value->cid,
                         'pttype'       => $value->pttype,
-                        // 'authen'       => $value->authen, 
+                        // 'authen'       => $value->authen,
                         'ptname'       => $value->ptname,
                         'vstdate'      => $value->vstdate,
                         'hospcode'     => $value->hospcode,
@@ -220,10 +220,10 @@ class FdhController extends Controller
                             FROM an_stat a
                             LEFT OUTER JOIN ipt i on i.an = a.an
                             LEFT OUTER JOIN pttype pt on pt.pttype = a.pttype
-                            LEFT OUTER JOIN patient p on p.hn = a.hn   
-                            LEFT OUTER JOIN iptdiag o on o.an = a.an                   
-                            WHERE i.dchdate BETWEEN "' . $startdate . '" and "' . $enddate . '"   
-                            GROUP BY a.an 
+                            LEFT OUTER JOIN patient p on p.hn = a.hn
+                            LEFT OUTER JOIN iptdiag o on o.an = a.an
+                            WHERE i.dchdate BETWEEN "' . $startdate . '" and "' . $enddate . '"
+                            GROUP BY a.an
                     '
             );
             foreach ($data_main_ipd as $key => $value2) {
@@ -363,12 +363,12 @@ class FdhController extends Controller
         } else {
             D_fdh_opd::truncate();
             D_fdh_ipd::truncate();
-            $data_main_ = DB::connection('mysql2')->select(' 
-                        SELECT v.vn,v.cid,v.hn,concat(p.pname,p.fname," ",p.lname) ptname,v.vstdate,v.pttype  
-                        FROM hos.vn_stat v 
-                        LEFT OUTER JOIN hos.patient p ON v.hn = p.hn  
+            $data_main_ = DB::connection('mysql2')->select('
+                        SELECT v.vn,v.cid,v.hn,concat(p.pname,p.fname," ",p.lname) ptname,v.vstdate,v.pttype
+                        FROM hos.vn_stat v
+                        LEFT OUTER JOIN hos.patient p ON v.hn = p.hn
                         WHERE v.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"
-                        GROUP BY v.vn  
+                        GROUP BY v.vn
                     ');
             foreach ($data_main_ as $key => $value) {
                 D_fdh_opd::insert([
@@ -381,12 +381,12 @@ class FdhController extends Controller
                 ]);
             }
 
-            $data_mainipd_ = DB::connection('mysql2')->select(' 
-                        SELECT a.an,p.cid,a.hn,concat(p.pname,p.fname," ",p.lname) ptname,a.dchdate,a.pttype  
-                        FROM hos.an_stat a 
+            $data_mainipd_ = DB::connection('mysql2')->select('
+                        SELECT a.an,p.cid,a.hn,concat(p.pname,p.fname," ",p.lname) ptname,a.dchdate,a.pttype
+                        FROM hos.an_stat a
                         LEFT OUTER JOIN hos.patient p ON a.hn = p.hn
                         WHERE a.dchdate BETWEEN "' . $startdate . '" and "' . $enddate . '"
-                        GROUP BY a.an  
+                        GROUP BY a.an
                     ');
             foreach ($data_mainipd_ as $key => $value2) {
                 D_fdh_ipd::insert([
@@ -480,15 +480,15 @@ class FdhController extends Controller
                 ,"" HTYPE
                 FROM vn_stat v
                 LEFT OUTER JOIN pttype p on p.pttype = v.pttype
-                LEFT OUTER JOIN ipt i on i.vn = v.vn 
+                LEFT OUTER JOIN ipt i on i.vn = v.vn
                 LEFT OUTER JOIN pttype pp on pp.pttype = i.pttype
                 LEFT OUTER JOIN ipt_pttype ap on ap.an = i.an
                 LEFT OUTER JOIN visit_pttype vp on vp.vn = v.vn
                 LEFT OUTER JOIN rcpt_debt r on r.vn = v.vn
-                LEFT OUTER JOIN patient px on px.hn = v.hn     
-                LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = px.cid AND ca.vstdate = v.vstdate               
-                WHERE v.vn IN("' . $va1->vn . '")  
-                GROUP BY v.vn 
+                LEFT OUTER JOIN patient px on px.hn = v.hn
+                LEFT OUTER JOIN pkbackoffice.check_authen ca on ca.cid = px.cid AND ca.vstdate = v.vstdate
+                WHERE v.vn IN("' . $va1->vn . '")
+                GROUP BY v.vn
             ');
             // ,"2" HTYPE
             foreach ($data_ins_ as $va_01) {
@@ -526,12 +526,12 @@ class FdhController extends Controller
                 ,pt.pname TITLE,pt.fname FNAME,pt.lname LNAME,"1" IDTYPE
                 FROM vn_stat v
                 LEFT OUTER JOIN pttype p on p.pttype = v.pttype
-               
-                LEFT OUTER JOIN patient pt on pt.hn = v.hn 
+
+                LEFT OUTER JOIN patient pt on pt.hn = v.hn
                 WHERE v.vn IN("' . $va1->vn . '")
                 GROUP BY v.hn,v.vn
             ');
-            // LEFT OUTER JOIN ipt i on i.vn = v.vn 
+            // LEFT OUTER JOIN ipt i on i.vn = v.vn
             foreach ($data_pat_ as $va_02) {
                 $check_hn = Fdh_pat::where('hn', $va_02->HN)->where('d_anaconda_id', '=', 'FDH')->count();
                 if ($check_hn > 0) {
@@ -559,21 +559,21 @@ class FdhController extends Controller
                 }
             }
             //D_opd OK
-            $data_opd = DB::connection('mysql2')->select(' 
+            $data_opd = DB::connection('mysql2')->select('
                     SELECT  v.hn HN,v.spclty CLINIC,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
                         ,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD,v.vn SEQ
                         ,"1" UUC ,"" DETAIL,oc.temperature as BTEMP,oc.bps as SBP,oc.bpd as DBP,""PR,""RR
                         ,""OPTYPE
                         ,ot.export_code as TYPEIN,st.export_code as TYPEOUT
                         FROM ovst o
-                        LEFT OUTER JOIN vn_stat v on o.vn = v.vn 
-                        LEFT OUTER JOIN opdscreen oc  on oc.vn = o.vn 
+                        LEFT OUTER JOIN vn_stat v on o.vn = v.vn
+                        LEFT OUTER JOIN opdscreen oc  on oc.vn = o.vn
                         LEFT OUTER JOIN pttype p on p.pttype = v.pttype
                         LEFT OUTER JOIN ipt i on i.vn = v.vn
                         LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                        LEFT OUTER JOIN ovstist ot on ot.ovstist = o.ovstist  
-                        LEFT OUTER JOIN ovstost st on st.ovstost = o.ovstost  
-                        WHERE o.vn IN("' . $va1->vn . '")                 
+                        LEFT OUTER JOIN ovstist ot on ot.ovstist = o.ovstist
+                        LEFT OUTER JOIN ovstost st on st.ovstost = o.ovstost
+                        WHERE o.vn IN("' . $va1->vn . '")
             ');
             foreach ($data_opd as $val3) {
                 Fdh_opd::insert([
@@ -601,17 +601,17 @@ class FdhController extends Controller
             $data_orf_ = DB::connection('mysql2')->select('
                     SELECT v.hn HN
                     ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,v.spclty CLINIC,ifnull(r1.refer_hospcode,r2.refer_hospcode) REFER
-                    ,"0100" REFERTYPE,v.vn SEQ                        
+                    ,"0100" REFERTYPE,v.vn SEQ
                     ,ifnull(DATE_FORMAT(r1.refer_date,"%Y%m%d"),DATE_FORMAT(r2.refer_date,"%Y%m%d")) as REFERDATE
                     FROM vn_stat v
                     LEFT OUTER JOIN ovst o on o.vn = v.vn
-                    LEFT OUTER JOIN referin r1 on r1.vn = v.vn 
+                    LEFT OUTER JOIN referin r1 on r1.vn = v.vn
                     LEFT OUTER JOIN referout r2 on r2.vn = v.vn
-                    WHERE v.vn IN("' . $va1->vn . '") 
+                    WHERE v.vn IN("' . $va1->vn . '")
                     AND (r1.vn is not null or r2.vn is not null);
             ');
             // ,if(r1.refer_date ="",DATE_FORMAT(r2.refer_date,"%Y%m%d"),DATE_FORMAT(r1.refer_date,"%Y%m%d")) as REFERDATE
-            // ,r1.refer_date as REFERDATE               
+            // ,r1.refer_date as REFERDATE
             foreach ($data_orf_ as $va_03) {
                 Fdh_orf::insert([
                     'HN'                => $va_03->HN,
@@ -633,7 +633,7 @@ class FdhController extends Controller
                     LEFT OUTER JOIN ovstdiag o on o.vn = v.vn
                     LEFT OUTER JOIN doctor d on d.`code` = o.doctor
                     INNER JOIN icd101 i on i.code = o.icd10
-                    WHERE v.vn IN("' . $va1->vn . '") 
+                    WHERE v.vn IN("' . $va1->vn . '")
             ');
 
             foreach ($data_odx_ as $va_04) {
@@ -660,7 +660,7 @@ class FdhController extends Controller
                     LEFT OUTER JOIN doctor d on d.`code` = o.doctor
                     INNER JOIN icd9cm1 i on i.code = o.icd10
                     WHERE v.vn IN("' . $va1->vn . '")
-                    AND substring(o.icd10,1,1) in ("0","1","2","3","4","5","6","7","8","9") 
+                    AND substring(o.icd10,1,1) in ("0","1","2","3","4","5","6","7","8","9")
             ');
             foreach ($data_oop_ as $va_05) {
                 Fdh_oop::insert([
@@ -680,7 +680,7 @@ class FdhController extends Controller
             $data_ipd_ = DB::connection('mysql2')->select('
                     SELECT a.hn HN,a.an AN,DATE_FORMAT(i.regdate,"%Y%m%d") DATEADM,Time_format(i.regtime,"%H%i") TIMEADM
                     ,DATE_FORMAT(i.dchdate,"%Y%m%d") DATEDSC,Time_format(i.dchtime,"%H%i")  TIMEDSC,right(i.dchstts,1) DISCHS
-                    ,right(i.dchtype,1) DISCHT,i.ward WARDDSC,i.spclty DEPT,format(i.bw/1000,3) ADM_W,"1" UUC ,"I" SVCTYPE 
+                    ,right(i.dchtype,1) DISCHT,i.ward WARDDSC,i.spclty DEPT,format(i.bw/1000,3) ADM_W,"1" UUC ,"I" SVCTYPE
                     FROM an_stat a
                     LEFT OUTER JOIN ipt i on i.an = a.an
                     LEFT OUTER JOIN pttype p on p.pttype = a.pttype
@@ -714,7 +714,7 @@ class FdhController extends Controller
                     LEFT OUTER JOIN ipt ip on ip.an = a.an
                     LEFT OUTER JOIN referout o on o.vn = a.an
                     LEFT OUTER JOIN referin oo on oo.vn = a.an
-                    WHERE ip.vn IN("' . $va1->vn . '")  
+                    WHERE ip.vn IN("' . $va1->vn . '")
                     AND (a.an in(SELECT vn FROM referin WHERE vn = oo.vn) or a.an in(SELECT vn FROM referout WHERE vn = o.vn));
             ');
             foreach ($data_irf_ as $va_07) {
@@ -726,7 +726,7 @@ class FdhController extends Controller
                     'd_anaconda_id'      => 'FDH',
                 ]);
             }
-            //D_idx OK 
+            //D_idx OK
             $data_idx_ = DB::connection('mysql2')->select('
                     SELECT v.an AN,o.icd10 DIAG,o.diagtype DXTYPE,if(d.licenseno="","-99999",d.licenseno) DRDX
                     FROM an_stat v
@@ -780,9 +780,9 @@ class FdhController extends Controller
                 LEFT OUTER JOIN an_stat a on a.an = o.an
                 LEFT OUTER JOIN patient pp on pp.hn = o.hn
                 LEFT OUTER JOIN pttype pt on pt.pttype = vv.pttype or pt.pttype=a.pttype
-                LEFT OUTER JOIN pttype p on p.pttype = a.pttype 
-                WHERE o.vn IN("' . $va1->vn . '")  
-                
+                LEFT OUTER JOIN pttype p on p.pttype = a.pttype
+                WHERE o.vn IN("' . $va1->vn . '")
+
             ');
             foreach ($data_cht_ as $va_10) {
                 Fdh_cht::insert([
@@ -810,9 +810,9 @@ class FdhController extends Controller
                     LEFT OUTER JOIN patient p on p.hn = v.hn
                     LEFT OUTER JOIN ipt v1 on v1.an = v.an
                     LEFT OUTER JOIN income i on v.income=i.income
-                    LEFT OUTER JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id 
+                    LEFT OUTER JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
                     LEFT OUTER JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
-                    WHERE v.vn IN("' . $va1->vn . '") 
+                    WHERE v.vn IN("' . $va1->vn . '")
                     GROUP BY v.vn,CHRGITEM
 
                     UNION ALL
@@ -824,10 +824,10 @@ class FdhController extends Controller
                     LEFT OUTER JOIN patient p on p.hn = v.hn
                     LEFT OUTER JOIN ipt ip on ip.an = v.an
                     LEFT OUTER JOIN income i on v.income=i.income
-                    LEFT OUTER JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id 
-                    LEFT OUTER JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id 
-                    WHERE ip.vn IN("' . $va1->vn . '")  
-                    GROUP BY v.an,CHRGITEM; 
+                    LEFT OUTER JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
+                    LEFT OUTER JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
+                    WHERE ip.vn IN("' . $va1->vn . '")
+                    GROUP BY v.an,CHRGITEM;
             ');
             foreach ($data_cha_ as $va_11) {
                 Fdh_cha::insert([
@@ -844,7 +844,7 @@ class FdhController extends Controller
             }
             //D_aer OK
             $data_aer_ = DB::connection('mysql2')->select('
-                    SELECT v.hn HN ,i.an AN ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD 
+                    SELECT v.hn HN ,i.an AN ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
                     ,c.claimcode AUTHAE
                     ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,v.vn SEQ ,"" AESTATUS,"" DALERT,"" TALERT
                     FROM vn_stat v
@@ -861,7 +861,7 @@ class FdhController extends Controller
                     ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,"" SEQ ,"" AESTATUS,"" DALERT,"" TALERT
                     FROM an_stat a
                     LEFT OUTER JOIN ipt_pttype vv on vv.an = a.an
-                    LEFT OUTER JOIN pttype pt on pt.pttype =a.pttype  
+                    LEFT OUTER JOIN pttype pt on pt.pttype =a.pttype
                     LEFT OUTER JOIN vn_stat vs on vs.vn =a.vn
                     LEFT OUTER JOIN pkbackoffice.check_authen c On c.cid = vs.cid AND c.vstdate = vs.vstdate
                     WHERE a.vn IN("' . $va1->vn . '")
@@ -891,7 +891,7 @@ class FdhController extends Controller
                     'd_anaconda_id'     => 'FDH'
                 ]);
             }
-            $data_adp_ = DB::connection('mysql2')->select(' 
+            $data_adp_ = DB::connection('mysql2')->select('
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,icode ,vstdate
                         FROM
@@ -900,11 +900,11 @@ class FdhController extends Controller
                         ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC
                         ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
-                        JOIN nondrugitems n on n.icode = v.icode  
+                        JOIN nondrugitems n on n.icode = v.icode
                         LEFT OUTER JOIN ipt i on i.an = v.an
-                        AND i.an is not NULL 
+                        AND i.an is not NULL
                         WHERE i.vn IN("' . $va1->vn . '")
-                        GROUP BY i.vn,n.nhso_adp_code,rate) a 
+                        GROUP BY i.vn,n.nhso_adp_code,rate) a
                         GROUP BY an,CODE,rate
                         UNION
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
@@ -913,12 +913,12 @@ class FdhController extends Controller
                         (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
                         ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,if(n.nhso_adp_code is null,"1","2") as ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"" LMP ,""SP_ITEM,v.icode,v.vstdate
                         FROM opitemrece v
-                        JOIN nondrugitems n on n.icode = v.icode  
+                        JOIN nondrugitems n on n.icode = v.icode
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
                         WHERE vv.vn IN("' . $va1->vn . '")
                         AND v.an is NULL
-                        GROUP BY vv.vn,n.nhso_adp_code,rate) b 
-                        GROUP BY seq,CODE,rate; 
+                        GROUP BY vv.vn,n.nhso_adp_code,rate) b
+                        GROUP BY seq,CODE,rate;
             ');
             foreach ($data_adp_ as $va_13) {
                 Fdh_adp::insert([
@@ -965,10 +965,10 @@ class FdhController extends Controller
                 FROM opitemrece v
                 LEFT OUTER JOIN drugitems d on d.icode = v.icode
                 LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
-                LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode  
-                LEFT OUTER JOIN drugitems_ned_reason dn on dn.icode = v.icode               
+                LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+                LEFT OUTER JOIN drugitems_ned_reason dn on dn.icode = v.icode
                 WHERE v.vn IN("' . $va1->vn . '")
-                AND d.did is not null 
+                AND d.did is not null
                 GROUP BY v.vn,did
 
                 UNION all
@@ -982,11 +982,11 @@ class FdhController extends Controller
                 LEFT OUTER JOIN drugitems d on d.icode = v.icode
                 LEFT OUTER JOIN patient pt  on v.hn = pt.hn
                 INNER JOIN ipt v1 on v1.an = v.an
-                LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode 
-                LEFT OUTER JOIN drugitems_ned_reason dn on dn.icode = v.icode               
+                LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+                LEFT OUTER JOIN drugitems_ned_reason dn on dn.icode = v.icode
                 WHERE v1.vn IN("' . $va1->vn . '")
                 AND d.did is not null AND v.qty<>"0"
-                GROUP BY v.an,d.icode,USE_STATUS;              
+                GROUP BY v.an,d.icode,USE_STATUS;
             ');
 
             foreach ($data_dru_ as $va_14) {
@@ -1047,7 +1047,7 @@ class FdhController extends Controller
         #delete file in folder ทั้งหมด
         $file = new Filesystem;
         $file->cleanDirectory('Export'); //ทั้งหมด
-        // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg); 
+        // $file->cleanDirectory('UCEP_'.$sss_date_now_preg.'-'.$sss_time_now_preg);
         $folder = 'FDH_' . $sss_date_now_preg . '-' . $sss_time_now_preg;
 
         mkdir('Export/' . $folder, 0777, true);  //Web
@@ -1153,7 +1153,7 @@ class FdhController extends Controller
             $o13 = $value3->OPTYPE;
             $o14 = $value3->TYPEIN;
             $o15 = $value3->TYPEOUT;
-            // $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6; 
+            // $str_opd="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6;
             $str_opd = "\n" . $o1 . "|" . $o2 . "|" . $o3 . "|" . $o4 . "|" . $o5 . "|" . $o6 . "|" . $o7 . "|" . $o8 . "|" . $o9 . "|" . $o10 . "|" . $o11 . "|" . $o12 . "|" . $o13 . "|" . $o14 . "|" . $o15;
             $str_opd_30 = preg_replace("/\n/", "\r\n", $str_opd);
             $str_opd_31 = mb_convert_encoding($str_opd_30, 'UTF-8');
@@ -1331,7 +1331,7 @@ class FdhController extends Controller
             $f10 = $value11->INVOICE_NO;
             $f11 = $value11->INVOICE_LT;
             $str_cht = "\n" . $f1 . "|" . $f2 . "|" . $f3 . "|" . $f4 . "|" . $f5 . "|" . $f6 . "|" . $f7 . "|" . $f8 . "|" . $f9 . "|" . $f10 . "|" . $f11;
-            // $str_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8; 
+            // $str_cht="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8;
             $str_cht_11 = preg_replace("/\n/", "\r\n", $str_cht);
             $str_cht_12 = mb_convert_encoding($str_cht_11, 'UTF-8');
             fwrite($objFopen_cht, $str_cht_12);
@@ -1429,8 +1429,8 @@ class FdhController extends Controller
             $c24 = $value14->GA_WEEK;
             $c25 = $value14->DCIP;
             $c26 = $value14->LMP;
-            // $c27 = $value14->SP_ITEM;   
-            // $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17;        
+            // $c27 = $value14->SP_ITEM;
+            // $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17;
             $str_adp = "\n" . $c1 . "|" . $c2 . "|" . $c3 . "|" . $c4 . "|" . $c5 . "|" . $c6 . "|" . $c7 . "|" . $c8 . "|" . $c9 . "|" . $c10 . "|" . $c11 . "|" . $c12 . "|" . $c13 . "|" . $c14 . "|" . $c15 . "|" . $c16 . "|" . $c17 . "|" . $c18 . "|" . $c19 . "|" . $c20 . "|" . $c21 . "|" . $c22 . "|" . $c23 . "|" . $c24 . "|" . $c25 . "|" . $c26;
             // $str_adp="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
 
@@ -1496,7 +1496,7 @@ class FdhController extends Controller
             $g22 = $value16->SIGCODE;
             $g23 = $value16->SIGTEXT;
             $g24 = $value16->PROVIDER;
-            // $g25 = $value16->SP_ITEM;      
+            // $g25 = $value16->SP_ITEM;
             $str_dru = "\n" . $g1 . "|" . $g2 . "|" . $g3 . "|" . $g4 . "|" . $g5 . "|" . $g6 . "|" . $g7 . "|" . $g8 . "|" . $g9 . "|" . $g10 . "|" . $g11 . "|" . $g12 . "|" . $g13 . "|" . $g14 . "|" . $g15 . "|" . $g17 . "|" . $g18 . "|" . $g19 . "|" . $g20 . "|" . $g21 . "|" . $g22 . "|" . $g23 . "|" . $g24;
             $ansitxt_dru = iconv('UTF-8', 'UTF-8', $str_dru);
 
@@ -1538,7 +1538,7 @@ class FdhController extends Controller
                 $files = glob($pathdir . '/*');
                 foreach ($files as $file) {
                     if (is_file($file)) {
-                        // unlink($file); 
+                        // unlink($file);
                     }
                 }
                 return redirect()->route('fdh.fdh_main');
@@ -1572,7 +1572,7 @@ class FdhController extends Controller
     }
     public function fdh_mini_dataset_api_old(Request $request)
     {
-        $ip = $request->ip(); 
+        $ip = $request->ip();
         if ($ip == '::1') {
             $username        = $request->username;
             $password        = $request->password;
@@ -1593,7 +1593,7 @@ class FdhController extends Controller
                 ),
             ));
             $token = curl_exec($curl);
-            // dd($token); 
+            // dd($token);
             curl_close($curl);
 
             $check = Api_neweclaim::where('api_neweclaim_user', $username)->where('api_neweclaim_pass', $password)->count();
@@ -1640,8 +1640,8 @@ class FdhController extends Controller
                 ),
             ));
             $token = curl_exec($curl);
-            // dd($token); 
-            curl_close($curl); 
+            // dd($token);
+            curl_close($curl);
             $check = Api_neweclaim::where('api_neweclaim_user', $username)->where('api_neweclaim_pass', $password)->count();
             if ($check > 0) {
                 Api_neweclaim::where('api_neweclaim_user', $username)->update([
@@ -1661,8 +1661,8 @@ class FdhController extends Controller
                     'basic_auth'                => $basic_auth,
                     'user_id'                   => Auth::user()->id,
                 ]);
-            } 
-            
+            }
+
         }
 
         return response()->json([
@@ -1671,7 +1671,7 @@ class FdhController extends Controller
     }
     public function fdh_mini_dataset_api(Request $request)
     {
-        $ip = $request->ip(); 
+        $ip = $request->ip();
         // if ($ip == '::1') {
         //     $username        = $request->username;
         //     $password        = $request->password;
@@ -1692,7 +1692,7 @@ class FdhController extends Controller
         //         ),
         //     ));
         //     $token = curl_exec($curl);
-        //     // dd($token); 
+        //     // dd($token);
         //     curl_close($curl);
 
         //     $check = Api_neweclaim::where('api_neweclaim_user', $username)->where('api_neweclaim_pass', $password)->count();
@@ -1717,6 +1717,8 @@ class FdhController extends Controller
 
             $username        = $request->username;
             $password        = $request->password;
+            $userid          = Auth::user()->id;
+
             $password_hash   = strtoupper(hash_hmac('sha256', $password, '$jwt@moph#'));
             $basic_auth = base64_encode("$username:$password");
             $context = stream_context_create(array(
@@ -1739,16 +1741,17 @@ class FdhController extends Controller
                 ),
             ));
             $token = curl_exec($curl);
-            // dd($token); 
-            curl_close($curl); 
-            $check = Api_neweclaim::where('api_neweclaim_user', $username)->where('api_neweclaim_pass', $password)->count();
+            // dd($token);
+            curl_close($curl);
+            // $check = Api_neweclaim::where('api_neweclaim_user', $username)->where('api_neweclaim_pass', $password)->count();
+            $check = Api_neweclaim::where('user_id', $userid)->where('api_neweclaim_user', $username)->count();
             if ($check > 0) {
                 Api_neweclaim::where('api_neweclaim_user', $username)->update([
                     'api_neweclaim_token'       => $token,
-                    'user_id'                   => Auth::user()->id,
-                    'password_hash'             => $password_hash,
-                    'hospital_code'             => '10978',
-                    'basic_auth'                => $basic_auth,
+                    // 'user_id'                   => $userid,
+                    // 'password_hash'             => $password_hash,
+                    // 'hospital_code'             => '10978',
+                    // 'basic_auth'                => $basic_auth,
                     'active_mini'               => 'Y'
                 ]);
             } else {
@@ -1756,14 +1759,14 @@ class FdhController extends Controller
                     'api_neweclaim_user'        => $username,
                     'api_neweclaim_pass'        => $password,
                     'api_neweclaim_token'       => $token,
-                    'password_hash'             => $password_hash,
+                    // 'password_hash'             => $password_hash,
                     'hospital_code'             => '10978',
                     'basic_auth'                => $basic_auth,
                     'active_mini'               => 'Y',
-                    'user_id'                   => Auth::user()->id,
+                    'user_id'                   => $userid,
                 ]);
-            } 
-            
+            }
+
         // }
 
         return response()->json([
@@ -1782,46 +1785,46 @@ class FdhController extends Controller
         $cid_auth    = Auth::user()->cid;
         if ($startdate == '') {
             $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
-                'SELECT * from fdh_mini_dataset 
-                    WHERE vstdate BETWEEN "' . $newday . '" and "' . $date . '" 
+                'SELECT * from fdh_mini_dataset
+                    WHERE vstdate BETWEEN "' . $newday . '" and "' . $date . '"
                     AND (active = "N" OR active_nhso = "N")
-                    ORDER BY total_amout DESC'); 
-                    // AND active = "N" AND active_nhso = "N" 
-                    // (active = "N" OR active_nhso = "N") 
+                    ORDER BY total_amout DESC');
+                    // AND active = "N" AND active_nhso = "N"
+                    // (active = "N" OR active_nhso = "N")
                     // AND (active = "N" OR active_nhso = "N")
                     $data['count_fdh_y'] = Fdh_mini_dataset::where('active','=','Y')->whereBetween('vstdate', [$newday, $date])->count();
                     $data['count_fdh_n'] = Fdh_mini_dataset::where('active','=','N')->whereBetween('vstdate', [$newday, $date])->count();
                     $data['count_nhso_y'] = Fdh_mini_dataset::where('active_nhso','=','Y')->whereBetween('vstdate', [$newday, $date])->count();
                     $data['count_nhso_n'] = Fdh_mini_dataset::where('active_nhso','=','N')->whereBetween('vstdate', [$newday, $date])->count();
         } else {
-          
+
             $iduser = Auth::user()->id;
-            $datashow_ = DB::connection('mysql2')->select(  
+            $datashow_ = DB::connection('mysql2')->select(
                 'SELECT o.vstdate,o.vsttime,Time_format(o.vsttime ,"%H:%i") vsttime2
                     ,pt.cid,"10978" as hcode,IFNULL(rd.total_amount,v.income) as total_amout
                     ,IFNULL(rd.finance_number,v.vn) as invoice_number,v.vn,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.hn,v.pttype
                     ,v.rcpt_money,v.uc_money,ptt.hipdata_code as mainInsclCode,IFNULL(o.main_dep,"155") as main_dep,IFNULL(k.department,"อายุรกรรมห้องตรวจ 3") as department
-                        
+
                     ,CONCAT(o.vstdate," ",DATE_FORMAT(o.vsttime,"%H:%i")) AS service_date_time,v.income as totalAmount
                     ,v.uc_money AS privilegeAmount,v.paid_money AS paidAmount,rd.finance_number as visitNumber,ov.name as ovstost
-                    FROM vn_stat v 
-                    LEFT OUTER JOIN ovst o ON v.vn = o.vn 
+                    FROM vn_stat v
+                    LEFT OUTER JOIN ovst o ON v.vn = o.vn
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
-                    LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
+                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype
+                    LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn
                     LEFT OUTER JOIN kskdepartment k ON k.depcode = o.main_dep
                     LEFT OUTER JOIN ovstost ov on ov.ovstost = o.ovstost
-                    WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"                  
+                    WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"
                     AND v.income > 0 AND pt.nationality = "99" AND (o.an IS NULL OR o.an ="")
                     AND v.pttype NOT IN("10")
                     GROUP BY o.vn
             ');
-             
+
             // foreach ($datashow_ as $key => $value) {
             //     $dateString = $value->vstdate." ".$value->vsttime;
             //     $dateTime = new DateTime($dateString);
             //     $timestampInSeconds = $dateTime->getTimestamp();
-            //     $timestampInMilliseconds = $timestampInSeconds * 1000;                
+            //     $timestampInMilliseconds = $timestampInSeconds * 1000;
             //     $invoiceDateTime = (new DateTime())->format('Uv'); #current_time
 
             //     if ($value->pttype == 'M1') {
@@ -1833,21 +1836,21 @@ class FdhController extends Controller
             //     }elseif ($value->pttype == 'M4') {
             //         $claimServiceCode = 'PG0130001';
             //     }elseif ($value->pttype == 'M5') {
-            //         $claimServiceCode = 'PG0130001'; 
+            //         $claimServiceCode = 'PG0130001';
             //     } else {
             //          $claimServiceCode = 'PG0060001';
-            //     }      
+            //     }
             //     $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
             //     if ($check_opd > 0) {
-            //         Fdh_mini_dataset::where('vn', $value->vn)->update([   
+            //         Fdh_mini_dataset::where('vn', $value->vn)->update([
             //             'total_amout'         => $value->total_amout,
-            //             'invoice_number'      => $value->invoice_number, 
-            //             'pttype'              => $value->pttype, 
+            //             'invoice_number'      => $value->invoice_number,
+            //             'pttype'              => $value->pttype,
             //             'rcpt_money'          => $value->rcpt_money,
             //             'uc_money'            => $value->privilegeAmount,
             //             'paid_money'          => $value->paidAmount,
             //             'ovstost'             => $value->ovstost,
-            //             'mainInsclCode'       => $value->mainInsclCode, 
+            //             'mainInsclCode'       => $value->mainInsclCode,
             //             'serviceDateTime'     => $timestampInMilliseconds,
             //             'invoiceDateTime'     => $invoiceDateTime,
             //             'transactionId'       => '10978'.$value->vn,
@@ -1858,8 +1861,8 @@ class FdhController extends Controller
             //             'sourceId'            => 'PK9999',
             //             'code'                => $value->main_dep,
             //             'name'                => $value->department,
-            //             'visitNumber'         => $value->vn, 
-            //             'recorderPid'         => $cid_auth,                        
+            //             'visitNumber'         => $value->vn,
+            //             'recorderPid'         => $cid_auth,
             //         ]);
             //     } else {
             //         Fdh_mini_dataset::insert([
@@ -1880,7 +1883,7 @@ class FdhController extends Controller
             //             'uc_money'            => $value->privilegeAmount,
             //             'paid_money'          => $value->paidAmount,
             //             'ovstost'             => $value->ovstost,
-            //             'mainInsclCode'       => $value->mainInsclCode, 
+            //             'mainInsclCode'       => $value->mainInsclCode,
             //             'serviceDateTime'     => $timestampInMilliseconds,
             //             'invoiceDateTime'     => $invoiceDateTime,
             //             'transactionId'       => '10978'.$value->vn,
@@ -1891,23 +1894,23 @@ class FdhController extends Controller
             //             'sourceId'            => 'PK9999',
             //             'code'                => $value->main_dep,
             //             'name'                => $value->department,
-            //             'visitNumber'         => $value->vn,  
-            //             'recorderPid'         => $cid_auth, 
+            //             'visitNumber'         => $value->vn,
+            //             'recorderPid'         => $cid_auth,
             //         ]);
             //     }
-                
+
             // }
 
             $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
-                'SELECT * from fdh_mini_dataset 
-                    WHERE vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '" 
-                    ORDER BY total_amout DESC'); 
+                'SELECT * from fdh_mini_dataset
+                    WHERE vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"
+                    ORDER BY total_amout DESC');
                     $data['count_fdh_y'] = Fdh_mini_dataset::where('active','=','Y')->whereBetween('vstdate', [$startdate, $enddate])->count();
                     $data['count_fdh_n'] = Fdh_mini_dataset::where('active','=','N')->whereBetween('vstdate', [$startdate, $enddate])->count();
                     $data['count_nhso_y'] = Fdh_mini_dataset::where('active_nhso','=','Y')->whereBetween('vstdate', [$startdate, $enddate])->count();
                     $data['count_nhso_n'] = Fdh_mini_dataset::where('active_nhso','=','N')->whereBetween('vstdate', [$startdate, $enddate])->count();
         }
-       
+
 
         return view('fdh.fdh_mini_dataset_pull',$data, [
             'startdate'        => $startdate,
@@ -1926,41 +1929,41 @@ class FdhController extends Controller
         $cid_auth    = Auth::user()->cid;
         if ($startdate == '') {
             $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
-                'SELECT * from fdh_mini_dataset 
-                    WHERE vstdate = "' . $date . '"  
-                    ORDER BY vn DESC'); 
+                'SELECT * from fdh_mini_dataset
+                    WHERE vstdate = "' . $date . '"
+                    ORDER BY vn DESC');
         } else {
             $date = date('Y-m-d');
             $iduser = Auth::user()->id;
             $datashow_ = DB::connection('mysql10')->select(
-                
+
                 'SELECT o.vstdate,o.vsttime,Time_format(o.vsttime ,"%H:%i") vsttime2
                     ,pt.cid,"10978" as hcode,IFNULL(rd.total_amount,v.income) as total_amout
                     ,IFNULL(rd.finance_number,v.vn) as invoice_number,v.vn,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.hn,v.pttype
                     ,v.rcpt_money,v.uc_money,ptt.hipdata_code as mainInsclCode,IFNULL(o.main_dep,"155") as main_dep,IFNULL(k.department,"อายุรกรรมห้องตรวจ 3") as department
-                        
+
                     ,CONCAT(o.vstdate," ",DATE_FORMAT(o.vsttime,"%H:%i")) AS service_date_time,v.income as totalAmount
                     ,v.uc_money AS privilegeAmount,v.paid_money AS paidAmount,rd.finance_number as visitNumber,ov.name as ovstost
-                    FROM vn_stat v 
-                    LEFT OUTER JOIN ovst o ON v.vn = o.vn 
+                    FROM vn_stat v
+                    LEFT OUTER JOIN ovst o ON v.vn = o.vn
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
-                    LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
+                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype
+                    LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn
                     LEFT OUTER JOIN kskdepartment k ON k.depcode = o.main_dep
                     LEFT OUTER JOIN ovstost ov on ov.ovstost = o.ovstost
-                    WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"                  
+                    WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"
                     AND v.income > 0 AND pt.nationality = "99" AND (o.an IS NULL OR o.an ="") AND v.pttype NOT IN("10")
                     GROUP BY o.vn
             '
             );
-            // NOT IN("M1","M2","M3","M4","M5")  AND v.pttype NOT IN("M1","M4","M5")  
+            // NOT IN("M1","M2","M3","M4","M5")  AND v.pttype NOT IN("M1","M4","M5")
             // ,IFNULL(rd.total_amount,v.income) as total_amout
             // ,IFNULL(rd.finance_number,v.vn) as invoice_number
             foreach ($datashow_ as $key => $value) {
                 $dateString = $value->vstdate." ".$value->vsttime;
                 $dateTime = new DateTime($dateString);
                 $timestampInSeconds = $dateTime->getTimestamp();
-                $timestampInMilliseconds = $timestampInSeconds * 1000;                
+                $timestampInMilliseconds = $timestampInSeconds * 1000;
                 $invoiceDateTime = (new DateTime())->format('Uv'); #current_time
 
                 if ($value->pttype == 'M1') {
@@ -1972,26 +1975,26 @@ class FdhController extends Controller
                 }elseif ($value->pttype == 'M4') {
                     $claimServiceCode = 'PG0130001';
                 }elseif ($value->pttype == 'M5') {
-                    $claimServiceCode = 'PG0130001'; 
+                    $claimServiceCode = 'PG0130001';
                 } else {
                      $claimServiceCode = 'PG0060001';
                 }
-                
+
 
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
-                    Fdh_mini_dataset::where('vn', $value->vn)->update([  
+                    Fdh_mini_dataset::where('vn', $value->vn)->update([
                         // 'service_date_time'   => $value->vstdate . ' ' . $value->vsttime,
                         // 'cid'                 => $value->cid,
                         // 'hcode'               => $value->hcode,
                         // 'total_amout'         => $value->total_amout,
-                        // 'invoice_number'      => $value->invoice_number, 
-                        'pttype'              => $value->pttype, 
+                        // 'invoice_number'      => $value->invoice_number,
+                        'pttype'              => $value->pttype,
                         // 'rcpt_money'          => $value->rcpt_money,
                         // 'uc_money'            => $value->privilegeAmount,
                         // 'paid_money'          => $value->paidAmount,
-                        'ovstost'             => $value->ovstost,   
-                        // 'mainInsclCode'       => $value->mainInsclCode, 
+                        'ovstost'             => $value->ovstost,
+                        // 'mainInsclCode'       => $value->mainInsclCode,
                         // 'serviceDateTime'     => $timestampInMilliseconds,
                         // 'invoiceDateTime'     => $invoiceDateTime,
                         // 'transactionId'       => '10978'.$value->vn,
@@ -2002,8 +2005,8 @@ class FdhController extends Controller
                         // 'sourceId'            => 'PK9999',
                         // 'code'                => $value->main_dep,
                         // 'name'                => $value->department,
-                        // 'visitNumber'         => $value->vn, 
-                        // 'recorderPid'         => $cid_auth,                        
+                        // 'visitNumber'         => $value->vn,
+                        // 'recorderPid'         => $cid_auth,
                     ]);
                 } else {
                     Fdh_mini_dataset::insert([
@@ -2024,7 +2027,7 @@ class FdhController extends Controller
                         'uc_money'            => $value->privilegeAmount,
                         'paid_money'          => $value->paidAmount,
                         'ovstost'             => $value->ovstost,
-                        'mainInsclCode'       => $value->mainInsclCode, 
+                        'mainInsclCode'       => $value->mainInsclCode,
                         'serviceDateTime'     => $timestampInMilliseconds,
                         'invoiceDateTime'     => $invoiceDateTime,
                         'transactionId'       => '10978'.$value->vn,
@@ -2035,27 +2038,27 @@ class FdhController extends Controller
                         'sourceId'            => 'PK9999',
                         'code'                => $value->main_dep,
                         'name'                => $value->department,
-                        'visitNumber'         => $value->vn,  
-                        'recorderPid'         => $cid_auth, 
+                        'visitNumber'         => $value->vn,
+                        'recorderPid'         => $cid_auth,
                     ]);
                 }
-               
+
                 // $check_opdsit = Check_sit_auto::where('vn', $value->vn)->count();
-                // if ( $check_opdsit > 0) { 
+                // if ( $check_opdsit > 0) {
                 // } else {
                 //     Check_sit_auto::insert([
                 //         'cid'                 => $value->cid,
                 //         'hospmain'            => $value->hcode,
-                //         'debit'               => $value->total_amout, 
+                //         'debit'               => $value->total_amout,
                 //         'vn'                  => $value->vn,
                 //         'pttype'              => $value->pttype,
                 //         'fullname'            => $value->ptname,
                 //         'hn'                  => $value->hn,
-                //         'vstdate'             => $value->vstdate, 
-                //         'vsttime'             => $value->vsttime,  
+                //         'vstdate'             => $value->vstdate,
+                //         'vsttime'             => $value->vsttime,
                 //     ]);
                 // }
-                
+
             }
         }
         // $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE active ="N" ORDER BY total_amout DESC');
@@ -2069,34 +2072,34 @@ class FdhController extends Controller
     public function mini_dataset(Request $request)
     {
         $id = $request->ids;
-        $iduser = Auth::user()->id; 
-        $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get(); 
+        $iduser = Auth::user()->id;
+        $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get();
         $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" ORDER BY updated_at desc limit 1');
         foreach ($data_token_ as $key => $val_to) {
             $token_   = $val_to->api_neweclaim_token;
         }
         $token = $token_;
-     
+
         foreach ($data_vn_1 as $key => $val) {
             $dateString = $val->vstdate." ".$val->vsttime;
-            $dateTime = new DateTime($dateString); 
+            $dateTime = new DateTime($dateString);
             $service_date_time_      = $val->service_date_time;
             $service_date_time    = substr($service_date_time_,0,16);
             $cid                  = $val->cid;
             $hcode                = $val->hcode;
             $total_amout          = $val->total_amout;
             $invoice_number       = $val->invoice_number;
-            $vn                   = $val->vn;  
-             
+            $vn                   = $val->vn;
+
                 // *************** mini dataset **********
                 $curl = curl_init();
-                $postData_send = [ 
+                $postData_send = [
                     "service_date_time"  => $service_date_time,
                     "cid"                => $cid,
                     "hcode"              => $hcode,
                     "total_amout"        => $total_amout,
                     "invoice_number"     => $invoice_number,
-                    "vn"                 => $vn 
+                    "vn"                 => $vn
                 ];
                 curl_setopt($curl, CURLOPT_URL,"https://fdh.moph.go.th/api/v1/reservation");
                 curl_setopt($curl, CURLOPT_POST, 1);
@@ -2106,9 +2109,9 @@ class FdhController extends Controller
                     'Content-Type: application/json',
                     'Authorization: Bearer '.$token,
                     'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
-                ));  
+                ));
                 $server_output     = curl_exec ($curl);
-                $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);            
+                $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
                 $content = $server_output;
                 $result = json_decode($content, true);
                 @$status = $result['status'];
@@ -2120,7 +2123,7 @@ class FdhController extends Controller
                         ->update([
                             'transaction_uid' =>  @$uid,
                             'active'          => 'Y'
-                        ]); 
+                        ]);
                 } elseif ($status == '400') {
                         Fdh_mini_dataset::where('vn', $vn)
                             ->update([
@@ -2129,15 +2132,15 @@ class FdhController extends Controller
                             ]);
                 } else {
                 }
- 
+
             }
             // dd($result);
             return response()->json([
                 'status'    => '200'
             ]);
-              
+
     }
-    // END POINT 
+    // END POINT
     public function nhso_endpoint(Request $request)
     {
         $id          = $request->ids;
@@ -2145,47 +2148,47 @@ class FdhController extends Controller
         $cid_auth    = Auth::user()->cid;
         $datenow     = date('Y-m-d');
         // dd($id);
-        $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get();    
-        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "'.$iduser.'"');  
+        $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get();
+        $data_token_ = DB::connection('mysql')->select(' SELECT * FROM api_neweclaim WHERE user_id = "'.$iduser.'"');
         foreach ($data_token_ as $key => $val_to) {
             $username     = $val_to->api_neweclaim_user;
             $password     = $val_to->api_neweclaim_pass;
             $token        = $val_to->new_eclaim_token;
-        }     
-       
+        }
+
         // dd($data_vn_1);
             foreach ($data_vn_1 as $key => $val) {
                 $dateString = $val->vstdate." ".$val->vsttime;
                 $dateTime = new DateTime($dateString);
                 $timestampInSeconds = $dateTime->getTimestamp();
-                $timestampInMilliseconds_ = $timestampInSeconds * 1000;                
+                $timestampInMilliseconds_ = $timestampInSeconds * 1000;
                 $invoiceDateTime_ = (new DateTime())->format('Uv'); #current_time
 
                 $service_date_time_   = $val->service_date_time;
-                $service_date_time    = substr($service_date_time_,0,16);   
+                $service_date_time    = substr($service_date_time_,0,16);
                 $serviceDateTime      = $val->serviceDateTime;
-                $invoiceDateTime      = $val->invoiceDateTime;       
+                $invoiceDateTime      = $val->invoiceDateTime;
                 $hcode                = $val->hcode;
                 $vn                   = $val->vn;
                 $cid                  = $val->cid;
                 $transactionld        = $val->transaction_uid;
                 $mainInsclCode        = $val->mainInsclCode;
-               
-                $paidAmount           = number_format($val->paidAmount, 2);  
+
+                $paidAmount           = number_format($val->paidAmount, 2);
                 $privilegeAmount      = number_format($val->privilegeAmount, 2);
                 $totalAmount          = number_format($val->totalAmount, 2);
-               
-                $claimServiceCode     = $val->claimServiceCode; 
+
+                $claimServiceCode     = $val->claimServiceCode;
                 $transactionId        = $val->transactionId;
                 $sourceId             = $val->sourceId;
                 $recorderPid          = $val->recorderPid;
-                $visitNumber          = $val->visitNumber; 
+                $visitNumber          = $val->visitNumber;
                 $code                 = $val->code;
                 $name                 = $val->name;
 
                 $token_end = "b4df8b7c-c8c2-445a-a904-960aa4a1a1c9";
-              
-                $curl = curl_init(); 
+
+                $curl = curl_init();
                 $postData_send = [
                     "hcode" => "$hcode",
                     "department" => [
@@ -2217,26 +2220,26 @@ class FdhController extends Controller
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => json_encode($postData_send, JSON_UNESCAPED_SLASHES),
-                CURLOPT_HTTPHEADER => array(   
-                    'Content-Type: application/json',                
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
                     'Authorization: Bearer '.$token_end
                 ),
                 ));
                 $response = curl_exec($curl);
                 $result = json_decode($response, true);
-                
+
                 @$seq = $result['seq'];
                 @$authenCode = $result['authenCode'];
                 #echo $transaction_uid;
                 // dd($result);
-                
+
             }
 
         return response()->json([
             'status'    => '200'
         ]);
     }
-    
+
     public function nhso_endpoint___(Request $request)
     {
         $id          = $request->ids;
@@ -2244,26 +2247,26 @@ class FdhController extends Controller
         $cid_auth    = Auth::user()->cid;
         $datenow     = date('Y-m-d');
         // dd($id);
-        $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get(); 
+        $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get();
         // ->where('invoice_number','<>',NULL)
-        // $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get(); 
+        // $data_vn_1 = Fdh_mini_dataset::whereIn('fdh_mini_dataset_id', explode(",", $id))->get();
         // $data_vn_1   = DB::connection('mysql')->select('SELECT * FROM fdh_mini_dataset WHERE vstdate = "'.$datenow.'"');
         // $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" ORDER BY updated_at desc limit 1');
         // foreach ($data_token_ as $key => $val_to) {
         //     $token_   = $val_to->api_neweclaim_token;
         // }
         // $token = $token_;
-       
+
         // dd($data_vn_1);
             foreach ($data_vn_1 as $key => $val) {
                 $dateString = $val->vstdate." ".$val->vsttime;
                 $dateTime = new DateTime($dateString);
                 $timestampInSeconds = $dateTime->getTimestamp();
-                $timestampInMilliseconds = $timestampInSeconds * 1000;                
+                $timestampInMilliseconds = $timestampInSeconds * 1000;
                 $invoiceDateTime = (new DateTime())->format('Uv'); #current_time
 
                 $service_date_time_   = $val->service_date_time;
-                $service_date_time    = substr($service_date_time_,0,16);          
+                $service_date_time    = substr($service_date_time_,0,16);
                 $hcode                = $val->hcode;
                 $vn                   = $val->vn;
                 $cid                  = $val->cid;
@@ -2271,13 +2274,13 @@ class FdhController extends Controller
                 $mainInsclCode        = $val->mainInsclCode;
                 $total_amout          = $val->total_amout;
                 $invoice_number       = $val->invoice_number;
-                $paidAmount           = number_format($val->rcpt_money, 2, '.', '');  
+                $paidAmount           = number_format($val->rcpt_money, 2, '.', '');
                 $privilegeAmount      = number_format($val->uc_money, 2, '.', '');
                 $totalAmount          = number_format($val->totalAmount, 2, '.', '');
-                $claimtype            = $val->claimtype; 
+                $claimtype            = $val->claimtype;
                 $transactionId        = $val->transactionId;
                 $recorderPid          = $val->recorderPid;
-            
+
                 $fdh_jwt = "b4df8b7c-c8c2-445a-a904-960aa4a1a1c9";
                 // $fdh_jwt = "3045bba2-3cac-4a74-ad7d-ac6f7b187479";
                 // 'Authorization: Bearer '.$fdh_jwt
@@ -2314,7 +2317,7 @@ class FdhController extends Controller
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => json_encode($postData_send, JSON_UNESCAPED_SLASHES),
                 CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json',                
+                    'Content-Type: application/json',
                     'Authorization: Bearer  b4df8b7c-c8c2-445a-a904-960aa4a1a1c9'
                 ),
                 ));
@@ -2335,7 +2338,7 @@ class FdhController extends Controller
         //     'status'    => '200'
         // ]);
     }
-                // $response = Http::withHeaders([ 
+                // $response = Http::withHeaders([
                 //     'Authorization : Bearer '.$token,
                 //     'User-Agent:<platform>/<version> <10978>',
                 //     'Accept' => 'application/json',
@@ -2354,7 +2357,7 @@ class FdhController extends Controller
                 //     "sourceId"           => 'PKOFFICE',
                 //     // "computerName"       => $vn,
                 //     "recorderPid"        => $cid_auth
-                // ]);     
+                // ]);
                 // $token = $response->json('token');
                 // $body = $response->body();
                 // dd($body);
@@ -2362,12 +2365,12 @@ class FdhController extends Controller
 
 
 
-                // $headers_send  = [    
-                //     'User-Agent:<platform>/<version> <10978>',        
-                //     'Content-Type: application/json'  
+                // $headers_send  = [
+                //     'User-Agent:<platform>/<version> <10978>',
+                //     'Content-Type: application/json'
                 // ];
-                // $postData_send = [ 
-                //     // "service_date_time"  => $service_date_time,                    
+                // $postData_send = [
+                //     // "service_date_time"  => $service_date_time,
                 //     "hcode"              => $hcode,
                 //     "visitNumber"        => $vn,
                 //     "pid"                => $cid,
@@ -2381,9 +2384,9 @@ class FdhController extends Controller
                 //     "claimServiceCode"   => $claimtype,
                 //     "sourceId"           => 'PKOFFICE',
                 //     // "computerName"       => $vn,
-                //     "recorderPid"        => $cid_auth, 
+                //     "recorderPid"        => $cid_auth,
                 // ];
-                // $ch = curl_init();                
+                // $ch = curl_init();
                 // curl_setopt($ch, CURLOPT_URL,"https://nhsoapi.nhso.go.th/nhsoendpoint/api/nhso-claim-detail");
                 // curl_setopt($ch, CURLOPT_POST, 1);
                 // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -2391,16 +2394,16 @@ class FdhController extends Controller
                 // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers_send);
                 // $response     = curl_exec ($ch);
                 // $statusCode        = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                // // dd($statusCode);  
-                // $content           = $response; 
-                // $response     = curl_exec ($ch); 
-                // $contents    = $response; 
+                // // dd($statusCode);
+                // $content           = $response;
+                // $response     = curl_exec ($ch);
+                // $contents    = $response;
                 // $result   = json_decode($contents, true);
-                // dd($result); 
-                // @$content = $result['content']; 
+                // dd($result);
+                // @$content = $result['content'];
                 // @$status  = $result['status'];
                 // @$message = $result['message'];
-                // $token    = $result['token']; 
+                // $token    = $result['token'];
 
                 // $curl = curl_init();
                 // curl_setopt_array($curl, array(
@@ -2418,16 +2421,16 @@ class FdhController extends Controller
                 // ),
                 // ));
                 // $response = curl_exec($curl);
-                // $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);            
+                // $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
                 // $content = $response;
                 // $result = json_decode($content, true);
                 // dd($result);
 
-                
 
-                
-                // $postData_send = [ 
-                //     // "service_date_time"  => $service_date_time,                    
+
+
+                // $postData_send = [
+                //     // "service_date_time"  => $service_date_time,
                 //     "hcode"              => $hcode,
                 //     "visitNumber"        => $vn,
                 //     "pid"                => $cid,
@@ -2441,14 +2444,14 @@ class FdhController extends Controller
                 //     "claimServiceCode"   => $claimtype,
                 //     "sourceId"           => 'PKOFFICE',
                 //     // "computerName"       => $vn,
-                //     "recorderPid"        => $cid_auth, 
+                //     "recorderPid"        => $cid_auth,
                 // ];
                 // $headers_send  = [
                 //     'Authorization : Bearer '.$token,
-                //     'Content-Type: application/json',            
-                //     'User-Agent:<platform>/<version><10978>' 
+                //     'Content-Type: application/json',
+                //     'User-Agent:<platform>/<version><10978>'
                 // ];
-                
+
                 // $curl = curl_init();
                 // curl_setopt($curl, CURLOPT_URL,"https://nhsoapi.nhso.go.th/nhsoendpoint/api/nhso-claim-detail");
                 // curl_setopt($curl, CURLOPT_POST, 1);
@@ -2459,9 +2462,9 @@ class FdhController extends Controller
                 // //     'Content-Type: application/json',
                 // //     'Authorization: Bearer '.$token,
                 // //     'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
-                // // ));  
+                // // ));
                 // $server_output     = curl_exec ($curl);
-                // $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);            
+                // $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
                 // $content = $server_output;
                 // $result = json_decode($content, true);
 
@@ -2471,13 +2474,13 @@ class FdhController extends Controller
                 // @$message = $result['message'];
                 // @$data = $result['data'];
                 // @$uid = $data['transaction_uid'];
-               
+
             // }
             // dd($result);
             // return response()->json([
             //     'status'    => '200'
             // ]);
-              
+
 
     // }
 
@@ -2501,7 +2504,7 @@ class FdhController extends Controller
             $dateString = $val->vstdate." ".$val->vsttime;
             $dateTime = new DateTime($dateString);
             $timestampInSeconds = $dateTime->getTimestamp();
-            $timestampInMilliseconds_ = $timestampInSeconds * 1000;                
+            $timestampInMilliseconds_ = $timestampInSeconds * 1000;
             $invoiceDateTime_ = (new DateTime())->format('Uv'); #current_time
 
             $service_date_time_      = $val->service_date_time;
@@ -2510,33 +2513,33 @@ class FdhController extends Controller
             $hcode                = $val->hcode;
             $total_amout          = $val->total_amout;
             $invoice_number       = $val->invoice_number;
-            $vn                   = $val->vn;  
-            
+            $vn                   = $val->vn;
+
             $serviceDateTime      = $val->serviceDateTime;
-            $invoiceDateTime      = $val->invoiceDateTime;   
+            $invoiceDateTime      = $val->invoiceDateTime;
             // $transactionld        = $val->transaction_uid;
             $mainInsclCode        = $val->mainInsclCode;
-            $paidAmount           = $val->paidAmount;  
+            $paidAmount           = $val->paidAmount;
             $privilegeAmount      = $val->privilegeAmount;
-            $totalAmount          = $val->totalAmount; 
-            $claimServiceCode     = $val->claimServiceCode; 
+            $totalAmount          = $val->totalAmount;
+            $claimServiceCode     = $val->claimServiceCode;
             $transactionId        = $val->transactionId;
             $sourceId             = $val->sourceId;
             $recorderPid          = $val->recorderPid;
-            $visitNumber          = $val->visitNumber; 
+            $visitNumber          = $val->visitNumber;
             $code                 = $val->code;
-            $name                 = $val->name; 
+            $name                 = $val->name;
             $token_end = "b4df8b7c-c8c2-445a-a904-960aa4a1a1c9";
 
                 // *************** mini dataset **********
                 $curl = curl_init();
-                $postData_send = [ 
+                $postData_send = [
                     "service_date_time"  => $service_date_time,
                     "cid"                => $cid,
                     "hcode"              => $hcode,
                     "total_amout"        => $total_amout,
                     "invoice_number"     => $invoice_number,
-                    "vn"                 => $vn 
+                    "vn"                 => $vn
                 ];
                 curl_setopt($curl, CURLOPT_URL,"https://fdh.moph.go.th/api/v1/reservation");
                 curl_setopt($curl, CURLOPT_POST, 1);
@@ -2546,9 +2549,9 @@ class FdhController extends Controller
                     'Content-Type: application/json',
                     'Authorization: Bearer '.$token,
                     'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
-                ));  
+                ));
                 $server_output     = curl_exec ($curl);
-                $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);            
+                $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
                 $content = $server_output;
                 $result = json_decode($content, true);
                 @$status = $result['status'];
@@ -2560,7 +2563,7 @@ class FdhController extends Controller
                         ->update([
                             'transaction_uid' =>  @$uid,
                             'active'          => 'Y'
-                        ]); 
+                        ]);
                 } elseif ($status == '400') {
                         Fdh_mini_dataset::where('vn', $vn)
                             ->update([
@@ -2571,7 +2574,7 @@ class FdhController extends Controller
                 }
 
                 // *************** สปสช ENDF POINT **********
-                $curl_spsch = curl_init(); 
+                $curl_spsch = curl_init();
                 $postData = [
                     "hcode" => "$hcode",
                     "department" => [
@@ -2591,7 +2594,7 @@ class FdhController extends Controller
                     "visitNumber"      => "$visitNumber",
                     "recorderPid"      => "$recorderPid"
                 ];
-                
+
                 curl_setopt_array($curl_spsch, array(
                 CURLOPT_URL => 'https://nhsoapi.nhso.go.th/nhsoendpoint/api/nhso-claim-detail',
                 CURLOPT_RETURNTRANSFER => true,
@@ -2602,18 +2605,18 @@ class FdhController extends Controller
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => json_encode($postData, JSON_UNESCAPED_SLASHES),
-                CURLOPT_HTTPHEADER => array(   
-                    'Content-Type: application/json',                
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
                     'Authorization: Bearer '.$token_end
                 ),
                 ));
                 $responses   = curl_exec($curl_spsch);
-                $results     = json_decode($responses, true);  
-                // dd($results);      
+                $results     = json_decode($responses, true);
+                // dd($results);
                 // foreach ($results as $key => $vss) {
                 //     $seq         = $vss['seq'];
                 //     $authenCode  = $vss['authenCode'];
-                // }        
+                // }
                 @$seq         = $results['seq'];
                 @$authenCode  = $results['authenCode'];
                 @$dataError         = $results['dataError'];
@@ -2622,26 +2625,26 @@ class FdhController extends Controller
                         'authenCode'   => @$authenCode,
                         'seq'          => @$seq,
                         'active_nhso'  => 'Y'
-                    ]); 
+                    ]);
               }
                 if (@$dataError == 'พบข้อมูลซ้ำในระบบ') {
                     Fdh_mini_dataset::where('vn',$vn)->update([
                         'dataError'   => @$dataError,
                         'active_nhso'  => 'Y'
-                    ]); 
+                    ]);
                 } else {
-                    
+
                 }
-                
-              
-              
-                
+
+
+
+
             }
             // dd($result);
             return response()->json([
                 'status'    => '200'
             ]);
-              
+
     }
 
     public function fdh_mini_dataset_rep(Request $request)
@@ -2654,17 +2657,17 @@ class FdhController extends Controller
         $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate     = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
- 
+
         if ($startdate == '') {
             $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE vstdate BETWEEN "'.$newweek.'" AND "'.$date.'" AND transaction_uid IS NOT NULL AND id_booking IS NULL ORDER BY vstdate DESC');
         } else {
-            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND transaction_uid IS NOT NULL AND id_booking IS NULL ORDER BY vstdate DESC');            
+            $data['fdh_mini_dataset']    = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" AND transaction_uid IS NOT NULL AND id_booking IS NULL ORDER BY vstdate DESC');
         }
-        
+
 
         return view('fdh.fdh_mini_dataset_rep',$data, [
             'startdate'        => $startdate,
-            'enddate'          => $enddate, 
+            'enddate'          => $enddate,
         ]);
     }
     public function fdh_mini_dataset_pulljong(Request $request)
@@ -2679,12 +2682,12 @@ class FdhController extends Controller
             $token_   = $val_to->api_neweclaim_token;
         }
         $token = $token_;
- 
-            foreach ($data_vn_1 as $key => $val) { 
-                $transaction_uid      = $val->transaction_uid;
-                $hcode                = $val->hcode; 
 
-                    $curl = curl_init(); 
+            foreach ($data_vn_1 as $key => $val) {
+                $transaction_uid      = $val->transaction_uid;
+                $hcode                = $val->hcode;
+
+                    $curl = curl_init();
                     curl_setopt_array($curl, array(
                         CURLOPT_URL => 'https://fdh.moph.go.th/api/v1/reservation',
                         CURLOPT_RETURNTRANSFER => true,
@@ -2695,8 +2698,8 @@ class FdhController extends Controller
                         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                         CURLOPT_CUSTOMREQUEST => 'GET',
                         CURLOPT_POSTFIELDS => '{
-                            "transaction_uid": "'.$transaction_uid.'", 
-                            "hcode"          : "'.$hcode.'" 
+                            "transaction_uid": "'.$transaction_uid.'",
+                            "hcode"          : "'.$hcode.'"
                         }',
                         CURLOPT_HTTPHEADER => array(
                             'Content-Type: application/json',
@@ -2705,21 +2708,21 @@ class FdhController extends Controller
                         ),
                     ));
                     $response = curl_exec($curl);
-                    // dd($response); 
-                    $result            = json_decode($response, true); 
-                    @$status           = $result['status']; 
+                    // dd($response);
+                    $result            = json_decode($response, true);
+                    @$status           = $result['status'];
                     @$message          = $result['message'];
                     @$data             = $result['data'];
                     @$uidrep           = $data['transaction_uid'];
                     @$id_booking       = $data['id_booking'];
-                    @$uuid_booking     = $data['uuid_booking']; 
-                    // dd($message); 
+                    @$uuid_booking     = $data['uuid_booking'];
+                    // dd($message);
                     if (@$message == 'success') {
                             Fdh_mini_dataset::where('transaction_uid', $uidrep)
                             ->update([
                                 'id_booking'     => @$id_booking,
                                 'uuid_booking'   => @$uuid_booking
-                            ]);  
+                            ]);
                     } elseif ($status == '400') {
                             Fdh_mini_dataset::where('transaction_uid', $uidrep)
                                 ->update([
@@ -2734,46 +2737,46 @@ class FdhController extends Controller
             return response()->json([
                 'status'    => '200'
             ]);
-           
+
     }
 
     public function fdh_mini_dataset_line(Request $request)
-    { 
+    {
            $date_now = date('Y-m-d');
-           $iduser = "754"; 
+           $iduser = "754";
 
-           $count_visit_all_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND cid <>""');      
+           $count_visit_all_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND cid <>""');
            foreach ($count_visit_all_ as $key => $value) {
                 $count_visit_all = $value->Cvn;
-           }  
-           $sum_total_amount_ = DB::connection('mysql')->select('SELECT sum(total_amout) as sumtotal_amout FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND cid <>""');      
+           }
+           $sum_total_amount_ = DB::connection('mysql')->select('SELECT sum(total_amout) as sumtotal_amout FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND cid <>""');
            foreach ($sum_total_amount_ as $key => $value5) {
                 $sum_total_amount = $value5->sumtotal_amout;
-           }     
-           $count_invoice_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND invoice_number IS NOT NULL AND cid <>""');      
+           }
+           $count_invoice_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND invoice_number IS NOT NULL AND cid <>""');
            foreach ($count_invoice_ as $key => $value2) {
                 $count_invoice = $value2->Cvn;
-           }  
-           $count_uuidnull_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND uuid_booking IS NULL AND cid <>""');      
+           }
+           $count_uuidnull_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND uuid_booking IS NULL AND cid <>""');
            foreach ($count_uuidnull_ as $key => $value3) {
                 $count_uuidnull = $value3->Cvn;
-           }  
-           $count_uuidnotnull_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND uuid_booking IS NOT NULL AND cid <>""');      
+           }
+           $count_uuidnotnull_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND uuid_booking IS NOT NULL AND cid <>""');
            foreach ($count_uuidnotnull_ as $key => $value4) {
                 $count_uuidnotnull = $value4->Cvn;
-           }  
-           $jong_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND transaction_uid IS NOT NULL AND cid <>""');      
+           }
+           $jong_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND transaction_uid IS NOT NULL AND cid <>""');
            foreach ($jong_success_ as $key => $value6) {
                 $jong_success = $value6->Cvn;
-           }  
-           $jong_nosuccess_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND transaction_uid ="" AND cid <>""');      
+           }
+           $jong_nosuccess_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND transaction_uid ="" AND cid <>""');
            foreach ($jong_nosuccess_ as $key => $value7) {
                 $jong_nosuccess = $value7->Cvn;
-           }  
-        //    $authen_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');      
+           }
+        //    $authen_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND claimcode IS NOT NULL');
         //    foreach ($authen_success_ as $key => $value8) {
         //         $authen_success = $value8->Cvn;
-        //    } 
+        //    }
            $authen_success_ = DB::connection('mysql10')->select(
             'SELECT COUNT(v.vn) Cvn,SUM(vv.income)-SUM(vv.discount_money)-SUM(vv.rcpt_money) as sumtotal_amout
                 FROM visit_pttype v
@@ -2781,11 +2784,11 @@ class FdhController extends Controller
                 JOIN vn_stat vv ON vv.vn = v.vn
                 WHERE o.an IS NULL AND o.vstdate = "'.$date_now.'"
                 AND (v.claim_code IS NOT NULL OR v.claim_code <> "")
-                AND v.claim_code LIKE "PP%" 
-            ');      
+                AND v.claim_code LIKE "PP%"
+            ');
            foreach ($authen_success_ as $key => $value8) {
                 $authen_success = $value8->Cvn;
-           } 
+           }
            $sum_total_authen_ = DB::connection('mysql10')->select(
             'SELECT COUNT(v.vn) Cvn,SUM(vv.income)-SUM(vv.discount_money)-SUM(vv.rcpt_money) as sumtotal_amout
             FROM visit_pttype v
@@ -2793,21 +2796,21 @@ class FdhController extends Controller
             JOIN vn_stat vv ON vv.vn = v.vn
             WHERE o.an IS NULL AND o.vstdate = "'.$date_now.'"
             AND (v.claim_code IS NOT NULL OR v.claim_code <> "")
-            AND v.claim_code LIKE "PP%"');      
+            AND v.claim_code LIKE "PP%"');
            foreach ($sum_total_authen_ as $key => $value9) {
                 $sum_total_authen = $value9->sumtotal_amout;
-           }  
-           
-           $pidsit_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND active_nhso ="Y"');      
+           }
+
+           $pidsit_success_ = DB::connection('mysql')->select('SELECT COUNT(vn) as Cvn FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND active_nhso ="Y"');
            foreach ($pidsit_success_ as $key => $value_p) {
                 $pidsit_success = $value_p->Cvn;
-           } 
-           $pidsit_sum_ = DB::connection('mysql')->select('SELECT sum(totalAmount) as totalAmount FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND active_nhso ="Y"');      
+           }
+           $pidsit_sum_ = DB::connection('mysql')->select('SELECT sum(totalAmount) as totalAmount FROM fdh_mini_dataset WHERE vstdate = "'.$date_now.'" AND active_nhso ="Y"');
            foreach ($pidsit_sum_ as $key => $value_su) {
                 $pidsit_total = $value_su->totalAmount;
-           } 
+           }
         //    privilegeAmount
-           //แจ้งเตือน 
+           //แจ้งเตือน
             function DateThailine($strDate)
             {
                 $strYear = date("Y", strtotime($strDate)) + 543;
@@ -2836,14 +2839,14 @@ class FdhController extends Controller
                 return $H;
             }
 
-            $message = $header .               
+            $message = $header .
                 "\n" . "วันที่ส่ง: " . $sendate.
-                "\n" . "Visit All: " . $count_visit_all ." คน". 
+                "\n" . "Visit All: " . $count_visit_all ." คน".
                  "\n" . "FDH-สำเร็จ : " . $jong_success ." คน".
                 "\n" . "FDH-ไม่สำเร็จ : " .$jong_nosuccess ." คน".
                 "\n" . "ยอดจอง-FDH : " . number_format($sum_total_amount, 2) . " บาท".
-                "\n" . "มีเลข Invoice : " . $count_invoice ." คน". 
-                "\n" . "ดึงข้อมูลจอง : " . $count_uuidnotnull." คน".               
+                "\n" . "มีเลข Invoice : " . $count_invoice ." คน".
+                "\n" . "ดึงข้อมูลจอง : " . $count_uuidnotnull." คน".
                 "\n" . "NHSO-สำเร็จ : " .$pidsit_success. " คน".
                  "\n" . "ยอดจอง-NHSO : " . number_format($pidsit_total, 2) . " บาท".
                   "\n" . "Authenสำเร็จ : " .$authen_success. " คน".
@@ -2874,12 +2877,12 @@ class FdhController extends Controller
                     echo 'error:' . curl_error($chOne);
                 } else {
                     $result_ = json_decode($result, true);
-                    //return response()->json(['status'=>200]);                        
+                    //return response()->json(['status'=>200]);
                 }
                 curl_close($chOne);
             }
             return redirect()->back();
-        //    return response()->json('200'); 
+        //    return response()->json('200');
     }
 
     // ***************************************** Mini Auto ************************************
@@ -2894,41 +2897,41 @@ class FdhController extends Controller
         $cid_auth    = Auth::user()->cid;
         if ($startdate == '') {
             $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
-                'SELECT * from fdh_mini_dataset 
-                    WHERE vstdate = "' . $date . '"  
-                    ORDER BY vn DESC'); 
+                'SELECT * from fdh_mini_dataset
+                    WHERE vstdate = "' . $date . '"
+                    ORDER BY vn DESC');
         } else {
             $date = date('Y-m-d');
             $iduser = Auth::user()->id;
             $datashow_ = DB::connection('mysql10')->select(
-                
+
                 'SELECT o.vstdate,o.vsttime,Time_format(o.vsttime ,"%H:%i") vsttime2
                     ,pt.cid,"10978" as hcode,IFNULL(rd.total_amount,v.income) as total_amout
                     ,IFNULL(rd.finance_number,v.vn) as invoice_number,v.vn,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.hn,v.pttype
                     ,v.rcpt_money,v.uc_money,ptt.hipdata_code as mainInsclCode,IFNULL(o.main_dep,"155") as main_dep,IFNULL(k.department,"อายุรกรรมห้องตรวจ 3") as department
-                        
+
                     ,CONCAT(o.vstdate," ",DATE_FORMAT(o.vsttime,"%H:%i")) AS service_date_time,v.income as totalAmount
                     ,v.uc_money AS privilegeAmount,v.paid_money AS paidAmount,rd.finance_number as visitNumber,ov.name as ovstost
-                    FROM vn_stat v 
-                    LEFT OUTER JOIN ovst o ON v.vn = o.vn 
+                    FROM vn_stat v
+                    LEFT OUTER JOIN ovst o ON v.vn = o.vn
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
-                    LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
+                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype
+                    LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn
                     LEFT OUTER JOIN kskdepartment k ON k.depcode = o.main_dep
                     LEFT OUTER JOIN ovstost ov on ov.ovstost = o.ovstost
-                    WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"                  
+                    WHERE o.vstdate BETWEEN "' . $startdate . '" and "' . $enddate . '"
                     AND v.income > 0 AND pt.nationality = "99" AND (o.an IS NULL OR o.an ="")
                     GROUP BY o.vn
             '
             );
-            // NOT IN("M1","M2","M3","M4","M5")  AND v.pttype NOT IN("M1","M4","M5")  
+            // NOT IN("M1","M2","M3","M4","M5")  AND v.pttype NOT IN("M1","M4","M5")
             // ,IFNULL(rd.total_amount,v.income) as total_amout
             // ,IFNULL(rd.finance_number,v.vn) as invoice_number
             foreach ($datashow_ as $key => $value) {
                 $dateString = $value->vstdate." ".$value->vsttime;
                 $dateTime = new DateTime($dateString);
                 $timestampInSeconds = $dateTime->getTimestamp();
-                $timestampInMilliseconds = $timestampInSeconds * 1000;                
+                $timestampInMilliseconds = $timestampInSeconds * 1000;
                 $invoiceDateTime = (new DateTime())->format('Uv'); #current_time
 
                 if ($value->pttype == 'M1') {
@@ -2940,22 +2943,22 @@ class FdhController extends Controller
                 }elseif ($value->pttype == 'M4') {
                     $claimServiceCode = 'PG0130001';
                 }elseif ($value->pttype == 'M5') {
-                    $claimServiceCode = 'PG0130001'; 
+                    $claimServiceCode = 'PG0130001';
                 } else {
                      $claimServiceCode = 'PG0060001';
                 }
-                
+
 
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
-                    Fdh_mini_dataset::where('vn', $value->vn)->update([  
+                    Fdh_mini_dataset::where('vn', $value->vn)->update([
                         'total_amout'         => $value->total_amout,
-                        'invoice_number'      => $value->invoice_number, 
-                        'pttype'              => $value->pttype,  
-                        'ovstost'             => $value->ovstost, 
+                        'invoice_number'      => $value->invoice_number,
+                        'pttype'              => $value->pttype,
+                        'ovstost'             => $value->ovstost,
                         'totalAmount'         => $value->totalAmount,
                         'paidAmount'          => $value->paidAmount,
-                        'privilegeAmount'     => $value->privilegeAmount,        
+                        'privilegeAmount'     => $value->privilegeAmount,
                     ]);
                 } else {
                     Fdh_mini_dataset::insert([
@@ -2976,7 +2979,7 @@ class FdhController extends Controller
                         'uc_money'            => $value->privilegeAmount,
                         'paid_money'          => $value->paidAmount,
                         'ovstost'             => $value->ovstost,
-                        'mainInsclCode'       => $value->mainInsclCode, 
+                        'mainInsclCode'       => $value->mainInsclCode,
                         'serviceDateTime'     => $timestampInMilliseconds,
                         'invoiceDateTime'     => $invoiceDateTime,
                         'transactionId'       => '10978'.$value->vn,
@@ -2987,13 +2990,13 @@ class FdhController extends Controller
                         'sourceId'            => 'PK9999',
                         'code'                => $value->main_dep,
                         'name'                => $value->department,
-                        'visitNumber'         => $value->vn,  
-                        'recorderPid'         => $cid_auth, 
+                        'visitNumber'         => $value->vn,
+                        'recorderPid'         => $cid_auth,
                     ]);
-                } 
+                }
             }
         }
-        
+
         return response()->json([
             'status'     => '200'
         ]);
@@ -3023,9 +3026,9 @@ class FdhController extends Controller
             ),
         ));
         $token = curl_exec($curl);
-        // dd($token); 
+        // dd($token);
         curl_close($curl);
- 
+
         $check = Api_neweclaim::where('api_neweclaim_user', $username)->where('api_neweclaim_pass', $password)->count();
         if ($check > 0) {
             Api_neweclaim::where('api_neweclaim_user', $username)->update([
@@ -3049,16 +3052,16 @@ class FdhController extends Controller
         // return response()->json([
         //     'status'     => '200'
         // ]);
-        return response()->json('200'); 
+        return response()->json('200');
         // return view('fdh.fdh_mini_dataset_authauto', [
         //     'startdate'        => $startdate,
-        //     'enddate'          => $enddate, 
+        //     'enddate'          => $enddate,
         // ]);
     }
 
     public function fdh_mini_dataset_pullauto(Request $request)
-    { 
-            $date = date('Y-m-d');     
+    {
+            $date = date('Y-m-d');
             $datashow_ = DB::connection('mysql10')->select(
                 'SELECT v.vstdate,o.vsttime
                     ,Time_format(o.vsttime ,"%H:%i") vsttime2
@@ -3068,28 +3071,28 @@ class FdhController extends Controller
 					,IFNULL(rd.total_amount,v.income) as total_amout
                     ,IFNULL(rd.finance_number,v.vn) as invoice_number
                     ,v.vn,concat(pt.pname,pt.fname," ",pt.lname) as ptname,v.hn,v.pttype
-                    ,IFNULL(vp.claim_code,vp.auth_code) as authen_code 
-                    FROM vn_stat v 
-                    LEFT OUTER JOIN ovst o ON v.vn = o.vn 
+                    ,IFNULL(vp.claim_code,vp.auth_code) as authen_code
+                    FROM vn_stat v
+                    LEFT OUTER JOIN ovst o ON v.vn = o.vn
                     LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype   
-                    LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn 
+                    LEFT OUTER JOIN pttype ptt ON v.pttype=ptt.pttype
+                    LEFT OUTER JOIN rcpt_debt rd ON v.vn = rd.vn
                     LEFT OUTER JOIN visit_pttype vp on vp.vn = o.vn
-                WHERE o.vstdate = "' . $date . '" 
+                WHERE o.vstdate = "' . $date . '"
                 AND ptt.hipdata_code ="UCS" AND v.income > 0 AND pt.nationality = "99"
                 AND (o.an IS NULL OR o.an ="") AND pt.birthday <> "'.$date.'"
                 GROUP BY o.vn LIMIT 50
             ');
-       
+
             foreach ($datashow_ as $key => $value) {
                 $check_opd = Fdh_mini_dataset::where('vn', $value->vn)->count();
                 if ($check_opd > 0) {
-                    Fdh_mini_dataset::where('vn', $value->vn)->update([ 
-                        'cid'                 => $value->cid, 
+                    Fdh_mini_dataset::where('vn', $value->vn)->update([
+                        'cid'                 => $value->cid,
                         'pttype'              => $value->pttype,
                         'total_amout'         => $value->total_amout,
-                        'invoice_number'      => $value->invoice_number, 
-                        'claimcode'           => $value->authen_code,  
+                        'invoice_number'      => $value->invoice_number,
+                        'claimcode'           => $value->authen_code,
                         'ptname'              => $value->ptname,
                         'hn'                  => $value->hn,
                         'vstdate'             => $value->vstdate,
@@ -3109,44 +3112,44 @@ class FdhController extends Controller
                         'vstdate'             => $value->vstdate,
                         'vsttime'             => $value->vsttime,
                         'datesave'            => $date,
-                        'claimcode'           => $value->authen_code,                       
+                        'claimcode'           => $value->authen_code,
                     ]);
                 }
             }
             return response()->json('200');
-      
+
     }
- 
+
      // ************************** จองเคลม **************
      public function fdh_mini_dataset_apicliamauto(Request $request)
-     { 
+     {
         $date = date('Y-m-d');
-        $iduser = "754"; 
-        $data_vn_1 = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE active ="N" AND cid <> "" AND (transaction_uid ="" OR transaction_uid IS NULL) AND invoice_number <>"" LIMIT 10');            
+        $iduser = "754";
+        $data_vn_1 = DB::connection('mysql')->select('SELECT * from fdh_mini_dataset WHERE active ="N" AND cid <> "" AND (transaction_uid ="" OR transaction_uid IS NULL) AND invoice_number <>"" LIMIT 10');
         $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" ORDER BY updated_at desc limit 1');
         foreach ($data_token_ as $key => $val_to) {
             $token_   = $val_to->api_neweclaim_token;
         }
-        $token = $token_;    
+        $token = $token_;
         $startcount = 1;
         $data_claim = array();
         foreach ($data_vn_1 as $key => $val) {
-            $service_date_time_      = $val->service_date_time;    
+            $service_date_time_      = $val->service_date_time;
             $service_date_time    = substr($service_date_time_,0,16);
             $cid                  = $val->cid;
             $hcode                = $val->hcode;
             $total_amout          = $val->total_amout;
             $invoice_number       = $val->invoice_number;
             $vn                   = $val->vn;
-            
+
             $curl = curl_init();
-                $postData_send = [ 
+                $postData_send = [
                     "service_date_time"  => $service_date_time,
                     "cid"                => $cid,
                     "hcode"              => $hcode,
                     "total_amout"        => $total_amout,
                     "invoice_number"     => $invoice_number,
-                    "vn"                 => $vn 
+                    "vn"                 => $vn
                 ];
                 curl_setopt($curl, CURLOPT_URL,"https://fdh.moph.go.th/api/v1/reservation");
                 curl_setopt($curl, CURLOPT_POST, 1);
@@ -3157,7 +3160,7 @@ class FdhController extends Controller
                     'Authorization: Bearer '.$token,
                     'Cookie: __cfruid=bedad7ad2fc9095d4827bc7be4f52f209543768f-1714445470'
                 ));
-    
+
                 $server_output     = curl_exec ($curl);
                 $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
                 // dd($statusCode);
@@ -3176,7 +3179,7 @@ class FdhController extends Controller
                         ->update([
                             'transaction_uid' =>  @$uid,
                             'active'          => 'Y'
-                        ]); 
+                        ]);
                 } elseif ($status == '400') {
                         Fdh_mini_dataset::where('vn', $vn)
                             ->update([
@@ -3186,25 +3189,25 @@ class FdhController extends Controller
                 } else {
                     # code...
                 }
-        }        
-        return response()->json('200'); 
+        }
+        return response()->json('200');
      }
 
     public function fdh_mini_dataset_pulljongauto(Request $request)
     {
         $date = date('Y-m-d');
-        $iduser = "754"; 
+        $iduser = "754";
         $data_vn_1 = DB::connection('mysql')->select('SELECT * FROM fdh_mini_dataset WHERE invoice_number IS NOT NULL AND cid <>"" AND hcode <> "" AND id_booking IS NULL LIMIT 50');
         $data_token_ = DB::connection('mysql')->select('SELECT * FROM api_neweclaim WHERE active_mini = "Y" ORDER BY updated_at desc limit 1');
         foreach ($data_token_ as $key => $val_to) {
             $token_   = $val_to->api_neweclaim_token;
         }
-        $token = $token_; 
-        foreach ($data_vn_1 as $key => $val) { 
+        $token = $token_;
+        foreach ($data_vn_1 as $key => $val) {
             $transaction_uid      = $val->transaction_uid;
-            $hcode                = $val->hcode; 
+            $hcode                = $val->hcode;
 
-                $curl = curl_init(); 
+                $curl = curl_init();
                 curl_setopt_array($curl, array(
                     CURLOPT_URL => 'https://fdh.moph.go.th/api/v1/reservation',
                     CURLOPT_RETURNTRANSFER => true,
@@ -3215,8 +3218,8 @@ class FdhController extends Controller
                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                     CURLOPT_CUSTOMREQUEST => 'GET',
                     CURLOPT_POSTFIELDS => '{
-                        "transaction_uid": "'.$transaction_uid.'", 
-                        "hcode"          : "'.$hcode.'" 
+                        "transaction_uid": "'.$transaction_uid.'",
+                        "hcode"          : "'.$hcode.'"
                     }',
                     CURLOPT_HTTPHEADER => array(
                         'Content-Type: application/json',
@@ -3225,20 +3228,20 @@ class FdhController extends Controller
                     ),
                 ));
                 $response = curl_exec($curl);
-                // dd($response); 
-                $result            = json_decode($response, true); 
-                @$status           = $result['status']; 
+                // dd($response);
+                $result            = json_decode($response, true);
+                @$status           = $result['status'];
                 @$message          = $result['message'];
                 @$data             = $result['data'];
                 @$uidrep           = $data['transaction_uid'];
                 @$id_booking       = $data['id_booking'];
-                @$uuid_booking     = $data['uuid_booking']; 
+                @$uuid_booking     = $data['uuid_booking'];
                 if (@$message == 'success') {
                         Fdh_mini_dataset::where('transaction_uid', $uidrep)
                         ->update([
                             'id_booking'     => @$id_booking,
                             'uuid_booking'   => @$uuid_booking
-                        ]);  
+                        ]);
                 } elseif ($status == '400') {
                         Fdh_mini_dataset::where('transaction_uid', $uidrep)
                             ->update([
@@ -3249,7 +3252,7 @@ class FdhController extends Controller
                     # code...
                 }
         }
-        return response()->json('200'); 
+        return response()->json('200');
     }
 
     public function fdh_authen(Request $request)
@@ -3262,18 +3265,18 @@ class FdhController extends Controller
         $newweek     = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
         $newDate     = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear     = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
- 
+
         if ($startdate == '') {
-            
+
             // $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
             //     'SELECT *
-            //     FROM check_sit_auto 
-            //     WHERE vstdate BETWEEN "'.$newdays.'" AND "'.$date.'" 
-            //     AND (claimcode IS NULL OR claimcode ="") 
-            //     AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","X7","10","06","C4") 
+            //     FROM check_sit_auto
+            //     WHERE vstdate BETWEEN "'.$newdays.'" AND "'.$date.'"
+            //     AND (claimcode IS NULL OR claimcode ="")
+            //     AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","X7","10","06","C4")
             //     GROUP BY vn
-            // ');            
-            // vn,cid,hn,vstdate,pttype,claimcode,fullname,staff 
+            // ');
+            // vn,cid,hn,vstdate,pttype,claimcode,fullname,staff
             $data['fdh_mini_dataset'] = DB::connection('mysql10')->select(
                 'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
                 ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
@@ -3282,14 +3285,14 @@ class FdhController extends Controller
                 LEFT JOIN vn_stat v ON v.vn = c.vn
                 LEFT JOIN patient p ON p.hn = v.hn
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE c.vstdate BETWEEN "'.$date.'" AND "'.$date.'" 
+                WHERE c.vstdate BETWEEN "'.$date.'" AND "'.$date.'"
                 AND vp.claim_code is null
                 AND c.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-                
+
                 AND v.pdx NOT IN("Z000") AND p.cid IS NOT NULL
-                GROUP BY c.vn 
+                GROUP BY c.vn
             ');
-            // AND c.main_dep NOT IN("011","036","107","078","020") 
+            // AND c.main_dep NOT IN("011","036","107","078","020")
         } else {
             $data_vn_1 = DB::connection('mysql10')->select(
                 'SELECT v.vn,p.hn,p.cid,v.vstdate,o.pttype,p.birthday,p.hometel,p.citizenship,p.nationality,v.pdx,o.hospmain,o.hospsub
@@ -3297,72 +3300,72 @@ class FdhController extends Controller
                 ,o.staff,op.name as sname,v.income-v.discount_money-v.rcpt_money as debit,v.income
                 FROM vn_stat v
                 LEFT JOIN visit_pttype vs on vs.vn = v.vn
-                LEFT JOIN ovst o on o.vn = v.vn 
+                LEFT JOIN ovst o on o.vn = v.vn
                 LEFT JOIN patient p on p.hn=v.hn
                 LEFT JOIN pttype pt on pt.pttype=v.pttype
                 LEFT JOIN opduser op on op.loginname = o.staff
                 WHERE o.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND v.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-                AND p.cid IS NOT NULL AND p.nationality ="99" AND p.birthday <> "'.$startdate.'" 
-                AND v.income > 0 
-                GROUP BY o.vn 
+                AND p.cid IS NOT NULL AND p.nationality ="99" AND p.birthday <> "'.$startdate.'"
+                AND v.income > 0
+                GROUP BY o.vn
             ');
             // AND v.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
             // AND (vs.claim_code IS NULL OR vs.claim_code ="")
-            foreach ($data_vn_1 as $key => $value_1) {                
+            foreach ($data_vn_1 as $key => $value_1) {
                 $check = Check_sit_auto::where('vn', $value_1->vn)->count();
-                    if ($check > 0) {   
-                        Check_sit_auto::where('vn', $value_1->vn)->update([  
+                    if ($check > 0) {
+                        Check_sit_auto::where('vn', $value_1->vn)->update([
                             'vstdate'    => $value_1->vstdate,
                             'pttype'     => $value_1->pttype,
-                            'debit'      => $value_1->debit, 
+                            'debit'      => $value_1->debit,
                             'debit'      => $value_1->income,
-                        ]);              
+                        ]);
                     } else {
                         Check_sit_auto::insert([
-                            'vn'         => $value_1->vn, 
+                            'vn'         => $value_1->vn,
                             'hn'         => $value_1->hn,
                             'cid'        => $value_1->cid,
                             'vstdate'    => $value_1->vstdate,
-                            'hometel'    => $value_1->hometel, 
+                            'hometel'    => $value_1->hometel,
                             'fullname'   => $value_1->fullname,
                             'pttype'     => $value_1->pttype,
                             'hospmain'   => $value_1->hospmain,
-                            'hospsub'    => $value_1->hospsub, 
-                            'staff'      => $value_1->staff, 
+                            'hospsub'    => $value_1->hospsub,
+                            'staff'      => $value_1->staff,
                             'debit'      => $value_1->debit,
-                            'pdx'        => $value_1->pdx, 
-                            'debit'      => $value_1->income, 
+                            'pdx'        => $value_1->pdx,
+                            'debit'      => $value_1->income,
                         ]);
                     }
                     // $check2 = Fdh_mini_dataset::where('vn', $value_1->vn)->count();
-                    // if ($check2 > 0) { 
+                    // if ($check2 > 0) {
                     // } else {
                     //     Fdh_mini_dataset::insert([
-                    //         'vn'         => $value_1->vn, 
+                    //         'vn'         => $value_1->vn,
                     //         'hn'         => $value_1->hn,
                     //         'cid'        => $value_1->cid,
                     //         'vstdate'    => $value_1->vstdate,
-                    //         'hcode'      => '10978', 
+                    //         'hcode'      => '10978',
                     //         'ptname'     => $value_1->fullname,
                     //         'pttype'     => $value_1->pttype,
                     //         'hospmain'   => $value_1->hospmain,
-                    //         'hospsub'    => $value_1->hospsub, 
-                    //         'staff'      => $value_1->staff, 
+                    //         'hospsub'    => $value_1->hospsub,
+                    //         'staff'      => $value_1->staff,
                     //         'debit'      => $value_1->debit,
                     // ]);
                     // }
-                    
-                   
+
+
             }
 
             // $data['fdh_mini_dataset']    = DB::connection('mysql')->select(
-            //     'SELECT * FROM check_sit_auto 
-            //     WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
-            //     AND (claimcode IS NULL OR claimcode ="") 
-            //     AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","X7","10","06","C4") 
+            //     'SELECT * FROM check_sit_auto
+            //     WHERE vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+            //     AND (claimcode IS NULL OR claimcode ="")
+            //     AND pttype NOT IN("M1","M2","M3","M4","M5","M6","O1","O2","O3","O4","O5","O6","L1","L2","L3","L4","L5","L6","13","23","91","X7","10","06","C4")
             //     GROUP BY vn
-            // ');   
+            // ');
             // $data['fdh_mini_dataset'] = DB::connection('mysql10')->select(
             //     'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
             //     ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
@@ -3371,13 +3374,13 @@ class FdhController extends Controller
             //     LEFT JOIN vn_stat v ON v.vn = c.vn
             //     LEFT JOIN patient p ON p.hn = v.hn
             //     LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-            //     WHERE c.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+            //     WHERE c.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
             //     AND vp.claim_code is null
             //     AND c.pttype NOT IN("M1","M2","M3","M4","M5","M6","13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-            //     AND c.main_dep NOT IN("011","036","107","078","020") 
+            //     AND c.main_dep NOT IN("011","036","107","078","020")
             //     AND v.pdx NOT IN("Z000") AND p.cid IS NOT NULL
-            //     GROUP BY c.vn 
-            // ');       
+            //     GROUP BY c.vn
+            // ');
             $data['fdh_mini_dataset'] = DB::connection('mysql10')->select(
                 'SELECT c.vn,c.hn,p.cid,c.vstdate,concat(p.pname,p.fname," ",p.lname) as fullname,c.pttype,"" as subinscl,v.income as debit,vp.claim_code,"" as claimtype,v.hospmain
                 ,p.hometel,c.hospsub,c.main_dep,"" as hmain,"" as hsub,"" as subinscl_name,c.staff,k.department,v.pdx
@@ -3386,26 +3389,26 @@ class FdhController extends Controller
                 LEFT JOIN vn_stat v ON v.vn = c.vn
                 LEFT JOIN patient p ON p.hn = v.hn
                 LEFT JOIN kskdepartment k ON k.depcode = c.main_dep
-                WHERE c.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                WHERE c.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND (vp.claim_code is null OR vp.claim_code ="")
                 AND c.pttype NOT IN("13","23","91","X7","10","11","12","06","C4","L1","L2","L3","L4","l5","l6","A7","O1","O2","O3","O4","O5","O6","A7")
-                
+
                 AND v.pdx NOT IN("Z000") AND p.cid IS NOT NULL
-                GROUP BY c.vn 
+                GROUP BY c.vn
             ');
         }
-        
+
 
         return view('fdh.fdh_authen',$data, [
             'startdate'        => $startdate,
-            'enddate'          => $enddate, 
+            'enddate'          => $enddate,
         ]);
     }
     public function fdh_authen_pull(Request $request)
     {
         $startdate   = $request->startdate;
         $enddate     = $request->enddate;
-        
+
         // if ($startdate =='') {
                 $iduser      = Auth::user()->id;
                 $id          = $request->ids;
@@ -3423,40 +3426,40 @@ class FdhController extends Controller
                 // ->whereIn('vn_stat.vn', explode(",", $id))->get();
                 // $data_vn_1 = Vn_stat::select('vn_stat.cid', 'vn_stat.vn','vn_stat.vstdate','vn_stat.pttype')->whereIn('vn_stat.vn', explode(",", $id))->get();
                 // $data_vn_1 = DB::connection('mysql10')->select(
-                //     'SELECT o.vn,v.hn,p.cid,v.vstdate,vp.pttype,vp.claim_code,v.hospmain,p.hometel 
+                //     'SELECT o.vn,v.hn,p.cid,v.vstdate,vp.pttype,vp.claim_code,v.hospmain,p.hometel
                 //         FROM ovst o
                 //         LEFT JOIN visit_pttype vp ON vp.vn = o.vn
                 //         LEFT JOIN vn_stat v ON v.vn = o.vn
-                //         LEFT JOIN patient p ON p.hn = v.hn 
+                //         LEFT JOIN patient p ON p.hn = v.hn
                 //         WHERE vp.vn IN("'.$id.'")
                 // ');
-                // AND (vp.claim_code is null OR vp.claim_code ="")  
+                // AND (vp.claim_code is null OR vp.claim_code ="")
                 // $data_vn_1 = Visit_pttype::whereIn('vn',explode(",",$id))->get();
                 foreach ($data_vn_1 as $key => $value) {
                         $cid         = $value->cid;
                         $vn          = $value->vn;
                         $vstdate     = $value->vstdate;
-                        // $pttype     = $value->pttype;  
+                        // $pttype     = $value->pttype;
 
-                        $ch = curl_init(); 
+                        $ch = curl_init();
                         $headers = array();
                         $headers[] = "Accept: application/json";
-                        $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";    
+                        $headers[] = "Authorization: Bearer 3045bba2-3cac-4a74-ad7d-ac6f7b187479";
                         // curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
                         // curl_setopt($ch, CURLOPT_URL, "https://nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
                         curl_setopt($ch, CURLOPT_URL, "https://authenucws.nhso.go.th/authencodestatus/api/check-authen-status?personalId=$cid&serviceDate=$vstdate&serviceCode=PG0060001");
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
-                        $response = curl_exec($ch); 
-                        $contents = $response; 
-                        $result = json_decode($contents, true);  
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                        $response = curl_exec($ch);
+                        $contents = $response;
+                        $result = json_decode($contents, true);
                         // dd($result);
-                        if ($result != null ) {  
-                                isset( $result['statusAuthen'] ) ? $statusAuthen = $result['statusAuthen'] : $statusAuthen = ""; 
-                                if ($statusAuthen =='false') { 
-                                    $his = $result['serviceHistories']; 
-                                    // dd($his); 
+                        if ($result != null ) {
+                                isset( $result['statusAuthen'] ) ? $statusAuthen = $result['statusAuthen'] : $statusAuthen = "";
+                                if ($statusAuthen =='false') {
+                                    $his = $result['serviceHistories'];
+                                    // dd($his);
                                     foreach ($his as $key => $value_s) {
                                         $cd	           = $value_s["claimCode"];
                                         $sv_code	   = $value_s["service"]["code"];
@@ -3466,51 +3469,51 @@ class FdhController extends Controller
                                         // dd($hname);
                                         Visit_pttype::where('vn','=', $vn)->where('hospmain','=', $hcode)
                                             ->update([
-                                                'claim_code'     => $cd, 
-                                                'auth_code'      => $cd, 
+                                                'claim_code'     => $cd,
+                                                'auth_code'      => $cd,
                                         ]);
-                                        
+
                                         // Check_sit_auto::where('vn','=', $vn)
                                         //     ->update([
                                         //         'claimcode'     => $cd,
                                         //         'claimtype'     => $sv_code,
-                                        //         'servicename'   => $sv_name, 
+                                        //         'servicename'   => $sv_name,
                                         // ]);
                                         Fdh_mini_dataset::where('vn','=', $vn)->where('hcode','=', $hcode)
                                             ->update([
                                                 'claimcode'     => $cd,
                                                 'claimtype'     => $sv_code,
-                                                'servicename'   => $sv_name, 
+                                                'servicename'   => $sv_name,
                                         ]);
 
                                         // Visit_pttype_205::where('vn', $vn)
                                         //     ->update([
-                                        //         'claim_code'     => $cd, 
-                                        //         'auth_code'      => $cd, 
+                                        //         'claim_code'     => $cd,
+                                        //         'auth_code'      => $cd,
                                         // ]);
                                         // Visit_pttype_217::where('vn', $vn)
                                         //     ->update([
-                                        //         'claim_code'     => $cd, 
-                                        //         'auth_code'      => $cd, 
+                                        //         'claim_code'     => $cd,
+                                        //         'auth_code'      => $cd,
                                         // ]);
-                                        
-                                    }  
-                                } 
-                        } 
-                }  
-             
+
+                                    }
+                                }
+                        }
+                }
+
 
             // return response()->json('true');
             return response()->json([
                 'status'    => '200'
             ]);
-                
+
     }
 
     public function fdh_mini_dataset_destroy(Request $request)
     {
         $id = $request->ids;
-        Fdh_mini_dataset::whereIn('fdh_mini_dataset_id',explode(",",$id))->delete();               
+        Fdh_mini_dataset::whereIn('fdh_mini_dataset_id',explode(",",$id))->delete();
         return response()->json([
             'status'    => '200'
         ]);
@@ -3541,9 +3544,9 @@ class FdhController extends Controller
     //         ),
     //     ));
     //     $token = curl_exec($curl);
-    //     // dd($token); 
+    //     // dd($token);
     //     curl_close($curl);
- 
+
     //     $check = Api_neweclaim::where('api_neweclaim_user', $username)->where('api_neweclaim_pass', $password)->count();
     //     if ($check > 0) {
     //         Api_neweclaim::where('api_neweclaim_user', $username)->update([
@@ -3564,8 +3567,8 @@ class FdhController extends Controller
     //             // 'user_id'                   => Auth::user()->id,
     //         ]);
     //     }
-     
-    //     return response()->json('200'); 
-       
+
+    //     return response()->json('200');
+
     // }
 }

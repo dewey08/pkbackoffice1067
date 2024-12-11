@@ -782,13 +782,14 @@ class DentalController extends Controller
             'enddate'          => $dateend,
             'appointment'      => $data_appointment, 
             'dent_edit'        => $dent_edit, 
-            'datashow'          => $datashow,
+            'datashow'         => $datashow,
         ]);
     }
 
     public function dental_appointment_update (Request $request) 
     {
-        $id                     = $request->dent_appointment_id;
+        $id                     = $request->appointment_id;
+        $app_id                 = $request->appointment;
         $hn                     =  $request->dent_hn;
         if ($hn != '') {
             $data_show          = Patient::where('hn',$hn)->first();        
@@ -797,33 +798,32 @@ class DentalController extends Controller
                 $data_cid_ = '';
             } else {
                 $data_cid_ = $data_cid;
-            }
-    
-            $data_type          = Dent_appointment_type::where('appointment_id',$request->appointment)->first();
+            }    
+            $data_type          = Dent_appointment_type::where('appointment_id',$app_id)->first();
             $appointment_id     = $data_type->appointment_id;
             $appointment_name   = $data_type->appointment_name;
             $data_users         = User::where('id','=',$request->dent_doctor)->first();
             $dent_doctor_name   = $data_users->fname.'  '.$data_users->lname; 
             $data_ptname        = $data_show->pname.''.$data_show->fname.'  '.$data_show->lname;
             $data_hometel       = $data_show->hometel;
+            $dent_date          = $data_show->dent_date;
 
             if ($data_hometel =='') {
                 $data_hometel_  = '';
             } else {
                 $data_hometel_  = $data_hometel ;
-            }
-           
+            }           
             Dent_appointment::where('dent_appointment_id',$id)->update([
-                'dent_hn'               => $request->$hn,
-                'dent_patient_cid'      => $request->$data_cid_,
-                'dent_patient_name'     => $request->$data_ptname, 
-                'dent_tel'              => $request->$data_hometel_,
+                'dent_hn'               => $hn,
+                'dent_patient_cid'      => $data_cid_,
+                'dent_patient_name'     => $data_ptname, 
+                'dent_tel'              => $data_hometel_,
                 'dent_work'             => $request->dent_work,
                 'dent_date'             => $request->dent_date,
                 'dent_time'             => $request->dent_time,
                 'appointment_id'        => $appointment_id,
                 'appointment_name'      => $appointment_name, 
-                'dent_doctor'           => $request->$request->dent_doctor,
+                'dent_doctor'           => $request->dent_doctor,
                 'dent_doctor_name'      => $dent_doctor_name, 
                 'user_save'             => Auth::user()->id
             ]);
@@ -834,9 +834,7 @@ class DentalController extends Controller
             return response()->json([ 
                 'status'    => '100'
             ]);
-        }
-
-      
+        }      
     }    
 
     public function dental_setting_type (Request $request)

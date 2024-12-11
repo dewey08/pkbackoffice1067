@@ -87,8 +87,8 @@ date_default_timezone_set("Asia/Bangkok");
 
 
 class Account309Controller extends Controller
- { 
-    
+ {
+
     public function account_309_dash(Request $request)
     {
         $datenow = date('Y-m-d');
@@ -107,7 +107,7 @@ class Account309Controller extends Controller
         $yearnew = date('Y')+1;
         $yearold = date('Y')-1;
         $start = (''.$yearold.'-10-01');
-        $end = (''.$yearnew.'-09-30'); 
+        $end = (''.$yearnew.'-09-30');
 
         // budget_year
         // $data_trimart = DB::table('acc_trimart')->limit(3)->orderBy('acc_trimart_id','desc')->get();
@@ -133,11 +133,11 @@ class Account309Controller extends Controller
         //             left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
         //             WHERE a.vstdate between "'.$start.'" and "'.$end.'"
         //             and account_code="1102050101.309"
-        //             group by month(a.vstdate) 
-                    
+        //             group by month(a.vstdate)
+
         //             order by a.vstdate desc limit 6;
-        //     '); 
-        //     // 
+        //     ');
+        //     //
         //     // order by month(a.vstdate),year(a.vstdate) desc limit 6;
         // } else {
         //     $datashow = DB::select('
@@ -153,16 +153,16 @@ class Account309Controller extends Controller
         //             left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
         //             WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
         //             and account_code="1102050101.309"
-                 
+
         //             order by a.vstdate desc;
         //     ');
         // }
 
         if ($budget_year == '') {
             $yearnew     = date('Y');
-            $year_old    = date('Y')-1; 
+            $year_old    = date('Y')-1;
             $startdate   = (''.$year_old.'-10-01');
-            $enddate     = (''.$yearnew.'-09-30'); 
+            $enddate     = (''.$yearnew.'-09-30');
             // dd($startdate);
             $datashow = DB::select('
                     SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
@@ -174,14 +174,14 @@ class Account309Controller extends Controller
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
                     and account_code="1102050101.309"
-                    group by month(a.vstdate)                     
+                    group by month(a.vstdate)
                     order by a.vstdate desc;
-            ');  
+            ');
         } else {
-          
+
             $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
             $startdate    = $bg->date_begin;
-            $enddate      = $bg->date_end; 
+            $enddate      = $bg->date_end;
             // dd($startdate);
             $datashow = DB::select('
                     SELECT month(a.vstdate) as months,year(a.vstdate) as year,l.MONTH_NAME
@@ -191,8 +191,8 @@ class Account309Controller extends Controller
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.vstdate)
                     WHERE a.vstdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050101.308" 
-                    group by month(a.vstdate)                    
+                    and account_code="1102050101.308"
+                    group by month(a.vstdate)
                     order by a.vstdate desc;
             ');
         }
@@ -219,8 +219,8 @@ class Account309Controller extends Controller
         if ($startdate == '') {
             // $acc_debtor = Acc_debtor::where('stamp','=','N')->whereBetween('dchdate', [$datenow, $datenow])->get();
             $acc_debtor = DB::select('
-                SELECT * from acc_debtor 
-               
+                SELECT * from acc_debtor
+
                 WHERE account_code="1102050101.309"
                 AND stamp = "N"
                 order by vstdate desc;
@@ -245,7 +245,7 @@ class Account309Controller extends Controller
         $startdate = $request->datepicker;
         $enddate = $request->datepicker2;
         // Acc_opitemrece::truncate();
-            $acc_debtor = DB::connection('mysql2')->select('   
+            $acc_debtor = DB::connection('mysql2')->select('
                     SELECT o.vn,ifnull(o.an,"") as an,o.hn,pt.cid as cid,concat(pt.pname,pt.fname," ",pt.lname) as ptname
                     ,o.vstdate as vstdate,o.vsttime ,v.hospmain,op.income as income_group,ptt.pttype_eclaim_id,vp.pttype,e.code as acc_code
                     ,e.ar_opd as account_code,e.name as account_name,v.income,v.uc_money,v.discount_money,v.paid_money,v.rcpt_money
@@ -263,13 +263,13 @@ class Account309Controller extends Controller
                     LEFT JOIN pttype ptt on o.pttype=ptt.pttype
                     LEFT JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                     LEFT JOIN opitemrece op ON op.vn = o.vn
-                    WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"                  
+                    WHERE o.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                     AND vp.pttype IN (SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.309")
                     AND v.income > 0
                     AND (o.an="" or o.an is null)
                     GROUP BY o.vn
             ');
-            // AND vp.pttype = "14" 
+            // AND vp.pttype = "14"
             // AND v.hospmain = "10702"
             foreach ($acc_debtor as $key => $value) {
                 // $check = Acc_debtor::where('vn', $value->vn)->where('account_code','1102050101.309')->whereBetween('vstdate', [$startdate, $enddate])->count();
@@ -299,13 +299,13 @@ class Account309Controller extends Controller
                             'debit_drug'         => $value->debit_drug,
                             'debit_instument'    => $value->debit_instument,
                             'debit_toa'          => $value->debit_toa,
-                            'debit_refer'        => $value->debit_refer, 
-                            'fokliad'            => $value->fokliad, 
+                            'debit_refer'        => $value->debit_refer,
+                            'fokliad'            => $value->fokliad,
                             'debit_total'        => $value->looknee,
                             'max_debt_amount'    => $value->max_debt_amount,
                             'acc_debtor_userid'  => Auth::user()->id
                         ]);
-                    } 
+                    }
             }
             return response()->json([
 
@@ -317,20 +317,20 @@ class Account309Controller extends Controller
         $datestart = $request->datestart;
         $dateend = $request->dateend;
         $date = date('Y-m-d');
-        
+
         $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050101.309" AND stamp = "N" GROUP BY vn');
-      
+
         $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
-        foreach ($token_data as $key => $value) { 
+        foreach ($token_data as $key => $value) {
             $cid_    = $value->cid;
             $token_  = $value->token;
         }
         foreach ($data_sitss as $key => $item) {
             $pids = $item->cid;
-            $vn   = $item->vn; 
-            $an   = $item->an; 
+            $vn   = $item->vn;
+            $an   = $item->an;
                 // $token_data = DB::connection('mysql10')->select('SELECT cid,token FROM hos.nhso_token where token <> ""');
-                // foreach ($token_data as $key => $value) { 
+                // foreach ($token_data as $key => $value) {
                     $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
                         array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
                         );
@@ -360,16 +360,16 @@ class Account309Controller extends Controller
 
                         IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
                             $date = date("Y-m-d");
-                          
+
                             Acc_debtor::where('vn', $vn)
                             ->update([
                                 'status'         => 'จำหน่าย/เสียชีวิต',
                                 'maininscl'      => @$maininscl,
                                 'pttype_spsch'   => @$subinscl,
                                 'hmain'          => @$hmain,
-                                'subinscl'       => @$subinscl, 
+                                'subinscl'       => @$subinscl,
                             ]);
-                            
+
                         }elseif(@$maininscl !="" || @$subinscl !=""){
                            Acc_debtor::where('vn', $vn)
                            ->update([
@@ -378,13 +378,13 @@ class Account309Controller extends Controller
                                'pttype_spsch'   => @$subinscl,
                                'hmain'          => @$hmain,
                                'subinscl'       => @$subinscl,
-                           
-                           ]); 
-                                    
+
+                           ]);
+
                         }
 
                     }
-           
+
         }
 
         return response()->json([
@@ -404,7 +404,7 @@ class Account309Controller extends Controller
                     ]);
         foreach ($data as $key => $value) {
                 $date = date('Y-m-d H:m:s');
-             
+
                 $check = Acc_1102050101_309::where('vn', $value->vn)->count();
                 if ($check > 0) {
                 # code...
@@ -446,7 +446,7 @@ class Account309Controller extends Controller
     public function account_309_destroy_all(Request $request)
     {
         $id = $request->ids;
-        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();               
+        Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();
         return response()->json([
             'status'    => '200'
         ]);
@@ -454,20 +454,20 @@ class Account309Controller extends Controller
 
     public function account_309_detail(Request $request,$months,$year)
     {
-        $datenow = date('Y-m-d'); 
+        $datenow = date('Y-m-d');
         // dd($id);
         $data['users'] = User::get();
- 
-        
+
+
         $data = DB::select('
             SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
                 from acc_1102050101_309 U1
-            
+
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
                 GROUP BY U1.vn
         ');
         // WHERE month(U1.vstdate) = "'.$months.'" and year(U1.vstdate) = "'.$year.'"
-        return view('account_309.account_309_detail', $data, [ 
+        return view('account_309.account_309_detail', $data, [
             'data'       =>     $data,
             'months'     =>     $months,
             'year'       =>     $year
@@ -476,20 +476,44 @@ class Account309Controller extends Controller
     public function account_309_stm(Request $request,$months,$year)
     {
         $datenow = date('Y-m-d');
-        
+
         $data['users'] = User::get();
 
         $data = DB::select('
             SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
                 from acc_1102050101_309 U1
-            
+
                 WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
                 AND U1.nhso_ownright_pid is not null
                 AND U1.recieve_true is not null
                 GROUP BY U1.vn
         ');
-       
-        return view('account_309.account_309_stm', $data, [ 
+
+        return view('account_309.account_309_stm', $data, [
+            'data'          =>     $data,
+            'months'        =>     $months,
+            'year'          =>     $year
+        ]);
+    }
+
+    public function account_309_stm2(Request $request,$months,$year)
+    {
+        $datenow = date('Y-m-d');
+
+        $data['users'] = User::get();
+
+        $data = DB::select('
+            SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid
+            ,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date,U1.stm,U1.stm_no,U1.date_save
+                from acc_1102050101_309 U1
+
+                WHERE month(U1.vstdate) = "'.$months.'" AND year(U1.vstdate) = "'.$year.'"
+
+                AND U1.stm is not null
+                GROUP BY U1.vn
+        ');
+
+        return view('account_309.account_309_stm2', $data, [
             'data'          =>     $data,
             'months'        =>     $months,
             'year'          =>     $year
@@ -500,69 +524,69 @@ class Account309Controller extends Controller
     {
         $months = $request->months;
         $year = $request->year;
-        $sync = DB::connection('mysql')->select(' 
+        $sync = DB::connection('mysql')->select('
                 SELECT ac.acc_1102050101_309_id,v.vn,o.vstdate,v.pttype,v.nhso_docno,v.nhso_ownright_pid
                 from hos.visit_pttype v
                 LEFT JOIN hos.ovst o ON o.vn = v.vn
-                LEFT JOIN pkbackoffice.acc_1102050101_309 ac ON ac.vn = v.vn  
-                WHERE month(o.vstdate) = "'.$months.'"  
+                LEFT JOIN pkbackoffice.acc_1102050101_309 ac ON ac.vn = v.vn
+                WHERE month(o.vstdate) = "'.$months.'"
                 AND year(o.vstdate) = "'.$year.'"
                 AND v.nhso_ownright_pid <> ""
                 AND v.nhso_docno  <> ""
                 AND ac.acc_1102050101_309_id <> ""
                 and v.pttype ="14"
-                GROUP BY v.vn 
+                GROUP BY v.vn
             ');
             foreach ($sync as $key => $value) {
-               
+
                 // if ($value->nhso_docno != '') {
-                     
-                    Acc_1102050101_309::where('vn',$value->vn) 
-                        ->update([  
+
+                    Acc_1102050101_309::where('vn',$value->vn)
+                        ->update([
                             'nhso_docno'           => $value->nhso_docno,
                             'nhso_ownright_pid'    => $value->nhso_ownright_pid
                     ]);
-                
+
             }
             return response()->json([
                 'status'    => '200'
             ]);
-        
-        
+
+
     }
 
     public function account_309_detail_date(Request $request,$startdate,$enddate)
-    { 
-        $data['users'] = User::get();  
+    {
+        $data['users'] = User::get();
         $data = DB::select('
             SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
                 from acc_1102050101_309 U1
-            
+
                 WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 GROUP BY U1.vn
         ');
-    
-        return view('account_309.account_309_detail_date', $data, [ 
+
+        return view('account_309.account_309_detail_date', $data, [
             'data'          =>     $data,
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate
         ]);
     }
     public function account_309_stm_date(Request $request,$startdate,$enddate)
-    { 
+    {
         $data['users'] = User::get();
 
         $data = DB::select('
         SELECT U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.pttype,U1.debit_total,U1.nhso_docno,U1.dchdate,U1.nhso_ownright_pid,U1.recieve_true,U1.difference,U1.recieve_no,U1.recieve_date
                 from acc_1102050101_309 U1
-            
+
                 WHERE U1.vstdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 AND U1.nhso_ownright_pid is not null
                 AND U1.recieve_true is not null
                 GROUP BY U1.vn
         ');
-       
-        return view('account_309.account_309_stm_date', $data, [ 
+
+        return view('account_309.account_309_stm_date', $data, [
             'data'          =>     $data,
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate
@@ -574,20 +598,20 @@ class Account309Controller extends Controller
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $date = date('Y-m-d'); 
+        $date = date('Y-m-d');
         $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
         $data['users'] = User::get();
         if ($startdate =='') {
-           $datashow = DB::select(' 
-               SELECT * from acc_1102050101_309 
-               WHERE vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'"  
+           $datashow = DB::select('
+               SELECT * from acc_1102050101_309
+               WHERE vstdate BETWEEN "'.$new_day.'" AND  "'.$date.'"
            ');
         } else {
-           $datashow = DB::select(' 
+           $datashow = DB::select('
                SELECT * from acc_1102050101_309
-               WHERE vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
+               WHERE vstdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
            ');
-        } 
+        }
         return view('account_309.account_309_search', $data, [
             'startdate'     => $startdate,
             'enddate'       => $enddate,

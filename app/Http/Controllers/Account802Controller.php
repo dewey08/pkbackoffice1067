@@ -55,7 +55,7 @@ use App\Models\D_orf;
 use App\Models\D_odx;
 use App\Models\D_cht;
 use App\Models\D_cha;
-use App\Models\D_oop; 
+use App\Models\D_oop;
 use App\Models\D_adp;
 use App\Models\D_dru;
 use App\Models\D_idx;
@@ -72,7 +72,7 @@ use App\Models\Fdh_orf;
 use App\Models\Fdh_odx;
 use App\Models\Fdh_cht;
 use App\Models\Fdh_cha;
-use App\Models\Fdh_oop; 
+use App\Models\Fdh_oop;
 use App\Models\Fdh_adp;
 use App\Models\Fdh_dru;
 use App\Models\Fdh_idx;
@@ -89,7 +89,7 @@ use App\Models\Dapi_orf;
 use App\Models\Dapi_odx;
 use App\Models\Dapi_cht;
 use App\Models\Dapi_cha;
-use App\Models\Dapi_oop; 
+use App\Models\Dapi_oop;
 use App\Models\Dapi_adp;
 use App\Models\Dapi_dru;
 use App\Models\Dapi_idx;
@@ -132,13 +132,13 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
-use PhpOffice\PhpSpreadsheet\IOFactory; 
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Models\D_ofc_repexcel;
-use App\Models\D_ofc_rep; 
-use ZipArchive;  
+use App\Models\D_ofc_rep;
+use ZipArchive;
 use Illuminate\Support\Facades\Redirect;
 use PhpParser\Node\Stmt\If_;
-use Stevebauman\Location\Facades\Location; 
+use Stevebauman\Location\Facades\Location;
 use Illuminate\Filesystem\Filesystem;
 
 date_default_timezone_set("Asia/Bangkok");
@@ -146,15 +146,15 @@ date_default_timezone_set("Asia/Bangkok");
 
 class Account802Controller extends Controller
  {
-    // *************************** 802 ********************************************    
-   
+    // *************************** 802 ********************************************
+
     public function account_802_dash_old(Request $request)
     {
          $datenow = date('Y-m-d');
          $startdate = $request->startdate;
          $enddate = $request->enddate;
          $dabudget_year = DB::table('budget_year')->where('active','=',true)->first();
- 
+
          $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
          $date = date('Y-m-d');
          $y = date('Y') + 543;
@@ -164,8 +164,8 @@ class Account802Controller extends Controller
          $yearnew = date('Y')+1;
          $yearold = date('Y')-1;
          $start = (''.$yearold.'-10-01');
-         $end = (''.$yearnew.'-09-30'); 
- 
+         $end = (''.$yearnew.'-09-30');
+
          if ($startdate == '') {
              $datashow = DB::select('
                      SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
@@ -175,12 +175,12 @@ class Account802Controller extends Controller
                      ,sum(a.income) as income
                      ,sum(a.paid_money) as paid_money
                      ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
- 
+
                      FROM acc_debtor a
                      left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                      WHERE a.dchdate between "'.$start.'" and "'.$end.'"
                      and account_code="1102050102.802"
- 
+
                      group by month(a.dchdate) order by a.dchdate desc limit 3;
              ');
              // and stamp = "N"
@@ -193,13 +193,13 @@ class Account802Controller extends Controller
                      ,sum(a.income) as income
                      ,sum(a.paid_money) as paid_money
                      ,sum(a.income)-sum(a.discount_money)-sum(a.rcpt_money) as total
- 
+
                      FROM acc_debtor a
                      left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                      WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
                      and account_code="1102050102.802"
- 
-                     
+
+
              ');
          }
         //  group by month(a.dchdate) order by month(a.dchdate) desc;
@@ -211,7 +211,7 @@ class Account802Controller extends Controller
              ]);
     }
     public function account_802_dash(Request $request)
-    {  
+    {
         $budget_year        = $request->budget_year;
         $dabudget_year      = DB::table('budget_year')->where('active','=',true)->get();
         $leave_month_year   = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
@@ -225,9 +225,9 @@ class Account802Controller extends Controller
 
         if ($budget_year == '') {
             $yearnew     = date('Y');
-            $year_old    = date('Y')-1; 
+            $year_old    = date('Y')-1;
             // $startdate   = (''.$year_old.'-10-01');
-            // $enddate     = (''.$yearnew.'-09-30'); 
+            // $enddate     = (''.$yearnew.'-09-30');
             $bg           = DB::table('budget_year')->where('years_now','Y')->first();
             $startdate    = $bg->date_begin;
             $enddate      = $bg->date_end;
@@ -242,14 +242,14 @@ class Account802Controller extends Controller
                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                     WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
                     and account_code="1102050102.802"
-                    group by month(a.dchdate)                     
+                    group by month(a.dchdate)
                     order by a.dchdate desc;
-            ');  
+            ');
         } else {
-          
+
             $bg           = DB::table('budget_year')->where('leave_year_id','=',$budget_year)->first();
             $startdate    = $bg->date_begin;
-            $enddate      = $bg->date_end; 
+            $enddate      = $bg->date_end;
             // dd($startdate);
             $datashow = DB::select('
                     SELECT month(a.dchdate) as months,year(a.dchdate) as year,l.MONTH_NAME
@@ -259,16 +259,16 @@ class Account802Controller extends Controller
                     FROM acc_debtor a
                     left outer join leave_month l on l.MONTH_ID = month(a.dchdate)
                     WHERE a.dchdate between "'.$startdate.'" and "'.$enddate.'"
-                    and account_code="1102050102.802" 
-                    group by month(a.dchdate)                    
+                    and account_code="1102050102.802"
+                    group by month(a.dchdate)
                     order by a.dchdate desc;
             ');
         }
         // dd($startdate);
         return view('account_802.account_802_dash',$data,[
             'startdate'         =>  $startdate,
-            'enddate'           =>  $enddate, 
-            'leave_month_year'  =>  $leave_month_year, 
+            'enddate'           =>  $enddate,
+            'leave_month_year'  =>  $leave_month_year,
             'datashow'          =>  $datashow,
             'dabudget_year'     =>  $dabudget_year,
             'budget_year'       =>  $budget_year,
@@ -283,44 +283,40 @@ class Account802Controller extends Controller
         $newday = date('Y-m-d', strtotime($datenow . ' -15 Day')); //ย้อนหลัง 30 วัน
         $startdate = $request->startdate;
         $enddate   = $request->enddate;
-        
-       
+
+
 
         if ($startdate == '') {
             // $acc_debtor = DB::select('
-            //     SELECT a.* from acc_debtor a               
+            //     SELECT a.* from acc_debtor a
             //     WHERE a.account_code="1102050102.801" AND a.vstdate BETWEEN "' . $newday . '" AND "' . $datenow . '"
             //     GROUP BY a.vn
             //     ORDER BY a.vstdate DESC
-            // '); 
+            // ');
             // $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050102.801')->whereBetween('vstdate', [$newday, $datenow])->count();
             // $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050102.801')->whereBetween('vstdate', [$newday, $datenow])->count();
 
             $acc_debtor = DB::select(
-                'SELECT a.* from acc_debtor a               
-                WHERE a.account_code="1102050102.802"  
+                'SELECT a.* from acc_debtor a
+                WHERE a.account_code="1102050102.802" AND a.dchdate BETWEEN "'.$newday.'" AND "'.$datenow.'"
                 GROUP BY a.an
                 ORDER BY a.dchdate DESC
-            '); 
-                
-            $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050102.802')->whereBetween('dchdate', [$startdate, $enddate])->count();
-            $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050102.802')->whereBetween('dchdate', [$startdate, $enddate])->count();
+            ');
+
+            $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050102.802')->whereBetween('dchdate', [$newday, $datenow])->count();
+            $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050102.802')->whereBetween('dchdate', [$newday, $datenow])->count();
 
         } else {
             $acc_debtor = DB::select(
-                'SELECT a.* from acc_debtor a               
-                WHERE a.account_code="1102050102.802" 
+                'SELECT a.* from acc_debtor a
+                WHERE a.account_code="1102050102.802" AND a.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 GROUP BY a.an
                 ORDER BY a.dchdate DESC
-            '); 
-                
+            ');
+
             $data['count_claim'] = Acc_debtor::where('active_claim','=','Y')->where('account_code','=','1102050102.802')->whereBetween('dchdate', [$startdate, $enddate])->count();
             $data['count_noclaim'] = Acc_debtor::where('active_claim','=','N')->where('account_code','=','1102050102.802')->whereBetween('dchdate', [$startdate, $enddate])->count();
         }
-        
-
-
-
 
 
 
@@ -335,9 +331,9 @@ class Account802Controller extends Controller
          ]);
     }
     function account_802_claimswitch(Request $request)
-    {  
+    {
         // $id = $request->idfunc;
-        Acc_function::where('pang','1102050102.802')->update(['claim_active'=> $request->onoff]); 
+        Acc_function::where('pang','1102050102.802')->update(['claim_active'=> $request->onoff]);
         return response()->json([
             'status'    => '200'
         ]);
@@ -349,7 +345,7 @@ class Account802Controller extends Controller
          $enddate = $request->datepicker2;
             $acc_debtor = DB::connection('mysql2')->select(
                 'SELECT i.vn,a.an,a.hn,pt.cid,concat(pt.pname,pt.fname," ",pt.lname) ptname ,a.regdate,a.dchdate,v.vstdate,op.income as income_group
-                    ,ipt.pttype,ipt.pttype_number,ipt.max_debt_amount,i.rw,i.adjrw,i.adjrw*9000 as total_adjrw_income 
+                    ,ipt.pttype,ipt.pttype_number,ipt.max_debt_amount,i.rw,i.adjrw,i.adjrw*9000 as total_adjrw_income
                     ,pt.hcode,e.code as acc_code,e.ar_ipd as account_code,e.name as account_name ,a.income,a.uc_money,a.discount_money,a.paid_money,a.rcpt_money
                     ,a.rcpno_list as rcpno ,a.income-a.discount_money-a.rcpt_money as debit ,if(op.icode IN ("3010058"),sum_price,0) as fokliad
                     ,sum(if(op.income="02",sum_price,0)) as debit_instument
@@ -357,7 +353,7 @@ class Account802Controller extends Controller
                     ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                     ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                     ,ptt.max_debt_money,o.icd10
-                    from ipt i 
+                    from ipt i
                     left join an_stat a on a.an=i.an
                     left join patient pt on pt.hn=i.hn
                     LEFT JOIN pttype ptt on i.pttype=ptt.pttype
@@ -367,10 +363,10 @@ class Account802Controller extends Controller
                     LEFT JOIN drugitems d on d.icode=op.icode
                     LEFT JOIN vn_stat v on v.vn = i.vn
                     LEFT JOIN iptdiag o on o.an = a.an
-                    WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '" 
+                    WHERE a.dchdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"
                     AND ipt.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050102.802")
                     GROUP BY i.an
-                
+
             ');
             $bgs_year      = DB::table('budget_year')->where('years_now','Y')->first();
             $bg_yearnow    = $bgs_year->leave_year_id;
@@ -416,7 +412,7 @@ class Account802Controller extends Controller
                                 'acc_debtor_userid'  => Auth::user()->id
                             ]);
                         }
-                        
+
                         // if ($check == 0) {
                         //     Acc_debtor::insert([
                         //         'hn'                 => $value->hn,
@@ -449,12 +445,12 @@ class Account802Controller extends Controller
                         //         'acc_debtor_userid'  => Auth::user()->id
                         //     ]);
                         // }
-            } 
+            }
              return response()->json([
- 
+
                  'status'    => '200'
              ]);
-    } 
+    }
     public function account_802_checksit(Request $request)
     {
         $datestart    = $request->datepicker;
@@ -463,19 +459,19 @@ class Account802Controller extends Controller
         $id = $request->ids;
         $iduser = Auth::user()->id;
         $data_sitss = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
-        
+
         // $data_sitss = DB::connection('mysql')->select('SELECT vn,an,cid,vstdate,dchdate FROM acc_debtor WHERE account_code="1102050102.802" AND stamp = "N" GROUP BY an');
- 
+
         $token_data = DB::connection('mysql10')->select('SELECT * FROM nhso_token ORDER BY update_datetime desc limit 1');
-        foreach ($token_data as $key => $value) { 
+        foreach ($token_data as $key => $value) {
             $cid_    = $value->cid;
             $token_  = $value->token;
         }
         foreach ($data_sitss as $key => $item) {
             $pids = $item->cid;
-            $vn   = $item->vn; 
-            $an   = $item->an; 
-                
+            $vn   = $item->vn;
+            $an   = $item->an;
+
                     $client = new SoapClient("http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?wsdl",
                         array("uri" => 'http://ucws.nhso.go.th/ucwstokenp1/UCWSTokenP1?xsd=1',"trace" => 1,"exceptions" => 0,"cache_wsdl" => 0)
                         );
@@ -505,16 +501,16 @@ class Account802Controller extends Controller
 
                         IF(@$maininscl == "" || @$maininscl == null || @$status == "003" ){ #ถ้าเป็นค่าว่างไม่ต้อง insert
                             $date = date("Y-m-d");
-                          
+
                             Acc_debtor::where('an', $an)
                             ->update([
                                 'status'         => 'จำหน่าย/เสียชีวิต',
                                 'maininscl'      => @$maininscl,
                                 'pttype_spsch'   => @$subinscl,
                                 'hmain'          => @$hmain,
-                                'subinscl'       => @$subinscl, 
+                                'subinscl'       => @$subinscl,
                             ]);
-                            
+
                         }elseif(@$maininscl !="" || @$subinscl !=""){
                            Acc_debtor::where('an', $an)
                            ->update([
@@ -523,13 +519,13 @@ class Account802Controller extends Controller
                                'pttype_spsch'   => @$subinscl,
                                'hmain'          => @$hmain,
                                'subinscl'       => @$subinscl,
-                           
-                           ]); 
-                                    
+
+                           ]);
+
                         }
 
                     }
-           
+
         }
 
         return response()->json([
@@ -537,7 +533,7 @@ class Account802Controller extends Controller
            'status'    => '200'
        ]);
 
-    }   
+    }
     public function account_802_stam(Request $request)
     {
          $id = $request->ids;
@@ -549,7 +545,7 @@ class Account802Controller extends Controller
                      ]);
          foreach ($data as $key => $value) {
                  $date = date('Y-m-d H:m:s');
-              $check = acc_1102050102_802::where('an', $value->an)->count(); 
+              $check = acc_1102050102_802::where('an', $value->an)->count();
                  if ($check > 0) {
                  # code...
                  } else {
@@ -567,7 +563,7 @@ class Account802Controller extends Controller
                              'pttype_nhso'       => $value->pttype_spsch,
                              'acc_code'          => $value->acc_code,
                              'account_code'      => $value->account_code,
-                             'income'            => $value->income, 
+                             'income'            => $value->income,
                              'uc_money'          => $value->uc_money,
                              'discount_money'    => $value->discount_money,
                              'rcpt_money'        => $value->rcpt_money,
@@ -584,7 +580,7 @@ class Account802Controller extends Controller
                              'acc_debtor_userid' => $value->acc_debtor_userid
                      ]);
                  }
- 
+
          }
          return response()->json([
              'status'    => '200'
@@ -595,26 +591,26 @@ class Account802Controller extends Controller
         $datenow = date('Y-m-d');
         $startdate = $request->startdate;
         $enddate = $request->enddate;
-        $date = date('Y-m-d'); 
+        $date = date('Y-m-d');
         $new_day = date('Y-m-d', strtotime($date . ' -5 day')); //ย้อนหลัง 1 วัน
         $data['users'] = User::get();
         if ($startdate =='') {
-           $datashow = DB::select(' 
-           SELECT U1.*,U2.claim_true_af,U2.STMdoc 
+           $datashow = DB::select('
+           SELECT U1.*,U2.claim_true_af,U2.STMdoc
            from acc_1102050102_802 U1
            LEFT JOIN acc_stm_lgo U2 ON U2.an_e = U1.an
-               WHERE dchdate BETWEEN "'.$new_day.'" AND  "'.$date.'" 
-               group by U1.an 
-           ');
-        } else {
-           $datashow = DB::select(' 
-           SELECT U1.*,U2.claim_true_af,U2.STMdoc 
-           from acc_1102050102_802 U1
-           LEFT JOIN acc_stm_lgo U2 ON U2.an_e = U1.an
-               WHERE dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"  
+               WHERE dchdate BETWEEN "'.$new_day.'" AND  "'.$date.'"
                group by U1.an
            ');
-        } 
+        } else {
+           $datashow = DB::select('
+           SELECT U1.*,U2.claim_true_af,U2.STMdoc
+           from acc_1102050102_802 U1
+           LEFT JOIN acc_stm_lgo U2 ON U2.an_e = U1.an
+               WHERE dchdate BETWEEN "'.$startdate.'" AND  "'.$enddate.'"
+               group by U1.an
+           ');
+        }
         return view('account_802.account_802_search ', $data, [
             'startdate'     => $startdate,
             'enddate'       => $enddate,
@@ -633,11 +629,11 @@ class Account802Controller extends Controller
         $data = DB::select('
             SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total
                 from acc_1102050102_802 U1
-                WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
+                WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
                 GROUP BY U1.an
         ');
-     
-        return view('account_802.account_802_detail', $data, [ 
+
+        return view('account_802.account_802_detail', $data, [
             'data'          =>     $data,
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate
@@ -645,19 +641,19 @@ class Account802Controller extends Controller
     }
     public function account_802_stm(Request $request,$months,$year)
     {
-        $datenow = date('Y-m-d');        
+        $datenow = date('Y-m-d');
         $data['users'] = User::get();
 
         $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc
                 from acc_1102050102_802 U1
                 LEFT JOIN acc_stm_lgo U2 ON U2.an_e = U1.an
-                WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
-                AND U2.claim_true_af is not null 
+                WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
+                AND U2.claim_true_af is not null
                 group by U1.an
         ');
-       
-        return view('account_802.account_802_stm', $data, [ 
+
+        return view('account_802.account_802_stm', $data, [
             'datashow'      =>     $datashow,
             'months'        =>     $months,
             'year'          =>     $year
@@ -665,35 +661,35 @@ class Account802Controller extends Controller
     }
     public function account_802_stmnull(Request $request,$months,$year)
     {
-        $datenow = date('Y-m-d');        
+        $datenow = date('Y-m-d');
         $data['users'] = User::get();
 
         $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc
                 from acc_1102050102_802 U1
-                LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
-                WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'" 
-                AND U2.claim_true_af is null 
+                LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate
+                WHERE month(U1.dchdate) = "'.$months.'" AND year(U1.dchdate) = "'.$year.'"
+                AND U2.claim_true_af is null
                 group by U1.an
         ');
-       
-        return view('account_802.account_802_stmnull', $data, [ 
+
+        return view('account_802.account_802_stmnull', $data, [
             'datashow'      =>     $datashow,
             'months'        =>     $months,
             'year'          =>     $year
         ]);
     }
     public function account_802_detail_date(Request $request,$startdate,$enddate)
-    { 
+    {
 
         $data = DB::select('
             SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total
                 from acc_1102050102_802 U1
-                WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
+                WHERE dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
                 GROUP BY U1.an
         ');
-     
-        return view('account_802.account_802_detail_date',[ 
+
+        return view('account_802.account_802_detail_date',[
             'data'          =>     $data,
             'startdate'     =>     $startdate,
             'enddate'       =>     $enddate
@@ -701,19 +697,19 @@ class Account802Controller extends Controller
     }
     public function account_802_stm_date(Request $request,$startdate,$enddate)
     {
-        $datenow = date('Y-m-d');        
+        $datenow = date('Y-m-d');
         $data['users'] = User::get();
 
         $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc
                 from acc_1102050102_802 U1
-                LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
-                WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
-                AND U2.claim_true_af is not null 
+                LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate
+                WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND U2.claim_true_af is not null
                 group by U1.an
         ');
-       
-        return view('account_802.account_802_stm_date', $data, [ 
+
+        return view('account_802.account_802_stm_date', $data, [
             'datashow'         =>     $datashow,
             'startdate'        =>     $startdate,
             'enddate'          =>     $enddate
@@ -721,19 +717,19 @@ class Account802Controller extends Controller
     }
     public function account_802_stmnull_date(Request $request,$startdate,$enddate)
     {
-        $datenow = date('Y-m-d');        
+        $datenow = date('Y-m-d');
         $data['users'] = User::get();
 
         $datashow = DB::select('
-            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc 
+            SELECT U1.an,U1.vn,U1.hn,U1.cid,U1.ptname,U1.vstdate,U1.dchdate,U1.pttype,U1.debit_total,U2.claim_true_af,U2.STMdoc
                 from acc_1102050102_802 U1
-                LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate 
-                WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'" 
-                AND U2.claim_true_af is null 
+                LEFT JOIN acc_stm_lgo U2 ON U2.cid_f = U1.cid AND U2.vstdate_i = U1.vstdate
+                WHERE U1.dchdate BETWEEN "'.$startdate.'" AND "'.$enddate.'"
+                AND U2.claim_true_af is null
                 group by U1.an
         ');
-       
-        return view('account_802.account_802_stmnull_date', $data, [ 
+
+        return view('account_802.account_802_stmnull_date', $data, [
             'datashow'         =>     $datashow,
             'startdate'        =>     $startdate,
             'enddate'          =>     $enddate
@@ -741,10 +737,10 @@ class Account802Controller extends Controller
     }
     public function account_802_destroy(Request $request)
     {
-        $id = $request->ids; 
+        $id = $request->ids;
         $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
             Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->delete();
-                  
+
         return response()->json([
             'status'    => '200'
         ]);
@@ -752,7 +748,7 @@ class Account802Controller extends Controller
 
     // *************** CLAIM **********************
     public function account_802_claim(Request $request)
-    {  
+    {
         D_opd::where('d_anaconda_id','=','LGO_802')->delete();
         D_orf::where('d_anaconda_id','=','LGO_802')->delete();
         D_oop::where('d_anaconda_id','=','LGO_802')->delete();
@@ -762,17 +758,17 @@ class Account802Controller extends Controller
         D_irf::where('d_anaconda_id','=','LGO_802')->delete();
         D_aer::where('d_anaconda_id','=','LGO_802')->delete();
         D_iop::where('d_anaconda_id','=','LGO_802')->delete();
-        D_adp::where('d_anaconda_id','=','LGO_802')->delete();   
-        D_dru::where('d_anaconda_id','=','LGO_802')->delete();   
+        D_adp::where('d_anaconda_id','=','LGO_802')->delete();
+        D_dru::where('d_anaconda_id','=','LGO_802')->delete();
         D_pat::where('d_anaconda_id','=','LGO_802')->delete();
         D_cht::where('d_anaconda_id','=','LGO_802')->delete();
         D_cha::where('d_anaconda_id','=','LGO_802')->delete();
-        D_ins::where('d_anaconda_id','=','LGO_802')->delete(); 
+        D_ins::where('d_anaconda_id','=','LGO_802')->delete();
         Fdh_ins::where('d_anaconda_id','=','LGO_802')->delete();
         Fdh_pat::where('d_anaconda_id','=','LGO_802')->delete();
         Fdh_opd::where('d_anaconda_id','=','LGO_802')->delete();
-        
-        Fdh_sesion::where('d_anaconda_id', '=', 'LGO_802')->delete(); 
+
+        Fdh_sesion::where('d_anaconda_id', '=', 'LGO_802')->delete();
         $s_date_now = date("Y-m-d");
         $s_time_now = date("H:i:s");
         $id = $request->ids;
@@ -791,7 +787,7 @@ class Account802Controller extends Controller
             'date_save'        => $s_date_now,
             'time_save'        => $s_time_now,
             'userid'           => $iduser
-        ]);  
+        ]);
 
         $data_vn_1 = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
         // $data = Acc_debtor::whereIn('acc_debtor_id',explode(",",$id))->get();
@@ -814,15 +810,15 @@ class Account802Controller extends Controller
                     ,"" HTYPE
                     FROM vn_stat v
                     LEFT OUTER JOIN pttype p on p.pttype = v.pttype
-                    LEFT OUTER JOIN ipt i on i.vn = v.vn 
+                    LEFT OUTER JOIN ipt i on i.vn = v.vn
                     LEFT OUTER JOIN pttype pp on pp.pttype = i.pttype
                     LEFT OUTER JOIN ipt_pttype ap on ap.an = i.an
                     LEFT OUTER JOIN visit_pttype vp on vp.vn = v.vn
                     LEFT OUTER JOIN rcpt_debt r on r.vn = v.vn
-                    LEFT OUTER JOIN patient px on px.hn = v.hn     
-                             
-                    WHERE v.vn IN("'.$va1->vn.'")  
-                    GROUP BY v.vn 
+                    LEFT OUTER JOIN patient px on px.hn = v.hn
+
+                    WHERE v.vn IN("'.$va1->vn.'")
+                    GROUP BY v.vn
                 ');
                 // ,"2" HTYPE
                 foreach ($data_ins_ as $va_01) {
@@ -830,10 +826,10 @@ class Account802Controller extends Controller
                         'HN'                => $va_01->HN,
                         'INSCL'             => $va_01->INSCL,
                         'SUBTYPE'           => $va_01->SUBTYPE,
-                        'CID'               => $va_01->CID, 
-                        'HCODE'             => $va_01->HCODE,   
+                        'CID'               => $va_01->CID,
+                        'HCODE'             => $va_01->HCODE,
                         'DATEEXP'           => $va_01->DATEEXP,
-                        'HOSPMAIN'          => $va_01->HOSPMAIN, 
+                        'HOSPMAIN'          => $va_01->HOSPMAIN,
                         'HOSPSUB'           => $va_01->HOSPSUB,
                         'GOVCODE'           => $va_01->GOVCODE,
                         'GOVNAME'           => $va_01->GOVNAME,
@@ -845,7 +841,7 @@ class Account802Controller extends Controller
                         'SEQ'               => $va_01->SEQ,
                         'SUBINSCL'          => $va_01->SUBINSCL,
                         'RELINSCL'          => $va_01->RELINSCL,
-                        'HTYPE'             => $va_01->HTYPE, 
+                        'HTYPE'             => $va_01->HTYPE,
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 'LGO_802'
                     ]);
@@ -859,11 +855,11 @@ class Account802Controller extends Controller
                     ,pt.pname TITLE,pt.fname FNAME,pt.lname LNAME,"1" IDTYPE
                     FROM vn_stat v
                     LEFT OUTER JOIN pttype p on p.pttype = v.pttype
-                    LEFT OUTER JOIN ipt i on i.vn = v.vn 
-                    LEFT OUTER JOIN patient pt on pt.hn = v.hn 
+                    LEFT OUTER JOIN ipt i on i.vn = v.vn
+                    LEFT OUTER JOIN patient pt on pt.hn = v.hn
                     WHERE v.vn IN("'.$va1->vn.'")
                     GROUP BY v.hn
-                ');            
+                ');
                 foreach ($data_pat_ as $va_02) {
                     D_pat::insert([
                         'HCODE'              => $va_02->HCODE,
@@ -880,43 +876,43 @@ class Account802Controller extends Controller
                         'TITLE'              => $va_02->TITLE,
                         'FNAME'              => $va_02->FNAME,
                         'LNAME'              => $va_02->LNAME,
-                        'IDTYPE'             => $va_02->IDTYPE, 
+                        'IDTYPE'             => $va_02->IDTYPE,
                         'user_id'            => $iduser,
                         'd_anaconda_id'      => 'LGO_802'
                     ]);
                 }
-                
+
                  //D_opd OK
                  $data_opd = DB::connection('mysql2')->select(
                     'SELECT  v.hn HN,v.spclty CLINIC,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,concat(substr(o.vsttime,1,2),substr(o.vsttime,4,2)) TIMEOPD,v.vn SEQ
                         ,"1" UUC ,"" DETAIL,oc.temperature as BTEMP,oc.bps as SBP,oc.bpd as DBP,""PR,""RR,""OPTYPE,ot.export_code as TYPEIN,st.export_code as TYPEOUT
                         from vn_stat v
                         LEFT OUTER JOIN ovst o on o.vn = v.vn
-                        LEFT OUTER JOIN opdscreen oc  on oc.vn = o.vn 
+                        LEFT OUTER JOIN opdscreen oc  on oc.vn = o.vn
                         LEFT OUTER JOIN pttype p on p.pttype = v.pttype
                         LEFT OUTER JOIN ipt i on i.vn = v.vn
                         LEFT OUTER JOIN patient pt on pt.hn = v.hn
-                        LEFT OUTER JOIN ovstist ot on ot.ovstist = o.ovstist  
-                        LEFT OUTER JOIN ovstost st on st.ovstost = o.ovstost 
-                        WHERE v.vn IN("'.$va1->vn.'")                  
-                '); 
-                foreach ($data_opd as $val3) {       
+                        LEFT OUTER JOIN ovstist ot on ot.ovstist = o.ovstist
+                        LEFT OUTER JOIN ovstost st on st.ovstost = o.ovstost
+                        WHERE v.vn IN("'.$va1->vn.'")
+                ');
+                foreach ($data_opd as $val3) {
                     D_opd::insert([
                         'HN'                => $val3->HN,
                         'CLINIC'            => $val3->CLINIC,
                         'DATEOPD'           => $val3->DATEOPD,
                         'TIMEOPD'           => $val3->TIMEOPD,
                         'SEQ'               => $val3->SEQ,
-                        'UUC'               => $val3->UUC, 
-                        'DETAIL'            => $val3->DETAIL, 
-                        'BTEMP'             => $val3->BTEMP, 
-                        'SBP'               => $val3->SBP, 
-                        'DBP'               => $val3->DBP, 
-                        'PR'                => $val3->PR, 
-                        'RR'                => $val3->RR, 
-                        'OPTYPE'            => $val3->OPTYPE, 
-                        'TYPEIN'            => $val3->TYPEIN, 
-                        'TYPEOUT'           => $val3->TYPEOUT, 
+                        'UUC'               => $val3->UUC,
+                        'DETAIL'            => $val3->DETAIL,
+                        'BTEMP'             => $val3->BTEMP,
+                        'SBP'               => $val3->SBP,
+                        'DBP'               => $val3->DBP,
+                        'PR'                => $val3->PR,
+                        'RR'                => $val3->RR,
+                        'OPTYPE'            => $val3->OPTYPE,
+                        'TYPEIN'            => $val3->TYPEIN,
+                        'TYPEOUT'           => $val3->TYPEOUT,
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 'LGO_802'
                     ]);
@@ -928,20 +924,20 @@ class Account802Controller extends Controller
                         ,"0100" REFERTYPE,v.vn SEQ,"" REFERDATE
                         FROM vn_stat v
                         LEFT OUTER JOIN ovst o on o.vn = v.vn
-                        LEFT OUTER JOIN referin r1 on r1.vn = v.vn 
+                        LEFT OUTER JOIN referin r1 on r1.vn = v.vn
                         LEFT OUTER JOIN referout r2 on r2.vn = v.vn
-                        WHERE v.vn IN("'.$va1->vn.'") 
+                        WHERE v.vn IN("'.$va1->vn.'")
                         AND (r1.vn is not null or r2.vn is not null);
-                ');                
-                foreach ($data_orf_ as $va_03) {       
+                ');
+                foreach ($data_orf_ as $va_03) {
                     D_orf::insert([
                         'HN'                => $va_03->HN,
                         'CLINIC'            => $va_03->CLINIC,
                         'DATEOPD'           => $va_03->DATEOPD,
                         'REFER'             => $va_03->REFER,
                         'SEQ'               => $va_03->SEQ,
-                        'REFERTYPE'         => $va_03->REFERTYPE, 
-                        'REFERDATE'         => $va_03->REFERDATE, 
+                        'REFERTYPE'         => $va_03->REFERTYPE,
+                        'REFERDATE'         => $va_03->REFERDATE,
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 'LGO_802'
                     ]);
@@ -954,14 +950,14 @@ class Account802Controller extends Controller
                         LEFT OUTER JOIN ovstdiag o on o.vn = v.vn
                         LEFT OUTER JOIN doctor d on d.`code` = o.doctor
                         INNER JOIN icd101 i on i.code = o.icd10
-                        WHERE v.vn IN("'.$va1->vn.'") 
-                ');             
-                foreach ($data_odx_ as $va_04) { 
+                        WHERE v.vn IN("'.$va1->vn.'")
+                ');
+                foreach ($data_odx_ as $va_04) {
                     if ($va_04->DIAG == 'U779') {
                         $diag_new = 'U77';
                     } else {
                         $diag_new = $va_04->DIAG;
-                    }                     
+                    }
                     D_odx::insert([
                         'HN'                => $va_04->HN,
                         'CLINIC'            => $va_04->CLINIC,
@@ -969,11 +965,11 @@ class Account802Controller extends Controller
                         'DIAG'              => $diag_new,
                         'DXTYPE'            => $va_04->DXTYPE,
                         'DRDX'              => $va_04->DRDX,
-                        'PERSON_ID'         => $va_04->PERSON_ID, 
-                        'SEQ'               => $va_04->SEQ, 
+                        'PERSON_ID'         => $va_04->PERSON_ID,
+                        'SEQ'               => $va_04->SEQ,
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 'LGO_802'
-                    ]);                    
+                    ]);
                 }
                  //D_oop OK
                  $data_oop_ = DB::connection('mysql2')->select(
@@ -985,34 +981,34 @@ class Account802Controller extends Controller
                         LEFT OUTER JOIN doctor d on d.`code` = o.doctor
                         INNER JOIN icd9cm1 i on i.code = o.icd10
                         WHERE v.vn IN("'.$va1->vn.'")
-                        AND substring(o.icd10,1,1) in ("0","1","2","3","4","5","6","7","8","9") 
+                        AND substring(o.icd10,1,1) in ("0","1","2","3","4","5","6","7","8","9")
                 ');
-                foreach ($data_oop_ as $va_05) { 
+                foreach ($data_oop_ as $va_05) {
                     D_oop::insert([
                         'HN'                => $va_05->HN,
                         'CLINIC'            => $va_05->CLINIC,
                         'DATEOPD'           => $va_05->DATEOPD,
                         'OPER'              => $va_05->OPER,
                         'DROPID'            => $va_05->DROPID,
-                        'PERSON_ID'         => $va_05->PERSON_ID, 
-                        'SEQ'               => $va_05->SEQ, 
-                        'SERVPRICE'         => $va_05->SERVPRICE, 
+                        'PERSON_ID'         => $va_05->PERSON_ID,
+                        'SEQ'               => $va_05->SEQ,
+                        'SERVPRICE'         => $va_05->SERVPRICE,
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 'LGO_802'
-                    ]);                     
+                    ]);
                 }
                 //D_ipd OK
                 $data_ipd_ = DB::connection('mysql2')->select(
                     'SELECT a.hn HN,a.an AN,DATE_FORMAT(i.regdate,"%Y%m%d") DATEADM,Time_format(i.regtime,"%H%i") TIMEADM
                         ,DATE_FORMAT(i.dchdate,"%Y%m%d") DATEDSC,Time_format(i.dchtime,"%H%i")  TIMEDSC,right(i.dchstts,1) DISCHS
-                        ,right(i.dchtype,1) DISCHT,i.ward WARDDSC,i.spclty DEPT,format(i.bw/1000,3) ADM_W,"1" UUC ,"I" SVCTYPE 
+                        ,right(i.dchtype,1) DISCHT,i.ward WARDDSC,i.spclty DEPT,format(i.bw/1000,3) ADM_W,"1" UUC ,"I" SVCTYPE
                         FROM an_stat a
                         LEFT OUTER JOIN ipt i on i.an = a.an
                         LEFT OUTER JOIN pttype p on p.pttype = a.pttype
                         LEFT OUTER JOIN patient pt on pt.hn = a.hn
                         WHERE i.vn IN("'.$va1->vn.'")
                 ');
-                foreach ($data_ipd_ as $va_06) {     
+                foreach ($data_ipd_ as $va_06) {
                     D_ipd::insert([
                         'AN'                => $va_06->AN,
                         'HN'                => $va_06->HN,
@@ -1021,15 +1017,15 @@ class Account802Controller extends Controller
                         'DATEDSC'           => $va_06->DATEDSC,
                         'TIMEDSC'           => $va_06->TIMEDSC,
                         'DISCHS'            => $va_06->DISCHS,
-                        'DISCHT'            => $va_06->DISCHT, 
-                        'DEPT'              => $va_06->DEPT, 
-                        'ADM_W'             => $va_06->ADM_W, 
-                        'UUC'               => $va_06->UUC, 
-                        'SVCTYPE'           => $va_06->SVCTYPE, 
+                        'DISCHT'            => $va_06->DISCHT,
+                        'DEPT'              => $va_06->DEPT,
+                        'ADM_W'             => $va_06->ADM_W,
+                        'UUC'               => $va_06->UUC,
+                        'SVCTYPE'           => $va_06->SVCTYPE,
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 'LGO_802'
                     ]);
-                }                
+                }
                 //D_irf OK
                  $data_irf_ = DB::connection('mysql2')->select(
                     'SELECT a.an AN,ifnull(o.refer_hospcode,oo.refer_hospcode) REFER,"0100" REFERTYPE
@@ -1037,7 +1033,7 @@ class Account802Controller extends Controller
                         LEFT OUTER JOIN ipt ip on ip.an = a.an
                         LEFT OUTER JOIN referout o on o.vn = a.an
                         LEFT OUTER JOIN referin oo on oo.vn = a.an
-                        WHERE ip.vn IN("'.$va1->vn.'")  
+                        WHERE ip.vn IN("'.$va1->vn.'")
                         AND (a.an in(SELECT vn FROM referin WHERE vn = oo.vn) or a.an in(SELECT vn FROM referout WHERE vn = o.vn));
                 ');
                 foreach ($data_irf_ as $va_07) {
@@ -1047,9 +1043,9 @@ class Account802Controller extends Controller
                         'REFERTYPE'          => $va_07->REFERTYPE,
                         'user_id'            => $iduser,
                         'd_anaconda_id'      => 'LGO_802',
-                    ]);                     
-                }                 
-                //D_idx OK 
+                    ]);
+                }
+                //D_idx OK
                 $data_idx_ = DB::connection('mysql2')->select(
                     'SELECT v.an AN,o.icd10 DIAG,o.diagtype DXTYPE,if(d.licenseno="","-99999",d.licenseno) DRDX
                         FROM an_stat v
@@ -1059,15 +1055,15 @@ class Account802Controller extends Controller
                         INNER JOIN icd101 i on i.code = o.icd10
                         WHERE ip.vn IN("'.$va1->vn.'")
                 ');
-                foreach ($data_idx_ as $va_08) { 
+                foreach ($data_idx_ as $va_08) {
                     D_idx::insert([
-                        'AN'                => $va_08->AN,  
+                        'AN'                => $va_08->AN,
                         'DIAG'              => $va_08->DIAG,
                         'DXTYPE'            => $va_08->DXTYPE,
-                        'DRDX'              => $va_08->DRDX, 
+                        'DRDX'              => $va_08->DRDX,
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 'LGO_802'
-                    ]);     
+                    ]);
                 }
                 //D_iop OK
                 $data_iop_ = DB::connection('mysql2')->select(
@@ -1103,8 +1099,8 @@ class Account802Controller extends Controller
                         LEFT OUTER JOIN an_stat a on a.an = o.an
                         LEFT OUTER JOIN patient pp on pp.hn = o.hn
                         LEFT OUTER JOIN pttype pt on pt.pttype = vv.pttype or pt.pttype=a.pttype
-                        LEFT OUTER JOIN pttype p on p.pttype = a.pttype 
-                        WHERE o.vn IN("'.$va1->vn.'")   
+                        LEFT OUTER JOIN pttype p on p.pttype = a.pttype
+                        WHERE o.vn IN("'.$va1->vn.'")
                 ');
                 foreach ($data_cht_ as $va_10) {
                     D_cht::insert([
@@ -1132,9 +1128,9 @@ class Account802Controller extends Controller
                         LEFT OUTER JOIN patient p on p.hn = v.hn
                         LEFT OUTER JOIN ipt v1 on v1.an = v.an
                         LEFT OUTER JOIN income i on v.income=i.income
-                        LEFT OUTER JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id 
+                        LEFT OUTER JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
                         LEFT OUTER JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
-                        WHERE v.vn IN("'.$va1->vn.'") 
+                        WHERE v.vn IN("'.$va1->vn.'")
                         GROUP BY v.vn,CHRGITEM
                         UNION ALL
                         SELECT v.hn HN,ip.an AN ,if(ip.an is null,DATE_FORMAT(v.vstdate,"%Y%m%d"),DATE_FORMAT(ip.dchdate,"%Y%m%d")) DATE
@@ -1144,10 +1140,10 @@ class Account802Controller extends Controller
                         LEFT OUTER JOIN patient p on p.hn = v.hn
                         LEFT OUTER JOIN ipt ip on ip.an = v.an
                         LEFT OUTER JOIN income i on v.income=i.income
-                        LEFT OUTER JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id 
-                        LEFT OUTER JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id 
-                        WHERE ip.vn IN("'.$va1->vn.'")  
-                        GROUP BY v.an,CHRGITEM; 
+                        LEFT OUTER JOIN drg_chrgitem dc on i.drg_chrgitem_id=dc.drg_chrgitem_id
+                        LEFT OUTER JOIN drg_chrgitem dx on i.drg_chrgitem_id= dx.drg_chrgitem_id
+                        WHERE ip.vn IN("'.$va1->vn.'")
+                        GROUP BY v.an,CHRGITEM;
                 ');
                 foreach ($data_cha_ as $va_11) {
                     D_cha::insert([
@@ -1155,23 +1151,23 @@ class Account802Controller extends Controller
                         'AN'                => $va_11->AN,
                         'DATE'              => $va_11->DATE,
                         'CHRGITEM'          => $va_11->CHRGITEM,
-                        'AMOUNT'            => $va_11->AMOUNT, 
+                        'AMOUNT'            => $va_11->AMOUNT,
                         'PERSON_ID'         => $va_11->PERSON_ID,
-                        'SEQ'               => $va_11->SEQ, 
+                        'SEQ'               => $va_11->SEQ,
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 'LGO_802'
                     ]);
-                } 
+                }
                 //D_aer OK
                 $data_aer_ = DB::connection('mysql2')->select(
-                    'SELECT v.hn HN ,i.an AN ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD 
+                    'SELECT v.hn HN ,i.an AN ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD
                         ,vv.claim_code AUTHAE
                         ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,v.vn SEQ ,"" AESTATUS,"" DALERT,"" TALERT
                         FROM vn_stat v
                         LEFT OUTER JOIN ipt i on i.vn = v.vn
                         LEFT OUTER JOIN ovst o on o.vn = v.vn
                         LEFT OUTER JOIN visit_pttype vv on vv.vn = v.vn
-                        LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype                  
+                        LEFT OUTER JOIN pttype pt on pt.pttype =v.pttype
                         WHERE v.vn IN("'.$va1->vn.'") and i.an is null
                         AND i.an is null
                         GROUP BY v.vn
@@ -1180,8 +1176,8 @@ class Account802Controller extends Controller
                         ,"" AEDATE,"" AETIME,"" AETYPE,"" REFER_NO,"" REFMAINI ,"" IREFTYPE,"" REFMAINO,"" OREFTYPE,"" UCAE,"" EMTYPE,"" SEQ ,"" AESTATUS,"" DALERT,"" TALERT
                         FROM an_stat a
                         LEFT OUTER JOIN ipt_pttype vv on vv.an = a.an
-                        LEFT OUTER JOIN pttype pt on pt.pttype =a.pttype  
-                        LEFT OUTER JOIN vn_stat vs on vs.vn =a.vn                       
+                        LEFT OUTER JOIN pttype pt on pt.pttype =a.pttype
+                        LEFT OUTER JOIN vn_stat vs on vs.vn =a.vn
                         WHERE a.vn IN("'.$va1->vn.'")
                         GROUP BY a.an;
                 ');
@@ -1207,7 +1203,7 @@ class Account802Controller extends Controller
                         'user_id'           => $iduser,
                         'd_anaconda_id'     => 'LGO_802'
                     ]);
-                } 
+                }
                 //D_adp
                 $data_adp_ = DB::connection('mysql2')->select(
                     'SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
@@ -1219,31 +1215,31 @@ class Account802Controller extends Controller
                             ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate,v.income
                             ,(SELECT SUM(sum_price) FROM opitemrece WHERE vn = i.vn AND income ="14") as rate_new
                         FROM opitemrece v
-                        JOIN nondrugitems n on n.icode = v.icode 
+                        JOIN nondrugitems n on n.icode = v.icode
                         LEFT OUTER JOIN ipt i on i.an = v.an
-                        AND i.an is not NULL 
+                        AND i.an is not NULL
                         WHERE i.vn IN("'.$va1->vn.'") AND v.income NOT IN("11","13","14")
-                        GROUP BY i.vn,n.nhso_adp_code,rate) a 
+                        GROUP BY i.vn,n.nhso_adp_code,rate) a
                         GROUP BY an,CODE,rate
                             UNION
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                             ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new
                             FROM
                             (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
-                            ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP 
+                            ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP
                             ,""SP_ITEM,v.icode,v.vstdate,v.income
                             ,(SELECT SUM(sum_price) FROM opitemrece WHERE vn = vv.vn AND income ="14") as rate_new
                         FROM opitemrece v
-                        JOIN nondrugitems n on n.icode = v.icode 
+                        JOIN nondrugitems n on n.icode = v.icode
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
                         WHERE vv.vn IN("'.$va1->vn.'") AND v.income NOT IN("11","13","14")
                         AND v.an is NULL
-                        GROUP BY vv.vn,n.nhso_adp_code,rate) b 
+                        GROUP BY vv.vn,n.nhso_adp_code,rate) b
                         GROUP BY seq,CODE,rate;
-                '); 
-                                                
-                foreach ($data_adp_ as $va_13) { 
-                    if ($va_13->RATE > 0 && $va_13->QTY > 0) {             
+                ');
+
+                foreach ($data_adp_ as $va_13) {
+                    if ($va_13->RATE > 0 && $va_13->QTY > 0) {
                         D_adp::insert([
                             'HN'                   => $va_13->HN,
                             'AN'                   => $va_13->AN,
@@ -1276,11 +1272,11 @@ class Account802Controller extends Controller
                             'vstdate'              => $va_13->vstdate,
                             'user_id'              => $iduser,
                             'd_anaconda_id'        => 'LGO_802'
-                        ]); 
+                        ]);
                     } else {
                         # code...
-                    }                  
-                } 
+                    }
+                }
                 //D_adp 20-ค่าบริการทางกายภาพบำบัดและเวชกรรมฟื้นฟู
                 $data_adp_kay = DB::connection('mysql2')->select(
                     'SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
@@ -1292,29 +1288,29 @@ class Account802Controller extends Controller
                             ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate,v.income
                             ,(SELECT SUM(sum_price) FROM opitemrece WHERE vn = i.vn AND income ="14") as rate_new
                         FROM opitemrece v
-                        JOIN nondrugitems n on n.icode = v.icode 
+                        JOIN nondrugitems n on n.icode = v.icode
                         LEFT OUTER JOIN ipt i on i.an = v.an
-                        AND i.an is not NULL 
+                        AND i.an is not NULL
                         WHERE i.vn IN("'.$va1->vn.'") AND v.income IN("14")
-                        GROUP BY i.vn) a 
+                        GROUP BY i.vn) a
                         GROUP BY an,CODE,rate
                             UNION
                         SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                             ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new
                             FROM
                             (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
-                            ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP 
+                            ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP
                             ,""SP_ITEM,v.icode,v.vstdate,v.income
                             ,(SELECT SUM(sum_price) FROM opitemrece WHERE vn = vv.vn AND income ="14") as rate_new
                         FROM opitemrece v
-                        JOIN nondrugitems n on n.icode = v.icode 
+                        JOIN nondrugitems n on n.icode = v.icode
                         LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
                         WHERE vv.vn IN("'.$va1->vn.'") AND v.income IN("14")
                         AND v.an is NULL
-                        GROUP BY vv.vn) b 
+                        GROUP BY vv.vn) b
                         GROUP BY seq,CODE,rate;
-                '); 
-                foreach ($data_adp_kay as $va_20) {  
+                ');
+                foreach ($data_adp_kay as $va_20) {
                         D_adp::insert([
                             'HN'                   => $va_20->HN,
                             'AN'                   => $va_20->AN,
@@ -1347,7 +1343,7 @@ class Account802Controller extends Controller
                             'vstdate'              => $va_20->vstdate,
                             'user_id'              => $iduser,
                             'd_anaconda_id'        => 'LGO_802'
-                        ]); 
+                        ]);
                 }
                //D_adp ทันตกรรม
                $data_adp_dent = DB::connection('mysql2')->select(
@@ -1360,29 +1356,29 @@ class Account802Controller extends Controller
                            ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate,v.income
                            ,(SELECT SUM(sum_price) FROM opitemrece WHERE vn = i.vn AND income ="13") as rate_new
                        FROM opitemrece v
-                       JOIN nondrugitems n on n.icode = v.icode 
+                       JOIN nondrugitems n on n.icode = v.icode
                        LEFT OUTER JOIN ipt i on i.an = v.an
-                       AND i.an is not NULL 
+                       AND i.an is not NULL
                        WHERE i.vn IN("'.$va1->vn.'") AND v.income IN("13")
-                       GROUP BY i.vn,n.nhso_adp_code,rate) a 
+                       GROUP BY i.vn,n.nhso_adp_code,rate) a
                        GROUP BY an,CODE,rate
                            UNION
                        SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                            ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new
                            FROM
                            (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,sum(v.QTY) QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
-                           ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP 
+                           ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP
                            ,""SP_ITEM,v.icode,v.vstdate,v.income
                            ,(SELECT SUM(sum_price) FROM opitemrece WHERE vn = vv.vn AND income ="13") as rate_new
                        FROM opitemrece v
-                       JOIN nondrugitems n on n.icode = v.icode 
+                       JOIN nondrugitems n on n.icode = v.icode
                        LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
                        WHERE vv.vn IN("'.$va1->vn.'") AND v.income IN("13")
                        AND v.an is NULL
-                       GROUP BY vv.vn,n.nhso_adp_code,rate) b 
+                       GROUP BY vv.vn,n.nhso_adp_code,rate) b
                        GROUP BY seq,CODE,rate;
-               '); 
-                foreach ($data_adp_dent as $va_21) {                    
+               ');
+                foreach ($data_adp_dent as $va_21) {
                     D_adp::insert([
                         'HN'                   => $va_21->HN,
                         'AN'                   => $va_21->AN,
@@ -1415,8 +1411,8 @@ class Account802Controller extends Controller
                         'vstdate'              => $va_21->vstdate,
                         'user_id'              => $iduser,
                         'd_anaconda_id'        => 'LGO_802'
-                    ]);                   
-                } 
+                    ]);
+                }
 
                //D_adp สปสชเป็น type 19-ค่าหัตถการและวิสัญญี  ใน hosเป็น income = 11
                $data_adp_visanyee = DB::connection('mysql2')->select(
@@ -1429,27 +1425,27 @@ class Account802Controller extends Controller
                            ,"" PROVIDER ,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,v.icode,v.vstdate,v.income
                            ,(SELECT SUM(sum_price) FROM opitemrece WHERE an = i.an AND income ="11") as rate_new,n.billcode
                        FROM opitemrece v
-                       JOIN nondrugitems n on n.icode = v.icode 
+                       JOIN nondrugitems n on n.icode = v.icode
                        LEFT OUTER JOIN ipt i on i.an = v.an
-                       AND i.an is not NULL 
-                       WHERE i.vn IN("'.$va1->vn.'") AND v.income IN("11")) a 
+                       AND i.an is not NULL
+                       WHERE i.vn IN("'.$va1->vn.'") AND v.income IN("11")) a
                        GROUP BY an,CODE,rate
                            UNION
                        SELECT HN,AN,DATEOPD,TYPE,CODE,sum(QTY) QTY,RATE,SEQ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY
                            ,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP ,""SP_ITEM,icode ,vstdate,income,rate_new,billcode
                            FROM
                            (SELECT v.hn HN,if(v.an is null,"",v.an) AN,DATE_FORMAT(v.vstdate,"%Y%m%d") DATEOPD,n.nhso_adp_type_id TYPE,n.nhso_adp_code CODE ,v.QTY QTY,round(v.unitprice,2) RATE,if(v.an is null,v.vn,"") SEQ
-                           ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP 
+                           ,"" CAGCODE,"" DOSE,"" CA_TYPE,""SERIALNO,"0" TOTCOPAY,""USE_STATUS,"0" TOTAL,""QTYDAY,"" TMLTCODE ,"" STATUS1 ,"" BI ,"" CLINIC ,"" ITEMSRC ,"" PROVIDER,"" GRAVIDA ,"" GA_WEEK ,"" DCIP ,"0000-00-00" LMP
                            ,""SP_ITEM,v.icode,v.vstdate,v.income
                            ,(SELECT SUM(sum_price) FROM opitemrece WHERE vn = vv.vn AND income ="11") as rate_new,n.billcode
                        FROM opitemrece v
-                       JOIN nondrugitems n on n.icode = v.icode 
+                       JOIN nondrugitems n on n.icode = v.icode
                        LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
                        WHERE vv.vn IN("'.$va1->vn.'") AND v.income IN("11")
-                       AND v.an is NULL) b 
+                       AND v.an is NULL) b
                        GROUP BY seq,CODE,rate;
-               '); 
-               foreach ($data_adp_visanyee as $va_22) {  
+               ');
+               foreach ($data_adp_visanyee as $va_22) {
                        D_adp::insert([
                            'HN'                   => $va_22->HN,
                            'AN'                   => $va_22->AN,
@@ -1483,8 +1479,8 @@ class Account802Controller extends Controller
                            'vstdate'              => $va_22->vstdate,
                            'user_id'              => $iduser,
                            'd_anaconda_id'        => 'LGO_802'
-                       ]); 
-               } 
+                       ]);
+               }
                //D_dru OK
                $data_dru_ = DB::connection('mysql2')->select('
                    SELECT vv.hcode HCODE ,v.hn HN ,v.an AN ,vv.spclty CLINIC ,vv.cid PERSON_ID ,DATE_FORMAT(v.vstdate,"%Y%m%d") DATE_SERV
@@ -1495,10 +1491,10 @@ class Account802Controller extends Controller
                    FROM opitemrece v
                    LEFT OUTER JOIN drugitems d on d.icode = v.icode
                    LEFT OUTER JOIN vn_stat vv on vv.vn = v.vn
-                   LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode  
-                   LEFT OUTER JOIN drugitems_ned_reason dn on dn.icode = v.icode               
+                   LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+                   LEFT OUTER JOIN drugitems_ned_reason dn on dn.icode = v.icode
                    WHERE v.vn IN("'.$va1->vn.'") AND d.icode NOT IN ("1500101")
-                   AND d.did is not null 
+                   AND d.did is not null
                    GROUP BY v.vn,did
 
                    UNION all
@@ -1512,17 +1508,17 @@ class Account802Controller extends Controller
                    LEFT OUTER JOIN drugitems d on d.icode = v.icode
                    LEFT OUTER JOIN patient pt  on v.hn = pt.hn
                    INNER JOIN ipt v1 on v1.an = v.an
-                   LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode 
-                   LEFT OUTER JOIN drugitems_ned_reason dn on dn.icode = v.icode               
+                   LEFT OUTER JOIN ovst_presc_ned oo on oo.vn = v.vn and oo.icode=v.icode
+                   LEFT OUTER JOIN drugitems_ned_reason dn on dn.icode = v.icode
                    WHERE v1.vn IN("'.$va1->vn.'") AND d.icode NOT IN ("1500101")
                    AND d.did is not null AND v.qty<>"0"
-                   GROUP BY v.an,d.icode,USE_STATUS;              
-               ');            
+                   GROUP BY v.an,d.icode,USE_STATUS;
+               ');
                foreach ($data_dru_ as $va_14) {
                    if ($va_14->AMOUNT < 1) {
                        # code...
                    } else {
-                       D_dru::insert([ 
+                       D_dru::insert([
                            'HN'             => $va_14->HN,
                            'CLINIC'         => $va_14->CLINIC,
                            'HCODE'          => $va_14->HCODE,
@@ -1530,7 +1526,7 @@ class Account802Controller extends Controller
                            'PERSON_ID'      => $va_14->PERSON_ID,
                            'DATE_SERV'      => $va_14->DATE_SERV,
                            'DID'            => $va_14->DID,
-                           'DIDNAME'        => $va_14->DIDNAME, 
+                           'DIDNAME'        => $va_14->DIDNAME,
                            'AMOUNT'         => $va_14->AMOUNT,
                            'DRUGPRICE'       => $va_14->DRUGPRICE,
                            'DRUGCOST'       => $va_14->DRUGCOST,
@@ -1540,21 +1536,21 @@ class Account802Controller extends Controller
                            'SEQ'            => $va_14->SEQ,
                            'DRUGREMARK'     => $va_14->DRUGREMARK,
                            'PA_NO'          => $va_14->PA_NO,
-                           'TOTCOPAY'       => $va_14->TOTCOPAY, 
+                           'TOTCOPAY'       => $va_14->TOTCOPAY,
                            'USE_STATUS'     => $va_14->USE_STATUS,
-                           'TOTAL'          => $va_14->TOTAL,   
-                           'SIGCODE'        => $va_14->SIGCODE,                      
+                           'TOTAL'          => $va_14->TOTAL,
+                           'SIGCODE'        => $va_14->SIGCODE,
                            'SIGTEXT'        => $va_14->SIGTEXT,
                            'PROVIDER'       => $va_14->PROVIDER,
-                           'vstdate'        => $va_14->vstdate,   
+                           'vstdate'        => $va_14->vstdate,
                            'user_id'        => $iduser,
                            'd_anaconda_id'  => 'LGO_802'
                        ]);
-                   }   
-               }                   
+                   }
+               }
          }
-         
-        //  D_adp::where('CODE','=','XXXXXX')->delete();  
+
+        //  D_adp::where('CODE','=','XXXXXX')->delete();
         #delete file in folder ทั้งหมด
         $file = new Filesystem;
         $file->cleanDirectory('Export_LGO'); //ทั้งหมด
@@ -1563,17 +1559,17 @@ class Account802Controller extends Controller
          $dataexport_ = DB::connection('mysql')->select('SELECT folder_name from fdh_sesion where d_anaconda_id = "LGO_802"');
         foreach ($dataexport_ as $key => $v_export) {
             $folder = $v_export->folder_name;
-        } 
-        mkdir ('Export_LGO/'.$folder, 0777, true);  //Web 
+        }
+        mkdir ('Export_LGO/'.$folder, 0777, true);  //Web
         header("Content-type: text/txt");
         header("Cache-Control: no-store, no-cache");
         header('Content-Disposition: attachment; filename="content.txt"');
- 
+
          //********** 1 ins.txt *****************//
-         $file_d_ins       = "Export_LGO/".$folder."/INS.txt"; 
-         $objFopen_opd_ins = fopen($file_d_ins, 'w'); 
+         $file_d_ins       = "Export_LGO/".$folder."/INS.txt";
+         $objFopen_opd_ins = fopen($file_d_ins, 'w');
          $opd_head_ins     = 'HN|INSCL|SUBTYPE|CID|DATEIN|DATEEXP|HOSPMAIN|HOSPSUB|GOVCODE|GOVNAME|PERMITNO|DOCNO|OWNRPID|OWNNAME|AN|SEQ|SUBINSCL|RELINSCL|HTYPE';
-         fwrite($objFopen_opd_ins, $opd_head_ins); 
+         fwrite($objFopen_opd_ins, $opd_head_ins);
          $ins = DB::connection('mysql')->select('SELECT * from d_ins where d_anaconda_id = "LGO_802"');
          foreach ($ins as $key => $value1) {
              $a1 = $value1->HN;
@@ -1613,7 +1609,7 @@ class Account802Controller extends Controller
             'encoding'   =>  'UTF-8',
             'claim'      =>  'LGO_802'
         ]);
- 
+
         //**********2 pat.txt ******************//
         $file_pat         = "Export_LGO/".$folder."/PAT.txt";
         $objFopen_opd_pat = fopen($file_pat, 'w');
@@ -1635,7 +1631,7 @@ class Account802Controller extends Controller
             $i12 = $value2->TITLE;
             $i13 = $value2->FNAME;
             $i14 = $value2->LNAME;
-            $i15 = $value2->IDTYPE;      
+            $i15 = $value2->IDTYPE;
             $strText_pat     ="\n".$i1."|".$i2."|".$i3."|".$i4."|".$i5."|".$i6."|".$i7."|".$i8."|".$i9."|".$i10."|".$i11."|".$i12."|".$i13."|".$i14."|".$i15;
             $ansitxt_pat_pat = iconv('UTF-8', 'UTF-8', $strText_pat);
             fwrite($objFopen_opd_pat, $ansitxt_pat_pat);
@@ -1664,10 +1660,10 @@ class Account802Controller extends Controller
         foreach ($opd as $key => $value3) {
             $o1 = $value3->HN;
             $o2 = $value3->CLINIC;
-            $o3 = $value3->DATEOPD; 
-            $o4 = $value3->TIMEOPD; 
-            $o5 = $value3->SEQ; 
-            $o6 = $value3->UUC;  
+            $o3 = $value3->DATEOPD;
+            $o4 = $value3->TIMEOPD;
+            $o5 = $value3->SEQ;
+            $o6 = $value3->UUC;
             $strText_opd     ="\n".$o1."|".$o2."|".$o3."|".$o4."|".$o5."|".$o6;
             $ansitxt_pat_opd = iconv('UTF-8', 'UTF-8', $strText_opd);
             fwrite($objFopen_opd_opd, $ansitxt_pat_opd);
@@ -1686,7 +1682,7 @@ class Account802Controller extends Controller
             'encoding'   =>  'UTF-8',
             'claim'      =>  'LGO_802'
         ]);
- 
+
         //****************** 4 orf.txt **************************//
         $file_d_orf       = "Export_LGO/".$folder."/ORF.txt";
         $objFopen_opd_orf = fopen($file_d_orf, 'w');
@@ -1696,15 +1692,15 @@ class Account802Controller extends Controller
         foreach ($orf as $key => $value4) {
             $p1 = $value4->HN;
             $p2 = $value4->DATEOPD;
-            $p3 = $value4->CLINIC; 
-            $p4 = $value4->REFER; 
-            $p5 = $value4->REFERTYPE; 
-            $p6 = $value4->SEQ;  
+            $p3 = $value4->CLINIC;
+            $p4 = $value4->REFER;
+            $p5 = $value4->REFERTYPE;
+            $p6 = $value4->SEQ;
             $strText_orf     ="\n".$p1."|".$p2."|".$p3."|".$p4."|".$p5."|".$p6;
             $ansitxt_pat_orf = iconv('UTF-8', 'UTF-8', $strText_orf);
             fwrite($objFopen_opd_orf, $ansitxt_pat_orf);
         }
-        fclose($objFopen_opd_orf); 
+        fclose($objFopen_opd_orf);
         Dapi_orf::truncate();
         // Dapi_orf::where('claim','=','LGO_802')->delete();
         $fread_file_orf         = fread(fopen($file_d_orf,"r"),filesize($file_d_orf));
@@ -1728,17 +1724,17 @@ class Account802Controller extends Controller
         foreach ($odx as $key => $value5) {
             $m1 = $value5->HN;
             $m2 = $value5->DATEDX;
-            $m3 = $value5->CLINIC; 
-            $m4 = $value5->DIAG; 
-            $m5 = $value5->DXTYPE; 
-            $m6 = $value5->DRDX; 
-            $m7 = $value5->PERSON_ID; 
-            $m8 = $value5->SEQ; 
+            $m3 = $value5->CLINIC;
+            $m4 = $value5->DIAG;
+            $m5 = $value5->DXTYPE;
+            $m6 = $value5->DRDX;
+            $m7 = $value5->PERSON_ID;
+            $m8 = $value5->SEQ;
             $strText_odx   ="\n".$m1."|".$m2."|".$m3."|".$m4."|".$m5."|".$m6."|".$m7."|".$m8;
             $ansitxt_odx   = iconv('UTF-8', 'UTF-8', $strText_odx);
             fwrite($objFopen_opd_odx, $ansitxt_odx);
         }
-        fclose($objFopen_opd_odx); 
+        fclose($objFopen_opd_odx);
         Dapi_odx::truncate();
         // Dapi_odx::where('claim','=','LGO_802')->delete();
         $fread_file_odx         = fread(fopen($file_d_odx,"r"),filesize($file_d_odx));
@@ -1762,11 +1758,11 @@ class Account802Controller extends Controller
         foreach ($oop as $key => $value6) {
             $n1 = $value6->HN;
             $n2 = $value6->DATEOPD;
-            $n3 = $value6->CLINIC; 
-            $n4 = $value6->OPER; 
-            $n5 = $value6->DROPID; 
-            $n6 = $value6->PERSON_ID; 
-            $n7 = $value6->SEQ;  
+            $n3 = $value6->CLINIC;
+            $n4 = $value6->OPER;
+            $n5 = $value6->DROPID;
+            $n6 = $value6->PERSON_ID;
+            $n7 = $value6->SEQ;
             $strText_oop  ="\n".$n1."|".$n2."|".$n3."|".$n4."|".$n5."|".$n6."|".$n7;
             $ansitxt_oop  = iconv('UTF-8', 'UTF-8', $strText_oop);
             fwrite($objFopen_opd_oop, $ansitxt_oop);
@@ -1805,14 +1801,14 @@ class Account802Controller extends Controller
             $j10 = $value7->DEPT;
             $j11 = $value7->ADM_W;
             $j12 = $value7->UUC;
-            $j13 = $value7->SVCTYPE;    
+            $j13 = $value7->SVCTYPE;
             $strText_ipd="\n".$j1."|".$j2."|".$j3."|".$j4."|".$j5."|".$j6."|".$j7."|".$j8."|".$j9."|".$j10."|".$j11."|".$j12."|".$j13;
             $ansitxt_pat_ipd = iconv('UTF-8', 'UTF-8', $strText_ipd);
             fwrite($objFopen_opd_ipd, $ansitxt_pat_ipd);
         }
         fclose($objFopen_opd_ipd);
         Dapi_ipd::truncate();
-        // Dapi_ipd::where('claim','=','LGO_802')->delete(); 
+        // Dapi_ipd::where('claim','=','LGO_802')->delete();
         $fread_file_ipd         = fread(fopen($file_d_ipd,"r"),filesize($file_d_ipd));
         $fread_file_ipd_endcode = base64_encode($fread_file_ipd);
         $read_file_ipd_size     = filesize($file_d_ipd);
@@ -1834,14 +1830,14 @@ class Account802Controller extends Controller
         foreach ($irf as $key => $value8) {
             $k1 = $value8->AN;
             $k2 = $value8->REFER;
-            $k3 = $value8->REFERTYPE; 
+            $k3 = $value8->REFERTYPE;
             $strText_irf      ="\n".$k1."|".$k2."|".$k3;
             $ansitxt_pat_irf  = iconv('UTF-8', 'UTF-8', $strText_irf);
             fwrite($objFopen_opd_irf, $ansitxt_pat_irf);
         }
         fclose($objFopen_opd_irf);
         Dapi_irf::truncate();
-        // Dapi_irf::where('claim','=','LGO_802')->delete(); 
+        // Dapi_irf::where('claim','=','LGO_802')->delete();
         $fread_file_irf         = fread(fopen($file_d_irf,"r"),filesize($file_d_irf));
         $fread_file_irf_endcode = base64_encode($fread_file_irf);
         $read_file_irf_size     = filesize($file_d_irf);
@@ -1864,14 +1860,14 @@ class Account802Controller extends Controller
              $h1 = $value9->AN;
              $h2 = $value9->DIAG;
              $h3 = $value9->DXTYPE;
-             $h4 = $value9->DRDX; 
+             $h4 = $value9->DRDX;
              $strText_idx     ="\n".$h1."|".$h2."|".$h3."|".$h4;
              $ansitxt_pat_idx = iconv('UTF-8', 'UTF-8', $strText_idx);
              fwrite($objFopen_opd_idx, $ansitxt_pat_idx);
          }
          fclose($objFopen_opd_idx);
         Dapi_idx::truncate();
-        // Dapi_idx::where('claim','=','LGO_802')->delete(); 
+        // Dapi_idx::where('claim','=','LGO_802')->delete();
         $fread_file_idx         = fread(fopen($file_d_idx,"r"),filesize($file_d_idx));
         $fread_file_idx_endcode = base64_encode($fread_file_idx);
         $read_file_idx_size     = filesize($file_d_idx);
@@ -1898,14 +1894,14 @@ class Account802Controller extends Controller
             $b5 = $value10->DATEIN;
             $b6 = $value10->TIMEIN;
             $b7 = $value10->DATEOUT;
-            $b8 = $value10->TIMEOUT;           
+            $b8 = $value10->TIMEOUT;
             $strText_iop     ="\n".$b1."|".$b2."|".$b3."|".$b4."|".$b5."|".$b6."|".$b7."|".$b8;
             $ansitxt_pat_iop = iconv('UTF-8', 'UTF-8', $strText_iop);
             fwrite($objFopen_opd_iop, $ansitxt_pat_iop);
         }
         fclose($objFopen_opd_iop);
         Dapi_iop::truncate();
-        // Dapi_iop::where('claim','=','LGO_802')->delete(); 
+        // Dapi_iop::where('claim','=','LGO_802')->delete();
         $fread_file_iop         = fread(fopen($file_d_iop,"r"),filesize($file_d_iop));
         $fread_file_iop_endcode = base64_encode($fread_file_iop);
         $read_file_iop_size     = filesize($file_d_iop);
@@ -1931,14 +1927,14 @@ class Account802Controller extends Controller
             $f4 = $value11->TOTAL;
             $f5 = $value11->PAID;
             $f6 = $value11->PTTYPE;
-            $f7 = $value11->PERSON_ID; 
+            $f7 = $value11->PERSON_ID;
             $f8 = $value11->SEQ;
             $strText_cht     ="\n".$f1."|".$f2."|".$f3."|".$f4."|".$f5."|".$f6."|".$f7."|".$f8;
             $ansitxt_pat_cht = iconv('UTF-8', 'UTF-8', $strText_cht);
             fwrite($objFopen_opd_cht, $ansitxt_pat_cht);
         }
         fclose($objFopen_opd_cht);
-        // Dapi_cht::where('claim','=','LGO_802')->delete(); 
+        // Dapi_cht::where('claim','=','LGO_802')->delete();
         Dapi_cht::truncate();
         $fread_file_cht         = fread(fopen($file_d_cht,"r"),filesize($file_d_cht));
         $fread_file_cht_endcode = base64_encode($fread_file_cht);
@@ -1965,14 +1961,14 @@ class Account802Controller extends Controller
             $e4 = $value12->CHRGITEM;
             $e5 = $value12->AMOUNT;
             $e6 = $value12->PERSON_ID;
-            $e7 = $value12->SEQ; 
+            $e7 = $value12->SEQ;
             $strText_cha     ="\n".$e1."|".$e2."|".$e3."|".$e4."|".$e5."|".$e6."|".$e7;
             $ansitxt_pat_cha = iconv('UTF-8', 'UTF-8', $strText_cha);
             fwrite($objFopen_opd_cha, $ansitxt_pat_cha);
         }
         fclose($objFopen_opd_cha);
         Dapi_cha::truncate();
-        // Dapi_cha::where('claim','=','LGO_802')->delete(); 
+        // Dapi_cha::where('claim','=','LGO_802')->delete();
         $fread_file_cha         = fread(fopen($file_d_cha,"r"),filesize($file_d_cha));
         $fread_file_cha_endcode = base64_encode($fread_file_cha);
         $read_file_cha_size     = filesize($file_d_cha);
@@ -2009,14 +2005,14 @@ class Account802Controller extends Controller
             $d15 = $value13->SEQ;
             $d16 = $value13->AESTATUS;
             $d17 = $value13->DALERT;
-            $d18 = $value13->TALERT;        
+            $d18 = $value13->TALERT;
             $strText_aer="\n".$d1."|".$d2."|".$d3."|".$d4."|".$d5."|".$d6."|".$d7."|".$d8."|".$d9."|".$d10."|".$d11."|".$d12."|".$d13."|".$d14."|".$d15."|".$d16."|".$d17."|".$d18;
             $ansitxt_pat_aer = iconv('UTF-8', 'UTF-8', $strText_aer);
             fwrite($objFopen_opd_aer, $ansitxt_pat_aer);
         }
-        fclose($objFopen_opd_aer);          
+        fclose($objFopen_opd_aer);
          Dapi_aer::truncate();
-        //  Dapi_aer::where('claim','=','LGO_802')->delete(); 
+        //  Dapi_aer::where('claim','=','LGO_802')->delete();
          $fread_file_aer         = fread(fopen($file_d_aer,"r"),filesize($file_d_aer));
          $fread_file_aer_endcode = base64_encode($fread_file_aer);
          $read_file_aer_size     = filesize($file_d_aer);
@@ -2062,14 +2058,14 @@ class Account802Controller extends Controller
             $c24 = $value14->GA_WEEK;
             $c25 = $value14->DCIP;
             $c26 = $value14->LMP;
-            $c27 = $value14->SP_ITEM;           
+            $c27 = $value14->SP_ITEM;
             $strText_adp ="\n".$c1."|".$c2."|".$c3."|".$c4."|".$c5."|".$c6."|".$c7."|".$c8."|".$c9."|".$c10."|".$c11."|".$c12."|".$c13."|".$c14."|".$c15."|".$c16."|".$c17."|".$c18."|".$c19."|".$c20."|".$c21."|".$c22."|".$c23."|".$c24."|".$c25."|".$c26."|".$c27;
             $ansitxt_pat_adp = iconv('UTF-8', 'UTF-8', $strText_adp);
             fwrite($objFopen_opd_adp, $ansitxt_pat_adp);
         }
-        fclose($objFopen_opd_adp);  
+        fclose($objFopen_opd_adp);
         Dapi_adp::truncate();
-        // Dapi_adp::where('claim','=','LGO_802')->delete(); 
+        // Dapi_adp::where('claim','=','LGO_802')->delete();
         $fread_file_adp         = fread(fopen($file_d_adp,"r"),filesize($file_d_adp));
         $fread_file_adp_endcode = base64_encode($fread_file_adp);
         $read_file_adp_size     = filesize($file_d_adp);
@@ -2091,18 +2087,18 @@ class Account802Controller extends Controller
         foreach ($lvd as $key => $value15) {
             $L1 = $value15->SEQLVD;
             $L2 = $value15->AN;
-            $L3 = $value15->DATEOUT; 
-            $L4 = $value15->TIMEOUT; 
-            $L5 = $value15->DATEIN; 
-            $L6 = $value15->TIMEIN; 
-            $L7 = $value15->QTYDAY; 
+            $L3 = $value15->DATEOUT;
+            $L4 = $value15->TIMEOUT;
+            $L5 = $value15->DATEIN;
+            $L6 = $value15->TIMEIN;
+            $L7 = $value15->QTYDAY;
             $strText_lvd     ="\n".$L1."|".$L2."|".$L3."|".$L4."|".$L5."|".$L6."|".$L7;
             $ansitxt_pat_lvd = iconv('UTF-8', 'UTF-8', $strText_lvd);
             fwrite($objFopen_opd_lvd, $ansitxt_pat_lvd);
         }
         fclose($objFopen_opd_lvd);
-        Dapi_lvd::truncate(); 
-        // Dapi_lvd::where('claim','=','LGO_802')->delete(); 
+        Dapi_lvd::truncate();
+        // Dapi_lvd::where('claim','=','LGO_802')->delete();
         $fread_file_lvd         = fread(fopen($file_d_lvd,"r"),filesize($file_d_lvd));
         $fread_file_lvd_endcode = base64_encode($fread_file_lvd);
         $read_file_lvd_size     = filesize($file_d_lvd);
@@ -2113,7 +2109,7 @@ class Account802Controller extends Controller
             'size'       =>   $read_file_lvd_size,
             'encoding'   =>  'UTF-8',
             'claim'      =>  'LGO_802'
-        ]); 
+        ]);
 
         //*********************** 16.dru.txt ****************************//
         $file_d_dru = "Export_LGO/".$folder."/DRU.txt";
@@ -2143,16 +2139,16 @@ class Account802Controller extends Controller
             $g19 = $value16->USE_STATUS;
             $g20 = $value16->TOTAL;
             $g21 = $value16->SIGCODE;
-            $g22 = $value16->SIGTEXT;  
-            $g23 = $value16->PROVIDER;  
-            $g24 = $value16->SP_ITEM;     
+            $g22 = $value16->SIGTEXT;
+            $g23 = $value16->PROVIDER;
+            $g24 = $value16->SP_ITEM;
             $strText_dru ="\n".$g1."|".$g2."|".$g3."|".$g4."|".$g5."|".$g6."|".$g7."|".$g8."|".$g9."|".$g10."|".$g11."|".$g12."|".$g13."|".$g14."|".$g15."|".$g16."|".$g17."|".$g18."|".$g19."|".$g20."|".$g21."|".$g22."|".$g23."|".$g24;;
             $ansitxt_dru = iconv('UTF-8', 'UTF-8', $strText_dru);
             fwrite($objFopen_opd_dru, $ansitxt_dru);
         }
         fclose($objFopen_opd_dru);
         Dapi_dru::truncate();
-        // Dapi_dru::where('claim','=','LGO_802')->delete(); 
+        // Dapi_dru::where('claim','=','LGO_802')->delete();
         $fread_file_dru         = fread(fopen($file_d_dru,"r"),filesize($file_d_dru));
         $fread_file_dru_endcode = base64_encode($fread_file_dru);
         $read_file_dru_size      = filesize($file_d_dru);
@@ -2164,11 +2160,11 @@ class Account802Controller extends Controller
             'encoding'   =>  'UTF-8',
             'claim'      =>  'LGO_802'
         ]);
-                  
+
          return response()->json([
              'status'    => '200'
          ]);
-    } 
+    }
 
     public function account_802_zip (Request $request)
      {
@@ -2177,7 +2173,7 @@ class Account802Controller extends Controller
              $folder = $v_export->folder_name;
          }
          $filename = $folder . ".zip";
- 
+
          $zip = new ZipArchive;
          if ($zip->open(public_path($filename), ZipArchive::CREATE) === TRUE) {
              $files = File::files(public_path("Export_LGO/" . $folder . "/"));
@@ -2188,10 +2184,10 @@ class Account802Controller extends Controller
              $zip->close();
          }
          return response()->download(public_path($filename));
-       
+
      }
-    
-   
- 
+
+
+
 
  }

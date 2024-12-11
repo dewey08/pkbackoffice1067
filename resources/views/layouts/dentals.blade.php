@@ -104,7 +104,7 @@
         background-repeat: no-repeat;
         background-attachment: fixed; 
         background-size: 100% 100%; 
-        font-size: 13px;
+        font-size: 15px;
        
     }
     /* Logo หมุน */
@@ -606,7 +606,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                <p style="color:#ffffff;font-size:17px;">Created with <i class="mdi mdi-heart text-danger"></i> by ประดิษฐ์ ระหา - กลุ่มงานสุขภาพดิจิทัล</p>
+                                <p style="color:#ffffff;font-size:17px;">Created with <i class="mdi mdi-heart text-danger"></i> เบญญดา ศิริวัลลภ - กลุ่มงานเทคโนโลยีสารสนเทศ</p>
                                 {{-- Created with <i class="mdi mdi-heart text-danger"></i> by ทีมพัฒนา PK-OFFICE --}}
                             </div>
                         </div>

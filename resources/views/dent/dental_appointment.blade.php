@@ -75,29 +75,29 @@ if (Auth::check()) {
             </div>
         </div>
 
-        <div class="main-card mb-3 card">
+        <div class="card input_new" style="background-color: #fce5f6">
             <div class="card-header ">   
                 <form action="{{ route('den.dental_appointment') }}" method="GET">
                     @csrf
                     <div class="row mb-2 ">
                         <div class="col"></div>
-                        <div class="col-md-2">
+                        {{-- <div class="col-md-2"> --}}
                             {{-- <select name="appointment_id" id="appointment_id" class="form-control" style="width: 100%" required>
                                 <option class="text-center" value="">-เลือกประเภทการนัด-</option>
                                 @foreach ($den_app as $item_app)                                    
                                         <option value="{{$item_app->appointment_id}}">{{$item_app->appointment_name}}</option>                                       
                                 @endforeach
                             </select> --}}
-                        </div>
+                        {{-- </div> --}}
 
                         <div class="col-md-4 ">                            
                             <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                                <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
+                                <input type="text" class="form-control-sm input_new" name="startdate" id="datepicker" placeholder="Start Date"
                                     data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" data-date-language="th-th" value="{{ $startdate }}" required />
-                                <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
+                                <input type="text" class="form-control-sm input_new" name="enddate" placeholder="End Date" id="datepicker2"
                                     data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true" autocomplete="off" data-date-language="th-th" value="{{ $enddate }}"/>
                                 
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-sm btn-primary input_new">
                                     <img src="{{ asset('images/Search02.png') }}" class="ms-2 me-2" height="23px" width="23px"> 
                                     ค้นหา
                                 </button>
@@ -120,35 +120,35 @@ if (Auth::check()) {
                                 <div class="col-md-12 text-center" >  
                                     <h4 style="color:rgb(206, 29, 147)">รายการนัดคนไข้</h4>  
                                 </div>
-                                <table class="table table-sm table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%; id="example2">
+                                <table class="table table-sm table-striped table-bordered dt-responsive nowrap myTable" style="border-collapse: collapse; border-spacing: 0; width: 100%;" id="example2">
                                     <thead>
-                                        <tr>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="5%">ลำดับ</th>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">HN</th>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">เลขบัตรประชาชน</th> 
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">ชื่อ - นามสกุล</th>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">เบอร์โทร</th>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">วันที่นัด</th>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">เวลานัด</th>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">ประเภทการนัด</th>
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">ชื่อทันตแพทย์</th> 
-                                            <th class="text-center" style="background-color: rgb(222, 201, 248);font-size: 15px;" width="10%">จัดการ</th> 
+                                        <tr style="font-size: 15px;">
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);" width="5%">ลำดับ</th>
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);" width="5%">HN</th>
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);" width="10%">เลขบัตรประชาชน</th> 
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);">ชื่อ - นามสกุล</th>
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);" width="10%">เบอร์โทร</th>
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);" width="10%">วันที่นัด</th>
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);" width="5%">เวลานัด</th>
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);" width="10%">ประเภทการนัด</th>
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);">ชื่อทันตแพทย์</th> 
+                                            <th class="text-center" style="background-color: rgb(222, 201, 248);" width="7%">จัดการ</th> 
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php $i = 1;$total1 = 0;  ?>
                                         @foreach ($datashow as $item)                                                        
-                                            <tr>
+                                            <tr style="font-size: 15px;">
                                                 <th class="text-center"width="1%">{{ $i++ }}</th>
                                                 <td class="text-center"width="5%">{{$item->dent_hn}}</td>
-                                                <td class="text-center"width="5%">{{$item->dent_patient_cid}}</td>
-                                                <td class="text-center"width="5%">{{$item->dent_patient_name}}</td>
-                                                <td class="text-center"width="5%">{{$item->dent_tel}}</td>
-                                                <td class="text-center"width="2%">{{DateThai($item->dent_date)}}</td>
-                                                <td class="text-center"width="3%">{{$item->dent_time}}</td> 
-                                                <td class="text-center" style="color:rgb(73, 147, 231)" width="5%">{{$item->appointment_name}}</td>
-                                                <td class="text-center"width="1%">{{$item->dent_doctor_name}}</td>
-                                                <td class="text-center" width="5%">
+                                                <td class="text-center"width="10%">{{$item->dent_patient_cid}}</td>
+                                                <td class="text-start">{{$item->dent_patient_name}}</td>
+                                                <td class="text-center"width="10%">{{$item->dent_tel}}</td>
+                                                <td class="text-center"width="10%">{{DateThai($item->dent_date)}}</td>
+                                                <td class="text-center"width="5%">{{$item->dent_time}}</td> 
+                                                <td class="text-start" style="color:rgb(73, 147, 231)" width="10%">{{$item->appointment_name}}</td>
+                                                <td class="text-start">{{$item->dent_doctor_name}}</td>
+                                                <td class="text-center" width="7%">
                                                     <a href="{{url('dental_appointment_edit/'.$item->dent_appointment_id)}}" class="me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="แก้ไขใบตรวจรับ">
                                                         <img src="{{ asset('images/Edit.png') }}" height="25px" width="25px"> 
                                                     </a>

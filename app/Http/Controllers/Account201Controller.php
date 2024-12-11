@@ -284,8 +284,8 @@ class Account201Controller extends Controller
         $datenow    = date('Y-m-d');
         $startdate  = $request->datepicker;
         $enddate    = $request->datepicker2; 
-        $acc_debtor = DB::connection('mysql2')->select('
-                SELECT v.vn,ifnull(o.an,"") as an,o.hn,pt.cid
+        $acc_debtor = DB::connection('mysql2')->select(
+            'SELECT v.vn,ifnull(o.an,"") as an,o.hn,pt.cid
                 ,concat(pt.pname,pt.fname," ",pt.lname) as ptname
                 ,o.vstdate,o.vsttime 
                 ,v.hospmain,vp.max_debt_amount                 
@@ -300,6 +300,9 @@ class Account201Controller extends Controller
                 ,sum(if(op.icode IN("3001412","3001417"),sum_price,0)) as debit_toa
                 ,sum(if(op.icode IN("3010829","3011068","3010864","3010861","3010862","3010863","3011069","3011012","3011070"),sum_price,0)) as debit_refer
                 ,v.income-v.discount_money-v.rcpt_money as debit
+                ,sum(if(op.icode IN("3003157","3003205","3003180","3003179"),sum_price,0)) as debit_thai
+                ,sum(if(op.icode IN("3010887","3010885","3010884"),sum_price,0)) as debit_imc
+
                 FROM vn_stat v
                 LEFT OUTER JOIN ovst o on v.vn=o.vn
                 LEFT OUTER JOIN patient pt on pt.hn=v.hn
@@ -307,7 +310,7 @@ class Account201Controller extends Controller
                 LEFT OUTER JOIN pttype ptt on v.pttype=ptt.pttype
                 LEFT OUTER JOIN pttype_eclaim e on e.code=ptt.pttype_eclaim_id
                 LEFT OUTER JOIN opitemrece op ON op.vn = o.vn
-                LEFT OUTER JOIN s_drugitems d on d.icode = op.icode 
+                LEFT OUTER JOIN nondrugitems d on d.icode = op.icode 
                 WHERE v.vstdate BETWEEN "' . $startdate . '" AND "' . $enddate . '"    
                 AND vp.pttype IN(SELECT pttype FROM pkbackoffice.acc_setpang_type WHERE pang ="1102050101.202" AND opdipd ="OPD")
                 AND (o.an="" or o.an is null)
@@ -344,6 +347,9 @@ class Account201Controller extends Controller
                                 'debit_instument'    => $value->debit_instument,
                                 'debit_toa'          => $value->debit_toa,
                                 'debit_refer'        => $value->debit_refer,
+                                'debit_imc'          => $value->debit_imc,
+                                'debit_thai'          => $value->debit_thai,
+                                // 'debit_total'        => $value->debit,
                                 'debit_total'        => $value->debit-$value->debit_instument-$value->debit_drug-$value->debit_refer,
                                 'max_debt_amount'    => $value->max_debt_amount,
                                 'acc_debtor_userid'  => Auth::user()->id
