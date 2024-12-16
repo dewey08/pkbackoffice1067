@@ -470,7 +470,7 @@
                                 </div>
                             </li>
 
-                            {{-- <li class="nav-item dropdown">
+                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button">
                                     <img src="{{ asset('images/wh08.png') }}" height="27px" width="27px" >
                                     </i>รายงาน <div class="arrow-down"></div>
@@ -479,7 +479,7 @@
                                     <a href="{{ url('env_water_rep') }}" class="dropdown-item">รายงานระบบบ่อบำบัดน้ำเสีย</a> 
                                     <a href="{{ url('env_trash_rep') }}" class="dropdown-item">รายงานระบบบริหารจัดการขยะ</a> 
                                 </div>
-                            </li> --}}
+                            </li>
 
                             @if ($permiss_setting_env !=0)
                             <li class="nav-item dropdown">

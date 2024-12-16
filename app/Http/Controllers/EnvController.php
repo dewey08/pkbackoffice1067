@@ -1688,7 +1688,6 @@ class EnvController extends Controller
 
     public function env_water_parameter_set_save(Request $request)
     {
-
         DB::table('env_pond_sub')->insert([
             'pond_id'                     => $request->input('pond_id'),
             'pond_name'                   => $request->input('pond_name'),
@@ -2050,7 +2049,7 @@ class EnvController extends Controller
         return redirect()->back();
     }
 
-//**************************************************************ตั้งค่า   ประเภทขยะ*********************************************
+//**************************************************************ตั้งค่า ประเภทขยะ*********************************************
 
     public function env_trash_parameter (Request $request)
     {

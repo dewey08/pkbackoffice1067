@@ -146,7 +146,7 @@ if (Auth::check()) {
                                                 <td class="text-center"width="10%">{{$item->dent_tel}}</td>
                                                 <td class="text-center"width="10%">{{DateThai($item->dent_date)}}</td>
                                                 <td class="text-center"width="5%">{{$item->dent_time}}</td> 
-                                                <td class="text-start" style="color:rgb(73, 147, 231)" width="10%">{{$item->appointment_name}}</td>
+                                                <td class="text-start" style="color:#4993e7" width="10%">{{$item->appointment_name}}</td>
                                                 <td class="text-start">{{$item->dent_doctor_name}}</td>
                                                 <td class="text-center" width="7%">
                                                     <a href="{{url('dental_appointment_edit/'.$item->dent_appointment_id)}}" class="me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" title="แก้ไขใบตรวจรับ">
