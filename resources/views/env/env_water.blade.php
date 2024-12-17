@@ -256,7 +256,7 @@ if (Auth::check()) {
                                                             </table>
                                                         </p>
                                                     </div>
-                                                    
+
                                                     <div class="tab-pane" id="waterpapa" role="tabpanel">
                                                         <p class="mb-0">
                                                             <table id="example4" class="table table-striped">
@@ -290,14 +290,12 @@ if (Auth::check()) {
                                                             </table>
                                                         </p>
                                                     </div>
-                                            </div>
-                                            {{-- @endforeach --}}                                       
+                                            </div>                                                                                  
 
                                     </div>
                                 </div> 
 
-                            {{-- </div>  --}}
-                        {{-- </p> --}}
+                            
                     </div>
                      
                 </div>

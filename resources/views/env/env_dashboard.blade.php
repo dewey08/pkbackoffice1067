@@ -164,17 +164,18 @@
         function drawChart() {
             var data = google.visualization.arrayToDataTable([
                 ['Year', 'บ่อปรับเสถียร', 'บ่อคลองวนเวียน', 'บ่อสัมผัสคลอลีน', 'น้ำประปา'],
-                ['2021', <?php echo $e1_count_21; ?>, <?php echo $e2_count_21; ?>, <?php echo $e3_count_21; ?>, <?php echo $e4_count_21; ?>],
-                ['2022', <?php echo $e1_count_22; ?>, <?php echo $e2_count_22; ?>, <?php echo $e3_count_22; ?>, <?php echo $e4_count_22; ?>],
-                ['2023', <?php echo $e1_count_23; ?>, <?php echo $e2_count_23; ?>, <?php echo $e3_count_23; ?>, <?php echo $e4_count_23; ?>],
-                ['2024', <?php echo $e1_count_24; ?>, <?php echo $e2_count_24; ?>, <?php echo $e3_count_24; ?>, <?php echo $e4_count_24; ?>]
+                
+                ['2024', <?php echo $e1_count_24; ?>, <?php echo $e2_count_24; ?>, <?php echo $e3_count_24; ?>, <?php echo $e4_count_24; ?>],
+                ['2025', <?php echo $e1_count_21; ?>, <?php echo $e2_count_21; ?>, <?php echo $e3_count_21; ?>, <?php echo $e4_count_21; ?>]
+                // ['2022', <?php echo $e1_count_22; ?>, <?php echo $e2_count_22; ?>, <?php echo $e3_count_22; ?>, <?php echo $e4_count_22; ?>],
+                // ['2023', <?php echo $e1_count_23; ?>, <?php echo $e2_count_23; ?>, <?php echo $e3_count_23; ?>, <?php echo $e4_count_23; ?>]
                 
             ]);
 
             var options = {
                 chart: {
                     title: 'การลงข้อมูลวิเคราะห์คุณภาพน้ำ',
-                    subtitle: 'ช่วงปี คศ.: 2021-2024',
+                    subtitle: 'ช่วงปี คศ.: 2024-2025',
                 },
                 bars: 'horizontal' // Required for Material Bar Charts.
             };

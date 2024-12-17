@@ -96,13 +96,10 @@
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy"
-                        data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
-                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date"
-                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker6'>
+                        <input type="text" class="form-control" name="startdate" id="datepicker" placeholder="Start Date" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                             autocomplete="off" data-date-language="th-th" value="{{ $startdate }}" required />
-                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2"
-                            data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
+                        <input type="text" class="form-control" name="enddate" placeholder="End Date" id="datepicker2" data-date-container='#datepicker1' data-provide="datepicker" data-date-autoclose="true"
                             autocomplete="off" data-date-language="th-th" value="{{ $enddate }}" required />
                         <button type="submit" class="btn btn-primary">
                             <i class="fa-solid fa-magnifying-glass me-2"></i>
@@ -150,7 +147,7 @@
                                                     FROM env_water_sub es
                                                     LEFT OUTER JOIN env_water e ON e.water_id = es.water_id
                                                     WHERE es.water_parameter_short_name = "pH" 
-                                                    AND e.water_date = "' .$item->water_date .'"
+                                                    AND e.water_date BETWEEN "' .$startdate .'" AND "' .$enddate .'"
                                                     GROUP BY days'                                                
                                             );                                             
                                             foreach ($qty_ph_ as $key => $item_ph) { 
@@ -163,15 +160,13 @@
                                                     FROM env_water_sub es
                                                     LEFT OUTER JOIN env_water e ON e.water_id = es.water_id
                                                     WHERE es.water_parameter_short_name = "DO" 
-                                                    AND e.water_date = "' .$item->water_date .'"
+                                                    AND e.water_date BETWEEN "' .$startdate .'" AND "' .$enddate .'"
                                                     GROUP BY days'                                                
                                             );                                             
                                             foreach ($qty_do_ as $key => $item_do) {
                                                 $qtydo = $item_do->water_qty;
                                                 $statusdo = $item_do->status_; 
                                             }
-
-                                            
                                         ?>
                                             
                                         <tr>
@@ -209,7 +204,6 @@
                                         <th class="text-center"width="5%">PH</th>
                                         <th class="text-center"width="4%">DO</th>
                                         <th class="text-center"width="5%">SV30</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -222,7 +216,7 @@
                                                     FROM env_water_sub es
                                                     LEFT OUTER JOIN env_water e ON e.water_id = es.water_id
                                                     WHERE es.water_parameter_short_name = "pH" 
-                                                    AND e.water_date = "' .$item->water_date .'"
+                                                    AND e.water_date BETWEEN "' .$startdate .'" AND "' .$enddate .'"
                                                     GROUP BY days'                                                
                                             );                                             
                                             foreach ($qty_ph_ as $key => $item_ph2) { 
@@ -235,7 +229,7 @@
                                                     FROM env_water_sub es
                                                     LEFT OUTER JOIN env_water e ON e.water_id = es.water_id
                                                     WHERE es.water_parameter_short_name = "DO" 
-                                                    AND e.water_date = "' .$item->water_date .'"
+                                                    AND e.water_date BETWEEN "' .$startdate .'" AND "' .$enddate .'"
                                                     GROUP BY days'                                                
                                             );                                             
                                             foreach ($qty_do_ as $key => $item_do2) {
@@ -248,7 +242,7 @@
                                                     FROM env_water_sub es
                                                     LEFT OUTER JOIN env_water e ON e.water_id = es.water_id
                                                     WHERE es.water_parameter_short_name = "SV30" 
-                                                    AND e.water_date = "' .$item->water_date .'"
+                                                    AND e.water_date BETWEEN "' .$startdate .'" AND "' .$enddate .'"
                                                     GROUP BY days'                                                
                                             );                                             
                                             foreach ($qty_sv_ as $key => $item_sv2) {
@@ -288,7 +282,7 @@
 
                                 </tbody>
                             </table>
-                        @else
+                        @elseif($pond_id == '3') 
                             {{-- <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example2"> --}}
                                 <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
                                 style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -313,7 +307,7 @@
                                                     FROM env_water_sub es
                                                     LEFT OUTER JOIN env_water e ON e.water_id = es.water_id
                                                     WHERE es.water_parameter_short_name = "pH" 
-                                                    AND e.water_date = "' .$item->water_date .'"
+                                                    AND e.water_date BETWEEN "' .$startdate .'" AND "' .$enddate .'"
                                                     GROUP BY days'                                                
                                             );                                             
                                             foreach ($qty_ph3_ as $key => $item_ph3) { 
@@ -326,7 +320,7 @@
                                                     FROM env_water_sub es
                                                     LEFT OUTER JOIN env_water e ON e.water_id = es.water_id
                                                     WHERE es.water_parameter_short_name = "DO" 
-                                                    AND e.water_date = "' .$item->water_date .'"
+                                                    AND e.water_date BETWEEN "' .$startdate .'" AND "' .$enddate .'"
                                                     GROUP BY days'                                                
                                             );                                             
                                             foreach ($qty_do3_ as $key => $item_do3) {
@@ -339,7 +333,7 @@
                                                     FROM env_water_sub es
                                                     LEFT OUTER JOIN env_water e ON e.water_id = es.water_id
                                                     WHERE es.water_parameter_short_name = "SV30" 
-                                                    AND e.water_date = "' .$item->water_date .'"
+                                                    AND e.water_date BETWEEN "' .$startdate .'" AND "' .$enddate .'"
                                                     GROUP BY days'                                                
                                             );                                             
                                             foreach ($qty_sv3_ as $key => $item_sv3) {
@@ -352,7 +346,7 @@
                                                     FROM env_water_sub es
                                                     LEFT OUTER JOIN env_water e ON e.water_id = es.water_id
                                                     WHERE es.water_parameter_short_name = "TDS" 
-                                                    AND e.water_date = "' .$item->water_date .'"
+                                                    AND e.water_date BETWEEN "' .$startdate .'" AND "' .$enddate .'"
                                                     GROUP BY days'                                                
                                             );                                             
                                             foreach ($qty_tds_ as $key => $item_td) {
@@ -365,7 +359,7 @@
                                                     FROM env_water_sub es
                                                     LEFT OUTER JOIN env_water e ON e.water_id = es.water_id
                                                     WHERE es.water_parameter_short_name = "CL" 
-                                                    AND e.water_date = "' .$item->water_date .'"
+                                                    AND e.water_date BETWEEN "' .$startdate .'" AND "' .$enddate .'"
                                                     GROUP BY days'                                                
                                             );                                             
                                             foreach ($qty_cl_ as $key => $item_cl) {
@@ -417,6 +411,94 @@
 
                                 </tbody>
                             </table>
+                        @else
+                            {{-- <table class="align-middle mb-0 table table-borderless table-striped table-hover" id="example2"> --}}
+                                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"width="2%">ลำดับ</th>
+                                        <th class="text-center"width="2%">วันที่บันทึก</th> 
+                                        <th class="text-center"width="5%">PH</th>
+                                        <th class="text-center"width="5%">TDS</th>
+                                        <th class="text-center"width="5%">CL</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $ia = 1; ?>
+                                    @foreach ($datashow as $item)
+                                        <?php
+
+                                            $qty_ph4_ = DB::connection('mysql')->select('
+                                                    SELECT es.water_qty,e.water_date,DAY(e.water_date) as days,es.status as status_
+                                                    FROM env_water_sub es
+                                                    LEFT OUTER JOIN env_water e ON e.water_id = es.water_id
+                                                    WHERE es.water_parameter_short_name = "pH" 
+                                                    AND e.water_date BETWEEN "' .$startdate .'" AND "' .$enddate .'"
+                                                    GROUP BY days'                                                
+                                            );                                             
+                                            foreach ($qty_ph4_ as $key => $item_ph4) { 
+                                                    $qtyph4 = $item_ph4->water_qty; 
+                                                    $statusph4 = $item_ph4->status_;
+                                            }
+
+                                            $qty_tds4_ = DB::connection('mysql')->select('
+                                                    SELECT es.water_qty,e.water_date,DAY(e.water_date) as days,es.status as status_
+                                                    FROM env_water_sub es
+                                                    LEFT OUTER JOIN env_water e ON e.water_id = es.water_id
+                                                    WHERE es.water_parameter_short_name = "TDS" 
+                                                    AND e.water_date BETWEEN "' .$startdate .'" AND "' .$enddate .'"
+                                                    GROUP BY days'                                                
+                                            );                                             
+                                            foreach ($qty_tds4_ as $key => $item_tds4) {
+                                                $qtytds4 = $item_tds4->water_qty;
+                                                $statustd = $item_tds4->status_;
+                                            }
+
+                                            $qty_cl4_ = DB::connection('mysql')->select('
+                                                    SELECT es.water_qty,e.water_date,DAY(e.water_date) as days,es.status as status_
+                                                    FROM env_water_sub es
+                                                    LEFT OUTER JOIN env_water e ON e.water_id = es.water_id
+                                                    WHERE es.water_parameter_short_name = "CL" 
+                                                    AND e.water_date BETWEEN "' .$startdate .'" AND "' .$enddate .'"
+                                                    GROUP BY days'                                                
+                                            );                                             
+                                            foreach ($qty_cl4_ as $key => $item_cl4) {
+                                                $qtycl4 = $item_cl4->water_qty;
+                                                $statuscl = $item_cl4->status_;
+                                            }
+                                        ?>
+                                            
+                                        <tr>
+                                            <td class="text-center">{{ $ia++ }}</td>
+                                            <td class="text-center">{{ $item->water_date }}</td>
+                                            <td class="text-center"> {{$qtyph4}} /
+                                                @if ($statusph4 =='ปกติ')
+                                                    <span class="badge bg-success rounded-pill">{{$statusph4}} </span>
+                                                @else
+                                                    <span class="badge bg-danger rounded-pill">{{$statusph4}} </span>
+                                                @endif
+                                            </td>
+                                            <td class="text-center"> {{$qtytds4}} /
+                                                @if ($statustd =='ปกติ')
+                                                    <span class="badge bg-success rounded-pill">{{$statustd}} </span>
+                                                @else
+                                                    <span class="badge bg-danger rounded-pill">{{$statustd}} </span>
+                                                @endif
+                                            </td>
+                                            <td class="text-center"> {{$qtycl4}} /
+                                                @if ($statuscl =='ปกติ')
+                                                    <span class="badge bg-success rounded-pill">{{$statuscl}} </span>
+                                                @else
+                                                    <span class="badge bg-danger rounded-pill">{{$statuscl}} </span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
+                            </table>
+                            
                         @endif
                         </p>
                     </div>

@@ -109,25 +109,25 @@ class EnvController extends Controller
         $data['data'] = $water->values();
 
 
-        $e1_count_21 = Env_water::where('pond_id','1')->where(DB::raw("Year(water_date)"),'2021')->get()->count();
+        $e1_count_21 = Env_water::where('pond_id','1')->where(DB::raw("Year(water_date)"),'2025')->get()->count();
     	$e1_count_22 = Env_water::where('pond_id','1')->where(DB::raw("Year(water_date)"),'2022')->get()->count();
     	$e1_count_23 = Env_water::where('pond_id','1')->where(DB::raw("Year(water_date)"),'2023')->get()->count();
         $e1_count_24 = Env_water::where('pond_id','1')->where(DB::raw("Year(water_date)"),'2024')->get()->count();
        
 
-    	$e2_count_21 = Env_water::where('pond_id','2')->where(DB::raw("Year(water_date)"),'2021')->get()->count();
+    	$e2_count_21 = Env_water::where('pond_id','2')->where(DB::raw("Year(water_date)"),'2025')->get()->count();
     	$e2_count_22 = Env_water::where('pond_id','2')->where(DB::raw("Year(water_date)"),'2022')->get()->count();
     	$e2_count_23 = Env_water::where('pond_id','2')->where(DB::raw("Year(water_date)"),'2023')->get()->count();
         $e2_count_24 = Env_water::where('pond_id','2')->where(DB::raw("Year(water_date)"),'2024')->get()->count();
         
 
-    	$e3_count_21 = Env_water::where('pond_id','3')->where(DB::raw("Year(water_date)"),'2021')->get()->count();
+    	$e3_count_21 = Env_water::where('pond_id','3')->where(DB::raw("Year(water_date)"),'2025')->get()->count();
     	$e3_count_22 = Env_water::where('pond_id','3')->where(DB::raw("Year(water_date)"),'2022')->get()->count();
     	$e3_count_23 = Env_water::where('pond_id','3')->where(DB::raw("Year(water_date)"),'2023')->get()->count();
         $e3_count_24 = Env_water::where('pond_id','3')->where(DB::raw("Year(water_date)"),'2024')->get()->count();
         
 
-        $e4_count_21 = Env_water::where('pond_id','4')->where(DB::raw("Year(water_date)"),'2021')->get()->count();
+        $e4_count_21 = Env_water::where('pond_id','4')->where(DB::raw("Year(water_date)"),'2025')->get()->count();
         $e4_count_22 = Env_water::where('pond_id','4')->where(DB::raw("Year(water_date)"),'2022')->get()->count();
         $e4_count_23 = Env_water::where('pond_id','4')->where(DB::raw("Year(water_date)"),'2023')->get()->count();
         $e4_count_24 = Env_water::where('pond_id','4')->where(DB::raw("Year(water_date)"),'2024')->get()->count();
@@ -208,10 +208,15 @@ class EnvController extends Controller
         $tra_312 = Env_trash::leftjoin('env_trash_sub','env_trash_sub.trash_id','=','env_trash.trash_id')->where('env_trash_sub.trash_sub_idd','3')->where(DB::raw("Month(env_trash.trash_date)"),'12')->sum('env_trash_sub.trash_sub_qty');
 
         return view('env.env_dashboard',compact('dabyears',
-             'e1_count_21','e1_count_22','e1_count_23','e1_count_24'
+            'e1_count_21','e1_count_22','e1_count_23','e1_count_24'
             ,'e2_count_21','e2_count_22','e2_count_23','e2_count_24'
             ,'e3_count_21','e3_count_22','e3_count_23','e3_count_24'
             ,'e4_count_21','e4_count_22','e4_count_23','e4_count_24'
+
+            //  'e1_count_24'
+            // ,'e2_count_24'
+            // ,'e3_count_24'
+            // ,'e4_count_24'
 
             ,'w7_1','w7_2','w7_3','w7_4','w7_5','w7_6','w7_7','w7_8','w7_9','w7_10','w7_11','w7_12','w7_13','w7_14','w7_15','w7_16'
             ,'wm7_1','wm7_2','wm7_3','wm7_4','wm7_5','wm7_6','wm7_7','wm7_8','wm7_9','wm7_10','wm7_11','wm7_12','wm7_13','wm7_14','wm7_15','wm7_16'
@@ -2174,7 +2179,7 @@ class EnvController extends Controller
     {
         $startdate        = $request->startdate;
         $enddate          = $request->enddate;
-        $data['pond_id']  = $request->pond_id;
+        $pond_id          = $request->pond_id;
 
         $iduser = Auth::user()->id;
         $date = date('Y-m-d');
@@ -2190,15 +2195,15 @@ class EnvController extends Controller
                         FROM env_water e
                         LEFT OUTER JOIN env_water_sub es ON es.water_id = e.water_id
                         LEFT OUTER JOIN env_water_parameter ep ON ep.water_parameter_id = es. water_list_idd
-                    WHERE e.water_date BETWEEN "'.$date.'"  AND "'.$date.'"
-                    GROUP BY days
+                        WHERE e.water_date BETWEEN "'.$date.'"  AND "'.$date.'"
+                        GROUP BY days
             ');
 
             $data['qtyph'] =  '';
             $data['qtysv'] =  '';
 
         } else {
-            if ($data['pond_id'] != '') {
+            if ($pond_id != '') {
                 $datashow = DB::connection('mysql')->select('
                     SELECT
                         DAY(e.water_date) as days
@@ -2208,7 +2213,8 @@ class EnvController extends Controller
                         FROM env_water e
                         LEFT OUTER JOIN env_water_sub es ON es.water_id = e.water_id
                         LEFT OUTER JOIN env_water_parameter ep ON ep.water_parameter_id = es. water_list_idd
-                    WHERE e.water_date BETWEEN "'.$startdate.'"  AND "'.$enddate.'" AND e.pond_id = "'.$data['pond_id'].'"
+                        WHERE e.water_date BETWEEN "'.$startdate.'"  AND "'.$enddate.'" AND e.pond_id = "'.$pond_id.'"               
+                        GROUP BY days , e.pond_id = "'.$pond_id.'"     
 
                 ');
                 // GROUP BY days
@@ -2222,7 +2228,7 @@ class EnvController extends Controller
                         FROM env_water e
                         LEFT OUTER JOIN env_water_sub es ON es.water_id = e.water_id
                         LEFT OUTER JOIN env_water_parameter ep ON ep.water_parameter_id = es. water_list_idd
-                    WHERE e.water_date BETWEEN "'.$startdate.'"  AND "'.$enddate.'"
+                        WHERE e.water_date BETWEEN "'.$startdate.'"  AND "'.$enddate.'"
 
                 ');
             }
@@ -2237,6 +2243,7 @@ class EnvController extends Controller
             'startdate'     => $startdate,
             'enddate'       => $enddate,
             'datashow'      => $datashow,
+            'pond_id'       => $pond_id,
 
         ]);
     }
