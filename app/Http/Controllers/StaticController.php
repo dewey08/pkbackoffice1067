@@ -291,6 +291,139 @@ class StaticController extends Controller
     return $settting_admin;
   }
 
+  public static function kongthoon($iduser)
+  {
+    $kongthoon =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','KONGTOON')->count();
+    return $kongthoon;
+  }
+  public static function acc_106($iduser)
+  {
+    $acc_106 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','OVERSUE_OP')->count();
+    return $acc_106;
+  }
+  public static function acc_107($iduser)
+  {
+    $acc_107 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','OVERSUE_IP')->count();
+    return $acc_107;
+  }
+  public static function acc_report($iduser)
+  {
+    $acc_report =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_REPORT')->count();
+    return $acc_report;
+  }
+  public static function acc_50x($iduser)
+  {
+    $acc_50x =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_50X')->count();
+    return $acc_50x;
+  }
+  public static function acc_70x($iduser)
+  {
+    $acc_70x =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_70X')->count();
+    return $acc_70x;
+  }
+
+  public static function acc_201($iduser)
+  {
+    $acc_201 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_201')->count();
+    return $acc_201;
+  }
+  public static function acc_202($iduser)
+  {
+    $acc_202 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_202')->count();
+    return $acc_202;
+  }
+  public static function acc_203($iduser)
+  {
+    $acc_203 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_203')->count();
+    return $acc_203;
+  }
+  public static function acc_209($iduser)
+  {
+    $acc_209 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_209')->count();
+    return $acc_209;
+  }
+  public static function acc_216($iduser)
+  {
+    $acc_216 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_216')->count();
+    return $acc_216;
+  }
+  public static function acc_217($iduser)
+  {
+    $acc_217 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_217')->count();
+    return $acc_217;
+  }
+
+  public static function acc_301($iduser)
+  {
+    $acc_301 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_301')->count();
+    return $acc_301;
+  }
+  public static function acc_302($iduser)
+  {
+    $acc_302 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_302')->count();
+    return $acc_302;
+  }
+  public static function acc_303($iduser)
+  {
+    $acc_303 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_303')->count();
+    return $acc_303;
+  }
+  public static function acc_304($iduser)
+  {
+    $acc_304 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_304')->count();
+    return $acc_304;
+  }
+  public static function acc_307($iduser)
+  {
+    $acc_307 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_307')->count();
+    return $acc_307;
+  }
+  public static function acc_308($iduser)
+  {
+    $acc_308 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_308')->count();
+    return $acc_308;
+  }
+  public static function acc_309($iduser)
+  {
+    $acc_309 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_309')->count();
+    return $acc_309;
+  }
+  public static function acc_310($iduser)
+  {
+    $acc_310 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACC_310')->count();
+    return $acc_310;
+  }
+  // public static function acc_310($iduser)
+  // {
+  //   $acc_310 =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','ACCB01')->count();
+  //   return $acc_310;
+  // }
+
+
+
+  public static function store_normal($iduser)
+  {
+    $store_normal =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','STORE_NORMAL')->count();
+    return $store_normal;
+  }
+  public static function store_vip($iduser)
+  {
+    $store_vip =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','STORE_VIP')->count();
+    return $store_vip;
+  }
+  public static function store_rep($iduser)
+  {
+    $store_rep =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','STORE_REP')->count();
+    return $store_rep;
+  }
+  public static function checkup($iduser)
+  {
+    $checkup =  User_permiss::where('user_id','=',$iduser)->where('user_permiss_num','=','CHECKUP')->count();
+    return $checkup;
+  }
+
+
+
 
 
 
@@ -384,7 +517,6 @@ class StaticController extends Controller
     $permiss_prb=  User::where('id','=',$iduser)->where('permiss_prb','=','on')->count();
     return $permiss_prb;
   }
-
   public static function permiss_ti($iduser)
   {
     $permiss_ti=  User::where('id','=',$iduser)->where('permiss_ti','=','on')->count();

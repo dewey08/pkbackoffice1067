@@ -3673,4 +3673,10 @@ Route::match(['get','post'],'env_trash_parameter_switchactive',[App\Http\Control
   Route::match(['get', 'post'], 'dental_detail_patient', [App\Http\Controllers\DentalController::class, 'dental_detail_patient'])->name('den.dental_detail_patient'); //
   Route::match(['get', 'post'], 'dental_report_appointment', [App\Http\Controllers\DentalController::class, 'dental_report_appointment'])->name('den.dental_report_appointment'); //
 
+
+  //********************* */ CHECK UP  ***********************************
+
+  Route::match(['get', 'post'], 'checkup_main', [App\Http\Controllers\CheckupController::class, 'checkup_main'])->name('ch.checkup_main'); //
+
+  
 });
