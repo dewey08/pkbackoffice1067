@@ -688,12 +688,34 @@ class DentalController extends Controller
 
     public function dental_detail_patient(Request $request)
     {
-        $hn                 =  $request->denthn;
-       
+        $hn                 = $request->denthn;
+        $vstdate            = $request->vstdate;
         $data_show          = Patient::where('hn',$hn)->first();
-        $data_cid           = $data_show->cid;
-        $data_ptname        = $data_show->pname.''.$data_show->fname.'  '.$data_show->lname;
-        $data_hometel       = $data_show->hometel;
+
+        $data_show2 = DB::connection('mysql10')->select(
+            'SELECT o.hn , CONCAT(p.pname,p.fname," ",p.lname) as ptname , p.cid ,p.hometel  
+            FROM ovst o
+            LEFT JOIN patient p on p.hn = o.hn
+            where o.hn = "0131911"
+            limit 1
+            -- WHERE o.hn = "'.$hn.'" AND o.vstdate = "'.$vstdate.'"  
+            
+        ');
+
+        foreach ($data_show2 as $key => $value) {
+            $cid           = $value->cid;
+            $ptname        = $value->ptname;
+            $hometel       = $value->hometel;
+        }
+
+        $data_cid           = $data_show2->cid;
+        $data_ptname        = $data_show2->ptname;
+        $data_hometel       = $data_show2->hometel;
+
+
+        // $data_cid           = $data_show->cid;
+        // $data_ptname        = $data_show->pname.''.$data_show->fname.'  '.$data_show->lname;
+        // $data_hometel       = $data_show->hometel;
         
         $output='<label for="">เลขบัตรประชาชน  :   '.$data_cid. '&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;  ชื่อ-นามสกุล  :    ' .$data_ptname.'&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;  เบอร์โทร  :    ' .$data_hometel.'</label>' ; 
         

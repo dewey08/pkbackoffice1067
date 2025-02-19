@@ -118,7 +118,36 @@ class CheckupController extends Controller
         ]);
     }
 
+    public function checkup_report(Request $request)
+    {
+        $startdate        = $request->startdate;
+        $enddate          = $request->enddate;
+        $dabudget_year    = DB::table('budget_year')->where('active','=',true)->first();
+        $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
+        $date             = date('Y-m-d');
+        $y                = date('Y') + 543;
+        $newweek = date('Y-m-d', strtotime($date . ' -1 week')); //ย้อนหลัง 1 สัปดาห์
+        $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
+        $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
+        $data['date_now']    = date('Y-m-d');
+        $data['m']           = date('H');
+        $data['mm']          = date('H:m:s');
+        
+        $data['users']    = DB::table('users')->get();
+        $data_doctor      = DB::connection('mysql10')->select('
+            SELECT code,CONCAT(pname,fname," ",lname) dentname
+            FROM doctor
+            WHERE position_id = "2"
+            AND active = "Y"
+        ');
+
+        return view('checkup.checkup_report',$data,[
+            'startdate'        => $startdate,
+            'enddate'          => $enddate,
+            'data_doctor'      => $data_doctor,
+        ]);
+    }
 
 
  }

@@ -105,21 +105,29 @@ $count_service = StaticController::count_service();
                                                 <input type="hidden" id="article_groupid" name="article_groupid" class="form-control" value="3"/>
                                                 <input type="hidden" name="store_id" id="store_id" value=" {{ Auth::user()->store_id }}"> -->
 
-                                <div class="row">
+                                <div class="row text-center">
+                                    
                                     <div class="col-md-1 text-end">
                                         <label for="dent_hn">HN :</label>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <select id="dent_hn" name="dent_hn" class="form-control-sm d12font input_new" style="width: 100%" onchange="hnDent()">
+                                            {{-- <select id="dent_hn" name="dent_hn" class="form-control-sm d12font input_new" style="width: 100%" onchange="hnDent()">
                                                 <option value="">--เลือก--</option>
                                                 @foreach ($hn as $ph)
                                                     
                                                     <option value="{{ $ph->hn }}"> {{ $ph->hn }}</option> 
                                                 @endforeach
-                                            </select>
+                                            </select> --}}
+                                            <input type="text" class="form-control" id="dent_hn" name="dent_hn">
                                         </div>
                                     </div>
+                                    <div class="col-md-1">
+                                    <button type="button" class="btn btn-primary btn-sm GethnDent">
+                                        <img src="{{ asset('images/Search02.png') }}" class="me-2 ms-2" height="18px" width="18px">
+                                        ค้นหา
+                                    </button>
+                                </div>
                                     <div class="col-md-1 text-end">
                                         <label for="" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:13px">ข้อมูลคนไข้ :</label>
                                     </div>
@@ -168,7 +176,7 @@ $count_service = StaticController::count_service();
                                                 </select>
                                             </div>
                                         </div>    
-                                    </div>
+                                </div>
 
                                 <div class="row mt-2">
                                     <div class="col-md-1 text-end">
@@ -200,10 +208,8 @@ $count_service = StaticController::count_service();
 
                             </div>
                         </div>
-                </div>
-
+                </div>               
                 
-                {{-- </form> --}}
 
                 <div class="card-footer">
                     <div class="col-md-12 text-end">
@@ -258,6 +264,27 @@ $count_service = StaticController::count_service();
                     }
                 })
         }
+
+        $(document).on('click', '.GethnDent', function() {
+            var denthn = document.getElementById("dent_hn").value;
+            var _token = $('input[name="_token"]').val();
+
+                // $('#maintenance1Modal').modal('show');   
+                // alert(denthn);        
+                $.ajax({
+                    type: "GET",
+                    url:"{{ url('dental_detail_patient') }}",
+                    data: {
+                        denthn: denthn,
+                        _token: _token
+                    },
+                    success: function(result) { 
+                        $('#show_detailpatient').html(result);
+                    },
+                });
+            });
+
+
     $(document).ready(function() {
         // $("#overlay").fadeIn(300);　
 
@@ -282,10 +309,10 @@ $count_service = StaticController::count_service();
             });
 
         // ช่องค้นหาHN
-            $('#dent_hn').select2({
-            placeholder: "--ค้นหา HN--",
-            allowClear: true
-            });
+            // $('#dent_hn').select2({
+            // placeholder: "--ค้นหา HN--",
+            // allowClear: true
+            // });
             
         // ช่องค้นหาประเภทการนัด
         $('#appointment').select2({

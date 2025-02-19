@@ -589,10 +589,17 @@ if (Auth::check()) {
 
                             @if ($permiss_ofc != 0)
                             <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle arrow-none" href="{{ url('checkup_report') }}" id="topnav-more" role="button">
+                                    <img src="{{ asset('images/check_trueinfo.png') }}" height="27px" width="27px" >
+                                    </i>รายงานผลตรวจสุขภาพ
+                                </a>                                
+                            </li> 
+
+                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-apps" role="button"
                                 >
                                     {{-- <i class="ri-money-dollar-circle-fill me-2" style="font-size: 20px;color:rgb(235, 94, 248)"></i> --}}
-                                    <img src="{{ asset('images/acc03.png') }}" height="27px" width="27px">
+                                    <img src="{{ asset('images/check_trueinfo2.png') }}" height="27px" width="27px">
                                     <label for="" class="menufont">OFC</label>
                                      <div class="arrow-down"></div>
                                 </a>
