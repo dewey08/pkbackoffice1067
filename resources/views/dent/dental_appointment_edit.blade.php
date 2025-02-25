@@ -127,22 +127,19 @@ $count_service = StaticController::count_service();
                                         <label for="" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:13px">CID :</label>
                                     </div>
                                     <div class="col-md-2">       
-                                        <label for="">{{$dent_edit->dent_patient_cid}}</label>                   
-                                        {{-- <div id="show_detailpatient" ></div>  --}}
+                                        <label for="">{{$dent_edit->dent_patient_cid}}</label>  
                                     </div>
                                     <div class="col-md-1 text-end">
                                         <label for="" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:13px">ข้อมูลคนไข้ :</label>
                                     </div>
                                     <div class="col-md-2">       
-                                        <label for="">{{$dent_edit->dent_patient_name}}</label>                   
-                                        {{-- <div id="show_detailpatient" ></div>  --}}
+                                        <label for="">{{$dent_edit->dent_patient_name}}</label>  
                                     </div>
                                     <div class="col-md-1 text-end">
                                         <label for="" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:13px">เบอร์โทร :</label>
                                     </div>
                                     <div class="col-md-2">       
-                                        <label for="">{{$dent_edit->dent_tel}}</label>                   
-                                        {{-- <div id="show_detailpatient" ></div>  --}}
+                                        <label for="">{{$dent_edit->dent_tel}}</label>
                                     </div>
                                                                         
                                 </div>

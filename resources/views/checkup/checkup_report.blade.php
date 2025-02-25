@@ -97,60 +97,204 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row ">
             <div class="col-md-12">
-                <div class="">
-                    <div class="card-header">
-                        <div class="d-flex">                            
-                            <div class="">
-                                <label for="">ค้นหาผลตรวจสุขภาพ</label>
-                            </div>
-                            <div class="ms-auto"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12 ">
-
-                        <div class="card-body">
-                            <input type="hidden" name="store_id" id="store_id" value=" {{ Auth::user()->store_id }}">
+                <div class="card card_prs_4" >
     
-                            <div class="row">
-                                
-                                <div class="col-md-1 text-end">
-                                    <label for="chackup_date">วันที่ :</label>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
-                                            <input type="text" class="form-control-sm input_new" name="datepicker" id="datepicker" placeholder="Start Date" data-date-autoclose="true" autocomplete="off"
-                                            data-date-language="th-th" value="{{ $date_now }}"/>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-1 text-center">
-                                    <label for="chackup_hn">HN :</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <div class="form-group">
-                                            <input id="chackup_hn" type="text" class="form-control-sm d12font input_new" name="chackup_hn" style="width: 25%">
-                                        </div>
-                                    </div>
-                                </div>                                
-                                <div class="col">
-                                    <button type="button" class="btn btn-primary btn-sm GethnDent">
-                                        <img src="{{ asset('images/Search02.png') }}" class="me-2 ms-2" height="18px" width="18px">
-                                        ค้นหา
-                                    </button>
-                                </div>
-                                
+                    <div class="card-header">
+                        <div class="d-flex">
+                            <div class="">
+                                <label for=""style="font-size: 15px">ข้อมูลคนไข้</label>
+                            </div>
+                            <div class="ms-auto">    
                             </div>
                         </div>
+                    </div>                  
+    
+                    <div class="card-body shadow-lg">
+                        
+                            <input type="hidden" name="store_id" id="store_id" value=" {{ Auth::user()->store_id }}">
+                            <div class="row">
+    
+                                <div class="col-md-12">
+                                    
+                                    <div class="row text-center">
 
-                    </div>
-                    
-                </div> 
+                                        <div class="row mt-2">
+                                            <div class="col-md-1 text-end">
+                                                <label for="chackup_date" style="font-size: 15px">วันที่ :</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <div class="input-daterange input-group" id="datepicker1" data-date-format="dd M, yyyy" data-date-autoclose="true" data-provide="datepicker" data-date-container='#datepicker1'>
+                                                        <input type="text" class="form-control input_new" name="datepicker" id="datepicker" placeholder="Start Date" data-date-autoclose="true" autocomplete="off"
+                                                        data-date-language="th-th" value="{{ $date_now }}"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-1 text-end">
+                                                <label for="chackup_hn" style="font-size: 15px">HN :</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">                                                
+                                                    <input type="text" class="form-control" id="chackup_hn" name="chackup_hn">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button type="button" class="btn btn-primary btn-sm Getchackup_hn">
+                                                    <img src="{{ asset('images/Search02.png') }}" class="me-2 ms-2" height="18px" width="18px">
+                                                    ค้นหา
+                                                </button>
+                                            </div>
+                                            {{-- onclick="Getchackup_hn()" --}}
+
+                                        </div>  
+                                                                                                                  
+                                    </div>
+                                </div>
+                            </div>
+                    </div> 
+    
+                </div>
+            </div>
+        </div>
+        
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="card card_prs_4" >
+    
+                    <div class="card-body shadow-lg">
+                        
+                            <input type="hidden" name="store_id" id="store_id" value=" {{ Auth::user()->store_id }}">
+                           
+                            <div id="show_detailpatient">  </div>
+
+                            {{-- <div class="row"> --}}
+    
+                                {{-- <div class="col-md-12"> --}}
+                                    
+                                {{-- <div class="row text-center">
+
+                                            <div class="col-md-1 text-end">
+                                                <label for="chackup_hn" style="font-size: 15px">HN :</label>
+                                            </div>
+                                            <div class="col-md-5">
+                                       
+                                                   
+                                                 <div id="show_detailpatient">
+
+                                                 </div>
+                                                 
+                                                </div>
+                                            </div>  --}}
+
+                                            {{-- <div class="col-md-1 text-end">
+                                                <label for="chackup_name" style="font-size: 15px">ชื่อผู้ป่วย :</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="chackup_name"></label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-1 text-end">
+                                                <label for="chackup_sex" style="font-size: 15px">เพศ :</label>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <label for="chackup_sex"></label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-1 text-end">
+                                                <label for="chackup_age_y" style="font-size: 15px">อายุ :</label>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <label for="chackup_age_y"></label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-1 text-end">
+                                                <label for="chackup_age_y" style="font-size: 15px">เลขบัตรประชาชน :</label>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <label for="chackup_age_y"></label>
+                                                </div>
+                                            </div> --}}
+
+                                        {{-- </div>   --}}
+                                                                                                                  
+                                    {{-- </div> --}}
+
+                                    {{-- <div class="row text-center">
+
+                                        <div class="col-md-1 text-end">
+                                            <label for="chackup_bw" style="font-size: 15px">น้ำหนัก :</label>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label for="chackup_bw"></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1 text-end">
+                                            <label for="chackup_height" style="font-size: 15px">ส่วนสูง :</label>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label for="chackup_height"></label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-1 text-end">
+                                            <label for="chackup_waist" style="font-size: 15px">เส้นรอบเอว :</label>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label for="chackup_waist"></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1 text-end">
+                                            <label for="chackup_temperature" style="font-size: 15px">อุณหภูมิ :</label>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label for="chackup_temperature"></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1 text-end">
+                                            <label for="chackup_rr" style="font-size: 15px">อัตราการหายใจ :</label>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label for="chackup_rr"></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1 text-end">
+                                            <label for="chackup_pulse" style="font-size: 15px">ชีพจร :</label>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label for="chackup_pulse"></label>
+                                            </div>
+                                        </div>
+
+                                    </div>   --}}
+                                                                                                              
+                                {{-- </div> --}}
+
+                                    
+                                {{-- </div> --}}
+                            </div>
+                    </div>     
+    
+                </div>
             </div>
         </div>
 
@@ -159,10 +303,33 @@
 
 @endsection
 @section('footer')
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"> </script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    {{-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
+    {{-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"> </script> --}}
+    {{-- <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script> --}}
     <script>
+        // function Getchackup_hn() {
+
+        // // alert('ใส่ข้อความที่ต้องการ');
+        //     var chackup_hn = document.getElementById("chackup_hn").value;
+        //         var datepicker = document.getElementById("datepicker").value;
+        //         alert(datepicker);
+
+        //         var _token = $('input[name="_token"]').val();
+        //         $.ajax({
+        //             url: "{{url('checkup_report_detail')}}",
+        //             method: "GET",
+        //             data: {
+        //                 chackup_hn: chackup_hn, datepicker: datepicker,
+        //                 _token: _token
+        //             },
+        //             success: function (data) {
+        //                 console.log(data.data_show2.hn);
+        //                 $('#hn_').val(data.data_show2.hn)
+        //                 // $('#show_detailpatient').html(result);
+        //             }
+        //         })
+        // }
+
         var Linechart;
         $(document).ready(function() {
             $('#example').DataTable();
@@ -177,77 +344,49 @@
             $('#datepicker2').datepicker({
                 format: 'yyyy-mm-dd'
             });
-
-
-            var xmlhttp = new XMLHttpRequest();
-            var url = "{{ route('acc.account_dashline') }}";
-            xmlhttp.open("GET", url, true);
-            xmlhttp.send();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var datas = JSON.parse(this.responseText);
-                    console.log(datas);
-                    label = datas.Dataset1.map(function(e) {
-                        return e.label;
-                    });
-
-                    count_vn = datas.Dataset1.map(function(e) {
-                        return e.count_vn;
-                    });
-                    income = datas.Dataset1.map(function(e) {
-                        return e.income;
-                    });
-                    rcpt_money = datas.Dataset1.map(function(e) {
-                        return e.rcpt_money;
-                    });
-                    debit = datas.Dataset1.map(function(e) {
-                        return e.debit;
-                    });
-                     // setup
-                    const data = {
-                        // labels: ["ม.ค", "ก.พ", "มี.ค", "เม.ย", "พ.ย", "มิ.ย", "ก.ค","ส.ค","ก.ย","ต.ค","พ.ย","ธ.ค"] ,
-                        labels: label ,
-                        datasets: [
-                            {
-                                label: ['income'],
-                                data: income,
-                                fill: false,
-                                borderColor: 'rgba(75, 192, 192)',
-                                lineTension: 0.4
-                            },
-                            {
-                                label: ['rcpt_money'],
-                                data: rcpt_money,
-                                fill: false,
-                                borderColor: 'rgba(255, 99, 132)',
-                                lineTension: 0.4
-                            },
-
-                        ]
-                    };
-
-                    const config = {
-                        type: 'line',
-                        data:data,
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        },
-                        plugins:[ChartDataLabels],
-                    };
-                    // render init block
-                    const myChart = new Chart(
-                        document.getElementById('myChartNew'),
-                        config
-                    );
-
-                }
-             }
+ 
 
         });
+        $(document).on('click', '.Getchackup_hn', function() {
+                // var chackup_hn = $(this).val();
+                // var datepicker = $(this).val();
+                     var chackup_hn = document.getElementById("chackup_hn").value;
+                var datepicker = document.getElementById("datepicker").value;
+                // $('#addicodeModal').modal('show');
+                // alert(chackup_hn);
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('checkup_report_detail') }}" + '/' + chackup_hn + '/' + datepicker,
+                    success: function(data) {
+                        $('#show_detailpatient').html(data);
+                        // if (data.status == 200) {
+                        //     alert(data.data_shows.hn);
+                        //     $('#HN_NEW').val(data.data_shows.hn)
+                        //     $('#hn_').val(data.data_shows.hn)
+                        // } else {
+                            
+                        // }
+                        // console.log(data.data_show2.hn);
+                        // $('#HN_NEW').val(data.data_show2.hn)
+                        // $('#hn_').val(data.data_show2.hn)
+                        // $('#vn').val(data.data_pang.vn)
+                        // $('#an').val(data.data_pang.an)
+                        // $('#hn').val(data.data_pang.hn)
+                        // $('#cid').val(data.data_pang.cid)
+                        // $('#vstdate').val(data.data_pang.vstdate)
+                        // $('#dchdate').val(data.data_pang.dchdate)
+                        // $('#ptname').val(data.data_pang.ptname)
+                        // $('#debit_total').val(data.data_pang.debit_total)
+                        // $('#pttype').val(data.data_pang.pttype)
+                        // $('#acc_debtor_id').val(data.data_pang.acc_debtor_id)
+
+                        // $('#account_code_new').val(data.data_pang.account_code)
+                        // $('#pttype_new').val(data.data_pang.pttype)
+                        // $('#debit_total_new').val(data.data_pang.debit_total)
+                    },
+                });
+            });
+
     </script>
 
 

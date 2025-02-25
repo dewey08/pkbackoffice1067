@@ -670,7 +670,7 @@ class DentalController extends Controller
             AND active = "Y"
         ');
 
-        $data['hn'] = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient GROUP BY hn limit 1000');
+        $data['hn'] = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient GROUP BY hn' );
         
                
 
@@ -696,28 +696,20 @@ class DentalController extends Controller
             'SELECT o.hn , CONCAT(p.pname,p.fname," ",p.lname) as ptname , p.cid ,p.hometel  
             FROM ovst o
             LEFT JOIN patient p on p.hn = o.hn
-            where o.hn = "0131911"
-            limit 1
-            -- WHERE o.hn = "'.$hn.'" AND o.vstdate = "'.$vstdate.'"  
+            WHERE o.hn = "'.$hn.'" 
+            LIMIT 1           
             
         ');
-
+        // WHERE o.hn = "'.$hn.'" AND o.vstdate = "'.$vstdate.'" 
         foreach ($data_show2 as $key => $value) {
             $cid           = $value->cid;
             $ptname        = $value->ptname;
             $hometel       = $value->hometel;
+            $hn            = $value->hn;
         }
 
-        $data_cid           = $data_show2->cid;
-        $data_ptname        = $data_show2->ptname;
-        $data_hometel       = $data_show2->hometel;
-
-
-        // $data_cid           = $data_show->cid;
-        // $data_ptname        = $data_show->pname.''.$data_show->fname.'  '.$data_show->lname;
-        // $data_hometel       = $data_show->hometel;
-        
-        $output='<label for="">เลขบัตรประชาชน  :   '.$data_cid. '&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;  ชื่อ-นามสกุล  :    ' .$data_ptname.'&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;  เบอร์โทร  :    ' .$data_hometel.'</label>' ; 
+       
+        $output='<label for="">เลขบัตรประชาชน  :   '.$cid. '&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;  ชื่อ-นามสกุล  :    ' .$ptname.'&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;  เบอร์โทร  :    ' .$hometel.'</label>' ; 
         
 
         echo $output;        

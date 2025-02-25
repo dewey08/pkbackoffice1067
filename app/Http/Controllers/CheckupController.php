@@ -122,6 +122,8 @@ class CheckupController extends Controller
     {
         $startdate        = $request->startdate;
         $enddate          = $request->enddate;
+        $datenow             = date('Y-m-d');
+        $data['date_now']    = date('Y-m-d');
         $dabudget_year    = DB::table('budget_year')->where('active','=',true)->first();
         $leave_month_year = DB::table('leave_month')->orderBy('MONTH_ID', 'ASC')->get();
         $date             = date('Y-m-d');
@@ -130,24 +132,135 @@ class CheckupController extends Controller
         $newDate = date('Y-m-d', strtotime($date . ' -5 months')); //ย้อนหลัง 5 เดือน
         $newyear = date('Y-m-d', strtotime($date . ' -1 year')); //ย้อนหลัง 1 ปี
 
-        $data['date_now']    = date('Y-m-d');
-        $data['m']           = date('H');
-        $data['mm']          = date('H:m:s');
-        
         $data['users']    = DB::table('users')->get();
-        $data_doctor      = DB::connection('mysql10')->select('
-            SELECT code,CONCAT(pname,fname," ",lname) dentname
-            FROM doctor
-            WHERE position_id = "2"
-            AND active = "Y"
-        ');
+        $data['hn'] = DB::connection('mysql10')->select('SELECT hn,CONCAT(pname,fname," ",lname) as ptname FROM patient GROUP BY hn limit 1000' );
 
         return view('checkup.checkup_report',$data,[
             'startdate'        => $startdate,
             'enddate'          => $enddate,
-            'data_doctor'      => $data_doctor,
+            // 'data_doctor'      => $data_doctor,
         ]);
     }
+
+    public function checkup_report_detail(Request $request,$hn,$vstdate)
+    {
+        // $hn                 = $request->chackup_hn;
+        // $vstdate            = $request->datepicker;
+        // $data_show          = Patient::where('hn',$hn)->first();
+
+        $data_show2 = DB::connection('mysql10')->select(
+            'SELECT v.vn ,o.hn ,o.vstdate , o.vsttime ,k.department, CONCAT(p.pname,p.fname," ",p.lname) as ptname , p.cid ,pt.`name`, s.`name` as sex , v.age_y, os.bw , os.height , os.waist 
+            ,os.temperature , os.rr , os.pulse , os.bmi , os.bps , os.bpd,p.hometel
+            FROM ovst o
+            LEFT JOIN patient p ON p.hn = o.hn
+            LEFT JOIN opdscreen os ON os.vn = o.vn
+            LEFT JOIN vn_stat v ON v.vn = o.vn
+            LEFT JOIN person pp ON pp.cid = v.cid
+            LEFT JOIN pttype pt ON pt.pttype = o.pttype
+            LEFT JOIN kskdepartment k ON k.depcode = o.main_dep
+            LEFT JOIN sex s ON s.`code` = pp.sex
+            WHERE o.hn = "'.$hn.'"
+            AND o.vstdate = "'.$vstdate.'"  
+            AND o.main_dep = "078"
+            LIMIT 1           
+            
+        ');
+        // WHERE o.hn = "'.$hn.'" AND o.vstdate = "'.$vstdate.'" 
+        foreach ($data_show2 as $key => $value) {
+            $vn            = $value->vn;
+            $hn            = $value->hn;
+            $ptname        = $value->ptname;
+            $name          = $value->name;
+            $sex           = $value->sex;
+            $age_y         = $value->age_y;            
+            $cid           = $value->cid;
+            $bw            = $value->bw;
+            $height        = $value->height;
+            $waist         = $value->waist;
+            $temperature   = $value->temperature;
+            $rr            = $value->rr;
+            $pulse         = $value->pulse;
+            $bmi           = $value->bmi;
+            $bps           = $value->bps;
+            $bpd           = $value->bpd;
+            $hometel       = $value->hometel;
+            
+        }
+       
+        // $output='<label for="">เลขบัตรประชาชน  :   '.$cid. '&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;  ชื่อ-นามสกุล  :    ' .$ptname.'&nbsp;&nbsp;&nbsp; || &nbsp;&nbsp;&nbsp;  เบอร์โทร  :    ' .$hometel.'</label>' ; 
+        $output='
+        <div class="row">
+            <div class ="col-md-1">HN :</div>    
+            <div class ="col-md-1">
+                <label for=""> '.$hn. '</label>
+             </div> 
+              <div class ="col-md-1">ชื่อ-สกุล :</div>    
+            <div class ="col-md-2">
+                <label for=""> '.$ptname. '</label>
+             </div>
+             <div class ="col-md-1">เพศ :</div>    
+            <div class ="col-md-1">
+                <label for=""> '.$sex. '</label>
+             </div>
+             <div class ="col-md-1">อายุ :</div>    
+            <div class ="col-md-1">
+                <label for=""> '.$age_y. ' &nbsp; ปี</label>
+             </div>
+             <div class ="col-md-1">เลขบัตร :</div>    
+            <div class ="col-md-2">
+                <label for=""> '.$cid. '</label>
+             </div>  
+        </div>
+        
+        <div class="row">
+            <div class ="col-md-1">น้ำหนัก :</div>    
+            <div class ="col-md-1">
+                <label for=""> '.$bw. ' &nbsp;Kg.</label>
+             </div> 
+              <div class ="col-md-1">ส่วนสูง :</div>    
+            <div class ="col-md-2">
+                <label for=""> '.$height. ' &nbsp;Cm.</label>
+             </div>
+             <div class ="col-md-1">รอบเอว :</div>    
+            <div class ="col-md-1">
+                <label for=""> '.$waist. ' &nbsp;Cm.</label>
+             </div>
+             <div class ="col-md-1">อุณหภูมิ :</div>    
+            <div class ="col-md-1">
+                <label for=""> '.$temperature. ' &nbsp;C</label>
+             </div>
+             <div class ="col-md-1">อัตราการหายใจ :</div>    
+            <div class ="col-md-2">
+                <label for=""> '.$rr. ' &nbsp; / m</label>
+             </div>  
+        </div>
+
+        <div class="row">
+            <div class ="col-md-1">BMI :</div>    
+            <div class ="col-md-1">
+                <label for=""> '.$bmi. ' </label>
+             </div> 
+              <div class ="col-md-1">ความดันโลหิต :</div>    
+            <div class ="col-md-2">
+                <label for=""> '.$bps. ' &nbsp;/ '.$bpd. '</label>
+             </div>
+              
+        </div>
+        
+        ';
+        echo $output;   
+        // return response()->json([
+        //     'status'     => '200'
+        // ]);   
+        // dd($data_show2);
+        
+        // return response()->json([
+        //     // 'status'                => '200',
+        //     'data_shows'             =>  $data_show2
+        // ]);
+    }
+
+   
 
 
  }

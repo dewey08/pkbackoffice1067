@@ -3678,6 +3678,7 @@ Route::match(['get','post'],'env_trash_parameter_switchactive',[App\Http\Control
 
   Route::match(['get', 'post'], 'checkup_main', [App\Http\Controllers\CheckupController::class, 'checkup_main'])->name('ch.checkup_main'); //
   Route::match(['get', 'post'], 'checkup_report', [App\Http\Controllers\CheckupController::class, 'checkup_report'])->name('ch.checkup_report'); //
+  Route::match(['get', 'post'], 'checkup_report_detail/{hn}/{vstdate}', [App\Http\Controllers\CheckupController::class, 'checkup_report_detail'])->name('ch.checkup_report_detail'); //
 
 
 });
