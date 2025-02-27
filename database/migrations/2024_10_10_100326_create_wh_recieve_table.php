@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->string('recieve_no')->nullable();    //
                 $table->string('stock_list_id')->nullable(); //  คลัง
                 $table->string('vendor_id')->nullable();     //  บริษัท  
-                $table->string('recieve_po')->nullable();     //เลขที่บริษัท
+                $table->string('recieve_po_sup')->nullable();     //เลขที่บริษัท
                 // $table->string('wh_total')->nullable();  //   
                 // $table->string('praman_buy')->nullable();  //  
                 $table->decimal('total_price',total: 12, places: 4)->nullable(); //  

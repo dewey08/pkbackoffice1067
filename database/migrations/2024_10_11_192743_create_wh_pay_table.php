@@ -25,7 +25,7 @@ return new class extends Migration
                 $table->string('pay_po')->nullable();        //เลขที่บริษัท 
                 $table->decimal('total_price',total: 12, places: 4)->nullable(); //  
                 $table->string('user_pay')->nullable(); //  
-                $table->string('user_export_send')->nullable(); //  
+                $table->string('user_export_pay')->nullable(); //  
                 $table->string('user_export_rep')->nullable(); //    
                 $table->enum('active', ['REQUEST','PAY','APPROVE','CONFIRM'])->default('REQUEST');                              
                 $table->timestamps();

@@ -8,16 +8,14 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        if (!Schema::hasTable('acc_1102050101_402'))
+        if (!Schema::hasTable('acc_1102050101_402send'))
         {
-            Schema::create('acc_1102050101_402', function (Blueprint $table) {
-                $table->bigIncrements('acc_1102050101_402_id');
-                $table->enum('sendactive', ['Y', 'N'])->default('N'); //
+            Schema::create('acc_1102050101_402send', function (Blueprint $table) {
+                $table->bigIncrements('acc_1102050101_402send_id');
+                $table->enum('sendto', ['Y', 'N'])->default('N'); //
                 $table->string('vn')->nullable();// รหัส
                 $table->string('an')->nullable();//
                 $table->string('hn')->nullable();//
@@ -25,6 +23,7 @@ return new class extends Migration
                 $table->string('ptname')->nullable();//
                 $table->date('vstdate')->nullable();//
                 $table->Time('vsttime')->nullable();//
+                $table->Time('hm')->nullable();//
                 $table->date('regdate')->nullable();//
                 $table->date('dchdate')->nullable();//
                 $table->string('pttype')->nullable();//
@@ -72,11 +71,9 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('acc_1102050101_402');
+        Schema::dropIfExists('acc_1102050101_402send');
     }
 };

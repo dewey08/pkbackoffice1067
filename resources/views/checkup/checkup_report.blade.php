@@ -112,7 +112,9 @@
                     </div>                  
     
                     <div class="card-body shadow-lg">
-                        
+                        <form action="{{ route('ch.checkup_report') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+
                             <input type="hidden" name="store_id" id="store_id" value=" {{ Auth::user()->store_id }}">
                             <div class="row">
     
@@ -142,10 +144,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-1">
-                                                <button type="button" class="btn btn-primary btn-sm Getchackup_hn">
+                                                <button type="submit" class="btn btn-primary btn-sm Getchackup_hn">
                                                     <img src="{{ asset('images/Search02.png') }}" class="me-2 ms-2" height="18px" width="18px">
                                                     ค้นหา
                                                 </button>
+                                                {{-- <button type="button" class="btn btn-primary btn-sm Getchackup_hn">
+                                                    <img src="{{ asset('images/Search02.png') }}" class="me-2 ms-2" height="18px" width="18px">
+                                                    ค้นหา
+                                                </button> --}}
                                             </div>
                                             {{-- onclick="Getchackup_hn()" --}}
 
@@ -156,6 +162,7 @@
                             </div>
                     </div> 
     
+                    </form>
                 </div>
             </div>
         </div>
@@ -168,130 +175,134 @@
                         
                             <input type="hidden" name="store_id" id="store_id" value=" {{ Auth::user()->store_id }}">
                            
-                            <div id="show_detailpatient">  </div>
+                            {{-- <div id="show_detailpatient">  </div> --}}
+ 
+                        {{-- @foreach ($collection as $item)
+                            
+                        @endforeach --}}
 
-                            {{-- <div class="row"> --}}
-    
-                                {{-- <div class="col-md-12"> --}}
-                                    
-                                {{-- <div class="row text-center">
+                        @if ($checks < 1)
+                            
+                        @else
+                            
+                        
 
-                                            <div class="col-md-1 text-end">
-                                                <label for="chackup_hn" style="font-size: 15px">HN :</label>
-                                            </div>
-                                            <div class="col-md-5">
-                                       
-                                                   
-                                                 <div id="show_detailpatient">
+                            @php
+                                 if ($datashow->waist > 90 && $datashow->sex_code = 1 ) {
+                                    $color_waist = '<span class="badge bg-danger text-dark" style="font-size: 15px">อ้วนลงพุง</span>';# code...        
+                                }elseif ($datashow->waist = 90 && $datashow->sex_code = 1 ) {
+                                    $color_waist = '<span class="badge bg-warning" style="font-size: 15px">เสี่ยงอ้วนลงพุง</span>';
+                                }elseif ($datashow->waist > 80 && $datashow->sex_code = 2 ) {
+                                    $color_waist = '<span class="badge bg-danger" style="font-size: 15px">อ้วนลงพุง</span>';
+                                }elseif ($datashow->waist = 80 && $datashow->sex_code = 2 ) {
+                                    $color_waist = '<span class="badge bg-warning" style="font-size: 15px">เสี่ยงอ้วนลงพุง</span>';
+                                } else {
+                                    $color_waist = '<span class="badge bg-success" style="font-size: 15px">ปกติ</span>';# code...
+                                }
+                                
 
-                                                 </div>
-                                                 
-                                                </div>
-                                            </div>  --}}
+                                // if ($datashow->bmi < 18.5) {
+                                // }elseif ($datashow->bmi >= 23 && $datashow->bmi <= 24.99) {
+                                //     $color = '<span class="badge bg-primary" style="font-size: 15px">น้ำหนักเริ่มเกินเกณฑ์ 2</span>';
+                                // }elseif ($datashow->bmi >= 25 && $bmi <= 29.9) {
+                                //     $color = '<span class="badge bg-warning text-dark" style="font-size: 15px">อ้วนระดับ 2</span>';
+                                // }elseif ($datashow->bmi >= 30) {
+                                //     $color = '<span class="badge bg-danger" style="font-size: 15px">อ้วนระดับ 3</span>';
+                                // } else {
+                                //     $color = '<span class="badge bg-success" style="font-size: 15px">ปกติ</span>';
+                                // }
 
-                                            {{-- <div class="col-md-1 text-end">
-                                                <label for="chackup_name" style="font-size: 15px">ชื่อผู้ป่วย :</label>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label for="chackup_name"></label>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-md-1 text-end">
-                                                <label for="chackup_sex" style="font-size: 15px">เพศ :</label>
-                                            </div>
-                                            <div class="col-md-1">
-                                                <div class="form-group">
-                                                    <label for="chackup_sex"></label>
-                                                </div>
-                                            </div>
+                            @endphp
 
-                                            <div class="col-md-1 text-end">
-                                                <label for="chackup_age_y" style="font-size: 15px">อายุ :</label>
-                                            </div>
-                                            <div class="col-md-1">
-                                                <div class="form-group">
-                                                    <label for="chackup_age_y"></label>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-1 text-end">
-                                                <label for="chackup_age_y" style="font-size: 15px">เลขบัตรประชาชน :</label>
-                                            </div>
-                                            <div class="col-md-1">
-                                                <div class="form-group">
-                                                    <label for="chackup_age_y"></label>
-                                                </div>
-                                            </div> --}}
-
-                                        {{-- </div>   --}}
-                                                                                                                  
-                                    {{-- </div> --}}
-
-                                    {{-- <div class="row text-center">
-
-                                        <div class="col-md-1 text-end">
-                                            <label for="chackup_bw" style="font-size: 15px">น้ำหนัก :</label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div class="form-group">
-                                                <label for="chackup_bw"></label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-1 text-end">
-                                            <label for="chackup_height" style="font-size: 15px">ส่วนสูง :</label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div class="form-group">
-                                                <label for="chackup_height"></label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-md-1 text-end">
-                                            <label for="chackup_waist" style="font-size: 15px">เส้นรอบเอว :</label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div class="form-group">
-                                                <label for="chackup_waist"></label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-1 text-end">
-                                            <label for="chackup_temperature" style="font-size: 15px">อุณหภูมิ :</label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div class="form-group">
-                                                <label for="chackup_temperature"></label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-1 text-end">
-                                            <label for="chackup_rr" style="font-size: 15px">อัตราการหายใจ :</label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div class="form-group">
-                                                <label for="chackup_rr"></label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-1 text-end">
-                                            <label for="chackup_pulse" style="font-size: 15px">ชีพจร :</label>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div class="form-group">
-                                                <label for="chackup_pulse"></label>
-                                            </div>
-                                        </div>
-
-                                    </div>   --}}
-                                                                                                              
-                                {{-- </div> --}}
-
-                                    
-                                {{-- </div> --}}
+                            <div class="row">
+                                <div class ="col-md-1" style="font-size: 14px">HN :</div>    
+                                <div class ="col-md-1" style="font-size: 14px">
+                                    <label for=""> {{$datashow->hn}}</label>                
+                                </div> 
+                                <div class ="col-md-1" style="font-size: 14px">ชื่อ-สกุล :</div>    
+                                <div class ="col-md-2" style="font-size: 14px">
+                                    <label for=""> {{$datashow->ptname}}</label>
+                                </div>
+                                <div class ="col-md-1" style="font-size: 14px">เพศ :</div>    
+                                <div class ="col-md-1" style="font-size: 14px">
+                                    <label for=""> {{$datashow->sex}}</label>
+                                </div>
+                                <div class ="col-md-1" style="font-size: 14px">อายุ :</div>    
+                                <div class ="col-md-1" style="font-size: 14px">
+                                    <label for=""> {{$datashow->age_y}} &nbsp; ปี</label>
+                                </div>
+                                <div class ="col-md-1" style="font-size: 14px">เลขบัตร :</div>    
+                                <div class ="col-md-2" style="font-size: 14px">
+                                    <label for=""> {{$datashow->cid}}</label>
+                                </div>  
                             </div>
+                            <div class="row">
+                                <div class ="col-md-1" style="font-size: 14px">น้ำหนัก :</div>    
+                                <div class ="col-md-1" style="font-size: 14px">
+                                    <label for=""> {{$datashow->bw}}&nbsp;Kg.</label>
+                                </div> 
+                                <div class ="col-md-1" style="font-size: 14px">ส่วนสูง :</div>    
+                                <div class ="col-md-2" style="font-size: 14px">
+                                    <label for=""> {{$datashow->height}} &nbsp;Cm.</label>
+                                </div>
+                                <div class ="col-md-1" style="font-size: 14px">รอบเอว :</div>    
+                                <div class ="col-md-2" style="font-size: 14px">
+                                    <label for=""> {{$waist}}  Cm.</label>
+                                </div>
+                                <div class ="col-md-1"> 
+                                 
+                                  
+                                
+                                  @if ($datashow->waist > 90 && $datashow->sex_code = 1 ) {
+                                            <span class="badge bg-danger text-dark" style="font-size: 15px">อ้วนลงพุง</span>  
+                                        }@elseif ($datashow->waist = 90 && $datashow->sex_code = 1 ) {
+                                           <span class="badge bg-warning" style="font-size: 15px">เสี่ยงอ้วนลงพุง</span>
+                                        }@elseif ($datashow->waist > 80 && $datashow->sex_code = 2 ) {
+                                            <span class="badge bg-danger" style="font-size: 15px">อ้วนลงพุง</span>;
+                                        }@elseif ($datashow->waist = 80 && $datashow->sex_code = 2 ) {
+                                            <span class="badge bg-warning" style="font-size: 15px">เสี่ยงอ้วนลงพุง</span>
+                                        }@else {
+                                          <span class="badge bg-success" style="font-size: 15px">ปกติ</span>;
+                                        
+                                        }
+                                    @endif 
+                                </div>
+                                <div class ="col-md-1" style="font-size: 14px">อุณหภูมิ :</div>    
+                                <div class ="col-md-1" style="font-size: 14px">
+                                    <label for=""> {{$datashow->temperature}} &nbsp;C</label>
+                                </div>
+                                <div class ="col-md-1" style="font-size: 14px">อัตราการหายใจ :</div>    
+                                <div class ="col-md-1" style="font-size: 14px">
+                                    <label for=""> {{$datashow->rr}} &nbsp; / m</label>
+                                </div>  
+                            </div>
+
+                            <div class="row">
+                                <div class ="col-md-1" style="font-size: 14px">ชีพจร :</div>    
+                                <div class ="col-md-1" style="font-size: 14px">
+                                    <label for=""> {{$datashow->pulse}} &nbsp; / m</label>
+                                </div>
+                                <div class ="col-md-1" style="font-size: 14px" >BMI :</div>    
+                                <div class ="col-md-1">
+                                    <label for=""> {{$datashow->bmi}} </label>
+                                </div>
+                                <div class ="col-md-1"> 
+                                  {{-- {{$color}} --}}
+                                </div> 
+                                  <div class ="col-md-1" style="font-size: 14px">ความดันโลหิต :</div>    
+                                <div class ="col-md-1">
+                                    <label for=""> {{$datashow->bps}} &nbsp;/ {{$datashow->bpd}}</label>
+                                </div>
+                                <div class ="col-md-1" style="font-size: 14px">
+                                    <label for="">ปกติ</label>
+                                </div>                                     
+                            </div>
+
+                         @endif
+
+
+
+
                     </div>     
     
                 </div>
@@ -303,9 +314,9 @@
 
 @endsection
 @section('footer')
-    {{-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
-    {{-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"> </script> --}}
-    {{-- <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script> --}}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script>
         // function Getchackup_hn() {
 

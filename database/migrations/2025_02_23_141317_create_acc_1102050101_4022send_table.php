@@ -8,16 +8,14 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
-    {
-        if (!Schema::hasTable('acc_1102050101_402'))
+    public function up(): void
+    { 
+        if (!Schema::hasTable('acc_1102050101_4022send'))
         {
-            Schema::create('acc_1102050101_402', function (Blueprint $table) {
-                $table->bigIncrements('acc_1102050101_402_id');
-                $table->enum('sendactive', ['Y', 'N'])->default('N'); //
+            Schema::create('acc_1102050101_4022send', function (Blueprint $table) {
+                $table->bigIncrements('acc_1102050101_4022send_id');
+                $table->enum('sendto', ['Y', 'N'])->default('N'); //
                 $table->string('vn')->nullable();// รหัส
                 $table->string('an')->nullable();//
                 $table->string('hn')->nullable();//
@@ -25,7 +23,8 @@ return new class extends Migration
                 $table->string('ptname')->nullable();//
                 $table->date('vstdate')->nullable();//
                 $table->Time('vsttime')->nullable();//
-                $table->date('regdate')->nullable();//
+                $table->string('hm')->nullable();//
+                $table->date('rxdate')->nullable();//
                 $table->date('dchdate')->nullable();//
                 $table->string('pttype')->nullable();//
                 $table->string('pttype_nhso')->nullable();//
@@ -45,10 +44,6 @@ return new class extends Migration
                 $table->string('debit_toa')->nullable();//
                 $table->string('debit_total')->nullable();//
                 $table->string('max_debt_amount')->nullable();//
-                $table->string('rw')->nullable();//
-                $table->string('adjrw')->nullable();//                    adjrw
-                $table->string('total_adjrw_income')->nullable();//       = adjrw * 8350,9000
-                $table->string('sauntang')->nullable();//                 ส่วนต่าง
                 $table->string('acc_debtor_filename')->nullable();//
                 $table->string('stm_rep')->nullable();//
                 $table->string('stm_money')->nullable();//
@@ -60,11 +55,11 @@ return new class extends Migration
                 $table->enum('status', ['Y', 'N'])->default('N');
                 $table->string('comment')->nullable();//
                 $table->date('date_req')->nullable();//
+
+                $table->string('stm_trainid')->nullable();//
+                $table->string('stm_total')->nullable();//
+                $table->string('va')->nullable();//
                 $table->string('STMDoc')->nullable();//
-                $table->string('rep_error')->nullable();//
-                $table->string('rep_pay')->nullable();//
-                $table->string('rep_nopay')->nullable();//
-                $table->string('rep_doc')->nullable();//
                 $table->timestamps();
             });
         }
@@ -72,11 +67,9 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('acc_1102050101_402');
+        Schema::dropIfExists('acc_1102050101_4022send');
     }
 };
